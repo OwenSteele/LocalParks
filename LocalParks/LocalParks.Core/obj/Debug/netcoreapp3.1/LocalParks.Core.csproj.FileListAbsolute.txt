@@ -1,0 +1,9 @@
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Core\bin\Debug\netcoreapp3.1\LocalParks.Core.deps.json
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Core\bin\Debug\netcoreapp3.1\LocalParks.Core.dll
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Core\bin\Debug\netcoreapp3.1\LocalParks.Core.pdb
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Core\obj\Debug\netcoreapp3.1\LocalParks.Core.csprojAssemblyReference.cache
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Core\obj\Debug\netcoreapp3.1\LocalParks.Core.AssemblyInfoInputs.cache
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Core\obj\Debug\netcoreapp3.1\LocalParks.Core.AssemblyInfo.cs
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Core\obj\Debug\netcoreapp3.1\LocalParks.Core.csproj.CoreCompileInputs.cache
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Core\obj\Debug\netcoreapp3.1\LocalParks.Core.dll
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Core\obj\Debug\netcoreapp3.1\LocalParks.Core.pdb

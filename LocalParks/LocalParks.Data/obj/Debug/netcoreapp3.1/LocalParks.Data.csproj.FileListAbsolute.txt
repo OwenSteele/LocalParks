@@ -1,0 +1,15 @@
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Data\bin\Debug\netcoreapp3.1\LocalParks.Data.deps.json
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Data\bin\Debug\netcoreapp3.1\LocalParks.Data.dll
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Data\bin\Debug\netcoreapp3.1\LocalParks.Data.pdb
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Data\obj\Debug\netcoreapp3.1\LocalParks.Data.csprojAssemblyReference.cache
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Data\obj\Debug\netcoreapp3.1\LocalParks.Data.AssemblyInfoInputs.cache
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Data\obj\Debug\netcoreapp3.1\LocalParks.Data.AssemblyInfo.cs
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Data\obj\Debug\netcoreapp3.1\LocalParks.Data.csproj.CoreCompileInputs.cache
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Data\obj\Debug\netcoreapp3.1\LocalParks.Data.dll
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Data\obj\Debug\netcoreapp3.1\LocalParks.Data.pdb
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Data\bin\Debug\netcoreapp3.1\LocalParks.Core.dll
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Data\bin\Debug\netcoreapp3.1\LocalParks.Core.pdb
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Data\obj\Debug\netcoreapp3.1\LocalParks.Data.csproj.CopyComplete
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Data\bin\Debug\netcoreapp3.1\LocalParks.Data.runtimeconfig.json
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Data\bin\Debug\netcoreapp3.1\LocalParks.Data.runtimeconfig.dev.json
+C:\Users\owenf\source\Projects\LocalParks\LocalParks\LocalParks.Data\obj\Debug\netcoreapp3.1\LocalParks.Data.genruntimeconfig.cache
