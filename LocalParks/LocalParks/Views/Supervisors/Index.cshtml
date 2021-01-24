@@ -1,0 +1,30 @@
+﻿@model ICollection<SupervisorModel>
+@{
+    ViewData["Title"] = "Parks";
+}
+
+<h1 class="jumbotron">Park Authority Staff</h1>
+
+<form asp-controller="Supervisor" asp-action="Index" method="get">
+    <p>
+        Staff member name: <input type="text" name="searchTerm" class="border-dark rounded" value="@TempData["Filter"]"/>
+        <input type="submit" class="btn-outline-light btn-dark btn-light rounded" value="Filter" />
+        @if (TempData["Matches"] != null)
+        {
+            <span class="alert-danger">@TempData["Matches"]</span>
+        }
+        </p>
+</form>
+@if (TempData["Filter"] != null)
+{
+    <form asp-controller="Supervisor" asp-action="Index" method="get">
+    <p>
+        <input type="submit" value="Remove Filter" />
+    </p>
+    </form>
+}
+
+@foreach (var staffMember in Model)
+{
+    <partial name="_Summary" model="staffMember" />
+}

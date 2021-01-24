@@ -1,0 +1,46 @@
+﻿@model LocalParks.Models.SportsClubModel
+@{
+    ViewData["Title"] = "Park Details";
+}
+
+<div>
+    <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded" 
+           type="button" 
+           value="All sports clubs" 
+           onclick="location.href='@Url.Action("Index", "SportsClubs")'"/>
+</div>
+
+<h2>@Model.Name</h2>
+<table class="table table-striped table-bordered dt-responsive nowrap w3-center btn rounded">
+                
+    <tbody>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Sport)</th>
+            <td>@Model.Sport.ToString()</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Park)</th>
+            <td>@Model.Park.Name</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.MembershipFee)</th>
+            <td>£ @Model.MembershipFee</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Members)</th>
+            <td>@Model.Members</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.President)</th>
+            <td>@Model.President</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Website)</th>
+            <td>@Model.Website</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Email)</th>
+            <td>@Model.Email</td>
+        </tr>
+    </tbody>
+</table>

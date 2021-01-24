@@ -18,6 +18,7 @@ namespace LocalParks.Data
             _logger = logger;
         }
 
+
         public void Add<T>(T entity) where T : class
         {
             _logger.LogInformation($"Adding an object of type: {entity.GetType()} to the context.");
@@ -34,6 +35,7 @@ namespace LocalParks.Data
 
             return (await _context.SaveChangesAsync()) > 0;
         }
+
 
         public async Task<Park[]> GetAllParksAsync()
         {
@@ -53,7 +55,6 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting park with ID: {parkId}.");
 
             IQueryable<Park> query = _context.Parks
-                .Include(p => p.Postcode)
                 .Include(p => p.Supervisor)
                 .Include(p => p.SportClubs)
                 .Include(p => p.Events);
@@ -67,7 +68,6 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting park with name: {parkName}.");
 
             IQueryable<Park> query = _context.Parks
-                .Include(p => p.Postcode)
                 .Include(p => p.Supervisor)
                 .Include(p => p.SportClubs)
                 .Include(p => p.Events);
@@ -81,7 +81,6 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting parks in postcode zone: {postcodeZone}.");
 
             IQueryable<Park> query = _context.Parks
-                .Include(p => p.Postcode)
                 .Include(p => p.Supervisor)
                 .Include(p => p.SportClubs)
                 .Include(p => p.Events);
@@ -90,33 +89,61 @@ namespace LocalParks.Data
 
             return await query.ToArrayAsync();
         }
+        
 
+        public async Task<SportsClub[]> GetAllSportsClubsAsync()
+        {
+            _logger.LogInformation($"Getting all sports clubs.");
+
+            IQueryable<SportsClub> query = _context.SportsClubs
+                .Include(c => c.Park);
+
+            query = query.OrderByDescending(s => s.Sport);
+
+            return await query.ToArrayAsync();
+        }
         public async Task<SportsClub[]> GetSportsClubsByParkIdAsync(int parkId)
         {
             _logger.LogInformation($"Getting sports clubs from park ID: {parkId}.");
 
-            IQueryable<SportsClub> query = _context.SportsClubs;
+            IQueryable<SportsClub> query = _context.SportsClubs
+                .Include(c => c.Park);
 
             query = query.Where(c => c.Park.ParkId == parkId);
 
             return await query.ToArrayAsync();
         }
-        public async Task<SportsClub> GetSportsClubByParkIdAsync(int parkId, int sportsClubId)
+        public async Task<SportsClub> GetSportsClubByIdAsync(int sportsClubId)
         {
-            _logger.LogInformation($"Getting a sports club with ID: {sportsClubId} from park ID: {parkId}.");
+            _logger.LogInformation($"Getting a sports club with ID: {sportsClubId}.");
 
-            IQueryable<SportsClub> query = _context.SportsClubs;
+            IQueryable<SportsClub> query = _context.SportsClubs
+                .Include(c => c.Park);
 
-            query = query.Where(c => c.ClubId == sportsClubId && c.Park.ParkId == parkId);
+            query = query.Where(c => c.ClubId == sportsClubId);
 
             return await query.FirstOrDefaultAsync();
         }
+        public async Task<SportsClub[]> GetSportsClubsBySportAsync(SportType sport)
+        {
+            _logger.LogInformation($"Getting sports clubs with sport: {sport}.");
 
+            IQueryable<SportsClub> query = _context.SportsClubs
+                .Include(c => c.Park);
+
+            query = query.Where(s=> s.Sport == sport)
+                .OrderByDescending(s => s.Sport);
+
+            return await query.ToArrayAsync();
+        }
+
+        
         public async Task<Supervisor[]> GetAllSupervisorsAsync()
         {
             _logger.LogInformation($"Getting all supervisors.");
 
-            IQueryable<Supervisor> query = _context.Supervisors;
+            IQueryable<Supervisor> query = _context.Supervisors
+                .Include(s => s.Park);
 
             query = query.OrderByDescending(s => s.SupervisorId);
 
@@ -126,20 +153,38 @@ namespace LocalParks.Data
         {
             _logger.LogInformation($"Getting the supervisor for park ID: {parkId}.");
 
-            IQueryable<Supervisor> query = _context.Supervisors;
+            IQueryable<Supervisor> query = _context.Supervisors
+                .Include(s => s.Park);
 
             query = query.Where(s => s.Park.ParkId == parkId);
 
             return await query.FirstOrDefaultAsync();
         }
+        
+        
+        public async Task<Event[]> GetAllEventsAsync()
+        {
+            _logger.LogInformation($"Getting all events.");
 
+            IQueryable<Event> query = _context.Events
+                .Include(e => e.Park);
+
+            query = query.Where(e => e.Date >= DateTime.Today)
+                .OrderByDescending(e => e.Date);
+
+            return await query.ToArrayAsync();
+        }
         public async Task<Event[]> GetEventsByParkIdAsync(int parkId)
         {
             _logger.LogInformation($"Getting events from park ID: {parkId}.");
 
-            IQueryable<Event> query = _context.Events;
+            IQueryable<Event> query = _context.Events
+                .Include(e => e.Park);
 
-            query = query.Where(e => e.Park.ParkId == parkId);
+            query = query.Where(e => 
+            e.Park.ParkId == parkId && 
+            e.Date >= DateTime.Today)
+                .OrderByDescending(e => e.Date);
 
             return await query.ToArrayAsync();
         }
@@ -147,9 +192,13 @@ namespace LocalParks.Data
         {
             _logger.LogInformation($"Getting an event with ID: {eventId} from park ID: {parkId}.");
 
-            IQueryable<Event> query = _context.Events;
+            IQueryable<Event> query = _context.Events
+                .Include(e => e.Park);
 
-            query = query.Where(e => e.EventId == eventId && e.Park.ParkId == parkId);
+            query = query.Where(e =>
+            e.EventId == eventId &&
+            e.Park.ParkId == parkId &&
+            e.Date >= DateTime.Today);
 
             return await query.FirstOrDefaultAsync();
         }
@@ -158,11 +207,40 @@ namespace LocalParks.Data
             _logger.LogInformation(
                 $"Getting an event from park ID: {parkId} on date: {dateTime.ToShortDateString()}.");
 
-            IQueryable<Event> query = _context.Events;
+            IQueryable<Event> query = _context.Events
+                .Include(e => e.Park);
 
-            query = query.Where(e => e.Date == dateTime && e.Park.ParkId == parkId);
+            query = query.Where(e =>
+            e.Date == dateTime &&
+            e.Park.ParkId == parkId &&
+            e.Date >= DateTime.Today);
 
             return await query.FirstOrDefaultAsync();
+        }
+        public async Task<Event[]> GetEventsByDateAsync(DateTime dateTime)
+        {
+            _logger.LogInformation($"Getting all events.");
+
+            IQueryable<Event> query = _context.Events
+                .Include(e => e.Park);
+
+            query = query.Where(e =>
+            e.Date == dateTime &&
+            e.Date >= DateTime.Today)
+                .OrderByDescending(e => e.Name);
+
+            return await query.ToArrayAsync();
+        }
+        public async Task<Event[]> GetAllPastEventsAsync()
+        {
+            _logger.LogInformation($"Getting all events.");
+
+            IQueryable<Event> query = _context.Events
+                .Include(e => e.Park);
+
+            query = query.OrderByDescending(e => e.Date);
+
+            return await query.ToArrayAsync();
         }
     }
 }

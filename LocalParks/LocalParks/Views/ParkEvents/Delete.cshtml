@@ -1,0 +1,23 @@
+﻿@model LocalParks.Models.EventModel
+@{
+    ViewData["Title"] = "Confirm Deletion";
+}
+<h1>
+    <label class="jumbotron alert-danger font-weight-bolder">
+        Are you sure you want to Delete event: <span class="alert-light">@Model.Name</span>
+    </label>
+</h1>
+
+<input class="btn-danger w3-hover-border-white w3-hover-text-white rounded"
+       type="button"
+       value="Delete"
+       onclick="location.href='@Url.Action("Delete", "ParkEvents",
+                                      new { parkId = Model.Park.ParkId, 
+                                          date = Model.Date, 
+                                          confirmed = true })'" />
+
+<input type="button" class="btn-outline-light btn-dark btn-light rounded"
+       value="Cancel" 
+       onclick="location.href='@Url.Action("Details", "ParkEvents",
+                                      new { parkId = Model.Park.ParkId, 
+                                          date = Model.Date})'" />

@@ -12,9 +12,12 @@ namespace LocalParks.Models
     {
         public ParkProfile()
         {
-            CreateMap<Park,ParkModel>().ReverseMap();
+            CreateMap<Park, ParkModel>().ReverseMap();
+
             CreateMap<SportsClub, SportsClubModel>().ReverseMap();
+
             CreateMap<Event, EventModel>().ReverseMap();
+
             CreateMap<Supervisor, SupervisorModel>().ReverseMap();
         }        
     }

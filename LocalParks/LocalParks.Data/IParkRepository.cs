@@ -18,18 +18,18 @@ namespace LocalParks.Data
         Task<Park> GetParkByNameAsync(string parkName);
         Task<Park[]> GetParksByPostcodeAsync(PostcodeType postcode);
 
-        //Task<SportsClub[]> GetAllSportsClubsAsync();
+        Task<SportsClub[]> GetAllSportsClubsAsync();
         Task<SportsClub[]> GetSportsClubsByParkIdAsync(int parkId);
-        Task<SportsClub> GetSportsClubByParkIdAsync(int parkId, int sportsClubId);
-        //Task<SportsClub[]> GetSportsClubsBySportAsync(SportType sport);
+        Task<SportsClub> GetSportsClubByIdAsync(int sportsClubId);
+        Task<SportsClub[]> GetSportsClubsBySportAsync(SportType sport);
 
         Task<Supervisor[]> GetAllSupervisorsAsync();
         Task<Supervisor> GetSupervisorByParkIdAsync(int parkId);
 
-        //Task<Event[]> GetAllEventsAsync();
+        Task<Event[]> GetAllEventsAsync();
         Task<Event[]> GetEventsByParkIdAsync(int parkId);
         Task<Event> GetEventByParkIdAsync(int parkId, int eventId);
-        //Task<Event[]> GetEventsByDateAsync(DateTime dateTime);
+        Task<Event[]> GetEventsByDateAsync(DateTime dateTime);
         Task<Event> GetEventByParkIdByDateAsync(int parkId, DateTime dateTime);
     }
 }

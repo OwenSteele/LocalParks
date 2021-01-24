@@ -1,14 +1,33 @@
-﻿@model LocalParks.Models.ParkModel[]
+﻿@model ParkModel[]
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <img src="~/images/LogoFull.PNG" />
 </div>
 
-@foreach (var parkmodel in Model)
-{
-    <div>@parkmodel.Name</div>
-}
+<div class="text-center">
+    <br />
+    <h2>Welcome to the Parks Authority new Website!</h2>
+    <br />
+    <p>
+        Our new redesigned site contains lots more features,
+        such as being able to look at the wonderful parks in your area 
+        (currently we have 
+        @Model.Count() 
+        @if (Model.Count() > 1) { <span>parks</span> } else {<span>park</span> } 
+        registered!)
+    </p>
+    <p>
+        You can also get to know the supervisor of each park; keeping them in pristine condition!
+    </p>
+    <p>
+        We're very proud of our parks being home to so many great sports clubs. Feel like trying something new?
+        Take a look at all of the sports clubs in our parks.
+    </p>
+    <p>
+        You can now book events using our websites, as well as searching for already organised ones happening soon!
+    </p>
+
+</div>

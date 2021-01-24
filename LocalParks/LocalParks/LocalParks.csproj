@@ -31,4 +31,9 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="API\Models\" />
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
 </Project>

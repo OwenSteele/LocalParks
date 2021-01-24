@@ -25,17 +25,21 @@ namespace LocalParks.Data
         }
 
         protected override void OnModelCreating(ModelBuilder bd)
-        {
-            bd.Entity<Park>().HasKey(k => k.ParkId);
-            bd.Entity<Supervisor>().HasKey(k => k.SupervisorId);
-            bd.Entity<Event>().HasKey(k => k.EventId);
-            bd.Entity<SportsClub>().HasKey(k => k.ClubId);
+        {  
 
+            //defined relationships
             bd.Entity<Park>().HasOne(p => p.Supervisor).WithOne(s => s.Park)
                 .HasForeignKey<Supervisor>(s => s.ParkRef);
             bd.Entity<Park>().HasMany(p => p.SportClubs).WithOne(c => c.Park);
             bd.Entity<Park>().HasMany(p => p.Events).WithOne(e => e.Park);
 
+            //defined keys
+            bd.Entity<Park>().HasKey(k => k.ParkId);
+            bd.Entity<Supervisor>().HasKey(k => k.SupervisorId);
+            bd.Entity<SportsClub>().HasKey(k => k.ClubId);
+            bd.Entity<Event>().HasKey(k => k.EventId);
+
+            //defined starting data
             bd.Entity<Park>()
                 .HasData(new
                 {
@@ -48,7 +52,19 @@ namespace LocalParks.Data
                     OpeningTime = new DateTime(2021, 1, 1, 7, 0, 0),
                     ClosingTime = new DateTime(2021, 1, 1, 19, 0, 0),
                     SupervisorId = 1
-                });
+                }, new
+                {
+                    ParkId = 2,
+                    Postcode = PostcodeType.PF15.ToString(),
+                    Name = "Middlesbrook Park",
+                    SizeInMetresSquared = 85000,
+                    Longitude = 38.8765,
+                    Latitude = 0.18798,
+                    OpeningTime = new DateTime(2021, 1, 1, 6, 0, 0),
+                    ClosingTime = new DateTime(2021, 1, 1, 22, 0, 0),
+                    SupervisorId = 2
+                }
+                );
 
             bd.Entity<Supervisor>()
                 .HasData(new
@@ -59,8 +75,23 @@ namespace LocalParks.Data
                     FirstName = "Joe",
                     LastName = "Bloggs",
                     Salary = (double)35000,
-                    StartingDate = new DateTime(1980, 7, 13)
-                });
+                    StartingDate = new DateTime(1980, 7, 13),
+                    Office = "123 Chestnut Drive",
+                    EmergencyNumber = "07654321000"
+
+                }, new
+                {
+                    SupervisorId = 2,
+                    ParkId = 2,
+                    ParkRef = 2,
+                    FirstName = "Anne",
+                    LastName = "Smith",
+                    Salary = (double)32000,
+                    StartingDate = new DateTime(1960, 1, 21),
+                    Office = "Parkside Cottage, Park Avenue",
+                    EmergencyNumber = "07685940321"
+                }
+                );
 
             bd.Entity<SportsClub>()
                 .HasData(new
@@ -70,7 +101,10 @@ namespace LocalParks.Data
                     ParkId = 1,
                     MembershipFee = (double)20000,
                     Sport = SportType.Other,
-                    Members = 100
+                    Members = 103,
+                    Website = "CPCPolo-OS.co.uk",
+                    Email = "CPCPolo@owensteele.co.uk",
+                    President = "Matthrew Albright"
                 },
                 new
                 {
@@ -79,7 +113,22 @@ namespace LocalParks.Data
                     ParkId = 1,
                     MembershipFee = (double)150,
                     Sport = SportType.Rugby,
-                    Members = 20
+                    Members = 20,
+                    Website = "Meadow-Rugby-OS.co.uk",
+                    Email = "Contact.Meadow-Rugby@owensteele.co.uk",
+                    President = "Jess Hampston"
+                },
+                new
+                {
+                    ClubId = 3,
+                    Name = "Chesterly Cricket Club",
+                    ParkId = 2,
+                    MembershipFee = (double)330,
+                    Sport = SportType.Cricket,
+                    Members = 67,
+                    Website = "ChesterlyCricketClub-OS.co.uk",
+                    Email = "Admin.ChesterlyCricket@owensteele.co.uk",
+                    President = "Linda Paul"
                 });
 
             bd.Entity<Event>()
@@ -94,6 +143,28 @@ namespace LocalParks.Data
                     OrganiserLastName = "Roberts",
                     OrganiserEmail = "JoanRoberts@owensteele.co.uk",
                     OrganiserPhoneNumber = "07123456789"
+                }, new
+                {
+                    EventId = 2,
+                    Name = "Egg and Spoon Race",
+                    ParkId = 2,
+                    Date = new DateTime(2021, 6, 3),
+                    Description = "Come and race other from the village, egg and spoons provided!",
+                    OrganiserFirstName = "Dan",
+                    OrganiserLastName = "Jackson",
+                    OrganiserEmail = "DanJackson@owensteele.co.uk",
+                    OrganiserPhoneNumber = "0700345876"
+                }, new
+                {
+                    EventId = 3,
+                    Name = "Pet adoption Clinic",
+                    ParkId = 2,
+                    Date = new DateTime(2021, 7, 19),
+                    Description = "Come and adopt a new feline or canine friend, all looking for good homes.",
+                    OrganiserFirstName = "Mark",
+                    OrganiserLastName = "Davis",
+                    OrganiserEmail = "MarkDavis@owensteele.co.uk",
+                    OrganiserPhoneNumber = "01196596691"
                 });
         }
     }

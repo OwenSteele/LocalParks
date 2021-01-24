@@ -3,8 +3,6 @@ using LocalParks.Data;
 using LocalParks.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,12 +24,22 @@ namespace LocalParks.Controllers
 
         public async Task<IActionResult> Index()
         {
+            _logger.LogInformation("Index page: getting all parks.");
+
             var results = await _parkRepository.GetAllParksAsync();
 
             return View(_mapper.Map<ParkModel[]>(results));
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+        public IActionResult Contact()
+        {
+            return View();
+        }
+        public IActionResult AboutMe()
         {
             return View();
         }

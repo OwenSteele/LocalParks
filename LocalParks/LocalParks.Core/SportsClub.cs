@@ -8,5 +8,8 @@
         public SportType Sport { get; set; }
         public double MembershipFee { get; set; }
         public int Members { get; set; }
+        public string Website { get; set; }
+        public string Email { get; set; }
+        public string President { get; set; }
     }
 }

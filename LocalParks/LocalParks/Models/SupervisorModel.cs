@@ -2,6 +2,7 @@
 using LocalParks.Models.Validation;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace LocalParks.Models
 {
@@ -16,6 +17,36 @@ namespace LocalParks.Models
         public string LastName { get; set; }
         [DateInPast]
         [DateWithoutTime]
-        public DateTime StartDate { get; set; }
+        public DateTime StartingDate { get; set; }
+        [EmailAddress]
+        public string Email 
+        { 
+            get { return $"supervisor.{Park.Name.Replace(' ', '_')}@ParkAuthority.co.uk"; }
+        }
+
+        [StringLength(100, MinimumLength = 2)]
+        public string Office { get; set; }
+        [Phone]
+        public string EmergencyNumber { get; set; }
+
+        public string Tenure()
+        {
+            if (StartingDate == DateTime.MinValue) return "N/A";
+
+            var days = Math.Floor((DateTime.Now - StartingDate).TotalDays);
+            if (days < 1) return "Less than a day";
+            if (days == 1) return "A day";
+
+            var months = Math.Floor(days / (365.25 / 12));
+            if (months < 1) return $"{days} days";
+            if (months == 1) return "A month";
+
+            var years = Math.Floor(days / 365.25);
+            if (years < 1) return $"{months} months";
+            if (years == 1) return "A year";
+
+            return $"{years} years";
+        }
+
     }
 }

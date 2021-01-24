@@ -1,0 +1,82 @@
+﻿@model LocalParks.Models.EventModel
+@{
+    if (Model == null) ViewData["Title"] = "New Event";
+    else ViewData["Title"] = "Editing Event";
+}
+
+<form asp-controller="ParkEvents" asp-action="Edit" method="post">
+
+    <label class="font-weight-bolder">Event details</label>
+    <input type="hidden" asp-for="@Model.EventId" />
+    <div class="form-group">
+        <label asp-for="@Model.Name"></label>
+        <input asp-for="@Model.Name" value="@if(Model != null) {@Model.Name}"
+               type="text"
+               class="border-dark rounded form-control"
+               required />
+        <span class="text-danger" asp-validation-for="@Model.Name"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Date"></label>
+        <input asp-for="@Model.Date" value="@if(Model != null) {@Model.Date}"
+               type="date"
+               class="border-dark rounded form-control"
+               required />
+        <span class="text-danger" asp-validation-for="@Model.Date">@ViewData["DateTaken"]</span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Description"></label>
+        <input asp-for="@Model.Description" value="@if(Model != null) {@Model.Description}"
+               type="text"
+               class="border-dark rounded form-control"
+               required />
+        <span class="text-danger" asp-validation-for="@Model.Description"></span>
+    </div>
+
+    <label class="font-weight-bolder">Organiser contact details</label>
+    <div class="form-group">
+        <label>First Name</label>
+        <input asp-for="@Model.OrganiserFirstName" value="@if(Model != null) {@Model.OrganiserFirstName}"
+               type="text"
+               class="border-dark rounded form-control"
+               required />
+        <span class="text-danger" asp-validation-for="@Model.OrganiserFirstName"></span>
+    </div>
+    <div class="form-group">
+        <label>Last Name</label>
+        <input asp-for="@Model.OrganiserLastName" value="@if(Model != null) {@Model.OrganiserLastName}"
+               type="text"
+               class="border-dark rounded form-control"
+               required />
+        <span class="text-danger" asp-validation-for="@Model.OrganiserLastName"></span>
+    </div>
+    <div class="form-group">
+        <label>Email</label>
+        <input asp-for="@Model.OrganiserEmail" value="@if(Model != null) {@Model.OrganiserEmail}"
+               type="email"
+               class="border-dark rounded form-control"
+               required />
+        <span class="text-danger" asp-validation-for="@Model.OrganiserEmail"></span>
+    </div>
+    <div class="form-group">
+        <label>Phone Number</label>
+        <input asp-for="@Model.OrganiserPhoneNumber"
+               type="tel"
+               class="border-dark rounded form-control"
+               required />
+        <span class="text-danger" asp-validation-for="@Model.OrganiserPhoneNumber"></span>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => Model.Park.Name, htmlAttributes: new { @class = "" })
+
+        @Html.DropDownListFor(x => Model.Park.ParkId, 
+       new SelectList(Model.ParksList, "Value", "Text"), "Select Park", 
+       htmlAttributes: new { @class = "form-control", id = "Park" })
+
+        @Html.ValidationMessageFor(x => x.Park, "", new { @class = "text-danger" })
+    </div>
+
+    <input type="submit" class="btn-outline-light btn-dark btn-light rounded"
+           value="Save"/>
+</form>

@@ -5,13 +5,21 @@ namespace LocalParks.Models
 {
     public class SportsClubModel
     {
+        public int ClubId { get; set; }
         [Required]
         [StringLength(100, MinimumLength = 5)]
         public string Name { get; set; }
         [Required]
-        public Park ParkId { get; set; }
+        public Park Park { get; set; }
         public SportType Sport { get; set; }
         public double MembershipFee { get; set; }
         public int Members { get; set; }
+        [Url]
+        [StringLength(1000, MinimumLength = 5)]
+        public string Website { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
+        [StringLength(150, MinimumLength = 5)]
+        public string President { get; set; }
     }
 }

@@ -11,18 +11,36 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LocalParks</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/Logo.PNG" alt="Home" 
+                         width="80px" height="85px"/>
+                </a>
+                <button class="navbar-toggler" 
+                        type="button" 
+                        data-toggle="collapse" 
+                        data-target=".navbar-collapse" 
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false" 
+                        aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    <ul class="navbar-nav flex-grow-1 font-weight-bolder">
+                        <li class="nav-item w3-padding-16">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Parks" 
+                               asp-action="Index">Parks</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class="nav-item w3-padding-16">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="SportsClubs" 
+                               asp-action="">Sports Clubs</a>
+                        </li>
+                        <li class="nav-item w3-padding-16">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ParkEvents" 
+                               asp-action="">Events</a>
+                        </li>
+                        <li class="nav-item w3-padding-16">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Supervisors" 
+                               asp-action="">Staff</a>
                         </li>
                     </ul>
                 </div>
@@ -32,12 +50,20 @@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+            <br />
         </main>
+        <br />
     </div>
-
+    <br /><br /><br />
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - LocalParks - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - Owen Steele <br />
+            <a style="color:deepskyblue" asp-area="" asp-controller="Home" 
+               asp-action="Privacy">Privacy Notice -    </a>
+            <a style="color:saddlebrown" asp-area="" asp-controller="Home" 
+               asp-action="Contact">Contact Us -    </a>
+            <a style="color:darkgreen" asp-area="" asp-controller="Home" 
+               asp-action="AboutMe">About Me     </a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

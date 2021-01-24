@@ -68,6 +68,30 @@ namespace LocalParks.Data.Migrations
                             OrganiserLastName = "Roberts",
                             OrganiserPhoneNumber = "07123456789",
                             ParkId = 1
+                        },
+                        new
+                        {
+                            EventId = 2,
+                            Date = new DateTime(2021, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Come and race other from the village, egg and spoons provided!",
+                            Name = "Egg and Spoon Race",
+                            OrganiserEmail = "DanJackson@owensteele.co.uk",
+                            OrganiserFirstName = "Dan",
+                            OrganiserLastName = "Jackson",
+                            OrganiserPhoneNumber = "0700345876",
+                            ParkId = 2
+                        },
+                        new
+                        {
+                            EventId = 3,
+                            Date = new DateTime(2021, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Come and adopt a new feline or canine friend, all looking for good homes.",
+                            Name = "Pet adoption Clinic",
+                            OrganiserEmail = "MarkDavis@owensteele.co.uk",
+                            OrganiserFirstName = "Mark",
+                            OrganiserLastName = "Davis",
+                            OrganiserPhoneNumber = "01196596691",
+                            ParkId = 2
                         });
                 });
 
@@ -114,6 +138,17 @@ namespace LocalParks.Data.Migrations
                             OpeningTime = new DateTime(2021, 1, 1, 7, 0, 0, 0, DateTimeKind.Unspecified),
                             Postcode = "LP4",
                             SizeInMetresSquared = 200000
+                        },
+                        new
+                        {
+                            ParkId = 2,
+                            ClosingTime = new DateTime(2021, 1, 1, 22, 0, 0, 0, DateTimeKind.Unspecified),
+                            Latitude = 0.18798000000000001,
+                            Longitude = 38.8765,
+                            Name = "Middlesbrook Park",
+                            OpeningTime = new DateTime(2021, 1, 1, 6, 0, 0, 0, DateTimeKind.Unspecified),
+                            Postcode = "PF15",
+                            SizeInMetresSquared = 85000
                         });
                 });
 
@@ -123,6 +158,9 @@ namespace LocalParks.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Members")
                         .HasColumnType("int");
@@ -136,8 +174,14 @@ namespace LocalParks.Data.Migrations
                     b.Property<int?>("ParkId")
                         .HasColumnType("int");
 
+                    b.Property<string>("President")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Sport")
                         .HasColumnType("int");
+
+                    b.Property<string>("Website")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ClubId");
 
@@ -149,20 +193,38 @@ namespace LocalParks.Data.Migrations
                         new
                         {
                             ClubId = 1,
-                            Members = 100,
+                            Email = "CPCPolo@owensteele.co.uk",
+                            Members = 103,
                             MembershipFee = 20000.0,
                             Name = "Curling Polo Club",
                             ParkId = 1,
-                            Sport = 0
+                            President = "Matthrew Albright",
+                            Sport = 0,
+                            Website = "CPCPolo-OS.co.uk"
                         },
                         new
                         {
                             ClubId = 2,
+                            Email = "Contact.Meadow-Rugby@owensteele.co.uk",
                             Members = 20,
                             MembershipFee = 150.0,
                             Name = "Meadow RFC",
                             ParkId = 1,
-                            Sport = 2
+                            President = "Jess Hampston",
+                            Sport = 2,
+                            Website = "Meadow-Rugby-OS.co.uk"
+                        },
+                        new
+                        {
+                            ClubId = 3,
+                            Email = "Admin.ChesterlyCricket@owensteele.co.uk",
+                            Members = 67,
+                            MembershipFee = 330.0,
+                            Name = "Chesterly Cricket Club",
+                            ParkId = 2,
+                            President = "Linda Paul",
+                            Sport = 8,
+                            Website = "ChesterlyCricketClub-OS.co.uk"
                         });
                 });
 
@@ -173,10 +235,16 @@ namespace LocalParks.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<string>("EmergencyNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Office")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ParkRef")
@@ -199,11 +267,24 @@ namespace LocalParks.Data.Migrations
                         new
                         {
                             SupervisorId = 1,
+                            EmergencyNumber = "07654321000",
                             FirstName = "Joe",
                             LastName = "Bloggs",
+                            Office = "123 Chestnut Drive",
                             ParkRef = 1,
                             Salary = 35000.0,
                             StartingDate = new DateTime(1980, 7, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SupervisorId = 2,
+                            EmergencyNumber = "07685940321",
+                            FirstName = "Anne",
+                            LastName = "Smith",
+                            Office = "Parkside Cottage, Park Avenue",
+                            ParkRef = 2,
+                            Salary = 32000.0,
+                            StartingDate = new DateTime(1960, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 

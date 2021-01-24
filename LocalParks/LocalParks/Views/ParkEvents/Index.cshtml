@@ -1,0 +1,48 @@
+﻿@model ICollection<EventModel>
+@{
+    ViewData["Title"] = "Events";
+}
+
+<div class="jumbotron">
+    <table style="width: 100%;">
+        <tr>
+            <td>
+                <h1>Upcoming events</h1>
+            </td>
+            <td class="w3-right">
+                <h1>
+                    <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded btn-group-lg"
+                           type="button"
+                           value="Schedule an event"
+                           onclick="location.href='@Url.Action("Edit", "ParkEvents")'" />
+                </h1>
+            </td>
+        </tr>
+    </table>    
+</div>
+
+<form asp-controller="ParkEvents" asp-action="Index" method="get">
+    <p>
+        Event name: <input type="text" name="searchTerm" 
+                           class="border-dark rounded"  value="@TempData["Filter"]"/>
+        <input type="submit" class="btn-outline-light btn-dark btn-light rounded" 
+               value="Filter" required/>
+        @if (TempData["Matches"] != null)
+        {
+            <span class="alert-danger">@TempData["Matches"]</span>
+        }
+        </p>
+</form>
+@if (TempData["Filter"] != null)
+{
+    <form asp-controller="ParkEvents" asp-action="Index" method="get">
+    <p>
+        <input type="submit" value="Remove Filter" />
+    </p>
+    </form>
+}
+
+@foreach (var ev in Model)
+{
+    <partial name="_Summary" model="ev" />
+}

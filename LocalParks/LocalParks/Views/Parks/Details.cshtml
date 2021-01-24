@@ -1,0 +1,125 @@
+﻿@model LocalParks.Models.ParkModel
+@{
+    ViewData["Title"] = "Park Details";
+}
+
+<div>
+    <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded" type="button" value="All parks" onclick="location.href='@Url.Action("Index", "Parks")'"/>
+</div>
+
+<h2>@Model.Name</h2>
+<table class="w3-margin">
+    <tr>
+        <td>
+            <table class="table table-striped table-bordered dt-responsive nowrap w3-center btn rounded">
+                
+                <tbody>
+                    <tr>
+                        <th class="w3-right-align">@Html.DisplayNameFor(model => model.Postcode)</th>
+                        <td class="w3-left-align">@Model.Postcode</td>
+                    </tr>
+                    <tr>
+                        <th class="w3-right-align">@Html.DisplayNameFor(model => model.Latitude)</th>
+                        <td class="w3-left-align">@Model.Latitude &deg</td>
+                    </tr>
+                    <tr>
+                        <th class="w3-right-align">@Html.DisplayNameFor(model => model.Longitude)</th>
+                        <td class="w3-left-align">@Model.Longitude &deg</td>
+                    </tr>
+                    <tr>
+                        <th class="w3-right-align">Area</th>
+                        <td class="w3-left-align">@Model.SizeInMetresSquared m&sup2</td>
+                    </tr>
+                    <tr>
+                        <th class="w3-right-align">@Html.DisplayNameFor(model => model.OpeningTime)</th>
+                        <td class="w3-left-align">@Model.OpeningTime.ToString("hh:mm tt")</td>
+                    </tr>
+                    <tr>
+                        <th class="w3-right-align">@Html.DisplayNameFor(model => model.ClosingTime)</th>
+                        <td class="w3-left-align">@Model.ClosingTime.ToString("hh:mm tt")</td>
+                    </tr>
+                    <tr>
+                        <th class="w3-right-align">@Html.DisplayNameFor(model => model.Supervisor)</th>
+                        <td class="w3-left-align"><input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded" type="button" 
+                                                         value="@Model.Supervisor.FirstName @Model.Supervisor.LastName" 
+                                                         onclick="location.href='@Url.Action("Details", "Supervisors", new { parkId = Model.ParkId })'" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+
+        <td>
+            <table>
+                <tr>
+                    <th>
+                        Sports Clubs
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <table class="table table-striped table-bordered dt-responsive nowrap w3-center btn rounded">
+                            <tbody>
+
+                                @foreach (var club in Model.SportClubs)
+                                {
+                                    <tr>
+                                        <th>Club name</th>
+                                        <td>@club.Name</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Sport</th>
+                                        <td>@club.Sport.ToString()</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded" 
+                                                   type="button" 
+                                                   value="See Details" 
+                                                   onclick="location.href='@Url.Action("Details", "SportsClubs", 
+                                                                          new { clubId = club.ClubId })'" />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Events
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <table class="table table-striped table-bordered dt-responsive nowrap w3-center btn rounded">
+                            <tbody>
+                                @foreach (var parkEvent in Model.Events)
+                                {
+                                    <tr>
+                                        <th>Name</th>
+                                        <td>@parkEvent.Name</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Date</th>
+                                        <td>@parkEvent.Date.ToLongDateString()</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded btn-sm" 
+                                                   type="button" 
+                                                   value="See Details" 
+                                                   onclick="location.href='@Url.Action("Details", "ParkEvents", 
+                                                                          new { parkId = parkEvent.Park.ParkId, date = parkEvent.Date })'" />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>            
+        </td>
+    </tr>
+</table>
+

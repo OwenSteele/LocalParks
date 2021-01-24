@@ -1,0 +1,30 @@
+﻿@model ICollection<ParkModel>
+@{
+    ViewData["Title"] = "Parks";
+}
+
+<h1 class="jumbotron">Your Local Parks</h1>
+
+<form asp-controller="Parks" asp-action="Index" method="get">
+    <p>
+        Park name: <input type="text" class="border-dark rounded" name="searchTerm" value="@TempData["Filter"]"/>
+        <input type="submit" class="btn-outline-light btn-dark btn-light rounded" value="Filter" />
+        @if (TempData["Matches"] != null)
+        {
+            <span class="alert-danger">@TempData["Matches"]</span>
+        }
+        </p>
+</form>
+@if (TempData["Filter"] != null)
+{
+    <form asp-controller="Parks" asp-action="Index" method="get">
+    <p>
+        <input type="submit" value="Remove Filter" />
+    </p>
+    </form>
+}
+
+@foreach (var park in Model)
+{
+    <partial name="_Summary" model="park" />
+}

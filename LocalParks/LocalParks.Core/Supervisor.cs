@@ -11,5 +11,7 @@ namespace LocalParks.Core
         public string LastName { get; set; }
         public double Salary { get; set; }
         public DateTime StartingDate { get; set; }
+        public string Office { get; set; }
+        public string EmergencyNumber { get; set; }
     }
 }

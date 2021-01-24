@@ -7,9 +7,9 @@ namespace LocalParks.Models
 {
     public class ParkModel
     {
+        public int ParkId { get; set; }
         [Required]
         public string Postcode { get; set; }
-
         [Required]
         [StringLength(100, MinimumLength = 20)]
         public string Name { get; set; }
@@ -18,9 +18,9 @@ namespace LocalParks.Models
         public double Latitude { get; set; }
         public DateTime OpeningTime { get; set; }
         public DateTime ClosingTime { get; set; }
-
-        public ICollection<SportsClubModel> SportClubs { get; set; }
         [Required]
         public Supervisor Supervisor { get; set; }
+        public ICollection<SportsClubModel> SportClubs { get; set; }
+        public ICollection<Event> Events { get; set; }
     }
 }

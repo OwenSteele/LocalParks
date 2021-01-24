@@ -1,12 +1,17 @@
 ﻿using LocalParks.Core;
 using LocalParks.Models.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
 
 namespace LocalParks.Models
 {
     public class EventModel
     {
+        public int EventId { get; set; }
         [Required]
         [StringLength(100, MinimumLength = 10)]
         public string Name { get; set; }
@@ -31,5 +36,16 @@ namespace LocalParks.Models
         [Required]
         [Phone]
         public string OrganiserPhoneNumber { get; set; }
+
+        public string ObsfucatedNumber()
+        {
+            int len = OrganiserPhoneNumber.Length;
+            var stars = new string('*', len - 3);
+            var obs = new StringBuilder(stars, len);
+            obs.Append(OrganiserPhoneNumber[(len - 3)..]);
+
+            return obs.ToString();
+        }
+        public IEnumerable<SelectListItem> ParksList { get; set; }
     }
 }
