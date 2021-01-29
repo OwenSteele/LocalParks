@@ -17,7 +17,7 @@ namespace LocalParks.Data
         public DbSet<Park> Parks { get; set; }
         public DbSet<Supervisor> Supervisors { get; set; }
         public DbSet<SportsClub> SportsClubs { get; set; }
-        public DbSet<Event> Events { get; set; }
+        public DbSet<ParkEvent> Events { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
@@ -37,7 +37,7 @@ namespace LocalParks.Data
             bd.Entity<Park>().HasKey(k => k.ParkId);
             bd.Entity<Supervisor>().HasKey(k => k.SupervisorId);
             bd.Entity<SportsClub>().HasKey(k => k.ClubId);
-            bd.Entity<Event>().HasKey(k => k.EventId);
+            bd.Entity<ParkEvent>().HasKey(k => k.EventId);
 
             //defined starting data
             bd.Entity<Park>()
@@ -131,7 +131,7 @@ namespace LocalParks.Data
                     President = "Linda Paul"
                 });
 
-            bd.Entity<Event>()
+            bd.Entity<ParkEvent>()
                 .HasData(new
                 {
                     EventId = 1,

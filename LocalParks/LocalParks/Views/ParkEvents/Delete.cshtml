@@ -1,4 +1,4 @@
-﻿@model LocalParks.Models.EventModel
+﻿@model LocalParks.Models.ParkEventModel
 @{
     ViewData["Title"] = "Confirm Deletion";
 }
@@ -12,12 +12,12 @@
        type="button"
        value="Delete"
        onclick="location.href='@Url.Action("Delete", "ParkEvents",
-                                      new { parkId = Model.Park.ParkId, 
+                                      new { parkId = Model.ParkId, 
                                           date = Model.Date, 
                                           confirmed = true })'" />
 
 <input type="button" class="btn-outline-light btn-dark btn-light rounded"
        value="Cancel" 
        onclick="location.href='@Url.Action("Details", "ParkEvents",
-                                      new { parkId = Model.Park.ParkId, 
+                                      new { parkId = Model.ParkId, 
                                           date = Model.Date})'" />

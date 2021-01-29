@@ -9,14 +9,15 @@ using System.Text;
 
 namespace LocalParks.Models
 {
-    public class EventModel
+    public class ParkEventModel
     {
+        public int ParkId { get; set; }
+        public string ParkName { get; set; }
+
         public int EventId { get; set; }
         [Required]
         [StringLength(100, MinimumLength = 10)]
         public string Name { get; set; }
-        [Required]
-        public Park Park { get; set; }
         [Required]
         [DateWithoutTime]
         [DateInFuture]
@@ -46,6 +47,5 @@ namespace LocalParks.Models
 
             return obs.ToString();
         }
-        public IEnumerable<SelectListItem> ParksList { get; set; }
     }
 }

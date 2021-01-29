@@ -15,6 +15,6 @@ namespace LocalParks.Core
         public DateTime ClosingTime { get; set; }
         public Supervisor Supervisor { get; set; }
         public ICollection<SportsClub> SportClubs { get; set; }
-        public ICollection<Event> Events { get; set; }
+        public ICollection<ParkEvent> Events { get; set; }
     }
 }

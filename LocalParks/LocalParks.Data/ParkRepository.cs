@@ -113,7 +113,7 @@ namespace LocalParks.Data
 
             return await query.ToArrayAsync();
         }
-        public async Task<SportsClub> GetSportsClubByIdAsync(int sportsClubId)
+        public async Task<SportsClub> GetSportsClubByIdAsync(int sportsClubId, int? parkId = null)
         {
             _logger.LogInformation($"Getting a sports club with ID: {sportsClubId}.");
 
@@ -122,9 +122,11 @@ namespace LocalParks.Data
 
             query = query.Where(c => c.ClubId == sportsClubId);
 
+            if (parkId.HasValue) query = query.Where(c => c.Park.ParkId == parkId);
+
             return await query.FirstOrDefaultAsync();
         }
-        public async Task<SportsClub[]> GetSportsClubsBySportAsync(SportType sport)
+        public async Task<SportsClub[]> GetSportsClubsBySportAsync(SportType sport, int? parkId = null)
         {
             _logger.LogInformation($"Getting sports clubs with sport: {sport}.");
 
@@ -133,6 +135,10 @@ namespace LocalParks.Data
 
             query = query.Where(s=> s.Sport == sport)
                 .OrderByDescending(s => s.Sport);
+
+            if (parkId.HasValue) query = query.Where(c => c.Park.ParkId == parkId);
+
+            if (!query.Any()) return null;
 
             return await query.ToArrayAsync();
         }
@@ -162,11 +168,11 @@ namespace LocalParks.Data
         }
         
         
-        public async Task<Event[]> GetAllEventsAsync()
+        public async Task<ParkEvent[]> GetAllEventsAsync()
         {
             _logger.LogInformation($"Getting all events.");
 
-            IQueryable<Event> query = _context.Events
+            IQueryable<ParkEvent> query = _context.Events
                 .Include(e => e.Park);
 
             query = query.Where(e => e.Date >= DateTime.Today)
@@ -174,11 +180,11 @@ namespace LocalParks.Data
 
             return await query.ToArrayAsync();
         }
-        public async Task<Event[]> GetEventsByParkIdAsync(int parkId)
+        public async Task<ParkEvent[]> GetEventsByParkIdAsync(int parkId)
         {
             _logger.LogInformation($"Getting events from park ID: {parkId}.");
 
-            IQueryable<Event> query = _context.Events
+            IQueryable<ParkEvent> query = _context.Events
                 .Include(e => e.Park);
 
             query = query.Where(e => 
@@ -188,11 +194,25 @@ namespace LocalParks.Data
 
             return await query.ToArrayAsync();
         }
-        public async Task<Event> GetEventByParkIdAsync(int parkId, int eventId)
+        public async Task<ParkEvent> GetEventByIdAsync(int eventId)
+        {
+            _logger.LogInformation($"Getting events from park ID: {eventId}.");
+
+            IQueryable<ParkEvent> query = _context.Events
+                .Include(e => e.Park);
+
+            query = query.Where(e =>
+            e.EventId == eventId &&
+            e.Date >= DateTime.Today)
+                .OrderByDescending(e => e.Date);
+
+            return await query.FirstOrDefaultAsync();
+        }
+        public async Task<ParkEvent> GetEventByParkIdAsync(int parkId, int eventId)
         {
             _logger.LogInformation($"Getting an event with ID: {eventId} from park ID: {parkId}.");
 
-            IQueryable<Event> query = _context.Events
+            IQueryable<ParkEvent> query = _context.Events
                 .Include(e => e.Park);
 
             query = query.Where(e =>
@@ -202,12 +222,12 @@ namespace LocalParks.Data
 
             return await query.FirstOrDefaultAsync();
         }
-        public async Task<Event> GetEventByParkIdByDateAsync(int parkId, DateTime dateTime)
+        public async Task<ParkEvent> GetEventByParkIdByDateAsync(int parkId, DateTime dateTime)
         {
             _logger.LogInformation(
                 $"Getting an event from park ID: {parkId} on date: {dateTime.ToShortDateString()}.");
 
-            IQueryable<Event> query = _context.Events
+            IQueryable<ParkEvent> query = _context.Events
                 .Include(e => e.Park);
 
             query = query.Where(e =>
@@ -217,11 +237,11 @@ namespace LocalParks.Data
 
             return await query.FirstOrDefaultAsync();
         }
-        public async Task<Event[]> GetEventsByDateAsync(DateTime dateTime)
+        public async Task<ParkEvent[]> GetEventsByDateAsync(DateTime dateTime)
         {
             _logger.LogInformation($"Getting all events.");
 
-            IQueryable<Event> query = _context.Events
+            IQueryable<ParkEvent> query = _context.Events
                 .Include(e => e.Park);
 
             query = query.Where(e =>
@@ -231,11 +251,11 @@ namespace LocalParks.Data
 
             return await query.ToArrayAsync();
         }
-        public async Task<Event[]> GetAllPastEventsAsync()
+        public async Task<ParkEvent[]> GetAllPastEventsAsync()
         {
             _logger.LogInformation($"Getting all events.");
 
-            IQueryable<Event> query = _context.Events
+            IQueryable<ParkEvent> query = _context.Events
                 .Include(e => e.Park);
 
             query = query.OrderByDescending(e => e.Date);

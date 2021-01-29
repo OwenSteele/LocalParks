@@ -8,7 +8,12 @@ namespace LocalParks.Models
 {
     public class SupervisorModel
     {
-        public Park Park { get; set; }
+        public int EmployeeId { get; set; }
+
+        public int ParkId { get; set; }
+        public string ParkPostcode { get; set; }
+        public string ParkName { get; set; }
+
         [Required]
         [StringLength(100, MinimumLength = 2)]
         public string FirstName { get; set; }
@@ -21,7 +26,7 @@ namespace LocalParks.Models
         [EmailAddress]
         public string Email 
         { 
-            get { return $"supervisor.{Park.Name.Replace(' ', '_')}@ParkAuthority.co.uk"; }
+            get { return $"supervisor.{ParkName.Replace(' ', '_')}@ParkAuthority.co.uk"; }
         }
 
         [StringLength(100, MinimumLength = 2)]

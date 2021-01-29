@@ -2,7 +2,7 @@
 
 namespace LocalParks.Core
 {
-    public class Event
+    public class ParkEvent
     {
         public int EventId { get; set; }
         public string Name { get; set; }

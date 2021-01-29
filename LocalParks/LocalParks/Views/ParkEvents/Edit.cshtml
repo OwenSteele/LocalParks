@@ -1,4 +1,4 @@
-﻿@model LocalParks.Models.EventModel
+﻿@model LocalParks.Models.ParkEventModel
 @{
     if (Model == null) ViewData["Title"] = "New Event";
     else ViewData["Title"] = "Editing Event";
@@ -68,13 +68,13 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(x => Model.Park.Name, htmlAttributes: new { @class = "" })
+        @Html.LabelFor(x => Model.ParkName, htmlAttributes: new { @class = "" })
 
-        @Html.DropDownListFor(x => Model.Park.ParkId, 
-       new SelectList(Model.ParksList, "Value", "Text"), "Select Park", 
+        @Html.DropDownListFor(x => Model.ParkId, 
+       new SelectList((System.Collections.IEnumerable)ViewData["Parks"], "Value", "Text"), "Select Park", 
        htmlAttributes: new { @class = "form-control", id = "Park" })
 
-        @Html.ValidationMessageFor(x => x.Park, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(x => x.ParkId, "", new { @class = "text-danger" })
     </div>
 
     <input type="submit" class="btn-outline-light btn-dark btn-light rounded"

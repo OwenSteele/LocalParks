@@ -19,8 +19,8 @@ namespace LocalParks.Models
         public DateTime OpeningTime { get; set; }
         public DateTime ClosingTime { get; set; }
         [Required]
-        public Supervisor Supervisor { get; set; }
+        public SupervisorModel Supervisor { get; set; }
         public ICollection<SportsClubModel> SportClubs { get; set; }
-        public ICollection<Event> Events { get; set; }
+        public ICollection<ParkEventModel> Events { get; set; }
     }
 }

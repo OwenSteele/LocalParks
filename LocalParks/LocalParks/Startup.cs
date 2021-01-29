@@ -59,10 +59,19 @@ namespace LocalParks
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}"); 
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(
                      name: "parks",
-                     pattern: "{controller=Parks}/{action=Index}/{searchTerm?}");
+                     pattern: "API/{controller=Parks}");
+                endpoints.MapControllerRoute(
+                     name: "supervisor",
+                     pattern: "API/{controller=Supervisors}/");
+                endpoints.MapControllerRoute(
+                     name: "sportsclubs",
+                     pattern: "API/{controller=SportsClubs}/");
+                endpoints.MapControllerRoute(
+                     name: "parkevents",
+                     pattern: "API/{controller=ParkEvents}/");
             });
         }
     }

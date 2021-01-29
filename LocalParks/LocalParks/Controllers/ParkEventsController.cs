@@ -18,7 +18,7 @@ namespace LocalParks.Controllers
         private readonly IParkRepository _parkRepository;
         private readonly IMapper _mapper;
 
-        private EventModel _tempEvent;
+        private ParkEventModel _tempEvent;
 
         public ParkEventsController(ILogger<ParkEventsController> logger, IParkRepository parkRepository, IMapper mapper)
         {
@@ -28,12 +28,12 @@ namespace LocalParks.Controllers
         }
 
         [BindProperty]
-        public EventModel Event { 
+        public ParkEventModel Event { 
             get { return _tempEvent; } 
             set { _tempEvent = value; }
         }
 
-        public async Task<IActionResult> Index(string searchTerm)
+        public async Task<IActionResult> Index(string searchTerm = null)
         {
             _logger.LogInformation("Executing ParkEvents.Index Model");
 
@@ -58,7 +58,7 @@ namespace LocalParks.Controllers
                 else TempData["Matches"] = "No Matches found";
             }
 
-            return View(_mapper.Map<EventModel[]>(results));
+            return View(_mapper.Map<ParkEventModel[]>(results));
         }
 
         public async Task<IActionResult> Details(int parkId, DateTime date)
@@ -70,7 +70,7 @@ namespace LocalParks.Controllers
             if (result == null)
                 return View("NotFound");
 
-            var model = _mapper.Map<EventModel>(result);
+            var model = _mapper.Map<ParkEventModel>(result);
 
             return View(model);
         }
@@ -82,10 +82,9 @@ namespace LocalParks.Controllers
 
             if (parkId == 0 && date == DateTime.MinValue)
             {
-                var newEventModel = new EventModel
-                {
-                    ParksList = await GetParks()
-                };
+                var newEventModel = new ParkEventModel();
+
+                ViewData["Parks"] = await GetParks();
 
                 return View(newEventModel);
             }
@@ -95,7 +94,7 @@ namespace LocalParks.Controllers
             if (result == null)
                 return View("NotFound");
 
-            var model = _mapper.Map<EventModel>(result);
+            var model = _mapper.Map<ParkEventModel>(result);
 
             return View(model);
         }
@@ -105,29 +104,32 @@ namespace LocalParks.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _tempEvent.ParksList = await GetParks();
+                ViewData["Parks"] = await GetParks();
+
                 return View("Edit", _tempEvent);
             }
-            _tempEvent.ParksList = await GetParks();
 
-            var match = await _parkRepository.GetParkByIdAsync(_tempEvent.Park.ParkId);
+            var match = await _parkRepository.GetParkByIdAsync(_tempEvent.ParkId);
 
             if (match == null)
             {
-                _tempEvent.ParksList = await GetParks();
+                ViewData["Parks"] = await GetParks();
+
                 return View("Edit", _tempEvent);
             }
 
             if (match.Events.FirstOrDefault(e => e.Date == _tempEvent.Date) != null)
             {
                 ViewData["DateTaken"] = $"An Event is already booked for this date at {match.Name}";
-                _tempEvent.ParksList = await GetParks();
+
+                ViewData["Parks"] = await GetParks();
+
                 return View("Edit", _tempEvent);
             }
 
-            _tempEvent.Park = match;
+            var newEvent = _mapper.Map<ParkEvent>(_tempEvent);
 
-            var newEvent = _mapper.Map<Event>(_tempEvent);
+            newEvent.Park = match;
 
             _parkRepository.Add(newEvent);
 
@@ -136,7 +138,8 @@ namespace LocalParks.Controllers
                 return RedirectToAction("Details", "ParkEvents", new { newEvent.Park.ParkId, newEvent.Date });
             }
 
-            _tempEvent.ParksList = await GetParks();
+            ViewData["Parks"] = await GetParks();
+
             return View("Edit", _tempEvent);
         }
 
@@ -145,7 +148,7 @@ namespace LocalParks.Controllers
             var existing = await _parkRepository.GetEventByParkIdByDateAsync(parkId, date);
             if (existing == null) RedirectToAction("NotFound", "ParkEvents");
 
-            if (!confirmed) return View(_mapper.Map<EventModel>(existing));
+            if (!confirmed) return View(_mapper.Map<ParkEventModel>(existing));
 
             _parkRepository.Delete(existing);
 

@@ -25,7 +25,7 @@ namespace LocalParks.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> Index(string searchTerm)
+        public async Task<IActionResult> Index(string searchTerm = null)
         {
             _logger.LogInformation("Executing Parks.Index Model");
                    

@@ -3,7 +3,7 @@
 namespace LocalParks.Core
 {
     public class Supervisor
-    {
+    {        
         public int SupervisorId { get; set; }
         public Park Park { get; set; }
         public int ParkRef { get; set; }

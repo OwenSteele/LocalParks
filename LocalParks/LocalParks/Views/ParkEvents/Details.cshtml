@@ -1,4 +1,4 @@
-﻿@model LocalParks.Models.EventModel
+﻿@model LocalParks.Models.ParkEventModel
 @{
     ViewData["Title"] = "Event Details";
 }
@@ -19,8 +19,8 @@
             <td class="w3-left-align">@Model.Date.ToLongDateString()</td>
         </tr>
         <tr>
-            <th class="w3-right-align">@Html.DisplayNameFor(model => model.Park)</th>
-            <td class="w3-left-align">@Model.Park.Name</td>
+            <th class="w3-right-align">@Html.DisplayNameFor(model => model.ParkId)</th>
+            <td class="w3-left-align">@Model.ParkName</td>
         </tr>
         <tr>
             <th class="w3-right-align">@Html.DisplayNameFor(model => model.Description)</th>
@@ -45,11 +45,11 @@
            type="button"
            value="Edit"
            onclick="location.href='@Url.Action("Edit", "ParkEvents",
-                                      new { parkId = Model.Park.ParkId, date = Model.Date })'" />
+                                      new { parkId = Model.ParkId, date = Model.Date })'" />
 
     <input class="btn-danger w3-hover-border-white w3-hover-text-white rounded"
        type="button"
        value="Delete"
        onclick="location.href='@Url.Action("Delete", "ParkEvents",
-                                      new { parkId = Model.Park.ParkId, date = Model.Date })'" />
+                                      new { parkId = Model.ParkId, date = Model.Date })'" />
 </div>
