@@ -21,7 +21,8 @@ namespace LocalParks.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            builder.UseSqlServer(_config.GetConnectionString("LocalParks"));
+            if(!builder.IsConfigured)
+                builder.UseSqlServer(_config.GetConnectionString("LocalParks"));
         }
 
         protected override void OnModelCreating(ModelBuilder bd)
