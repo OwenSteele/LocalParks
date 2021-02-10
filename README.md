@@ -5,3 +5,4 @@ Find what's going on in parks around you!
 
 ## currently hosted on Azure: https://localparks.azurewebsites.net/
 
+Written by Owen Steele
