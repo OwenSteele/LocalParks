@@ -19,7 +19,12 @@ namespace LocalParks.Controllers
         private readonly IMapper _mapper;
 
         private ParkEventModel _tempEvent;
-
+        
+        // This IOC is good, if you can demonstrate an awareness of the SOLID princeples you will be in a good place
+        // I think the most important asepect is the S.. which is single responability which is .. each class having a single purpose
+        // so as this is the controller layer having linq statements to filter is a violation.
+        // And if you move it into a class for example PartEventsService.cs which enables you to write a unit test it if required and also
+        // stops this class becoming unmaintable and very large
         public ParkEventsController(ILogger<ParkEventsController> logger, IParkRepository parkRepository, IMapper mapper)
         {
             _logger = logger;
