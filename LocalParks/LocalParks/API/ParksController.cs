@@ -14,13 +14,13 @@ namespace LocalParks.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ParksController : ControllerBase
+    public class LPParksController : ControllerBase
     {
-        private readonly ILogger<ParksController> _logger;
+        private readonly ILogger<LPParksController> _logger;
         private readonly IParkRepository _parkRepository;
         private readonly IMapper _mapper;
 
-        public ParksController(ILogger<ParksController> logger, IParkRepository parkRepository, IMapper mapper)
+        public LPParksController(ILogger<LPParksController> logger, IParkRepository parkRepository, IMapper mapper)
         {
             _logger = logger;
             _parkRepository = parkRepository;

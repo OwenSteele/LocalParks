@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 namespace LocalParks.API
 {
     [ApiController]
-    public class SportsClubsController : ControllerBase
+    public class LPSportsClubsController : ControllerBase
     {
-        private readonly ILogger<SportsClubsController> _logger;
+        private readonly ILogger<LPSportsClubsController> _logger;
         private readonly IParkRepository _parkRepository;
         private readonly IMapper _mapper;
 
-        public SportsClubsController(ILogger<SportsClubsController> logger,
+        public LPSportsClubsController(ILogger<LPSportsClubsController> logger,
             IParkRepository parkRepository, IMapper mapper)
         {
             _logger = logger;

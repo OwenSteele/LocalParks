@@ -19,7 +19,6 @@ namespace LocalParks
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ParkContext>(options => {
@@ -30,12 +29,9 @@ namespace LocalParks
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            //ApiVersioning to be added
-
             services.AddControllersWithViews();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -45,7 +41,6 @@ namespace LocalParks
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
@@ -60,18 +55,18 @@ namespace LocalParks
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute(
-                     name: "parks",
-                     pattern: "API/{controller=Parks}");
-                endpoints.MapControllerRoute(
-                     name: "supervisor",
-                     pattern: "API/{controller=Supervisors}/");
-                endpoints.MapControllerRoute(
-                     name: "sportsclubs",
-                     pattern: "API/{controller=SportsClubs}/");
-                endpoints.MapControllerRoute(
-                     name: "parkevents",
-                     pattern: "API/{controller=ParkEvents}/");
+                //endpoints.MapControllerRoute(
+                //     name: "lpparks",
+                //     pattern: "API/{controller=LPParks}");
+                //endpoints.MapControllerRoute(
+                //     name: "lpsupervisor",
+                //     pattern: "API/{controller=LPSupervisors}/");
+                //endpoints.MapControllerRoute(
+                //     name: "lpsportsclubs",
+                //     pattern: "API/{controller=LPSportsClubs}/");
+                //endpoints.MapControllerRoute(
+                //     name: "lpparkevents",
+                //     pattern: "API/{controller=LPParkEvents}/");
             });
         }
     }

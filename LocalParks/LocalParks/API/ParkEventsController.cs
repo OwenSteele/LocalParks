@@ -13,13 +13,13 @@ using System.Threading.Tasks;
 namespace LocalParks.API
 {
     [ApiController]
-    public class ParkEventsController : ControllerBase
+    public class LPParkEventsController : ControllerBase
     {
-        private readonly ILogger<ParkEventsController> _logger;
+        private readonly ILogger<LPParkEventsController> _logger;
         private readonly IParkRepository _parkRepository;
         private readonly IMapper _mapper;
 
-        public ParkEventsController(ILogger<ParkEventsController> logger,
+        public LPParkEventsController(ILogger<LPParkEventsController> logger,
             IParkRepository parkRepository, IMapper mapper)
         {
             _logger = logger;

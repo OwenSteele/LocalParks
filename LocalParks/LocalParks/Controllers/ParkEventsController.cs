@@ -79,13 +79,13 @@ namespace LocalParks.Controllers
         public async Task<IActionResult> Edit(int parkId, DateTime date)
         {
             _logger.LogInformation("Executing ParkEvents.Details Model");
+            
+            ViewData["Parks"] = await GetParks();
 
             if (parkId == 0 && date == DateTime.MinValue)
             {
                 var newEventModel = new ParkEventModel();
-
-                ViewData["Parks"] = await GetParks();
-
+                               
                 return View(newEventModel);
             }
 
