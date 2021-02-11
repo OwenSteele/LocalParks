@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace LocalParks.Core
 {
-    // This would unmaintanble as everytime you add a postcode you would need to add another value!
-    // This would be a seperate object and you would store it and do a lookup in the database table
     public enum PostcodeType
     {
         LP1,
