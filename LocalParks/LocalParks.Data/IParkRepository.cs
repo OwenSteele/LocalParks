@@ -16,7 +16,7 @@ namespace LocalParks.Data
         Task<Park[]> GetAllParksAsync();
         Task<Park> GetParkByIdAsync(int parkId);
         Task<Park> GetParkByNameAsync(string parkName);
-        Task<Park[]> GetParksByPostcodeAsync(PostcodeType postcode);
+        Task<Park[]> GetParksByPostcodeAsync(string postcode);
 
         Task<SportsClub[]> GetAllSportsClubsAsync();
         Task<SportsClub[]> GetSportsClubsByParkIdAsync(int parkId);

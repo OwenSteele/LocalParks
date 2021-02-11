@@ -76,7 +76,7 @@ namespace LocalParks.Data
 
             return await query.FirstOrDefaultAsync();
         }
-        public async Task<Park[]> GetParksByPostcodeAsync(PostcodeType postcodeZone)
+        public async Task<Park[]> GetParksByPostcodeAsync(string postcodeZone)
         {
             _logger.LogInformation($"Getting parks in postcode zone: {postcodeZone}.");
 
@@ -85,7 +85,7 @@ namespace LocalParks.Data
                 .Include(p => p.SportClubs)
                 .Include(p => p.Events);
 
-            query = query.Where(p => p.Postcode == postcodeZone.ToString());
+            query = query.Where(p => p.Postcode.PostcodeZone == postcodeZone);
 
             return await query.ToArrayAsync();
         }

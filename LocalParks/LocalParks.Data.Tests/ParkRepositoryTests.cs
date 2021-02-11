@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace LocalParks.Data.Tests
@@ -41,26 +42,25 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public void ShouldReturnFalseWithNoChangesMade()
+        public async Task ShouldReturnFalseWithNoChangesMadeAsync()
         {
             // arrange
 
             // act
 
-            var result = _repository.SaveChangesAsync().Result;
+            var result = await _repository.SaveChangesAsync();
 
             // assert
 
             Assert.False(result);
         }
         [Fact]
-        public void ShouldAddNewEntity()
+        public async Task ShouldAddNewEntityAsync()
         {
             // arrange          
             var p1 = new Park
             {
                 ParkId = 1000,
-                Postcode = PostcodeType.LP1.ToString(),
                 Name = "Park1",
                 SizeInMetresSquared = 1000,
                 Longitude = 1.00,
@@ -74,8 +74,8 @@ namespace LocalParks.Data.Tests
 
             _repository.Add(p1);
 
-            var result = _repository.SaveChangesAsync().Result;
-            var parks = _repository.GetAllParksAsync().Result;
+            var result = await _repository.SaveChangesAsync();
+            var parks = await _repository.GetAllParksAsync();
 
             // assert
 
@@ -84,14 +84,13 @@ namespace LocalParks.Data.Tests
             Assert.Contains(p1, parks);
         }
         [Fact]
-        public void ShouldDeleteExistingEntity()
+        public async Task ShouldDeleteExistingEntityAsync()
         {
             // arrange
 
             _repository.Add(new Park
             {
                 ParkId = 1001,
-                Postcode = PostcodeType.LP1.ToString(),
                 Name = "Park1",
                 SizeInMetresSquared = 1000,
                 Longitude = 1.00,
@@ -102,14 +101,14 @@ namespace LocalParks.Data.Tests
             });
             _repository.SaveChangesAsync().Wait();
 
-            var existing = _repository.GetParkByIdAsync(1001).Result;
+            var existing = await _repository.GetParkByIdAsync(1001);
 
             // act
 
             _repository.Delete(existing);
 
-            var result = _repository.SaveChangesAsync().Result;
-            var parks = _repository.GetAllParksAsync().Result;
+            var result = await _repository.SaveChangesAsync();
+            var parks = await _repository.GetAllParksAsync();
 
             // assert
 
@@ -118,14 +117,13 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public void ShouldReturnParkById()
+        public async Task ShouldReturnParkByIdAsync()
         {
             // arrange
 
             var p1 = new Park
             {
                 ParkId = 1010,
-                Postcode = PostcodeType.LP1.ToString(),
                 Name = "Park10",
                 SizeInMetresSquared = 1010,
                 Longitude = 1.00,
@@ -136,12 +134,12 @@ namespace LocalParks.Data.Tests
             };
 
             _repository.Add(p1);
-            _repository.SaveChangesAsync().Wait();
+            await _repository.SaveChangesAsync();
 
             // act
 
-            var result1 = _repository.GetParkByIdAsync(1010).Result;
-            var result2 = _repository.GetParkByIdAsync(1011).Result;
+            var result1 = await _repository.GetParkByIdAsync(1010);
+            var result2 = await _repository.GetParkByIdAsync(1011);
 
             // assert
 
@@ -152,14 +150,13 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public void ShouldReturnParkByName()
+        public async Task ShouldReturnParkByNameAsync()
         {
             // arrange
 
             var p1 = new Park
             {
                 ParkId = 1021,
-                Postcode = PostcodeType.LP1.ToString(),
                 Name = "Park21 Test",
                 SizeInMetresSquared = 1010,
                 Longitude = 1.00,
@@ -170,12 +167,12 @@ namespace LocalParks.Data.Tests
             };
 
             _repository.Add(p1);
-            _repository.SaveChangesAsync().Wait();
+            await _repository.SaveChangesAsync();
 
             // act
 
-            var result1 = _repository.GetParkByNameAsync("Park21 Test").Result;
-            var result2 = _repository.GetParkByNameAsync("nothing").Result;
+            var result1 = await _repository.GetParkByNameAsync("Park21 Test");
+            var result2 = await _repository.GetParkByNameAsync("nothing");
 
             // assert
 
@@ -186,15 +183,15 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public void ShouldReturnParksByPostcode()
+        public async Task ShouldReturnParksByPostcodeAsync()
         {
             // arrange
 
             var p1 = new Park
             {
                 ParkId = 1032,
-                Postcode = PostcodeType.PF20.ToString(),
                 Name = "Park32",
+                Postcode = new Postcode {PostcodeZone = "PF20" },
                 SizeInMetresSquared = 1010,
                 Longitude = 1.00,
                 Latitude = -1.00,
@@ -205,8 +202,8 @@ namespace LocalParks.Data.Tests
             var p2 = new Park
             {
                 ParkId = 1033,
-                Postcode = PostcodeType.PF20.ToString(),
                 Name = "Park33",
+                Postcode = new Postcode { PostcodeZone = "PF18" },
                 SizeInMetresSquared = 1010,
                 Longitude = 1.00,
                 Latitude = -1.00,
@@ -217,8 +214,8 @@ namespace LocalParks.Data.Tests
             var p3 = new Park
             {
                 ParkId = 1034,
-                Postcode = PostcodeType.PF18.ToString(),
                 Name = "Park34",
+                Postcode = new Postcode { PostcodeZone = "PF20" },
                 SizeInMetresSquared = 1010,
                 Longitude = 1.00,
                 Latitude = -1.00,
@@ -234,9 +231,9 @@ namespace LocalParks.Data.Tests
 
             // act
 
-            var result1 = _repository.GetParksByPostcodeAsync(PostcodeType.PF20).Result;
-            var result2 = _repository.GetParksByPostcodeAsync(PostcodeType.PF18).Result;
-            var result3 = _repository.GetParksByPostcodeAsync(PostcodeType.PF17).Result;
+            var result1 = await _repository.GetParksByPostcodeAsync("PF20");
+            var result2 = await _repository.GetParksByPostcodeAsync("PF18");
+            var result3 = await _repository.GetParksByPostcodeAsync("PF17");
 
             // assert
 
@@ -253,7 +250,7 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public void ShouldReturnAllSportsClubs()
+        public async Task ShouldReturnAllSportsClubsAsync()
         {
             // arrange
 
@@ -282,11 +279,11 @@ namespace LocalParks.Data.Tests
 
             _repository.Add(s1);
             _repository.Add(s2);
-            _repository.SaveChangesAsync().Wait();
+            await _repository.SaveChangesAsync();
 
             // act
 
-            var result = _repository.GetAllSportsClubsAsync().Result;
+            var result = await _repository.GetAllSportsClubsAsync();
 
             // assert
 
@@ -295,7 +292,7 @@ namespace LocalParks.Data.Tests
             Assert.Contains(s2, result);
         }
         [Fact]
-        public void ShouldReturnSportsClubByParkId()
+        public async Task ShouldReturnSportsClubByParkId()
         {
             // arrange
 
@@ -328,9 +325,9 @@ namespace LocalParks.Data.Tests
 
             // act
 
-            var result1 = _repository.GetSportsClubsByParkIdAsync(3001).Result;
-            var result2 = _repository.GetSportsClubsByParkIdAsync(3002).Result;
-            var result3 = _repository.GetSportsClubsByParkIdAsync(3003).Result;
+            var result1 = await _repository.GetSportsClubsByParkIdAsync(3001);
+            var result2 = await _repository.GetSportsClubsByParkIdAsync(3002);
+            var result3 = await _repository.GetSportsClubsByParkIdAsync(3003);
 
             // assert
 
@@ -342,7 +339,7 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public void ShouldReturnSportsClubById()
+        public async Task ShouldReturnSportsClubByIdAsync()
         {
             // arrange
 
@@ -375,9 +372,9 @@ namespace LocalParks.Data.Tests
 
             // act
 
-            var result1 = _repository.GetSportsClubByIdAsync(1020).Result;
-            var result2 = _repository.GetSportsClubByIdAsync(1021).Result;
-            var result3 = _repository.GetSportsClubByIdAsync(1022).Result;
+            var result1 = await _repository.GetSportsClubByIdAsync(1020);
+            var result2 = await _repository.GetSportsClubByIdAsync(1021);
+            var result3 = await _repository.GetSportsClubByIdAsync(1022);
 
             // assert
 
@@ -389,7 +386,7 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public void ShouldReturnSportsClubBySport()
+        public async Task ShouldReturnSportsClubBySportAsync()
         {
             // arrange
 
@@ -434,9 +431,9 @@ namespace LocalParks.Data.Tests
 
             // act
 
-            var result1 = _repository.GetSportsClubsBySportAsync(SportType.Other).Result;
-            var result2 = _repository.GetSportsClubsBySportAsync(SportType.Tennis).Result;
-            var result3 = _repository.GetSportsClubsBySportAsync(SportType.Bowls).Result;
+            var result1 = await _repository.GetSportsClubsBySportAsync(SportType.Other);
+            var result2 = await _repository.GetSportsClubsBySportAsync(SportType.Tennis);
+            var result3 = await _repository.GetSportsClubsBySportAsync(SportType.Bowls);
 
             // assert
 
@@ -449,7 +446,7 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public void ShouldReturnAllSuperVisors()
+        public async Task ShouldReturnAllSuperVisorsAsync()
         {
             // arrange
 
@@ -492,11 +489,11 @@ namespace LocalParks.Data.Tests
 
             _repository.Add(s1);
             _repository.Add(s2);
-            _repository.SaveChangesAsync().Wait();
+            await _repository.SaveChangesAsync();
 
             // act
 
-            var result = _repository.GetAllSupervisorsAsync().Result;
+            var result = await _repository.GetAllSupervisorsAsync();
 
             // assert
 
@@ -506,7 +503,7 @@ namespace LocalParks.Data.Tests
             Assert.DoesNotContain(s3, result);
         }
         [Fact]
-        public void ShouldReturnSuperVisorById()
+        public async Task ShouldReturnSuperVisorByIdAsync()
         {
             // arrange
 
@@ -524,12 +521,12 @@ namespace LocalParks.Data.Tests
             };
 
             _repository.Add(s1);
-            _repository.SaveChangesAsync().Wait();
+            await _repository.SaveChangesAsync();
 
             // act
 
-            var result1 = _repository.GetSupervisorByParkIdAsync(2010).Result;
-            var result2 = _repository.GetSupervisorByParkIdAsync(2011).Result;
+            var result1 = await _repository.GetSupervisorByParkIdAsync(2010);
+            var result2 = await _repository.GetSupervisorByParkIdAsync(2011);
 
             // assert
 
@@ -540,7 +537,7 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public void ShouldReturnAllEvents()
+        public async Task ShouldReturnAllEventsAsync()
         {
             // arrange
 
@@ -583,11 +580,11 @@ namespace LocalParks.Data.Tests
 
             _repository.Add(e1);
             _repository.Add(e2);
-            _repository.SaveChangesAsync().Wait();
+            await _repository.SaveChangesAsync();
 
             // act
 
-            var result = _repository.GetAllEventsAsync().Result;
+            var result = await _repository.GetAllEventsAsync();
 
             // assert
 
@@ -597,7 +594,7 @@ namespace LocalParks.Data.Tests
             Assert.DoesNotContain(e3, result);
         }
         [Fact]
-        public void ShouldReturnEventById()
+        public async Task ShouldReturnEventByIdAsync()
         {
             // arrange
 
@@ -628,13 +625,13 @@ namespace LocalParks.Data.Tests
 
             _repository.Add(e1);
             _repository.Add(e2);
-            _repository.SaveChangesAsync().Wait();
+            await _repository.SaveChangesAsync();
 
             // act
 
-            var result1 = _repository.GetEventByIdAsync(1010).Result;
-            var result2 = _repository.GetEventByIdAsync(1011).Result;
-            var result3 = _repository.GetEventByIdAsync(1012).Result;
+            var result1 = await _repository.GetEventByIdAsync(1010);
+            var result2 = await _repository.GetEventByIdAsync(1011);
+            var result3 = await _repository.GetEventByIdAsync(1012);
 
             // assert
 
@@ -646,7 +643,7 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public void ShouldReturEventsByDate()
+        public async Task ShouldReturEventsByDateAsync()
         {
             // arrange
 
@@ -690,13 +687,13 @@ namespace LocalParks.Data.Tests
             _repository.Add(e1);
             _repository.Add(e2);
             _repository.Add(e3);
-            _repository.SaveChangesAsync().Wait();
+            await _repository.SaveChangesAsync();
 
             // act
 
-            var result1 = _repository.GetEventsByDateAsync(DateTime.MaxValue.AddDays(-20)).Result;
-            var result2 = _repository.GetEventsByDateAsync(DateTime.MaxValue.AddDays(-21)).Result;
-            var result3 = _repository.GetEventsByDateAsync(DateTime.MaxValue.AddDays(-22)).Result;
+            var result1 = await _repository.GetEventsByDateAsync(DateTime.MaxValue.AddDays(-20));
+            var result2 = await _repository.GetEventsByDateAsync(DateTime.MaxValue.AddDays(-21));
+            var result3 = await _repository.GetEventsByDateAsync(DateTime.MaxValue.AddDays(-22));
 
             // assert
 

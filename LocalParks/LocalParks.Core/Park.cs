@@ -6,7 +6,7 @@ namespace LocalParks.Core
     public class Park
     {
         public int ParkId { get; set; }
-        public string Postcode { get; set; }
+        public Postcode Postcode { get; set; }
         public string Name { get; set; }
         public int SizeInMetresSquared { get; set; }
         public double Longitude { get; set; }

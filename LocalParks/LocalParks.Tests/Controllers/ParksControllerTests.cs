@@ -108,7 +108,7 @@ namespace LocalParks.Tests.Controllers
                 viewResult.ViewData.Model);
 
             Assert.Null(viewResult.ViewName);
-            Assert.Equal(model.ParkId,_parks[parkPos].ParkId);
+            Assert.Equal(model.ParkId, _parks[parkPos].ParkId);
         }
 
         internal static Park[] GetTestParks()
@@ -117,7 +117,7 @@ namespace LocalParks.Tests.Controllers
             {
                 new Park {
                     ParkId = 5001,
-                    Postcode = PostcodeType.LP1.ToString(),
+                Postcode = new Postcode {PostcodeZone = "LP1" },
                     Name = "TestingParkOne",
                     SizeInMetresSquared = 20000,
                     Longitude = 12.345,
@@ -128,7 +128,7 @@ namespace LocalParks.Tests.Controllers
                 },
                 new Park {
                     ParkId = 5002,
-                    Postcode = PostcodeType.LP2.ToString(),
+                    Postcode = new Postcode {PostcodeZone = "LP2" },
                     Name = "TestingParkTwo",
                     SizeInMetresSquared = 1000,
                     Longitude = 1.2345,

@@ -1,20 +1,12 @@
-﻿//using System;
-//using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 
-//namespace LocalParks.Core
-//{
-//    public class Postcode
-//    {
-//        public string 
-//        public PostcodeType PostcodeZone { get; set; }
-//        public string Neighbourhood { get; set; }
-//        public Int64 Population { get; set; }
-
-//        public Postcode(PostcodeType zone, string neighbourhood, Int64 population)
-//        {
-//            PostcodeZone = zone;
-//            Neighbourhood = neighbourhood;
-//            Population = population;
-//        }
-//    }
-//}
+namespace LocalParks.Core
+{
+    public class Postcode
+    {
+        public string PostcodeZone { get; set; }
+        public string Neighbourhood { get; set; }
+        public long Population { get; set; }
+        public ICollection<Park> Parks { get; set; }
+    }
+}

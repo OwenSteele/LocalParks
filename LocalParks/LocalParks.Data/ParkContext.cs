@@ -21,31 +21,87 @@ namespace LocalParks.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            if(!builder.IsConfigured)
+            if (!builder.IsConfigured)
                 builder.UseSqlServer(_config.GetConnectionString("LocalParks"));
         }
 
         protected override void OnModelCreating(ModelBuilder bd)
-        {  
+        {
 
             //defined relationships
+            bd.Entity<Postcode>().HasMany(z => z.Parks).WithOne(p => p.Postcode);
             bd.Entity<Park>().HasOne(p => p.Supervisor).WithOne(s => s.Park)
                 .HasForeignKey<Supervisor>(s => s.ParkRef);
             bd.Entity<Park>().HasMany(p => p.SportClubs).WithOne(c => c.Park);
             bd.Entity<Park>().HasMany(p => p.Events).WithOne(e => e.Park);
 
             //defined keys
+            bd.Entity<Postcode>().HasKey(k => k.PostcodeZone);
             bd.Entity<Park>().HasKey(k => k.ParkId);
             bd.Entity<Supervisor>().HasKey(k => k.SupervisorId);
             bd.Entity<SportsClub>().HasKey(k => k.ClubId);
             bd.Entity<ParkEvent>().HasKey(k => k.EventId);
 
             //defined starting data
+            bd.Entity<Postcode>()
+                .HasData(new
+                {
+                    PostCodeZone = "LP1",
+                    Neighbourhood = "Ringhurst",
+                    Population = 274987
+                }, new
+                {
+                    PostCodeZone = "LP2",
+                    Neighbourhood = "MapleDown",
+                    Population = 16570
+                }, new
+                {
+                    PostCodeZone = "LP3",
+                    Neighbourhood = "Alterdon",
+                    Population = 98105
+                }, new
+                {
+                    PostCodeZone = "LP4",
+                    Neighbourhood = "Rakeley",
+                    Population = 7654
+                }, new
+                {
+                    PostCodeZone = "PF10",
+                    Neighbourhood = "Chapterborough",
+                    Population = 100311
+                }, new
+                {
+                    PostCodeZone = "PF11",
+                    Neighbourhood = "MarketTown",
+                    Population = 3948
+                }, new
+                {
+                    PostCodeZone = "PF12",
+                    Neighbourhood = "Snowbush",
+                    Population = 10334
+                }, new
+                {
+                    PostCodeZone = "PF13",
+                    Neighbourhood = "Romsby",
+                    Population = 12808
+                }, new
+                {
+                    PostCodeZone = "PF14",
+                    Neighbourhood = "Accreton",
+                    Population = 6510
+                }, new
+                {
+                    PostCodeZone = "PF15",
+                    Neighbourhood = "Caelfall",
+                    Population = 968
+                }
+                );
+
             bd.Entity<Park>()
                 .HasData(new
                 {
                     ParkId = 1,
-                    Postcode = PostcodeType.LP4.ToString(),
+                    PostcodeZone = "LP4",
                     Name = "Leafy Meadows",
                     SizeInMetresSquared = 200000,
                     Longitude = 40.34857,
@@ -56,7 +112,7 @@ namespace LocalParks.Data
                 }, new
                 {
                     ParkId = 2,
-                    Postcode = PostcodeType.PF15.ToString(),
+                    Postcode = "PF15",
                     Name = "Middlesbrook Park",
                     SizeInMetresSquared = 85000,
                     Longitude = 38.8765,
@@ -64,6 +120,61 @@ namespace LocalParks.Data
                     OpeningTime = new DateTime(2021, 1, 1, 6, 0, 0),
                     ClosingTime = new DateTime(2021, 1, 1, 22, 0, 0),
                     SupervisorId = 2
+                }, new
+                {
+                    ParkId = 3,
+                    Postcode = "PF10",
+                    Name = "Mirror Lake Park",
+                    SizeInMetresSquared = 2000,
+                    Longitude = 35.1034,
+                    Latitude = 2.4678,
+                    OpeningTime = new DateTime(2021, 1, 1, 9, 0, 0),
+                    ClosingTime = new DateTime(2021, 1, 1, 23, 0, 0),
+                    SupervisorId = 3
+                }, new
+                {
+                    ParkId = 4,
+                    Postcode = "LP2",
+                    Name = "Shadow Grounds",
+                    SizeInMetresSquared = 26500,
+                    Longitude = 41.0301,
+                    Latitude = -2.9088,
+                    OpeningTime = new DateTime(2021, 1, 1, 8, 30, 0),
+                    ClosingTime = new DateTime(2021, 1, 1, 16, 30, 0),
+                    SupervisorId = 4
+                }, new
+                {
+                    ParkId = 4,
+                    Postcode = "LP4",
+                    Name = "Shadow Grounds",
+                    SizeInMetresSquared = 26500,
+                    Longitude = 41.6545,
+                    Latitude = -1.5640,
+                    OpeningTime = new DateTime(2021, 1, 1, 8, 30, 0),
+                    ClosingTime = new DateTime(2021, 1, 1, 16, 30, 0),
+                    SupervisorId = 4
+                }, new
+                {
+                    ParkId = 5,
+                    Postcode = "PF13",
+                    Name = "Sapphire Gardens",
+                    SizeInMetresSquared = 6000,
+                    Longitude = 38.999,
+                    Latitude = -5.938,
+                    OpeningTime = new DateTime(2021, 1, 1, 8, 0, 0),
+                    ClosingTime = new DateTime(2021, 1, 1, 18, 30, 0),
+                    SupervisorId = 5
+                }, new
+                {
+                    ParkId = 6,
+                    Postcode = "PF13",
+                    Name = "Fletcher Plaza",
+                    SizeInMetresSquared = 70000,
+                    Longitude = 39.7145,
+                    Latitude = -4.123,
+                    OpeningTime = new DateTime(2021, 1, 1, 5, 0, 0),
+                    ClosingTime = new DateTime(2021, 1, 1, 20, 30, 0),
+                    SupervisorId = 6
                 }
                 );
 
@@ -91,6 +202,50 @@ namespace LocalParks.Data
                     StartingDate = new DateTime(1960, 1, 21),
                     Office = "Parkside Cottage, Park Avenue",
                     EmergencyNumber = "07685940321"
+                }, new
+                {
+                    SupervisorId = 3,
+                    ParkId = 3,
+                    ParkRef = 3,
+                    FirstName = "Robert",
+                    LastName = "Bob",
+                    Salary = (double)35500,
+                    StartingDate = new DateTime(1986, 8, 11),
+                    Office = "Bramble side, Supervisor Street",
+                    EmergencyNumber = "0784368711"
+                }, new
+                {
+                    SupervisorId = 4,
+                    ParkId = 4,
+                    ParkRef = 4,
+                    FirstName = "Yohan",
+                    LastName = "Blake",
+                    Salary = (double)29000,
+                    StartingDate = new DateTime(2019, 3, 5),
+                    Office = "1 Park Lane",
+                    EmergencyNumber = "0762985702"
+                }, new
+                {
+                    SupervisorId = 5,
+                    ParkId = 5,
+                    ParkRef = 5,
+                    FirstName = "Michael",
+                    LastName = "Mitchell",
+                    Salary = (double)34000,
+                    StartingDate = new DateTime(2016, 3, 5),
+                    Office = "154 Wednesday drive",
+                    EmergencyNumber = "0723096876"
+                }, new
+                {
+                    SupervisorId = 6,
+                    ParkId = 6,
+                    ParkRef = 6,
+                    FirstName = "Daniel",
+                    LastName = "Cotting",
+                    Salary = (double)26350,
+                    StartingDate = new DateTime(2011, 9, 14),
+                    Office = "Little Cottage, Ramping Lane",
+                    EmergencyNumber = "0787876876"
                 }
                 );
 
