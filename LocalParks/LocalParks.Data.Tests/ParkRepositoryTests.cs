@@ -40,14 +40,21 @@ namespace LocalParks.Data.Tests
             _repository = new ParkRepository(_context, _logger.Object);
         }
 
+        // Worth being aware of naming conventions for BDD tests
+        // https://en.wikipedia.org/wiki/Given-When-Then
+        // So a random example jenny might write a ticket like  "WHEN a mystery dine is booked THEN visit is booked with todays date"
+        // therefore this test name could be WHEN_repository_is_saved_with_no_changes_THEN_false_is_returned()
+        
+        // Ive updated this to use async await ... doing .result means you loose all the perfomance benefits of doing async code
         [Fact]
-        public void ShouldReturnFalseWithNoChangesMade()
+        public async ShouldReturnFalseWithNoChangesMade()
         {
             // arrange
 
             // act
-
-            var result = _repository.SaveChangesAsync().Result;
+            
+        
+            var result = await _repository.SaveChangesAsync();
 
             // assert
 
@@ -74,6 +81,7 @@ namespace LocalParks.Data.Tests
 
             _repository.Add(p1);
 
+            // You must 
             var result = _repository.SaveChangesAsync().Result;
             var parks = _repository.GetAllParksAsync().Result;
 

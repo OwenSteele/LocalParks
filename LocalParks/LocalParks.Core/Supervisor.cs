@@ -9,6 +9,7 @@ namespace LocalParks.Core
         public int ParkRef { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        //decimal
         public double Salary { get; set; }
         public DateTime StartingDate { get; set; }
         public string Office { get; set; }

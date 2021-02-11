@@ -1,6 +1,8 @@
 ﻿//using System;
 //using System.ComponentModel.DataAnnotations;
 
+//cleanup old files incase the interviewer wants to see your code.
+
 //namespace LocalParks.Core
 //{
 //    public class Postcode
