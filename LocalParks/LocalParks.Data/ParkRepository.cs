@@ -85,7 +85,7 @@ namespace LocalParks.Data
                 .Include(p => p.SportClubs)
                 .Include(p => p.Events);
 
-            query = query.Where(p => p.Postcode.PostcodeZone == postcodeZone);
+            query = query.Where(p => p.Postcode.Zone == postcodeZone);
 
             return await query.ToArrayAsync();
         }

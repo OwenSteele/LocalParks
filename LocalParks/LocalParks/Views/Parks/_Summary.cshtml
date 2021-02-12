@@ -15,7 +15,7 @@
     <table class="table table-striped table-bordered dt-responsive nowrap w3-center btn rounded">
         <thead class="thead-light">
             <tr>
-                <th>@Html.DisplayNameFor(model => model.Postcode)</th>
+                <th>@Html.DisplayNameFor(model => model.PostcodeZone)</th>
                 <th>@Html.DisplayNameFor(model => model.SportClubs)</th>
                 <th>@Html.DisplayNameFor(model => model.Events)</th>
                 <th>@Html.DisplayNameFor(model => model.OpeningTime)</th>
@@ -24,7 +24,7 @@
         </thead>
         <tbody>
 <tr>
-    <td>@Model.Postcode</td>
+    <td>@Model.PostcodeZone</td>
     <td>@Model.SportClubs.Count()</td>
     <td>@Model.Events.Count()</td>
     <td>@Model.OpeningTime.ToString("hh:mm tt")</td>

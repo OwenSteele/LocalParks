@@ -117,7 +117,7 @@ namespace LocalParks.Tests.Controllers
             {
                 new Park {
                     ParkId = 5001,
-                Postcode = new Postcode {PostcodeZone = "LP1" },
+                Postcode = new Postcode {Zone = "LP1" },
                     Name = "TestingParkOne",
                     SizeInMetresSquared = 20000,
                     Longitude = 12.345,
@@ -128,7 +128,7 @@ namespace LocalParks.Tests.Controllers
                 },
                 new Park {
                     ParkId = 5002,
-                    Postcode = new Postcode {PostcodeZone = "LP2" },
+                    Postcode = new Postcode {Zone = "LP2" },
                     Name = "TestingParkTwo",
                     SizeInMetresSquared = 1000,
                     Longitude = 1.2345,

@@ -191,7 +191,7 @@ namespace LocalParks.Data.Tests
             {
                 ParkId = 1032,
                 Name = "Park32",
-                Postcode = new Postcode {PostcodeZone = "PF20" },
+                Postcode = new Postcode { Zone = "PF20" },
                 SizeInMetresSquared = 1010,
                 Longitude = 1.00,
                 Latitude = -1.00,
@@ -203,7 +203,7 @@ namespace LocalParks.Data.Tests
             {
                 ParkId = 1033,
                 Name = "Park33",
-                Postcode = new Postcode { PostcodeZone = "PF18" },
+                Postcode = new Postcode { Zone = "PF18" },
                 SizeInMetresSquared = 1010,
                 Longitude = 1.00,
                 Latitude = -1.00,
@@ -215,7 +215,7 @@ namespace LocalParks.Data.Tests
             {
                 ParkId = 1034,
                 Name = "Park34",
-                Postcode = new Postcode { PostcodeZone = "PF20" },
+                Postcode = new Postcode { Zone = "PF20" },
                 SizeInMetresSquared = 1010,
                 Longitude = 1.00,
                 Latitude = -1.00,

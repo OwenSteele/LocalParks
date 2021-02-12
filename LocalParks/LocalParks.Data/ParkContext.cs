@@ -29,71 +29,78 @@ namespace LocalParks.Data
         {
 
             //defined relationships
-            bd.Entity<Postcode>().HasMany(z => z.Parks).WithOne(p => p.Postcode);
+            bd.Entity<Postcode>().HasMany(p => p.Parks).WithOne(z => z.Postcode)
+                .HasForeignKey(z => z.PostcodeZone);
             bd.Entity<Park>().HasOne(p => p.Supervisor).WithOne(s => s.Park)
                 .HasForeignKey<Supervisor>(s => s.ParkRef);
             bd.Entity<Park>().HasMany(p => p.SportClubs).WithOne(c => c.Park);
             bd.Entity<Park>().HasMany(p => p.Events).WithOne(e => e.Park);
 
             //defined keys
-            bd.Entity<Postcode>().HasKey(k => k.PostcodeZone);
+            bd.Entity<Postcode>().HasKey(k => k.Zone);
             bd.Entity<Park>().HasKey(k => k.ParkId);
             bd.Entity<Supervisor>().HasKey(k => k.SupervisorId);
             bd.Entity<SportsClub>().HasKey(k => k.ClubId);
             bd.Entity<ParkEvent>().HasKey(k => k.EventId);
 
+            //decimal properties
+            bd.Entity<SportsClub>().Property(c => c.MembershipFee)
+                .HasColumnType("decimal(18,4)");
+            bd.Entity<Supervisor>().Property(s => s.Salary)
+                .HasColumnType("decimal(18,4)");
+
             //defined starting data
             bd.Entity<Postcode>()
                 .HasData(new
                 {
-                    PostCodeZone = "LP1",
+                    Zone = "LP1",
                     Neighbourhood = "Ringhurst",
-                    Population = 274987
+                    Population = 274987L
                 }, new
                 {
-                    PostCodeZone = "LP2",
+                    Zone = "LP2",
                     Neighbourhood = "MapleDown",
-                    Population = 16570
+                    Population = 16570L
                 }, new
                 {
-                    PostCodeZone = "LP3",
+                    Zone = "LP3",
                     Neighbourhood = "Alterdon",
-                    Population = 98105
+                    Population = 98105L
                 }, new
                 {
-                    PostCodeZone = "LP4",
+                    Zone = "LP4",
                     Neighbourhood = "Rakeley",
-                    Population = 7654
+                    Population = 7654L
                 }, new
                 {
-                    PostCodeZone = "PF10",
+                    Zone = "PF10",
                     Neighbourhood = "Chapterborough",
-                    Population = 100311
+                    Population = 100311L
                 }, new
                 {
-                    PostCodeZone = "PF11",
+                    Zone = "PF11",
                     Neighbourhood = "MarketTown",
-                    Population = 3948
+                    Population = 3948L
                 }, new
                 {
-                    PostCodeZone = "PF12",
+                    Zone = "PF12",
                     Neighbourhood = "Snowbush",
-                    Population = 10334
+                    Population = 10334L
                 }, new
                 {
-                    PostCodeZone = "PF13",
+                    Zone = "PF13",
                     Neighbourhood = "Romsby",
-                    Population = 12808
+                    Population = 12808L
                 }, new
                 {
-                    PostCodeZone = "PF14",
+                    Zone = "PF14",
                     Neighbourhood = "Accreton",
-                    Population = 6510
+                    Population = 6510L
                 }, new
                 {
-                    PostCodeZone = "PF15",
+                    Zone = "PF15",
                     Neighbourhood = "Caelfall",
-                    Population = 968
+                    Population = 968L
                 }
                 );
 
@@ -112,7 +119,7 @@ namespace LocalParks.Data
                 }, new
                 {
                     ParkId = 2,
-                    Postcode = "PF15",
+                    PostcodeZone = "PF15",
                     Name = "Middlesbrook Park",
                     SizeInMetresSquared = 85000,
                     Longitude = 38.8765,
@@ -123,7 +130,7 @@ namespace LocalParks.Data
                 }, new
                 {
                     ParkId = 3,
-                    Postcode = "PF10",
+                    PostcodeZone = "PF10",
                     Name = "Mirror Lake Park",
                     SizeInMetresSquared = 2000,
                     Longitude = 35.1034,
@@ -133,19 +140,19 @@ namespace LocalParks.Data
                     SupervisorId = 3
                 }, new
                 {
-                    ParkId = 4,
-                    Postcode = "LP2",
+                    ParkId = 7,
+                    PostcodeZone = "LP2",
                     Name = "Shadow Grounds",
                     SizeInMetresSquared = 26500,
                     Longitude = 41.0301,
                     Latitude = -2.9088,
                     OpeningTime = new DateTime(2021, 1, 1, 8, 30, 0),
                     ClosingTime = new DateTime(2021, 1, 1, 16, 30, 0),
-                    SupervisorId = 4
+                    SupervisorId = 7
                 }, new
                 {
                     ParkId = 4,
-                    Postcode = "LP4",
+                    PostcodeZone = "LP4",
                     Name = "Shadow Grounds",
                     SizeInMetresSquared = 26500,
                     Longitude = 41.6545,
@@ -156,7 +163,7 @@ namespace LocalParks.Data
                 }, new
                 {
                     ParkId = 5,
-                    Postcode = "PF13",
+                    PostcodeZone = "PF13",
                     Name = "Sapphire Gardens",
                     SizeInMetresSquared = 6000,
                     Longitude = 38.999,
@@ -167,7 +174,7 @@ namespace LocalParks.Data
                 }, new
                 {
                     ParkId = 6,
-                    Postcode = "PF13",
+                    PostcodeZone = "PF13",
                     Name = "Fletcher Plaza",
                     SizeInMetresSquared = 70000,
                     Longitude = 39.7145,
@@ -186,7 +193,7 @@ namespace LocalParks.Data
                     ParkRef = 1,
                     FirstName = "Joe",
                     LastName = "Bloggs",
-                    Salary = (double)35000,
+                    Salary = (decimal)35000m,
                     StartingDate = new DateTime(1980, 7, 13),
                     Office = "123 Chestnut Drive",
                     EmergencyNumber = "07654321000"
@@ -198,7 +205,7 @@ namespace LocalParks.Data
                     ParkRef = 2,
                     FirstName = "Anne",
                     LastName = "Smith",
-                    Salary = (double)32000,
+                    Salary = (decimal)32000m,
                     StartingDate = new DateTime(1960, 1, 21),
                     Office = "Parkside Cottage, Park Avenue",
                     EmergencyNumber = "07685940321"
@@ -209,7 +216,7 @@ namespace LocalParks.Data
                     ParkRef = 3,
                     FirstName = "Robert",
                     LastName = "Bob",
-                    Salary = (double)35500,
+                    Salary = (decimal)35500m,
                     StartingDate = new DateTime(1986, 8, 11),
                     Office = "Bramble side, Supervisor Street",
                     EmergencyNumber = "0784368711"
@@ -220,7 +227,7 @@ namespace LocalParks.Data
                     ParkRef = 4,
                     FirstName = "Yohan",
                     LastName = "Blake",
-                    Salary = (double)29000,
+                    Salary = (decimal)29000m,
                     StartingDate = new DateTime(2019, 3, 5),
                     Office = "1 Park Lane",
                     EmergencyNumber = "0762985702"
@@ -231,7 +238,7 @@ namespace LocalParks.Data
                     ParkRef = 5,
                     FirstName = "Michael",
                     LastName = "Mitchell",
-                    Salary = (double)34000,
+                    Salary = (decimal)34000m,
                     StartingDate = new DateTime(2016, 3, 5),
                     Office = "154 Wednesday drive",
                     EmergencyNumber = "0723096876"
@@ -242,7 +249,7 @@ namespace LocalParks.Data
                     ParkRef = 6,
                     FirstName = "Daniel",
                     LastName = "Cotting",
-                    Salary = (double)26350,
+                    Salary = (decimal)26350m,
                     StartingDate = new DateTime(2011, 9, 14),
                     Office = "Little Cottage, Ramping Lane",
                     EmergencyNumber = "0787876876"
@@ -255,7 +262,7 @@ namespace LocalParks.Data
                     ClubId = 1,
                     Name = "Curling Polo Club",
                     ParkId = 1,
-                    MembershipFee = (double)20000,
+                    MembershipFee = (decimal)20000m,
                     Sport = SportType.Other,
                     Members = 103,
                     Website = "CPCPolo-OS.co.uk",
@@ -267,7 +274,7 @@ namespace LocalParks.Data
                     ClubId = 2,
                     Name = "Meadow RFC",
                     ParkId = 1,
-                    MembershipFee = (double)150,
+                    MembershipFee = (decimal)150m,
                     Sport = SportType.Rugby,
                     Members = 20,
                     Website = "Meadow-Rugby-OS.co.uk",
@@ -279,7 +286,7 @@ namespace LocalParks.Data
                     ClubId = 3,
                     Name = "Chesterly Cricket Club",
                     ParkId = 2,
-                    MembershipFee = (double)330,
+                    MembershipFee = (decimal)330m,
                     Sport = SportType.Cricket,
                     Members = 67,
                     Website = "ChesterlyCricketClub-OS.co.uk",

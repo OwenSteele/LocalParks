@@ -9,7 +9,7 @@ namespace LocalParks.Models
     {
         public int ParkId { get; set; }
         [Required]
-        public string Postcode { get; set; }
+        public string PostcodeZone { get; set; }
         [Required]
         [StringLength(100, MinimumLength = 20)]
         public string Name { get; set; }
