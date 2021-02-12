@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using LocalParks.Data;
 using LocalParks.Models;
+using LocalParks.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LocalParks.Controllers
@@ -15,56 +13,41 @@ namespace LocalParks.Controllers
     public class ParksController : Controller
     {
         private readonly ILogger<ParksController> _logger;
-        private readonly IParkRepository _parkRepository;
-        private readonly IMapper _mapper;
+        private readonly ParksService _service;
 
         public ParksController(ILogger<ParksController> logger, IParkRepository parkRepository, IMapper mapper)
         {
             _logger = logger;
-            _parkRepository = parkRepository;
-            _mapper = mapper;
+            _service = new ParksService(parkRepository, mapper);
         }
 
         public async Task<IActionResult> Index(string searchTerm = null)
         {
             _logger.LogInformation("Executing Parks.Index Model");
-                   
-            var results = await _parkRepository.GetAllParksAsync();
 
-            if(!string.IsNullOrWhiteSpace(searchTerm))
+            if (string.IsNullOrWhiteSpace(searchTerm))
             {
-                searchTerm = searchTerm.ToLower();
-
-                var matches = results.Where(p =>
-                p.Name.ToLower() == searchTerm |
-                p.Name.ToLower().Contains(searchTerm) |
-                p.Name.ToLower().StartsWith(searchTerm))
-                    .ToArray();
-
-                if (matches.Any())
-                {
-                    results = matches; 
-                    TempData["Filter"] = searchTerm;
-                }
-
-                else TempData["Matches"] = "No Matches found";
+                var parks = await _service.GetAllParkModelsAsync();
+                return View(parks);
             }
 
-            return View(_mapper.Map<ParkModel[]>(results));
+            var matches = await _service.GetSearchedParksAsync(searchTerm);
+
+            if (matches == null) TempData["Filter"] = searchTerm;
+            else TempData["Matches"] = "No Matches found";
+
+            return View(matches);
         }
 
         public async Task<IActionResult> Details(int parkId)
         {
             _logger.LogInformation("Executing Parks.Details Model");
 
-            var result = await _parkRepository.GetParkByIdAsync(parkId);
+            var park = await _service.GetParkAsync(parkId);
 
-            if (result == null)
-                return View("NotFound");
+            if (park == null) return View("NotFound");
 
-            var model = _mapper.Map<ParkModel>(result);
-
-            return View(model);
+            return View(park);
         }
     }
 }

@@ -9,22 +9,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LocalParks.Services;
 
 namespace LocalParks.Controllers
 {
     public class ParkEventsController : Controller
     {
         private readonly ILogger<ParkEventsController> _logger;
-        private readonly IParkRepository _parkRepository;
-        private readonly IMapper _mapper;
-
+        private readonly ParkEventsService _service;
         private ParkEventModel _tempEvent;
 
         public ParkEventsController(ILogger<ParkEventsController> logger, IParkRepository parkRepository, IMapper mapper)
         {
             _logger = logger;
-            _parkRepository = parkRepository;
-            _mapper = mapper;
+            _service = new ParkEventsService(parkRepository, mapper);
         }
 
         [BindProperty]
@@ -37,66 +35,46 @@ namespace LocalParks.Controllers
         {
             _logger.LogInformation("Executing ParkEvents.Index Model");
 
-            var results = await _parkRepository.GetAllEventsAsync();
-
-            if (!string.IsNullOrWhiteSpace(searchTerm))
+            if (string.IsNullOrWhiteSpace(searchTerm))
             {
-                searchTerm = searchTerm.ToLower();
-
-                var matches = results.Where(p =>
-                p.Name.ToLower() == searchTerm |
-                p.Name.ToLower().Contains(searchTerm) |
-                p.Name.ToLower().StartsWith(searchTerm))
-                    .ToArray();
-
-                if (matches.Any())
-                {
-                    results = matches;
-                    TempData["Filter"] = searchTerm;
-                }
-
-                else TempData["Matches"] = "No Matches found";
+                var parkEvents = await _service.GetAllParkEventModelsAsync();
+                return View(parkEvents);
             }
 
-            return View(_mapper.Map<ParkEventModel[]>(results));
+            var matches = await _service.GetSearchedParkEventModelsAsync(searchTerm);
+
+            if (matches == null) TempData["Filter"] = searchTerm;
+            else TempData["Matches"] = "No Matches found";
+
+            return View(matches);
         }
 
         public async Task<IActionResult> Details(int parkId, DateTime date)
         {
             _logger.LogInformation("Executing ParkEvents.Details Model");
 
-            var result = await _parkRepository.GetEventByParkIdByDateAsync(parkId, date);
+            var parkEvent = await _service.GetParkEventModelAsync(parkId, date);
 
-            if (result == null)
-                return View("NotFound");
+            if (parkEvent == null) return View("NotFound");
 
-            var model = _mapper.Map<ParkEventModel>(result);
-
-            return View(model);
+            return View(parkEvent);
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int parkId, DateTime date)
         {
             _logger.LogInformation("Executing ParkEvents.Details Model");
-            
-            ViewData["Parks"] = await GetParks();
+
+            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
 
             if (parkId == 0 && date == DateTime.MinValue)
-            {
-                var newEventModel = new ParkEventModel();
-                               
-                return View(newEventModel);
-            }
+                return View(new ParkEventModel());
 
-            var result = await _parkRepository.GetEventByParkIdByDateAsync(parkId, date);
+            var result = await _service.GetParkEventModelAsync(parkId, date);
 
-            if (result == null)
-                return View("NotFound");
+            if (result == null) return View("NotFound");
 
-            var model = _mapper.Map<ParkEventModel>(result);
-
-            return View(model);
+            return View(result);
         }
 
         [HttpPost]
@@ -104,16 +82,15 @@ namespace LocalParks.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewData["Parks"] = await GetParks();
+                ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
 
                 return View("Edit", _tempEvent);
             }
 
-            var match = await _parkRepository.GetParkByIdAsync(_tempEvent.ParkId);
-
+            var match = await _service.GetParkAsync(_tempEvent.ParkId);
             if (match == null)
             {
-                ViewData["Parks"] = await GetParks();
+                ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
 
                 return View("Edit", _tempEvent);
             }
@@ -122,54 +99,34 @@ namespace LocalParks.Controllers
             {
                 ViewData["DateTaken"] = $"An Event is already booked for this date at {match.Name}";
 
-                ViewData["Parks"] = await GetParks();
+                ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
 
                 return View("Edit", _tempEvent);
             }
 
-            var newEvent = _mapper.Map<ParkEvent>(_tempEvent);
+            var result = await _service.CreateNewEventAsync(_tempEvent, match);
 
-            newEvent.Park = match;
-
-            _parkRepository.Add(newEvent);
-
-            if (await _parkRepository.SaveChangesAsync()) 
+            if (result !=null) 
             {
-                return RedirectToAction("Details", "ParkEvents", new { newEvent.Park.ParkId, newEvent.Date });
+                return RedirectToAction("Details", "ParkEvents", new { result.ParkId, result.Date });
             }
 
-            ViewData["Parks"] = await GetParks();
+            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
 
             return View("Edit", _tempEvent);
         }
 
         public async Task<IActionResult> Delete(int parkId, DateTime date, bool confirmed = false)
         {
-            var existing = await _parkRepository.GetEventByParkIdByDateAsync(parkId, date);
-            if (existing == null) RedirectToAction("NotFound", "ParkEvents");
+            var result = await _service.GetParkEventModelAsync(parkId, date);
+            if (result == null) RedirectToAction("NotFound", "ParkEvents");
 
-            if (!confirmed) return View(_mapper.Map<ParkEventModel>(existing));
+            if (!confirmed) return View(result);            
 
-            _parkRepository.Delete(existing);
-
-            if (await _parkRepository.SaveChangesAsync())
-            {
+            if (await _service.RemoveEventAsync(result))
                 return RedirectToAction("Index", "ParkEvents");
-            }
+
             return RedirectToAction("Details", "ParkEvents", new { parkId, date });
-        }
-
-        private async Task<IEnumerable<SelectListItem>> GetParks()
-        {
-            var parks = _mapper.Map<IEnumerable<ParkModel>>(await _parkRepository.GetAllParksAsync());
-
-            return from p in parks
-                   select new SelectListItem
-                   {
-                       Selected = false,
-                       Text = p.Name,
-                       Value = p.ParkId.ToString()
-                   };
         }
     }
 }
