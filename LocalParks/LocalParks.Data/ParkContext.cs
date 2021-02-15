@@ -18,6 +18,7 @@ namespace LocalParks.Data
         public DbSet<Supervisor> Supervisors { get; set; }
         public DbSet<SportsClub> SportsClubs { get; set; }
         public DbSet<ParkEvent> Events { get; set; }
+        public DbSet<Postcode> Postcodes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
@@ -47,6 +48,10 @@ namespace LocalParks.Data
             bd.Entity<SportsClub>().Property(c => c.MembershipFee)
                 .HasColumnType("decimal(18,4)");
             bd.Entity<Supervisor>().Property(s => s.Salary)
+                .HasColumnType("decimal(18,4)");
+            bd.Entity<Park>().Property(p => p.Longitude)
+                .HasColumnType("decimal(18,4)");
+            bd.Entity<Park>().Property(p => p.Latitude)
                 .HasColumnType("decimal(18,4)");
 
             //defined starting data
@@ -111,8 +116,8 @@ namespace LocalParks.Data
                     PostcodeZone = "LP4",
                     Name = "Leafy Meadows",
                     SizeInMetresSquared = 200000,
-                    Longitude = 40.34857,
-                    Latitude = 0.384756,
+                    Longitude = (decimal)40.34857,
+                    Latitude = (decimal)0.384756,
                     OpeningTime = new DateTime(2021, 1, 1, 7, 0, 0),
                     ClosingTime = new DateTime(2021, 1, 1, 19, 0, 0),
                     SupervisorId = 1
@@ -122,8 +127,8 @@ namespace LocalParks.Data
                     PostcodeZone = "PF15",
                     Name = "Middlesbrook Park",
                     SizeInMetresSquared = 85000,
-                    Longitude = 38.8765,
-                    Latitude = 0.18798,
+                    Longitude = (decimal)38.8765,
+                    Latitude = (decimal)0.18798,
                     OpeningTime = new DateTime(2021, 1, 1, 6, 0, 0),
                     ClosingTime = new DateTime(2021, 1, 1, 22, 0, 0),
                     SupervisorId = 2
@@ -133,8 +138,8 @@ namespace LocalParks.Data
                     PostcodeZone = "PF10",
                     Name = "Mirror Lake Park",
                     SizeInMetresSquared = 2000,
-                    Longitude = 35.1034,
-                    Latitude = 2.4678,
+                    Longitude = (decimal)35.1034,
+                    Latitude = (decimal)2.4678,
                     OpeningTime = new DateTime(2021, 1, 1, 9, 0, 0),
                     ClosingTime = new DateTime(2021, 1, 1, 23, 0, 0),
                     SupervisorId = 3
@@ -144,8 +149,8 @@ namespace LocalParks.Data
                     PostcodeZone = "LP2",
                     Name = "Shadow Grounds",
                     SizeInMetresSquared = 26500,
-                    Longitude = 41.0301,
-                    Latitude = -2.9088,
+                    Longitude = (decimal)41.0301,
+                    Latitude = (decimal)-2.9088,
                     OpeningTime = new DateTime(2021, 1, 1, 8, 30, 0),
                     ClosingTime = new DateTime(2021, 1, 1, 16, 30, 0),
                     SupervisorId = 7
@@ -155,8 +160,8 @@ namespace LocalParks.Data
                     PostcodeZone = "LP4",
                     Name = "Shadow Grounds",
                     SizeInMetresSquared = 26500,
-                    Longitude = 41.6545,
-                    Latitude = -1.5640,
+                    Longitude = (decimal)41.6545,
+                    Latitude = (decimal)-1.5640,
                     OpeningTime = new DateTime(2021, 1, 1, 8, 30, 0),
                     ClosingTime = new DateTime(2021, 1, 1, 16, 30, 0),
                     SupervisorId = 4
@@ -166,8 +171,8 @@ namespace LocalParks.Data
                     PostcodeZone = "PF13",
                     Name = "Sapphire Gardens",
                     SizeInMetresSquared = 6000,
-                    Longitude = 38.999,
-                    Latitude = -5.938,
+                    Longitude = (decimal)38.999,
+                    Latitude = (decimal)-5.938,
                     OpeningTime = new DateTime(2021, 1, 1, 8, 0, 0),
                     ClosingTime = new DateTime(2021, 1, 1, 18, 30, 0),
                     SupervisorId = 5
@@ -177,8 +182,8 @@ namespace LocalParks.Data
                     PostcodeZone = "PF13",
                     Name = "Fletcher Plaza",
                     SizeInMetresSquared = 70000,
-                    Longitude = 39.7145,
-                    Latitude = -4.123,
+                    Longitude = (decimal)39.7145,
+                    Latitude = (decimal)-4.123,
                     OpeningTime = new DateTime(2021, 1, 1, 5, 0, 0),
                     ClosingTime = new DateTime(2021, 1, 1, 20, 30, 0),
                     SupervisorId = 6

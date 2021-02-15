@@ -19,9 +19,11 @@ namespace LocalParks.Services
             _parkRepository = parkRepository;
             _mapper = mapper;
         }
-        public async Task<ParkEventModel[]> GetAllParkEventModelsAsync()
+        public async Task<ParkEventModel[]> GetAllParkEventModelsAsync(int? parkId = null)
         {
-            var results = await _parkRepository.GetAllEventsAsync();
+            var results = parkId == null ?
+                    await _parkRepository.GetAllEventsAsync() :
+                    await _parkRepository.GetEventsByParkIdAsync((int)parkId);
 
             return _mapper.Map<ParkEventModel[]>(results);
         }
@@ -46,6 +48,16 @@ namespace LocalParks.Services
             var result = await _parkRepository.GetEventByParkIdByDateAsync(parkId, date);
 
             if (result == null) return null;
+
+            return _mapper.Map<ParkEventModel>(result);
+        }
+        public async Task<ParkEventModel> GetParkEventModelByIdAsync(int eventId, int? parkId = null)
+        {
+            var result = await _parkRepository.GetEventByIdAsync(eventId);
+
+            if (result == null) return null;
+
+            if (parkId != null && result.Park.ParkId != parkId) return null;
 
             return _mapper.Map<ParkEventModel>(result);
         }

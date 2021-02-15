@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
 using Microsoft.AspNetCore.Http;
@@ -7,24 +6,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using LocalParks.Services;
 
 namespace LocalParks.API
 {
     [ApiController]
-    public class LPParkEventsController : ControllerBase
+    public class ParkEventsController : ControllerBase
     {
-        private readonly ILogger<LPParkEventsController> _logger;
-        private readonly IParkRepository _parkRepository;
-        private readonly IMapper _mapper;
+        private readonly ILogger<ParkEventsController> _logger;
+        private readonly ParkEventsService _service;
 
-        public LPParkEventsController(ILogger<LPParkEventsController> logger,
+        public ParkEventsController(ILogger<ParkEventsController> logger,
             IParkRepository parkRepository, IMapper mapper)
         {
             _logger = logger;
-            _parkRepository = parkRepository;
-            _mapper = mapper;
+            _service = new ParkEventsService(parkRepository, mapper);
         }
 
         [Route("api/[controller]")]
@@ -35,9 +32,11 @@ namespace LocalParks.API
 
             try
             {
-                var results = await _parkRepository.GetAllEventsAsync();
+                var results = await _service.GetAllParkEventModelsAsync();
+                
+                if (results == null) return NoContent();
 
-                return Ok(_mapper.Map<ParkEventModel[]>(results));
+                return Ok(results);
             }
             catch (Exception ex)
             {
@@ -55,9 +54,11 @@ namespace LocalParks.API
 
             try
             {
-                var results = await _parkRepository.GetEventsByParkIdAsync(parkId);
+                var results = await _service.GetAllParkEventModelsAsync(parkId);
 
-                return Ok(_mapper.Map<ParkEventModel[]>(results));
+                if (results == null) return NoContent();
+
+                return Ok(results);
             }
             catch (Exception ex)
             {
@@ -76,11 +77,11 @@ namespace LocalParks.API
 
             try
             {
-                var result = await _parkRepository.GetEventByIdAsync(eventId);
+                var result = await _service.GetParkEventModelByIdAsync(eventId);
 
                 if (result == null) return NoContent();
 
-                return Ok(_mapper.Map<ParkEventModel>(result));
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -99,11 +100,11 @@ namespace LocalParks.API
 
             try
             {
-                var result = await _parkRepository.GetEventByParkIdAsync(parkId,eventId);
+                var result = await _service.GetParkEventModelByIdAsync(eventId, parkId);
 
                 if (result == null) return NoContent();
 
-                return Ok(_mapper.Map<ParkEventModel>(result));
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -122,22 +123,20 @@ namespace LocalParks.API
 
             try
             {
-                var requiredDateFormat = "yyyy-MM-dd";
-
                 if (!DateTime.TryParseExact(date,
                     "yyyy-MM-dd",
                     CultureInfo.InvariantCulture,
                     DateTimeStyles.None,
                     out DateTime eventDate))
                 {
-                    return BadRequest(new { requiredDateFormat });
+                    return BadRequest("yyyy-MM-dd");
                 }
 
-                var result = await _parkRepository.GetEventByParkIdByDateAsync(parkId, eventDate);
+                var result = await _service.GetParkEventModelAsync(parkId, eventDate);
 
                 if (result == null) return NoContent();
 
-                return Ok(_mapper.Map<ParkEventModel>(result));
+                return Ok(result);
             }
             catch (Exception ex)
             {

@@ -1,33 +1,191 @@
-﻿@model ParkModel[]
+﻿@model HomeModel
 @{
     ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <img src="~/images/LogoFull.PNG" />
+<h1>Welcome to the Parks Authority new Website!</h1>
+
+<p class="alert-heading w3-wide">
+    If you are in trouble, please contact your nearest park supervisor at:
+    <span class="font-weight-bolder">@Model.NearestSupervisor(40, 40).EmergencyNumber</span>
+</p>
+
+<aside>
+    <img style="        
+        max-height: 50%;
+        min-height: 50%;
+        max-width: 50%;
+        min-width: 50%;" 
+         src="~/images/LogoFull.PNG" />
+</aside>
+
+<article class="text-center" style="max-width: 100%;">
+    <div style="padding: 10px">
+        <p>
+            Our new redesigned site contains lots more features,
+            such as being able to look at the wonderful parks in your area
+        </p>
+        <p>
+            Currently we have
+            @Model.Parks.Count()
+            @if (Model.Parks.Count() > 1)
+            {<span>parks</span> }
+            else
+            {<span>park</span>}
+            registered!
+        </p>
+
+    </div>
+
+    <div>
+        <h4>Your Nearest Park</h4>
+        <p>
+            <input class="w3-hover-border-amber w3-hover-text-amber rounded btn-group"
+                   type="button"
+                   value="@Model.NearestPark(40,40).Name"
+                   onclick="location.href='@Url.Action("Details", "Parks",
+                                      new { parkId = @Model.NearestPark(40,40).ParkId })'" />
+            ! Click on the parks name to find out all about it.
+        </p>
+    </div>
+
+    <div>
+        <h4>Open Parks</h4>
+        <p>
+            Right now
+            @if (Model.OpenParksCount() > 1)
+            {<span>we have @Model.OpenParksCount() parks open!</span> }
+        else if (Model.OpenParksCount() == 1)
+        {<span>only one of our parks is open, but may close soon too!</span>}
+        else
+        {<span>
+                All of our parks are shut, please check the
+                <input class="w3-hover-border-amber w3-hover-text-amber rounded btn-group"
+                       type="button"
+                       value="Parks page"
+                       onclick="location.href='@Url.Action("Index", "Park")'" />
+                to see when they open.
+            </span>}
+        </p>
+    </div>
+    @if (Model.OpenParksCount() > 0)
+    {<h4>Closing Soon</h4>
+        <div>
+            @foreach (var park in Model.Parks)
+            {
+                if (park.ClosingTime.Hour >= DateTime.Now.Hour && park.ClosingTime.Hour <= DateTime.Now.Hour + 2)
+                {
+                    <p>
+                        <input class="w3-hover-border-amber w3-hover-text-amber rounded btn-group"
+                               type="button"
+                               value="@park.Name"
+                               onclick="location.href='@Url.Action("Details", "Parks",
+                                      new { parkId = park.ParkId })'" />
+                        closes at @park.ClosingTime.TimeOfDay
+                    </p>
+                }
+            }
+        </div>}
+
+<div>
+    <h4>Upcoming Events</h4>
+    @if (Model.EventsThisMonth().Count() == 0)
+    {
+        <p>
+            Sadly no events are planned in the next month.
+        </p>
+        <p>
+            You can help the community, by
+            <input class="w3-hover-border-amber w3-hover-text-amber rounded btn-group"
+                   type="button"
+                   value="scheduling an event!"
+                   onclick="location.href='@Url.Action("Details", "ParkEvents")'" />
+        </p>
+    }
+    else
+    {
+        <input class="w3-hover-border-amber w3-hover-text-amber rounded btn-group"
+               type="button"
+               value="See all events"
+               onclick="location.href='@Url.Action("Details", "ParkEvents")'" />
+
+        @foreach (var parkEvent in Model.EventsThisMonth())
+        {
+            <p>
+                <table>
+                    <thead>
+                        <tr>
+                            <td colspan="3">@parkEvent.Name</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>In park: @parkEvent.ParkName</td>
+                            <td>Date: @parkEvent.Date.ToLongDateString()</td>
+                            <td>
+                                <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
+                                       type="button"
+                                       value="Find out more"
+                                       onclick="location.href='@Url.Action("Details", "ParkEvents",
+                                      new { parkId = parkEvent.ParkId, date = parkEvent.Date })'" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </p>
+        }
+    }
 </div>
 
-<div class="text-center">
-    <br />
-    <h2>Welcome to the Parks Authority new Website!</h2>
-    <br />
+    <div>
+        <h4>Recently Added Events</h4>
+                <p>
+                    <table class="align-content-center">
+                        <thead>
+                            <tr>
+                                <td colspan="3">@Model.AllEvents.Last().Name</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>In park: @Model.AllEvents.Last().ParkName</td>
+                                <td>Date: @Model.AllEvents.Last().Date.ToLongDateString()</td>
+                                <td>
+                                    <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
+                                           type="button"
+                                           value="Find out more"
+                                           onclick="location.href='@Url.Action("Details", "ParkEvents",
+                                      new { parkId = Model.AllEvents.Last().ParkId, date = Model.AllEvents.Last().Date })'" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </p>
+    </div>
+    <div>
+    <h4>Newest Club</h4>
     <p>
-        Our new redesigned site contains lots more features,
-        such as being able to look at the wonderful parks in your area 
-        (currently we have 
-        @Model.Count() 
-        @if (Model.Count() > 1) { <span>parks</span> } else {<span>park</span> } 
-        registered!)
+        <table>
+            <thead>
+                <tr>
+                    <td colspan="2">@Model.NewestSportsClub.Name</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Their sport is: @Model.NewestSportsClub.Sport.ToString()</td>
+                    <td>
+                        <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
+                               type="button"
+                               value="Interested?"
+                               onclick="location.href='@Url.Action("Details", "SportsClubs",
+                                      new { sportsClubId = Model.NewestSportsClub.ClubId })'" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </p>
-    <p>
-        You can also get to know the supervisor of each park; keeping them in pristine condition!
-    </p>
-    <p>
-        We're very proud of our parks being home to so many great sports clubs. Feel like trying something new?
-        Take a look at all of the sports clubs in our parks.
-    </p>
-    <p>
-        You can now book events using our websites, as well as searching for already organised ones happening soon!
-    </p>
-
 </div>
+
+
+</article>

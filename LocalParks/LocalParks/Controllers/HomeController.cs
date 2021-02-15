@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LocalParks.Data;
 using LocalParks.Models;
+using LocalParks.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -11,23 +12,21 @@ namespace LocalParks.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IParkRepository _parkRepository;
-        private readonly IMapper _mapper;
+        private readonly HomeService _service;
 
         public HomeController(ILogger<HomeController> logger, IParkRepository parkRepository, IMapper mapper)
         {
             _logger = logger;
-            _parkRepository = parkRepository;
-            _mapper = mapper;
+            _service = new HomeService(parkRepository, mapper);
         }
 
         public async Task<IActionResult> Index()
         {
             _logger.LogInformation("Index page: getting all parks.");
 
-            var results = await _parkRepository.GetAllParksAsync();
+            var results = await _service.GetHomeModelAsync();
 
-            return View(_mapper.Map<ParkModel[]>(results));
+            return View(results);
         }
 
         public IActionResult Privacy()

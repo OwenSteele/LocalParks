@@ -1,29 +1,25 @@
 ﻿using AutoMapper;
 using LocalParks.Data;
 using LocalParks.Models;
+using LocalParks.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LocalParks.API
 {
     [ApiController]
-    public class LPSupervisorsController : ControllerBase
+    public class SupervisorsController : ControllerBase
     {
-        private readonly ILogger<LPSupervisorsController> _logger;
-        private readonly IParkRepository _parkRepository;
-        private readonly IMapper _mapper;
+        private readonly ILogger<SupervisorsController> _logger;
+        private readonly SupervisorsService _service;
 
-        public LPSupervisorsController(ILogger<LPSupervisorsController> logger, IParkRepository parkRepository, IMapper mapper)
+        public SupervisorsController(ILogger<SupervisorsController> logger, IParkRepository parkRepository, IMapper mapper)
         {
             _logger = logger;
-            _parkRepository = parkRepository;
-            _mapper = mapper;
+            _service = new SupervisorsService(parkRepository, mapper);
         }
 
         [Route("api/[controller]")]
@@ -34,11 +30,11 @@ namespace LocalParks.API
 
             try
             {
-                var results = await _parkRepository.GetAllSupervisorsAsync();
+                var results = await _service.GetAllSupervisorModelsAsync();
 
                 if (results == null) return NoContent();
 
-                return Ok(_mapper.Map<SupervisorModel[]>(results));
+                return Ok(results);
             }
             catch (Exception ex)
             {
@@ -57,11 +53,11 @@ namespace LocalParks.API
 
             try
             {
-                var result = await _parkRepository.GetSupervisorByParkIdAsync(parkId);
+                var result = await _service.GetSupervisorModelAsync(parkId);
 
                 if (result == null) return NoContent();
 
-                return Ok(_mapper.Map<SupervisorModel>(result));
+                return Ok(result);
             }
             catch (Exception ex)
             {

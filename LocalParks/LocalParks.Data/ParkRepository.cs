@@ -36,7 +36,17 @@ namespace LocalParks.Data
             return (await _context.SaveChangesAsync()) > 0;
         }
 
+        public async Task<Postcode[]> GetAllPostcodesAsync()
+        {
+            _logger.LogInformation($"Getting all postcodes.");
 
+            IQueryable<Postcode> query = _context.Postcodes
+                .Include(z => z.Parks);
+
+            query = query.OrderByDescending(z => z.Zone);
+
+            return await query.ToArrayAsync();
+        }
         public async Task<Park[]> GetAllParksAsync()
         {
             _logger.LogInformation($"Getting all parks.");

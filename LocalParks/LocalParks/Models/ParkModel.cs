@@ -16,8 +16,8 @@ namespace LocalParks.Models
         public string Name { get; set; }
         [DisplayName("Park Area")]
         public int SizeInMetresSquared { get; set; }
-        public double Longitude { get; set; }
-        public double Latitude { get; set; }
+        public decimal Longitude { get; set; }
+        public decimal Latitude { get; set; }
         [DisplayName("Opens")]
         public DateTime OpeningTime { get; set; }
         [DisplayName("Closes")]

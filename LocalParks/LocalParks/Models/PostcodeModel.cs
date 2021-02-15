@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace LocalParks.Core
+namespace LocalParks.Models
 {
     public class PostcodeModel
     {

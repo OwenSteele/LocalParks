@@ -1,30 +1,26 @@
 ﻿using AutoMapper;
 using LocalParks.Data;
 using LocalParks.Models;
+using LocalParks.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LocalParks.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LPParksController : ControllerBase
+    public class ParksController : ControllerBase
     {
-        private readonly ILogger<LPParksController> _logger;
-        private readonly IParkRepository _parkRepository;
-        private readonly IMapper _mapper;
+        private readonly ILogger<ParksController> _logger;
+        private readonly ParksService _service;
 
-        public LPParksController(ILogger<LPParksController> logger, IParkRepository parkRepository, IMapper mapper)
+        public ParksController(ILogger<ParksController> logger, IParkRepository parkRepository, IMapper mapper)
         {
             _logger = logger;
-            _parkRepository = parkRepository;
-            _mapper = mapper;
+            _service = new ParksService(parkRepository, mapper);
         }
 
         [HttpGet]
@@ -34,11 +30,11 @@ namespace LocalParks.API
 
             try
             {
-                var results = await _parkRepository.GetAllParksAsync();
+                var results = await _service.GetAllParkModelsAsync();
 
                 if (results == null) return NoContent();
 
-                return Ok(_mapper.Map<ParkModel[]>(results));
+                return Ok(results);
             }
             catch (Exception ex)
             {
@@ -48,18 +44,18 @@ namespace LocalParks.API
             }
         }
 
-        [HttpGet("{parkId:int}")] 
+        [HttpGet("{parkId:int}")]
         public async Task<ActionResult<ParkModel>> GetParkById(int parkId)
         {
             _logger.LogInformation($"API GET request: park with ID: {parkId}");
 
             try
             {
-                var results = await _parkRepository.GetParkByIdAsync(parkId);
+                var results = await _service.GetParkAsync(parkId);
 
                 if (results == null) return NoContent();
 
-                return Ok(_mapper.Map<ParkModel>(results));
+                return Ok(results);
             }
             catch (Exception ex)
             {
@@ -68,18 +64,18 @@ namespace LocalParks.API
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
             }
         }
-        [HttpGet("{parkName}")] 
+        [HttpGet("{parkName}")]
         public async Task<ActionResult<ParkModel>> GetParkByName(string parkName)
         {
             _logger.LogInformation($"API GET request: park with name: {parkName}");
 
             try
             {
-                var results = await _parkRepository.GetParkByNameAsync(parkName);
+                var results = await _service.GetSearchedParksAsync(parkName);
 
                 if (results == null) return NoContent();
 
-                return Ok(_mapper.Map<ParkModel>(results));
+                return Ok(results);
             }
             catch (Exception ex)
             {

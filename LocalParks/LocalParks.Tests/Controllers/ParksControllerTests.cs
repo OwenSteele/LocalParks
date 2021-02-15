@@ -120,8 +120,8 @@ namespace LocalParks.Tests.Controllers
                 Postcode = new Postcode {Zone = "LP1" },
                     Name = "TestingParkOne",
                     SizeInMetresSquared = 20000,
-                    Longitude = 12.345,
-                    Latitude = 5.4321,
+                    Longitude = 12.345m,
+                    Latitude = 5.4321m,
                     OpeningTime = new DateTime (2000,1,1,7,0,0 ),
                     ClosingTime =new DateTime (2000,1,1,19,0,0 ),
                     Supervisor = new Supervisor{ SupervisorId = 5101, ParkRef = 5001}
@@ -131,8 +131,8 @@ namespace LocalParks.Tests.Controllers
                     Postcode = new Postcode {Zone = "LP2" },
                     Name = "TestingParkTwo",
                     SizeInMetresSquared = 1000,
-                    Longitude = 1.2345,
-                    Latitude = 54.321,
+                    Longitude = 1.2345m,
+                    Latitude = 54.321m,
                     OpeningTime = new DateTime (2000,1,1,6,0,0 ),
                     ClosingTime =new DateTime (2000,1,1,20,0,0 ),
                     Supervisor = new Supervisor{ SupervisorId = 5102, ParkRef = 5002}

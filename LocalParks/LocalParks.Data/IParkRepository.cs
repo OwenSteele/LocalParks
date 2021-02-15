@@ -10,6 +10,7 @@ namespace LocalParks.Data
         void Delete<T>(T entity) where T : class;
         Task<bool> SaveChangesAsync();
 
+        Task<Postcode[]> GetAllPostcodesAsync();
         Task<Park[]> GetAllParksAsync();
         Task<Park> GetParkByIdAsync(int parkId);
         Task<Park> GetParkByNameAsync(string parkName);

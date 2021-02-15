@@ -10,8 +10,8 @@ namespace LocalParks.Core
         public Postcode Postcode { get; set; }
         public string Name { get; set; }
         public int SizeInMetresSquared { get; set; }
-        public double Longitude { get; set; }
-        public double Latitude { get; set; }
+        public decimal Longitude { get; set; }
+        public decimal Latitude { get; set; }
         public DateTime OpeningTime { get; set; }
         public DateTime ClosingTime { get; set; }
         public Supervisor Supervisor { get; set; }

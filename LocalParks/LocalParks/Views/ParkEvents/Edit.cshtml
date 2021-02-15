@@ -1,7 +1,7 @@
 ﻿@model LocalParks.Models.ParkEventModel
 @{
     if (Model == null) ViewData["Title"] = "New Event";
-    else ViewData["Title"] = "Editing Event";
+    else ViewData["Title"] = $"Editing {Model.Name}";
 }
 
 <form asp-controller="ParkEventsView" asp-action="Edit" method="post">
