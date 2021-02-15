@@ -1,8 +1,7 @@
-﻿using LocalParks.Core;
-using LocalParks.Models.Validation;
+﻿using LocalParks.Models.Validation;
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace LocalParks.Models
 {
@@ -24,14 +23,17 @@ namespace LocalParks.Models
         [DateWithoutTime]
         public DateTime StartingDate { get; set; }
         [EmailAddress]
-        public string Email 
-        { 
+        [DisplayName("Email Address")]
+        public string Email
+        {
             get { return $"supervisor.{ParkName.Replace(' ', '_')}@ParkAuthority.co.uk"; }
         }
 
         [StringLength(100, MinimumLength = 2)]
+        [DisplayName("Office Address")]
         public string Office { get; set; }
         [Phone]
+        [DisplayName("Emergency Number")]
         public string EmergencyNumber { get; set; }
 
         public string Tenure()

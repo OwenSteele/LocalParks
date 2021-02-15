@@ -1,15 +1,12 @@
 ﻿using AutoMapper;
 using LocalParks.Data;
-using LocalParks.Core;
 using LocalParks.Models;
+using LocalParks.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LocalParks.Services;
 
 namespace LocalParks.Controllers
 {
@@ -26,8 +23,9 @@ namespace LocalParks.Controllers
         }
 
         [BindProperty]
-        public ParkEventModel Event { 
-            get { return _tempEvent; } 
+        public ParkEventModel Event
+        {
+            get { return _tempEvent; }
             set { _tempEvent = value; }
         }
 
@@ -106,7 +104,7 @@ namespace LocalParks.Controllers
 
             var result = await _service.CreateNewEventAsync(_tempEvent, match);
 
-            if (result !=null) 
+            if (result != null)
             {
                 return RedirectToAction("Details", "ParkEvents", new { result.ParkId, result.Date });
             }
@@ -121,7 +119,7 @@ namespace LocalParks.Controllers
             var result = await _service.GetParkEventModelAsync(parkId, date);
             if (result == null) RedirectToAction("NotFound", "ParkEvents");
 
-            if (!confirmed) return View(result);            
+            if (!confirmed) return View(result);
 
             if (await _service.RemoveEventAsync(result))
                 return RedirectToAction("Index", "ParkEvents");

@@ -113,44 +113,12 @@ namespace LocalParks.API
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
             }
         }
-        [Route("api/[controller]/{date}")]
-        [HttpGet("{date}")]
-        public async Task<ActionResult<ParkEventModel[]>> GetEventsByDate(string date)
-        {
-            _logger.LogInformation($"API GET request: Event with sport: {date}");
 
-            try
-            {
-                var requiredDateFormat = "yyyy-MM-dd";
-
-                if (!DateTime.TryParseExact(date,
-                    "yyyy-MM-dd",
-                    CultureInfo.InvariantCulture,
-                    DateTimeStyles.None,
-                    out DateTime eventDate))
-                {
-                    return BadRequest(new { requiredDateFormat });
-                }
-
-                var result = await _parkRepository.GetEventsByDateAsync(eventDate);
-
-                if (result == null) return NoContent();
-
-                return Ok(_mapper.Map<ParkEventModel[]>(result));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(
-                    $"Error occured in getting Event with date input '{date}': {ex.Message}");
-
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
-            }
-        }
         [Route("api/parks/{parkId:int}/[controller]/{date}")]
         [HttpGet("{parkId:int},{date}")]
-        public async Task<ActionResult<ParkEventModel>> GetSportsClub(int parkId, string date)
+        public async Task<ActionResult<ParkEventModel>> GetEventByParkIdByDate(int parkId, string date)
         {
-            _logger.LogInformation($"API GET request: Sports Clubs with sport: {date}");
+            _logger.LogInformation($"API GET request: Event By ParkId By Date: {date}");
 
             try
             {

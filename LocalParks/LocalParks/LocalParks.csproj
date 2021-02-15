@@ -6,10 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="API\**" />
-    <Content Remove="API\**" />
-    <EmbeddedResource Remove="API\**" />
-    <None Remove="API\**" />
+    <Content Include="API\.vs\ProjectSettings.json" />
+    <Content Include="API\.vs\VSWorkspaceState.json" />
   </ItemGroup>
 
   <!--<ItemGroup>
@@ -20,6 +18,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.1">
       <PrivateAssets>all</PrivateAssets>
@@ -44,7 +43,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="API\.vs\API\v16\" />
+    <Folder Include="NewFolder\" />
     <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="API\.vs\slnx.sqlite" />
   </ItemGroup>
 
 </Project>

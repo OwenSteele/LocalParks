@@ -1,10 +1,7 @@
-﻿using LocalParks.Core;
-using LocalParks.Models.Validation;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using LocalParks.Models.Validation;
 using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Text;
 
 namespace LocalParks.Models
@@ -12,6 +9,7 @@ namespace LocalParks.Models
     public class ParkEventModel
     {
         public int ParkId { get; set; }
+        [DisplayName("Held in Park")]
         public string ParkName { get; set; }
 
         public int EventId { get; set; }
@@ -27,15 +25,19 @@ namespace LocalParks.Models
         public string Description { get; set; }
         [Required]
         [StringLength(100, MinimumLength = 2)]
+        [DisplayName("Organiser Name")]
         public string OrganiserFirstName { get; set; }
         [Required]
         [StringLength(100, MinimumLength = 2)]
+        [DisplayName("Surname")]
         public string OrganiserLastName { get; set; }
         [Required]
         [EmailAddress]
+        [DisplayName("Email address")]
         public string OrganiserEmail { get; set; }
         [Required]
         [Phone]
+        [DisplayName("Contact number")]
         public string OrganiserPhoneNumber { get; set; }
 
         public string ObsfucatedNumber()

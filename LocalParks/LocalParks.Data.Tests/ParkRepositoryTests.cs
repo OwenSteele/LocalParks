@@ -198,7 +198,7 @@ namespace LocalParks.Data.Tests
                 OpeningTime = DateTime.MinValue,
                 ClosingTime = DateTime.MaxValue,
                 Supervisor = new Supervisor()
-            }; 
+            };
             var p2 = new Park
             {
                 ParkId = 1033,
@@ -300,7 +300,7 @@ namespace LocalParks.Data.Tests
             {
                 ClubId = 1010,
                 Name = "Sport club testing one one",
-                Park = new Park { ParkId = 3001},
+                Park = new Park { ParkId = 3001 },
                 Sport = SportType.Cricket,
                 MembershipFee = 1000,
                 Members = 20,
@@ -394,7 +394,7 @@ namespace LocalParks.Data.Tests
             {
                 ClubId = 1030,
                 Name = "Sport club testing one one",
-                Park = new Park (),
+                Park = new Park(),
                 Sport = SportType.Other,
                 MembershipFee = 1000,
                 Members = 20,
@@ -405,7 +405,7 @@ namespace LocalParks.Data.Tests
             {
                 ClubId = 1031,
                 Name = "Sport club testing two one",
-                Park = new Park (),
+                Park = new Park(),
                 Sport = SportType.Tennis,
                 MembershipFee = 300,
                 Members = 3,

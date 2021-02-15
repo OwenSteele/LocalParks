@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using LocalParks.Data;
 using LocalParks.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LocalParks.Services
@@ -42,7 +39,7 @@ namespace LocalParks.Services
         }
         public async Task<SupervisorModel> GetSupervisorModelAsync(int parkId)
         {
-            var result = await _parkRepository.GetParkByIdAsync(parkId);
+            var result = await _parkRepository.GetSupervisorByParkIdAsync(parkId);
 
             if (result == null) return null;
 

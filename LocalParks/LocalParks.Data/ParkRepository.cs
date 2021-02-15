@@ -89,7 +89,7 @@ namespace LocalParks.Data
 
             return await query.ToArrayAsync();
         }
-        
+
 
         public async Task<SportsClub[]> GetAllSportsClubsAsync()
         {
@@ -133,7 +133,7 @@ namespace LocalParks.Data
             IQueryable<SportsClub> query = _context.SportsClubs
                 .Include(c => c.Park);
 
-            query = query.Where(s=> s.Sport == sport)
+            query = query.Where(s => s.Sport == sport)
                 .OrderByDescending(s => s.Sport);
 
             if (parkId.HasValue) query = query.Where(c => c.Park.ParkId == parkId);
@@ -143,7 +143,7 @@ namespace LocalParks.Data
             return await query.ToArrayAsync();
         }
 
-        
+
         public async Task<Supervisor[]> GetAllSupervisorsAsync()
         {
             _logger.LogInformation($"Getting all supervisors.");
@@ -166,8 +166,8 @@ namespace LocalParks.Data
 
             return await query.FirstOrDefaultAsync();
         }
-        
-        
+
+
         public async Task<ParkEvent[]> GetAllEventsAsync()
         {
             _logger.LogInformation($"Getting all events.");
@@ -187,8 +187,8 @@ namespace LocalParks.Data
             IQueryable<ParkEvent> query = _context.Events
                 .Include(e => e.Park);
 
-            query = query.Where(e => 
-            e.Park.ParkId == parkId && 
+            query = query.Where(e =>
+            e.Park.ParkId == parkId &&
             e.Date >= DateTime.Today)
                 .OrderByDescending(e => e.Date);
 

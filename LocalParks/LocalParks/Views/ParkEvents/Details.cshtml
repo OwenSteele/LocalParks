@@ -27,15 +27,15 @@
             <td class="w3-left-align">@Model.Description</td>
         </tr>
         <tr>
-            <th class="w3-right-align">Organiser Name</th>
+            <th class="w3-right-align">@Html.DisplayNameFor(model => model.OrganiserFirstName)</th>
             <td class="w3-left-align">@Model.OrganiserFirstName @Model.OrganiserLastName</td>
         </tr>
         <tr>
-            <th class="w3-right-align">Organiser Email</th>
+            <th class="w3-right-align">@Html.DisplayNameFor(model => model.OrganiserEmail)</th>
             <td class="w3-left-align">@Model.OrganiserEmail</td>
         </tr>
         <tr>
-            <th class="w3-right-align">Organiser phone number</th>
+            <th class="w3-right-align">@Html.DisplayNameFor(model => model.OrganiserPhoneNumber)</th>
             <td class="w3-left-align">@Model.ObsfucatedNumber()</td>
         </tr>
     </tbody>

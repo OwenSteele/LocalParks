@@ -116,37 +116,6 @@ namespace LocalParks.API
             }
         }
 
-        [Route("api/[controller]/{sport}")]
-        [HttpGet("{sport}")]
-        public async Task<ActionResult<SportsClubModel[]>> GetSportsClub(string sport)
-        {
-            _logger.LogInformation($"API GET request: Sports Clubs with sport: {sport}");
-
-            try
-            {
-                if (!Enum.TryParse(sport, true, out SportType sportType))
-                {
-                    var validSports = Enum.GetNames(typeof(SportType));
-                    var message = "Sport type does not exist";
-
-                    return BadRequest(new { message, validSports });
-                }
-
-                var result = await _parkRepository.GetSportsClubsBySportAsync(sportType);
-
-                if (result == null) return NoContent();
-
-                return Ok(_mapper.Map<SportsClubModel[]>(result));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(
-                    $"Error occured in getting Sports Clubs with sport '{sport}': {ex.Message}");
-
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
-            }
-        }
-
         [Route("api/parks/{parkId:int}/[controller]/{sport}")]
         [HttpGet("{parkId:int},{sport}")]
         public async Task<ActionResult<SportsClubModel[]>> GetSportsClub(int parkId, string sport)

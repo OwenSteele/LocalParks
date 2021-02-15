@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using LocalParks.Data;
-using LocalParks.Models;
 using LocalParks.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace LocalParks.Controllers

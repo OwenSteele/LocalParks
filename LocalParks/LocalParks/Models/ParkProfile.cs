@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
 using LocalParks.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LocalParks.Models
 {
@@ -31,6 +26,6 @@ namespace LocalParks.Models
                 .ForMember(m => m.ParkPostcode, o => o.MapFrom(s => s.Park.Postcode))
                 .ForMember(m => m.EmployeeId, o => o.MapFrom(s => s.SupervisorId))
                 .ReverseMap();
-        }        
+        }
     }
 }

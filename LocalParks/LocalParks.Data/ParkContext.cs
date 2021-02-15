@@ -239,7 +239,7 @@ namespace LocalParks.Data
                     FirstName = "Michael",
                     LastName = "Mitchell",
                     Salary = (decimal)34000m,
-                    StartingDate = new DateTime(2016, 3, 5),
+                    StartingDate = new DateTime(2016, 11, 5),
                     Office = "154 Wednesday drive",
                     EmergencyNumber = "0723096876"
                 }, new
@@ -253,6 +253,17 @@ namespace LocalParks.Data
                     StartingDate = new DateTime(2011, 9, 14),
                     Office = "Little Cottage, Ramping Lane",
                     EmergencyNumber = "0787876876"
+                }, new
+                {
+                    SupervisorId = 7,
+                    ParkId = 7,
+                    ParkRef = 7,
+                    FirstName = "Abraham",
+                    LastName = "Yoluni",
+                    Salary = (decimal)22850m,
+                    StartingDate = new DateTime(2008, 2, 22),
+                    Office = "Ramping Cottage, Little Lane",
+                    EmergencyNumber = "0789871231"
                 }
                 );
 
