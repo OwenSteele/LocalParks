@@ -11,6 +11,8 @@ namespace LocalParks.Data
         Task<bool> SaveChangesAsync();
 
         Task<Postcode[]> GetAllPostcodesAsync();
+        Task<Postcode> GetPostcodeByZoneAsync(string Zone);
+
         Task<Park[]> GetAllParksAsync();
         Task<Park> GetParkByIdAsync(int parkId);
         Task<Park> GetParkByNameAsync(string parkName);

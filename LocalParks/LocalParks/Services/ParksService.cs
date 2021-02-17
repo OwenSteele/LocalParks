@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
 using System.Linq;
@@ -44,6 +45,22 @@ namespace LocalParks.Services
             if (result == null) return null;
 
             return _mapper.Map<ParkModel>(result);
+        }
+        public async Task<PostcodeModel> GetPostcodeAsync(string postcode)
+        {
+            var result = await _parkRepository.GetPostcodeByZoneAsync(postcode);
+
+            return _mapper.Map<PostcodeModel>(result);
+        }
+
+        public async Task<ParkModel> AddParkAsync(ParkModel model)
+        {
+            var park = _mapper.Map<Park>(model);
+            _parkRepository.Add(park);
+
+            if(await _parkRepository.SaveChangesAsync()) return _mapper.Map<ParkModel>(park);
+
+            return null;
         }
     }
 }

@@ -189,11 +189,10 @@
     navigator.geolocation.getCurrentPosition(show_map);
 
     function show_map(position) {
-        var latitude = position.coords.latitude;
-        var longitude = position.coords.longitude;
+        let latitude = position.coords.latitude;
+        let longitude = position.coords.longitude;
 
-        // post to your controller
-        var url = "/Home/Index?latitude=" + latitude + "&longitude=" + longitude;
+        let url = "/Home/Index?latitude=" + latitude + "&longitude=" + longitude;
         $.post(url, function (data) {
         });
     }

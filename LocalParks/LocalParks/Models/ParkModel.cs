@@ -12,7 +12,7 @@ namespace LocalParks.Models
         [DisplayName("Postcode")]
         public string PostcodeZone { get; set; }
         [Required]
-        [StringLength(100, MinimumLength = 20)]
+        [StringLength(100, MinimumLength = 5)]
         public string Name { get; set; }
         [DisplayName("Park Area")]
         public int SizeInMetresSquared { get; set; }
@@ -22,7 +22,6 @@ namespace LocalParks.Models
         public DateTime OpeningTime { get; set; }
         [DisplayName("Closes")]
         public DateTime ClosingTime { get; set; }
-        [Required]
         public SupervisorModel Supervisor { get; set; }
         [DisplayName("Sports Clubs")]
         public ICollection<SportsClubModel> SportClubs { get; set; }

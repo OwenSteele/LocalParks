@@ -4,7 +4,7 @@
 }
 
 <div>
-    <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded" type="button" value="All parks" onclick="location.href='@Url.Action("Index", "Parks")'"/>
+    <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded" type="button" value="All parks" onclick="location.href='@Url.Action("Index", "Parks")'" />
 </div>
 
 <h2>@Model.Name</h2>
@@ -12,7 +12,7 @@
     <tr>
         <td>
             <table class="table table-striped table-bordered dt-responsive nowrap w3-center btn rounded">
-                
+
                 <tbody>
                     <tr>
                         <th class="w3-right-align">@Html.DisplayNameFor(model => model.PostcodeZone)</th>
@@ -38,11 +38,26 @@
                         <th class="w3-right-align">@Html.DisplayNameFor(model => model.ClosingTime)</th>
                         <td class="w3-left-align">@Model.ClosingTime.ToString("hh:mm tt")</td>
                     </tr>
+
                     <tr>
                         <th class="w3-right-align">@Html.DisplayNameFor(model => model.Supervisor)</th>
-                        <td class="w3-left-align"><input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded" type="button" 
-                                                         value="@Model.Supervisor.FirstName @Model.Supervisor.LastName" 
-                                                         onclick="location.href='@Url.Action("Details", "Supervisors", new { parkId = Model.ParkId })'" /></td>
+                        @if (Model.Supervisor != null)
+                        {
+                            <td class="w3-left-align">
+                                <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded" type="button"
+                                       value="@Model.Supervisor.FirstName @Model.Supervisor.LastName"
+                                       onclick="location.href='@Url.Action("Details", "Supervisors", new { parkId = Model.ParkId })'" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="w3-left-align">
+                                <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded" type="button"
+                                       value="Currently Hiring! See all other staff"
+                                       onclick="location.href='@Url.Action("Index", "Supervisors")'" />
+                            </td>
+
+                        }
                     </tr>
                 </tbody>
             </table>
@@ -72,10 +87,10 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded" 
-                                                   type="button" 
-                                                   value="See Details" 
-                                                   onclick="location.href='@Url.Action("Details", "SportsClubs", 
+                                            <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
+                                                   type="button"
+                                                   value="See Details"
+                                                   onclick="location.href='@Url.Action("Details", "SportsClubs",
                                                                           new { clubId = club.ClubId })'" />
                                         </td>
                                     </tr>
@@ -106,10 +121,10 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded btn-sm" 
-                                                   type="button" 
-                                                   value="See Details" 
-                                                   onclick="location.href='@Url.Action("Details", "ParkEvents", 
+                                            <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded btn-sm"
+                                                   type="button"
+                                                   value="See Details"
+                                                   onclick="location.href='@Url.Action("Details", "ParkEvents",
                                                                           new { parkId = parkEvent.ParkId, date = parkEvent.Date })'" />
                                         </td>
                                     </tr>
@@ -118,7 +133,7 @@
                         </table>
                     </td>
                 </tr>
-            </table>            
+            </table>
         </td>
     </tr>
 </table>
