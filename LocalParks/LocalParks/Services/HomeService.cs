@@ -14,7 +14,7 @@ namespace LocalParks.Services
             _parkRepository = parkRepository;
             _mapper = mapper;
         }
-        public async Task<HomeModel> GetHomeModelAsync()
+        public async Task<HomeModel> GetHomeModelAsync(string latitude = null, string longitude = null)
         {
             var parks = await _parkRepository.GetAllParksAsync();
             var parkModels = _mapper.Map<ParkModel[]>(parks);
@@ -30,10 +30,26 @@ namespace LocalParks.Services
 
             var sportsClubsModel = _mapper.Map<SportsClubModel>(lastSportsClub);
 
-            return new HomeModel(parkModels, 
-                postcodesModels,
-                eventsModels, 
-                sportsClubsModel);
+            if (string.IsNullOrWhiteSpace(latitude) || string.IsNullOrWhiteSpace(longitude))
+                return new HomeModel(parkModels,
+                                    postcodesModels,
+                                    eventsModels,
+                                    sportsClubsModel);
+
+            //null param value required, 0,0 still a possible geolocation
+            double? latN = null;
+            double? lonN = null;
+
+            if (double.TryParse(latitude, out double lat) && double.TryParse(longitude, out double lon))
+            {
+                latN = lat;
+                lonN = lon;
+            }
+
+            return new HomeModel(parkModels,
+                    postcodesModels,
+                    eventsModels,
+                    sportsClubsModel, latN, lonN);
         }
     }
 }

@@ -20,11 +20,11 @@ namespace LocalParks.Controllers
             _service = new HomeService(parkRepository, mapper);
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string latitude = null, string longitude = null)
         {
             _logger.LogInformation("Index page: getting all parks.");
 
-            var results = await _service.GetHomeModelAsync();
+            var results = await _service.GetHomeModelAsync(latitude,longitude);
 
             return View(results);
         }

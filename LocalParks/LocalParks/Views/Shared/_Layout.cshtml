@@ -3,16 +3,16 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"]</title>
+    <title>Local Parks | @ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/images/Logo.PNG" alt="Home" 
+                    <img src="~/images/LogoT.PNG" alt="Home" 
                          width="70px" height="75px"/>
                 </a>
                 <button class="navbar-toggler" 
@@ -25,21 +25,21 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1 font-weight-bolder">
+                    <ul class="navbar-nav font-weight-bolder">
                         <li class="nav-item w3-padding-16">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Parks" 
+                            <a class="nav-link text-light w3-hover-amber w3-hover-text-black rounded" asp-area="" asp-controller="Parks" 
                                asp-action="Index">Parks</a>
                         </li>
                         <li class="nav-item w3-padding-16">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="SportsClubs" 
+                            <a class="nav-link text-light w3-hover-amber w3-hover-text-black rounded" asp-area="" asp-controller="SportsClubs" 
                                asp-action="">Sports Clubs</a>
                         </li>
                         <li class="nav-item w3-padding-16">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ParkEvents" 
+                            <a class="nav-link text-light w3-hover-amber w3-hover-text-black rounded" asp-area="" asp-controller="ParkEvents" 
                                asp-action="">Events</a>
                         </li>
-                        <li class="nav-item w3-padding-16">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Supervisors" 
+                        <li class="nav-item w3-padding-16 w3-hover-text-black">
+                            <a class="nav-link text-light w3-hover-amber  rounded" asp-area="" asp-controller="Supervisors" 
                                asp-action="">Staff</a>
                         </li>
                     </ul>

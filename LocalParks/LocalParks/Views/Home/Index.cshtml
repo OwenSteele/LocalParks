@@ -3,20 +3,15 @@
     ViewData["Title"] = "Home";
 }
 
-<h1>Welcome to the Parks Authority new Website!</h1>
+<h1 class="text-lg-center">Welcome to the Parks Authority new Website!</h1>
 
-<p class="alert-heading w3-wide">
+<p class="alert-danger w3-center">
     If you are in trouble, please contact your nearest park supervisor at:
-    <span class="font-weight-bolder">@Model.NearestSupervisor(40, 40).EmergencyNumber</span>
+    <span class="font-weight-bolder">@Model.NearestSupervisor.EmergencyNumber</span>
 </p>
 
 <aside>
-    <img style="        
-        max-height: 50%;
-        min-height: 50%;
-        max-width: 50%;
-        min-width: 50%;" 
-         src="~/images/LogoFull.PNG" />
+    <img style="max-height: 30%; max-width: 30%;" src="~/images/LogoFull.PNG" />
 </aside>
 
 <article class="text-center" style="max-width: 100%;">
@@ -40,11 +35,11 @@
     <div>
         <h4>Your Nearest Park</h4>
         <p>
-            <input class="w3-hover-border-amber w3-hover-text-amber rounded btn-group"
+            <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
                    type="button"
-                   value="@Model.NearestPark(40,40).Name"
+                   value="@Model.NearestPark.Name"
                    onclick="location.href='@Url.Action("Details", "Parks",
-                                      new { parkId = @Model.NearestPark(40,40).ParkId })'" />
+                                      new { parkId = @Model.NearestPark.ParkId })'" />
             ! Click on the parks name to find out all about it.
         </p>
     </div>
@@ -53,14 +48,14 @@
         <h4>Open Parks</h4>
         <p>
             Right now
-            @if (Model.OpenParksCount() > 1)
-            {<span>we have @Model.OpenParksCount() parks open!</span> }
-        else if (Model.OpenParksCount() == 1)
+            @if (Model.OpenParksCount > 1)
+            {<span>we have @Model.OpenParksCount parks open!</span> }
+        else if (Model.OpenParksCount == 1)
         {<span>only one of our parks is open, but may close soon too!</span>}
         else
         {<span>
                 All of our parks are shut, please check the
-                <input class="w3-hover-border-amber w3-hover-text-amber rounded btn-group"
+                <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
                        type="button"
                        value="Parks page"
                        onclick="location.href='@Url.Action("Index", "Park")'" />
@@ -68,7 +63,7 @@
             </span>}
         </p>
     </div>
-    @if (Model.OpenParksCount() > 0)
+    @if (Model.OpenParksCount > 0)
     {<h4>Closing Soon</h4>
         <div>
             @foreach (var park in Model.Parks)
@@ -76,7 +71,7 @@
                 if (park.ClosingTime.Hour >= DateTime.Now.Hour && park.ClosingTime.Hour <= DateTime.Now.Hour + 2)
                 {
                     <p>
-                        <input class="w3-hover-border-amber w3-hover-text-amber rounded btn-group"
+                        <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
                                type="button"
                                value="@park.Name"
                                onclick="location.href='@Url.Action("Details", "Parks",
@@ -89,14 +84,14 @@
 
 <div>
     <h4>Upcoming Events</h4>
-    @if (Model.EventsThisMonth().Count() == 0)
+    @if (!Model.EventsThisMonth.Any())
     {
         <p>
             Sadly no events are planned in the next month.
         </p>
         <p>
             You can help the community, by
-            <input class="w3-hover-border-amber w3-hover-text-amber rounded btn-group"
+            <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
                    type="button"
                    value="scheduling an event!"
                    onclick="location.href='@Url.Action("Details", "ParkEvents")'" />
@@ -104,12 +99,12 @@
     }
     else
     {
-        <input class="w3-hover-border-amber w3-hover-text-amber rounded btn-group"
+        <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
                type="button"
                value="See all events"
                onclick="location.href='@Url.Action("Details", "ParkEvents")'" />
 
-        @foreach (var parkEvent in Model.EventsThisMonth())
+        @foreach (var parkEvent in Model.EventsThisMonth)
         {
             <p>
                 <table>
@@ -123,7 +118,7 @@
                             <td>In park: @parkEvent.ParkName</td>
                             <td>Date: @parkEvent.Date.ToLongDateString()</td>
                             <td>
-                                <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
+                                <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
                                        type="button"
                                        value="Find out more"
                                        onclick="location.href='@Url.Action("Details", "ParkEvents",
@@ -151,7 +146,7 @@
                                 <td>In park: @Model.AllEvents.Last().ParkName</td>
                                 <td>Date: @Model.AllEvents.Last().Date.ToLongDateString()</td>
                                 <td>
-                                    <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
+                                    <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
                                            type="button"
                                            value="Find out more"
                                            onclick="location.href='@Url.Action("Details", "ParkEvents",
@@ -162,7 +157,7 @@
                     </table>
                 </p>
     </div>
-    <div>
+    <div class="w3-center">
     <h4>Newest Club</h4>
     <p>
         <table>
@@ -175,7 +170,7 @@
                 <tr>
                     <td>Their sport is: @Model.NewestSportsClub.Sport.ToString()</td>
                     <td>
-                        <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
+                        <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
                                type="button"
                                value="Interested?"
                                onclick="location.href='@Url.Action("Details", "SportsClubs",
@@ -189,3 +184,17 @@
 
 
 </article>
+
+<script>
+    navigator.geolocation.getCurrentPosition(show_map);
+
+    function show_map(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+
+        // post to your controller
+        var url = "/Home/Index?latitude=" + latitude + "&longitude=" + longitude;
+        $.post(url, function (data) {
+        });
+    }
+</script>

@@ -45,7 +45,6 @@
   <ItemGroup>
     <Folder Include="API\.vs\API\v16\" />
     <Folder Include="NewFolder\" />
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>
