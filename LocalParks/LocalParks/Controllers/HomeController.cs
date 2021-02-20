@@ -24,9 +24,9 @@ namespace LocalParks.Controllers
         {
             _logger.LogInformation("Index page: getting all parks.");
 
-            var results = await _service.GetHomeModelAsync(latitude,longitude);
+            var result = await _service.GetHomeModelAsync(latitude, longitude);
 
-            return View(results);
+            return View("Index", result);
         }
 
         public IActionResult Privacy()

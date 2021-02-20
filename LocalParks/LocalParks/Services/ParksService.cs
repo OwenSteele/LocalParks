@@ -46,6 +46,14 @@ namespace LocalParks.Services
 
             return _mapper.Map<ParkModel>(result);
         }
+        public async Task<ParkModel> GetParkAsync(string parkName)
+        {
+            var result = await _parkRepository.GetParkByNameAsync(parkName);
+
+            if (result == null) return null;
+
+            return _mapper.Map<ParkModel>(result);
+        }
         public async Task<PostcodeModel> GetPostcodeAsync(string postcode)
         {
             var result = await _parkRepository.GetPostcodeByZoneAsync(postcode);

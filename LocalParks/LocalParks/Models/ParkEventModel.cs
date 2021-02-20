@@ -8,6 +8,7 @@ namespace LocalParks.Models
 {
     public class ParkEventModel
     {
+        [Required]
         public int ParkId { get; set; }
         [DisplayName("Held in Park")]
         public string ParkName { get; set; }

@@ -5,6 +5,7 @@ namespace LocalParks.Models
 {
     public class SportsClubModel
     {
+        [Required]
         public int ParkId { get; set; }
         [DisplayName("Located in Park")]
         public string ParkName { get; set; }

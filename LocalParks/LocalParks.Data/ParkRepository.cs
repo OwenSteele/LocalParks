@@ -94,7 +94,7 @@ namespace LocalParks.Data
                 .Include(p => p.SportClubs)
                 .Include(p => p.Events);
 
-            query = query.Where(p => p.Name == parkName);
+            query = query.Where(p => p.Name.ToLower() == parkName.ToLower());
 
             return await query.FirstOrDefaultAsync();
         }
@@ -111,7 +111,6 @@ namespace LocalParks.Data
 
             return await query.ToArrayAsync();
         }
-
 
         public async Task<SportsClub[]> GetAllSportsClubsAsync()
         {

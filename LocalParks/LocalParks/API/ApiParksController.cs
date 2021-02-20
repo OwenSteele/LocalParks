@@ -93,13 +93,13 @@ namespace LocalParks.API
         {
             try
             {  
-                var existing = await _service.GetParkAsync(model.ParkId);
-                if(existing != null) return BadRequest("A park with this ID already exists.");
+                if(!model.ParkId.Equals(0)) return BadRequest("The 'parkId' cannot be set, remove this property from model or set value to 0.");
+
+                var existing = await _service.GetParkAsync(model.Name);
+                if(existing != null) return BadRequest("A park with this name already exists.");
 
                 var postcode = await _service.GetPostcodeAsync(model.PostcodeZone);
                 if (postcode == null) return BadRequest("Invalid Postcode.");
-
-                model.ParkId = 0;
 
                 var result = await _service.AddParkAsync(model);
 
@@ -107,7 +107,7 @@ namespace LocalParks.API
 
                 return Created("", result); 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
             }

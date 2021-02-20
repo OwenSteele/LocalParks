@@ -9,12 +9,13 @@ namespace LocalParks.Services
     {
         private readonly IParkRepository _parkRepository;
         private readonly IMapper _mapper;
+
         public HomeService(IParkRepository parkRepository, IMapper mapper)
         {
             _parkRepository = parkRepository;
             _mapper = mapper;
         }
-        public async Task<HomeModel> GetHomeModelAsync(string latitude = null, string longitude = null)
+        public async Task<HomeModel> GetHomeModelAsync(string latitude, string longitude)
         {
             var parks = await _parkRepository.GetAllParksAsync();
             var parkModels = _mapper.Map<ParkModel[]>(parks);
@@ -30,26 +31,20 @@ namespace LocalParks.Services
 
             var sportsClubsModel = _mapper.Map<SportsClubModel>(lastSportsClub);
 
-            if (string.IsNullOrWhiteSpace(latitude) || string.IsNullOrWhiteSpace(longitude))
-                return new HomeModel(parkModels,
-                                    postcodesModels,
-                                    eventsModels,
-                                    sportsClubsModel);
+            double? latNull = null;
+            double? longNull = null;
 
-            //null param value required, 0,0 still a possible geolocation
-            double? latN = null;
-            double? lonN = null;
-
-            if (double.TryParse(latitude, out double lat) && double.TryParse(longitude, out double lon))
+            if (double.TryParse(latitude, out double lat) &&
+                double.TryParse(longitude, out double lon))
             {
-                latN = lat;
-                lonN = lon;
+                latNull = lat;
+                longNull = lon;
             }
 
             return new HomeModel(parkModels,
-                    postcodesModels,
-                    eventsModels,
-                    sportsClubsModel, latN, lonN);
+                                postcodesModels,
+                                eventsModels,
+                                sportsClubsModel, latNull,longNull);
         }
     }
 }

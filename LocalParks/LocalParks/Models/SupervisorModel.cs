@@ -9,6 +9,7 @@ namespace LocalParks.Models
     {
         public int EmployeeId { get; set; }
 
+        [Required]
         public int ParkId { get; set; }
         public string ParkPostcode { get; set; }
         public string ParkName { get; set; }
