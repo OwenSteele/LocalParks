@@ -31,7 +31,7 @@ namespace LocalParks.Controllers
 
             var matches = await _service.GetSearchedSportsClubModelsAsync(searchTerm);
 
-            if (matches == null) TempData["Filter"] = searchTerm;
+            if (matches != null) TempData["Filter"] = searchTerm;
             else TempData["Matches"] = "No Matches found";
 
             return View(matches);

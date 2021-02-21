@@ -19,20 +19,33 @@ namespace LocalParks.Controllers
             _service = new ParksService(parkRepository, mapper);
         }
 
-        public async Task<IActionResult> Index(string searchTerm = null)
+        public async Task<IActionResult> Index(string searchTerm = null, string postcode = null, string sortBy = null)
         {
             _logger.LogInformation("Executing Parks.Index Model");
 
-            if (string.IsNullOrWhiteSpace(searchTerm))
+            ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
+            ViewData["SortOptions"] = _service.GetSortSelectListItems();
+
+            if (string.IsNullOrWhiteSpace(searchTerm) && string.IsNullOrWhiteSpace(postcode))
             {
-                var parks = await _service.GetAllParkModelsAsync();
+                var parks = await _service.GetAllParkModelsAsync(sortBy);
                 return View(parks);
             }
 
-            var matches = await _service.GetSearchedParksAsync(searchTerm);
+            var matches = await _service.GetSearchedParksAsync(searchTerm, postcode, sortBy);
 
-            if (matches == null) TempData["Filter"] = searchTerm;
-            else TempData["Matches"] = "No Matches found";
+            if (matches != null)
+            {
+                if (!string.IsNullOrWhiteSpace(searchTerm)) TempData["FilterName"] = searchTerm;
+                if (!string.IsNullOrWhiteSpace(postcode)) TempData["FilterPostcode"] = postcode;
+            }
+            else
+            {
+                TempData["Matches"] = "No Matches found";
+
+                var parks = await _service.GetAllParkModelsAsync(sortBy);
+                return View(parks);
+            }
 
             return View(matches);
         }

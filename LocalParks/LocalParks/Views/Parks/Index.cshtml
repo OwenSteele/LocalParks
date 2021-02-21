@@ -6,25 +6,58 @@
 <h1 class="jumbotron">Your Local Parks</h1>
 
 <form asp-controller="Parks" asp-action="Index" method="get">
-    <p>
-        Park name: <input type="text" class="border-dark rounded" name="searchTerm" value="@TempData["Filter"]"/>
-        <input type="submit" class="btn-outline-light btn-dark btn-light rounded" value="Filter" />
+    <p class="d-inline-flex font-weight-bolder" style=" width: 100%; ">
+        
+        <span class="w3-margin-right w3-margin-left">
+            Park name:
+        </span>
+        <input type="text" class="border-dark rounded" name="searchTerm" value="@TempData["FilterName"]" />
+        
+        <span class="w3-margin-right w3-margin-left">
+            Postcode:
+        </span>
+        @Html.DropDownList("Postcode",
+       new SelectList((System.Collections.IEnumerable)ViewData["Postcodes"], "Value", "Text"), "Select a postcode",
+       htmlAttributes: new
+       {
+           @class = "form-control d-inline-flex",
+           name = "postcode",
+           style = "max-width: 20%; font-size: 12px; padding: 0px;"
+       })
+
+        <span class="w3-margin-right w3-margin-left">
+            Sort by:
+        </span>
+        @Html.DropDownList("SortBy",
+       new SelectList((System.Collections.IEnumerable)ViewData["SortOptions"], "Value", "Text"), "",
+       htmlAttributes: new
+       {
+           @class = "form-control d-inline-flex",
+           name = "sortBy",
+           style = "max-width: 20%; font-size: 12px; padding: 0px;"
+       })
+
+        <input type="submit" class="btn-outline-light btn-dark btn-light rounded" value="Filter and Sort" />
         @if (TempData["Matches"] != null)
         {
-            <span class="alert-danger">@TempData["Matches"]</span>
+            <span class="alert-danger rounded w3-margin-left">@TempData["Matches"]</span>
         }
-        </p>
-</form>
-@if (TempData["Filter"] != null)
-{
-    <form asp-controller="Parks" asp-action="Index" method="get">
-    <p>
-        <input type="submit" value="Remove Filter" />
     </p>
-    </form>
-}
+</form>
 
-@foreach (var park in Model)
-{
-    <partial name="_Summary" model="park" />
-}
+    <div class="form-group">
+
+    </div>
+    @if (TempData["FilterPostcode"] != null || @TempData["FilterName"] != null)
+    {
+        <form asp-controller="Parks" asp-action="Index" method="get" class="d-inline-flex">
+            <p>
+                <input type="submit" value="Remove Filter" class="border-danger text-danger" />
+            </p>
+        </form>
+    }
+
+    @foreach (var park in Model)
+    {
+        <partial name="_Summary" model="park" />
+    }
