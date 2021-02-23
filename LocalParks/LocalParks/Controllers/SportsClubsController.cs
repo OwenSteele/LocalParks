@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using LocalParks.Data;
-using LocalParks.Models;
 using LocalParks.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -22,7 +21,7 @@ namespace LocalParks.Controllers
 
         public async Task<IActionResult> Index(
             string searchTerm = null,
-            string parkValue = null,
+            string parkFilter = null,
             string sportType = null,
             string sortBy = null)
         {
@@ -30,10 +29,10 @@ namespace LocalParks.Controllers
 
             ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
             ViewData["Sports"] = _service.GetSportListItems();
-            ViewData["SortOptions"] = _service.GetSortSelectListItems(typeof(SportsClubModel));
+            ViewData["SortOptions"] = _service.GetSortSelectListItems();
 
             if (string.IsNullOrWhiteSpace(searchTerm) &&
-                string.IsNullOrWhiteSpace(parkValue) &&
+                string.IsNullOrWhiteSpace(parkFilter) &&
                 string.IsNullOrWhiteSpace(sportType))
             {
                 var sportsClubs = await _service.GetAllSportsClubModelsAsync(sortBy);
@@ -41,13 +40,13 @@ namespace LocalParks.Controllers
             }
 
             var matches = await _service.GetSearchedSportsClubModelsAsync(
-                searchTerm,parkValue,sportType,sortBy);
+                searchTerm, parkFilter, sportType, sortBy);
 
             if (matches != null)
             {
                 TempData["Filter"] = searchTerm;
 
-                if (!string.IsNullOrWhiteSpace(parkValue)
+                if (!string.IsNullOrWhiteSpace(parkFilter)
                     || !string.IsNullOrWhiteSpace(sortBy)
                     || !string.IsNullOrWhiteSpace(sportType))
                     TempData["FilteredSorted"] = "true";

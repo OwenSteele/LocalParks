@@ -2,13 +2,10 @@
 using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
-using LocalParks.Models.Validation;
 using LocalParks.Services.Combined;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace LocalParks.Services
@@ -117,10 +114,10 @@ namespace LocalParks.Services
                        Value = p.Zone
                    };
         }
-        public IEnumerable<SelectListItem> GetSortSelectListItems(Type type)
+        public IEnumerable<SelectListItem> GetSortSelectListItems()
         {
-            return from p in type.GetProperties()
-                   where p.GetCustomAttribute(typeof(IsSortableAttribute)) != null
+            return from p in typeof(ParkModel).GetProperties()
+                   where SortingService.IsSortable(p)
                    select new SelectListItem
                    {
                        Selected = false,

@@ -17,7 +17,7 @@ namespace LocalParks.Models
         [Required]
         [StringLength(100, MinimumLength = 5)]
         public string Name { get; set; }
-        [IsSortable(false)]
+        [IsSortable(true)]
         [DisplayName("Park Area")]
         public int SizeInMetresSquared { get; set; }
         public decimal Longitude { get; set; }
@@ -25,7 +25,7 @@ namespace LocalParks.Models
         [IsSortable]
         [DisplayName("Opens")]
         public DateTime OpeningTime { get; set; }
-        [IsSortable(false)]
+        [IsSortable(true)]
         [DisplayName("Closes")]
         public DateTime ClosingTime { get; set; }
         public SupervisorModel Supervisor { get; set; }

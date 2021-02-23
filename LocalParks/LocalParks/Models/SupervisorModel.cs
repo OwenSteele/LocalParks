@@ -12,16 +12,23 @@ namespace LocalParks.Models
         [Required]
         public int ParkId { get; set; }
         public string ParkPostcode { get; set; }
+        [IsSortable]
+        [DisplayName("Park")]
         public string ParkName { get; set; }
-
+        [IsSortable]
         [Required]
         [StringLength(100, MinimumLength = 2)]
+        [DisplayName("Forename")]
         public string FirstName { get; set; }
+        [IsSortable]
         [Required]
         [StringLength(100, MinimumLength = 2)]
+        [DisplayName("Surname")]
         public string LastName { get; set; }
+        [IsSortable]
         [DateInPast]
         [DateWithoutTime]
+        [DisplayName("Tenure")]
         public DateTime StartingDate { get; set; }
         [EmailAddress]
         [DisplayName("Email Address")]

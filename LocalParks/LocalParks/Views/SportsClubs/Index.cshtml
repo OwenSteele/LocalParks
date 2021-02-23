@@ -16,12 +16,12 @@
         <span class="w3-margin-right w3-margin-left">
             Park:
         </span>
-        @Html.DropDownList("Parks",
+        @Html.DropDownList("parkFilter",
        new SelectList((System.Collections.IEnumerable)ViewData["Parks"], "Value", "Text"), "",
        htmlAttributes: new
        {
            @class = "form-control d-inline-flex",
-           name = "parkValue",
+           name = "parkFilter",
            style = "max-width: 20%; font-size: 12px; padding: 0px;"
        })
         <span class="w3-margin-right w3-margin-left">

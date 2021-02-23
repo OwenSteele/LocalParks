@@ -26,12 +26,15 @@ namespace LocalParks.Services.Combined
 
             if (!sorted.Any()) return models; // -> ICollection.Count
 
-            if (property.GetCustomAttribute<IsSortableAttribute>().ascending)
+            if (property.GetCustomAttribute<IsSortableAttribute>().Ascending)
                 sorted = sorted.OrderBy(p => property.GetValue(p, null));
             else
                 sorted = sorted.OrderByDescending(p => property.GetValue(p, null));
 
             return sorted.ToArray();
         }
+
+        internal static bool IsSortable(PropertyInfo p) =>
+            p.GetCustomAttribute(typeof(IsSortableAttribute)) != null;
     }
 }

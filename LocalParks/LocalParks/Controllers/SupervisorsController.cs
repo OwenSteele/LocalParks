@@ -18,20 +18,41 @@ namespace LocalParks.Controllers
             _service = new SupervisorsService(parkRepository, mapper);
         }
 
-        public async Task<IActionResult> Index(string searchTerm = null)
+        public async Task<IActionResult> Index(
+            string searchTerm = null,
+            string parkFilter = null,
+            string sortBy = null)
         {
             _logger.LogInformation("Executing Supervisors.Index Model");
 
-            if (string.IsNullOrWhiteSpace(searchTerm))
+            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
+            ViewData["SortOptions"] = _service.GetSortSelectListItems();
+
+            if (string.IsNullOrWhiteSpace(searchTerm) &&
+                string.IsNullOrWhiteSpace(parkFilter))
             {
-                var supervisors = await _service.GetAllSupervisorModelsAsync();
+                var supervisors = await _service.GetAllSupervisorModelsAsync(sortBy);
                 return View(supervisors);
             }
 
-            var matches = await _service.GetSearchedSupervisorModelsAsync(searchTerm);
+            var matches = await _service.GetSearchedSupervisorModelsAsync(
+                searchTerm, parkFilter, sortBy);
 
-            if (matches != null) TempData["Filter"] = searchTerm;
-            else TempData["Matches"] = "No Matches found";
+            if (matches != null)
+            {
+                TempData["Filter"] = searchTerm;
+
+                if (!string.IsNullOrWhiteSpace(parkFilter)
+                    || !string.IsNullOrWhiteSpace(sortBy))
+                    TempData["FilteredSorted"] = "true";
+            }
+            else
+            {
+                TempData["Matches"] = "No Matches found";
+
+                var sportClubs = await _service.GetAllSupervisorModelsAsync(sortBy);
+                return View(sportClubs);
+            }
 
             return View(matches);
         }

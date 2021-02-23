@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using LocalParks.Data;
-using LocalParks.Models;
 using LocalParks.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -25,7 +24,7 @@ namespace LocalParks.Controllers
             _logger.LogInformation("Executing Parks.Index Model");
 
             ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
-            ViewData["SortOptions"] = _service.GetSortSelectListItems(typeof(ParkModel));
+            ViewData["SortOptions"] = _service.GetSortSelectListItems();
 
             if (string.IsNullOrWhiteSpace(searchTerm) && string.IsNullOrWhiteSpace(postcode))
             {

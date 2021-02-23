@@ -31,17 +31,17 @@ namespace LocalParks.Controllers
 
         public async Task<IActionResult> Index(
             string searchTerm = null,
-            string parkValue = null,
+            string parkFilter = null,
             DateTime? date = null,
             string sortBy = null)
         {
             _logger.LogInformation("Executing ParkEvents.Index Model");
 
             ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
-            ViewData["SortOptions"] = _service.GetSortSelectListItems(typeof(ParkEventModel));
+            ViewData["SortOptions"] = _service.GetSortSelectListItems();
 
             if (string.IsNullOrWhiteSpace(searchTerm) &&
-                string.IsNullOrWhiteSpace(parkValue) &&
+                string.IsNullOrWhiteSpace(parkFilter) &&
                 date == null)
             {
                 var parkEvents = await _service.GetAllParkEventModelsAsync(sortBy: sortBy);
@@ -49,13 +49,13 @@ namespace LocalParks.Controllers
             }
 
             var matches = await _service.GetSearchedParkEventModelsAsync(
-                searchTerm, parkValue, date, sortBy);
+                searchTerm, parkFilter, date, sortBy);
 
             if (matches != null)
             {
                 TempData["Filter"] = searchTerm;
 
-                if (!string.IsNullOrWhiteSpace(parkValue)
+                if (!string.IsNullOrWhiteSpace(parkFilter)
                     || !string.IsNullOrWhiteSpace(sortBy)
                     || date != null)
                     TempData["FilteredSorted"] = "true";
