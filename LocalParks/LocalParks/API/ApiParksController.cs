@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LocalParks.Authentication;
 using LocalParks.Data;
 using LocalParks.Models;
 using LocalParks.Services;
@@ -87,7 +88,9 @@ namespace LocalParks.API
             }
         }
 
+        
         [HttpPost]
+        [JwtAuthentication]
         public async Task<ActionResult<ParkModel>> AddNewPark(ParkModel model)
         {
             try
