@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using LocalParks.Data;
 using LocalParks.Models;
+using LocalParks.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
-using LocalParks.Services;
 
 namespace LocalParks.API
 {
@@ -33,7 +33,7 @@ namespace LocalParks.API
             try
             {
                 var results = await _service.GetAllParkEventModelsAsync();
-                
+
                 if (results == null) return NoContent();
 
                 return Ok(results);

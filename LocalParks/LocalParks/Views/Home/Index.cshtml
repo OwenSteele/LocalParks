@@ -99,7 +99,7 @@
         <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
                type="button"
                value="scheduling an event!"
-               onclick="location.href='@Url.Action("Details", "ParkEvents")'" />
+               onclick="location.href='@Url.Action("Edit", "ParkEvents")'" />
     </p>
     }
     else
@@ -107,7 +107,7 @@
     <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
            type="button"
            value="See all events"
-           onclick="location.href='@Url.Action("Details", "ParkEvents")'" />
+           onclick="location.href='@Url.Action("Index", "ParkEvents")'" />
 
     @foreach (var parkEvent in Model.EventsThisMonth)
         {

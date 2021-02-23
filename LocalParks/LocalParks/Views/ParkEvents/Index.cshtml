@@ -18,27 +18,63 @@
                 </h1>
             </td>
         </tr>
-    </table>    
+    </table>
 </div>
 
-<form asp-controller="ParkEventsView" asp-action="Index" method="get">
-    <p>
-        Event name: <input type="text" name="searchTerm" 
-                           class="border-dark rounded"  value="@TempData["Filter"]"/>
-        <input type="submit" class="btn-outline-light btn-dark btn-light rounded" 
-               value="Filter" required/>
-        @if (TempData["Matches"] != null)
-        {
-            <span class="alert-danger">@TempData["Matches"]</span>
-        }
-        </p>
-</form>
-@if (TempData["Filter"] != null)
-{
-    <form asp-controller="ParkEventsView" asp-action="Index" method="get">
-    <p>
-        <input type="submit" value="Remove Filter" />
+<form asp-controller="ParkEvents" asp-action="Index" method="get">
+    <p class="d-inline-flex font-weight-bolder" style=" width: 100%; ">
+
+        <span class="w3-margin-right w3-margin-left">
+            Event name:
+        </span>
+        <input type="text" class="border-dark rounded" name="searchTerm" value="@TempData["Filter"]" />
+
+        <span class="w3-margin-right w3-margin-left">
+            Park:
+        </span>
+        @Html.DropDownList("Parks",
+       new SelectList((System.Collections.IEnumerable)ViewData["Parks"], "Value", "Text"), "",
+       htmlAttributes: new
+       {
+           @class = "form-control d-inline-flex",
+           name = "parkValue",
+           style = "max-width: 20%; font-size: 12px; padding: 0px;"
+       })
+        <span class="w3-margin-right w3-margin-left">
+            Date:
+        </span>
+        <input name="date" type="date"
+               class="border-dark rounded form-control"
+               style="max-width: 20%; font-size: 12px; padding: 0px;" />
+
+        <span class="w3-margin-right w3-margin-left">
+            Sort by:
+        </span>
+        @Html.DropDownList("SortBy",
+       new SelectList((System.Collections.IEnumerable)ViewData["SortOptions"], "Value", "Text"), "",
+       htmlAttributes: new
+       {
+           @class = "form-control d-inline-flex",
+           name = "sortBy",
+           style = "max-width: 20%; font-size: 12px; padding: 0px;"
+       })
+
+        <input type="submit" class="btn-outline-light btn-dark btn-light rounded" value="Filter and Sort" />
+
     </p>
+</form>
+
+@if (TempData["Matches"] != null)
+{
+    <span class="alert-danger rounded w3-margin-left">@TempData["Matches"]</span>
+}
+
+@if (TempData["FilteredSorted"] != null || @TempData["Filter"] != null)
+{
+    <form asp-controller="ParkEventss" asp-action="Index" method="get" class="d-inline-flex">
+        <p>
+            <input type="submit" value="Remove Filters and Sort" class="border-danger text-danger" />
+        </p>
     </form>
 }
 

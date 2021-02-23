@@ -7,17 +7,17 @@
 
 <form asp-controller="Parks" asp-action="Index" method="get">
     <p class="d-inline-flex font-weight-bolder" style=" width: 100%; ">
-        
+
         <span class="w3-margin-right w3-margin-left">
             Park name:
         </span>
-        <input type="text" class="border-dark rounded" name="searchTerm" value="@TempData["FilterName"]" />
-        
+        <input type="text" class="border-dark rounded" name="searchTerm" value="@TempData["Filter"]" />
+
         <span class="w3-margin-right w3-margin-left">
             Postcode:
         </span>
         @Html.DropDownList("Postcode",
-       new SelectList((System.Collections.IEnumerable)ViewData["Postcodes"], "Value", "Text"), "Select a postcode",
+       new SelectList((System.Collections.IEnumerable)ViewData["Postcodes"], "Value", "Text"), "",
        htmlAttributes: new
        {
            @class = "form-control d-inline-flex",
@@ -38,26 +38,25 @@
        })
 
         <input type="submit" class="btn-outline-light btn-dark btn-light rounded" value="Filter and Sort" />
-        @if (TempData["Matches"] != null)
-        {
-            <span class="alert-danger rounded w3-margin-left">@TempData["Matches"]</span>
-        }
+
     </p>
 </form>
 
-    <div class="form-group">
+@if (TempData["Matches"] != null)
+{
+    <span class="alert-danger rounded w3-margin-left">@TempData["Matches"]</span>
+}
 
-    </div>
-    @if (TempData["FilterPostcode"] != null || @TempData["FilterName"] != null)
-    {
-        <form asp-controller="Parks" asp-action="Index" method="get" class="d-inline-flex">
-            <p>
-                <input type="submit" value="Remove Filter" class="border-danger text-danger" />
-            </p>
-        </form>
-    }
+@if (TempData["FilterValue"] != null || @TempData["FilterName"] != null)
+{
+    <form asp-controller="Parks" asp-action="Index" method="get" class="d-inline-flex">
+        <p>
+            <input type="submit" value="Remove Filters and Sort" class="border-danger text-danger" />
+        </p>
+    </form>
+}
 
-    @foreach (var park in Model)
-    {
-        <partial name="_Summary" model="park" />
-    }
+@foreach (var park in Model)
+{
+    <partial name="_Summary" model="park" />
+}

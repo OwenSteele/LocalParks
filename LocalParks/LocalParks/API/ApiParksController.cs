@@ -2,7 +2,6 @@
 using LocalParks.Data;
 using LocalParks.Models;
 using LocalParks.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -19,7 +18,7 @@ namespace LocalParks.API
         private readonly ILogger<ParksController> _logger;
         private readonly ParksService _service;
 
-        public ParksController(ILogger<ParksController> logger, IParkRepository parkRepository, 
+        public ParksController(ILogger<ParksController> logger, IParkRepository parkRepository,
             IMapper mapper)
         {
             _logger = logger;
@@ -92,20 +91,20 @@ namespace LocalParks.API
         public async Task<ActionResult<ParkModel>> AddNewPark(ParkModel model)
         {
             try
-            {  
-                if(!model.ParkId.Equals(0)) return BadRequest("The 'parkId' cannot be set, remove this property from model or set value to 0.");
+            {
+                if (!model.ParkId.Equals(0)) return BadRequest("The 'parkId' cannot be set, remove this property from model or set value to 0.");
 
                 var existing = await _service.GetParkAsync(model.Name);
-                if(existing != null) return BadRequest("A park with this name already exists.");
+                if (existing != null) return BadRequest("A park with this name already exists.");
 
                 var postcode = await _service.GetPostcodeAsync(model.PostcodeZone);
                 if (postcode == null) return BadRequest("Invalid Postcode.");
 
                 var result = await _service.AddParkAsync(model);
 
-                if (result ==null) return BadRequest();
+                if (result == null) return BadRequest();
 
-                return Created("", result); 
+                return Created("", result);
             }
             catch (Exception)
             {

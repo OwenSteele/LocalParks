@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LocalParks.Data;
+using LocalParks.Models;
 using LocalParks.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -19,20 +20,45 @@ namespace LocalParks.Controllers
             _service = new SportsClubsService(parkRepository, mapper);
         }
 
-        public async Task<IActionResult> Index(string searchTerm = null)
+        public async Task<IActionResult> Index(
+            string searchTerm = null,
+            string parkValue = null,
+            string sportType = null,
+            string sortBy = null)
         {
             _logger.LogInformation("Executing SportsClubs.Index Model");
 
-            if (string.IsNullOrWhiteSpace(searchTerm))
+            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
+            ViewData["Sports"] = _service.GetSportListItems();
+            ViewData["SortOptions"] = _service.GetSortSelectListItems(typeof(SportsClubModel));
+
+            if (string.IsNullOrWhiteSpace(searchTerm) &&
+                string.IsNullOrWhiteSpace(parkValue) &&
+                string.IsNullOrWhiteSpace(sportType))
             {
-                var sportsClubs = await _service.GetAllSportsClubModelsAsync();
+                var sportsClubs = await _service.GetAllSportsClubModelsAsync(sortBy);
                 return View(sportsClubs);
             }
 
-            var matches = await _service.GetSearchedSportsClubModelsAsync(searchTerm);
+            var matches = await _service.GetSearchedSportsClubModelsAsync(
+                searchTerm,parkValue,sportType,sortBy);
 
-            if (matches != null) TempData["Filter"] = searchTerm;
-            else TempData["Matches"] = "No Matches found";
+            if (matches != null)
+            {
+                TempData["Filter"] = searchTerm;
+
+                if (!string.IsNullOrWhiteSpace(parkValue)
+                    || !string.IsNullOrWhiteSpace(sortBy)
+                    || !string.IsNullOrWhiteSpace(sportType))
+                    TempData["FilteredSorted"] = "true";
+            }
+            else
+            {
+                TempData["Matches"] = "No Matches found";
+
+                var sportClubs = await _service.GetAllSportsClubModelsAsync(sortBy);
+                return View(sportClubs);
+            }
 
             return View(matches);
         }

@@ -20,7 +20,13 @@
         </tr>
         <tr>
             <th class="w3-right-align">@Html.DisplayNameFor(model => model.ParkName)</th>
-            <td class="w3-left-align">@Model.ParkName</td>
+            <td class="w3-left-align">
+            <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
+       type="button"
+       value="@Model.ParkName"
+       onclick="location.href='@Url.Action("Details", "Parks",
+                                      new { parkId = @Model.ParkId })'" />
+            </td>
         </tr>
         <tr>
             <th class="w3-right-align">@Html.DisplayNameFor(model => model.Office) location</th>

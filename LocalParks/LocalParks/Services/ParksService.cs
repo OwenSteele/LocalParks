@@ -2,11 +2,11 @@
 using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
+using LocalParks.Models.Validation;
+using LocalParks.Services.Combined;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -27,20 +27,7 @@ namespace LocalParks.Services
             var results = _mapper.Map<ParkModel[]>(await _parkRepository.GetAllParksAsync());
 
             if (!string.IsNullOrWhiteSpace(sortBy))
-            {
-                var property = typeof(ParkModel).GetProperty(sortBy);
-
-                if (property == null) return results;
-
-                var sorted = from p in results
-                             where property.GetValue(p,null) is IComparable
-                             orderby property.GetValue(p, null) descending
-                             select p;
-
-                if (!sorted.Any()) return results; // -> ICollection.Count
-
-                return sorted.ToArray();
-            }
+                return SortingService.SortResults(results, sortBy);
 
             return results;
         }
@@ -77,6 +64,11 @@ namespace LocalParks.Services
                 if (!results.Any()) return null;
 
             }
+
+            var models = _mapper.Map<ParkModel[]>(results);
+
+            if (!string.IsNullOrWhiteSpace(sortBy))
+                return SortingService.SortResults(models, sortBy);
 
             return _mapper.Map<ParkModel[]>(results);
         }
@@ -117,6 +109,7 @@ namespace LocalParks.Services
             var postcodes = _mapper.Map<IEnumerable<PostcodeModel>>(await _parkRepository.GetAllPostcodesAsync());
 
             return from p in postcodes
+                   where p.Parks.Count > 0
                    select new SelectListItem
                    {
                        Selected = false,
@@ -124,26 +117,16 @@ namespace LocalParks.Services
                        Value = p.Zone
                    };
         }
-        public IEnumerable<SelectListItem> GetSortSelectListItems()
+        public IEnumerable<SelectListItem> GetSortSelectListItems(Type type)
         {
-            return from p in typeof(ParkModel).GetProperties()
-                   where GetDisplayName(p) != null
+            return from p in type.GetProperties()
+                   where p.GetCustomAttribute(typeof(IsSortableAttribute)) != null
                    select new SelectListItem
                    {
                        Selected = false,
-                       Text = GetDisplayName(p),
+                       Text = SortingService.GetDisplayName(p),
                        Value = p.Name
                    };
-        }
-
-        private static string GetDisplayName(PropertyInfo p)
-        {
-            var attribute = p.GetCustomAttributes(typeof(DisplayNameAttribute), true)
-                       .Cast<DisplayNameAttribute>().FirstOrDefault();
-
-            if (attribute == null) return null;
-
-            return attribute.DisplayName;
         }
     }
 }

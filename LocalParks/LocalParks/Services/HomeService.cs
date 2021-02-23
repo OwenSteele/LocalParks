@@ -44,7 +44,7 @@ namespace LocalParks.Services
             return new HomeModel(parkModels,
                                 postcodesModels,
                                 eventsModels,
-                                sportsClubsModel, latNull,longNull);
+                                sportsClubsModel, latNull, longNull);
         }
     }
 }

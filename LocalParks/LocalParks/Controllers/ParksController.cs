@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LocalParks.Data;
+using LocalParks.Models;
 using LocalParks.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -24,11 +25,14 @@ namespace LocalParks.Controllers
             _logger.LogInformation("Executing Parks.Index Model");
 
             ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
-            ViewData["SortOptions"] = _service.GetSortSelectListItems();
+            ViewData["SortOptions"] = _service.GetSortSelectListItems(typeof(ParkModel));
 
             if (string.IsNullOrWhiteSpace(searchTerm) && string.IsNullOrWhiteSpace(postcode))
             {
                 var parks = await _service.GetAllParkModelsAsync(sortBy);
+
+                if (!string.IsNullOrWhiteSpace(sortBy)) TempData["SortedBy"] = sortBy;
+
                 return View(parks);
             }
 
@@ -36,8 +40,10 @@ namespace LocalParks.Controllers
 
             if (matches != null)
             {
-                if (!string.IsNullOrWhiteSpace(searchTerm)) TempData["FilterName"] = searchTerm;
-                if (!string.IsNullOrWhiteSpace(postcode)) TempData["FilterPostcode"] = postcode;
+                TempData["Filter"] = searchTerm;
+
+                if (!string.IsNullOrWhiteSpace(postcode) || !string.IsNullOrWhiteSpace(postcode))
+                    TempData["FilteredSorted"] = "true";
             }
             else
             {

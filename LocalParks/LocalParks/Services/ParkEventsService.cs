@@ -2,10 +2,13 @@
 using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
+using LocalParks.Models.Validation;
+using LocalParks.Services.Combined;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace LocalParks.Services
@@ -19,29 +22,63 @@ namespace LocalParks.Services
             _parkRepository = parkRepository;
             _mapper = mapper;
         }
-        public async Task<ParkEventModel[]> GetAllParkEventModelsAsync(int? parkId = null)
+        public async Task<ParkEventModel[]> GetAllParkEventModelsAsync(int? parkId = null, string sortBy = null)
         {
             var results = parkId == null ?
-                    await _parkRepository.GetAllEventsAsync() :
-                    await _parkRepository.GetEventsByParkIdAsync((int)parkId);
+                    _mapper.Map<ParkEventModel[]>(await _parkRepository.GetAllEventsAsync()) :
+                    _mapper.Map<ParkEventModel[]>(await _parkRepository.GetEventsByParkIdAsync((int)parkId));
 
-            return _mapper.Map<ParkEventModel[]>(results);
+            if (!string.IsNullOrWhiteSpace(sortBy))
+                return SortingService.SortResults(results, sortBy);
+
+            return results;
         }
-        public async Task<ParkEventModel[]> GetSearchedParkEventModelsAsync(string searchTerm)
+        public async Task<ParkEventModel[]> GetSearchedParkEventModelsAsync(
+            string searchTerm = null,
+            string parkId = null,
+            DateTime? date = null,
+            string sortBy = null)
         {
-            var results = await _parkRepository.GetAllSportsClubsAsync();
+            var results = await _parkRepository.GetAllEventsAsync();
 
-            searchTerm = searchTerm.ToLower();
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                searchTerm = searchTerm.ToLower();
 
-            var matches = results.Where(p =>
+                results = results.Where(p =>
                 p.Name.ToLower() == searchTerm |
                 p.Name.ToLower().Contains(searchTerm) |
                 p.Name.ToLower().StartsWith(searchTerm))
                     .ToArray();
 
-            if (!matches.Any()) return null;
+                if (!results.Any()) return null;
+            }
+            if (!string.IsNullOrWhiteSpace(parkId))
+            {
+                var park = int.Parse(parkId);
 
-            return _mapper.Map<ParkEventModel[]>(matches);
+                results = results.Where(p =>
+                p.Park.ParkId == park).ToArray();
+
+                if (!results.Any()) return null;
+            }
+            if (date != null)
+            {
+                var dateValue = (DateTime)date;
+
+                results = results.Where(p =>
+                p.Date == dateValue.Date)
+                    .ToArray();
+
+                if (!results.Any()) return null;
+            }
+
+            var models = _mapper.Map<ParkEventModel[]>(results);
+
+            if (!string.IsNullOrWhiteSpace(sortBy))
+                return SortingService.SortResults(models, sortBy);
+
+            return models;
         }
         public async Task<ParkEventModel> GetParkEventModelAsync(int parkId, DateTime date)
         {
@@ -61,16 +98,17 @@ namespace LocalParks.Services
 
             return _mapper.Map<ParkEventModel>(result);
         }
-        public async Task<IEnumerable<SelectListItem>> GetParkSelectListItemsAsync()
+        public async Task<IEnumerable<SelectListItem>> GetParkSelectListItemsAsync(bool onlyWithEvents = false)
         {
-            var parks = _mapper.Map<IEnumerable<ParkModel>>(await _parkRepository.GetAllParksAsync());
+            var parks = _mapper.Map<ICollection<ParkModel>>(await _parkRepository.GetAllParksAsync());
 
             return from p in parks
+                   where !onlyWithEvents || p.Events.Count > 0
                    select new SelectListItem
                    {
                        Selected = false,
                        Text = p.Name,
-                       Value = p.ParkId.ToString()
+                       Value = p.Name                       
                    };
         }
         public async Task<ParkModel> GetParkAsync(int parkId)
@@ -103,6 +141,17 @@ namespace LocalParks.Services
             _parkRepository.Delete(parkEvent);
 
             return await _parkRepository.SaveChangesAsync();
+        }
+        public IEnumerable<SelectListItem> GetSortSelectListItems(Type type)
+        {
+            return from p in type.GetProperties()
+                   where p.GetCustomAttribute(typeof(IsSortableAttribute)) != null
+                   select new SelectListItem
+                   {
+                       Selected = false,
+                       Text = SortingService.GetDisplayName(p),
+                       Value = p.Name
+                   };
         }
     }
 }

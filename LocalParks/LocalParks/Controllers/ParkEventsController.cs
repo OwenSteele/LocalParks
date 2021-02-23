@@ -29,20 +29,44 @@ namespace LocalParks.Controllers
             set { _tempEvent = value; }
         }
 
-        public async Task<IActionResult> Index(string searchTerm = null)
+        public async Task<IActionResult> Index(
+            string searchTerm = null,
+            string parkValue = null,
+            DateTime? date = null,
+            string sortBy = null)
         {
             _logger.LogInformation("Executing ParkEvents.Index Model");
 
-            if (string.IsNullOrWhiteSpace(searchTerm))
+            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
+            ViewData["SortOptions"] = _service.GetSortSelectListItems(typeof(ParkEventModel));
+
+            if (string.IsNullOrWhiteSpace(searchTerm) &&
+                string.IsNullOrWhiteSpace(parkValue) &&
+                date == null)
             {
-                var parkEvents = await _service.GetAllParkEventModelsAsync();
+                var parkEvents = await _service.GetAllParkEventModelsAsync(sortBy: sortBy);
                 return View(parkEvents);
             }
 
-            var matches = await _service.GetSearchedParkEventModelsAsync(searchTerm);
+            var matches = await _service.GetSearchedParkEventModelsAsync(
+                searchTerm, parkValue, date, sortBy);
 
-            if (matches != null) TempData["Filter"] = searchTerm;
-            else TempData["Matches"] = "No Matches found";
+            if (matches != null)
+            {
+                TempData["Filter"] = searchTerm;
+
+                if (!string.IsNullOrWhiteSpace(parkValue)
+                    || !string.IsNullOrWhiteSpace(sortBy)
+                    || date != null)
+                    TempData["FilteredSorted"] = "true";
+            }
+            else
+            {
+                TempData["Matches"] = "No Matches found";
+
+                var parkEvents = await _service.GetAllParkEventModelsAsync(sortBy: sortBy);
+                return View(parkEvents);
+            }
 
             return View(matches);
         }

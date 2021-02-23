@@ -10,13 +10,15 @@ namespace LocalParks.Models
     {
         [Required]
         public int ParkId { get; set; }
-        [DisplayName("Held in Park")]
+        [IsSortable]
+        [DisplayName("Park")]
         public string ParkName { get; set; }
-
         public int EventId { get; set; }
+        [IsSortable]
         [Required]
         [StringLength(100, MinimumLength = 10)]
         public string Name { get; set; }
+        [IsSortable]
         [Required]
         [DateWithoutTime]
         [DateInFuture]

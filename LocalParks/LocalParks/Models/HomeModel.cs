@@ -52,7 +52,7 @@ namespace LocalParks.Models
 
                 if (rndPark.Supervisor == null)
                     rndPark.Supervisor = new SupervisorModel { EmergencyNumber = "Head Office: 01189991234" };
-                
+
                 NearestPark = rndPark;
             }
         }
