@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using LocalParks.Authentication;
-using LocalParks.Data;
+﻿using LocalParks.Authentication;
 using LocalParks.Models;
 using LocalParks.Services;
 using Microsoft.AspNetCore.Http;
@@ -17,13 +15,12 @@ namespace LocalParks.API
     public class ParksController : ControllerBase
     {
         private readonly ILogger<ParksController> _logger;
-        private readonly ParksService _service;
+        private readonly IParksService _service;
 
-        public ParksController(ILogger<ParksController> logger, IParkRepository parkRepository,
-            IMapper mapper)
+        public ParksController(ILogger<ParksController> logger, IParksService service)
         {
             _logger = logger;
-            _service = new ParksService(parkRepository, mapper);
+            _service = service;
         }
 
         [HttpGet]
@@ -33,7 +30,7 @@ namespace LocalParks.API
 
             try
             {
-                var results = await _service.GetAllParkModelsAsync();
+                var results = await _service.GetAllModelsAsync();
 
                 if (results == null) return NoContent();
 
@@ -74,7 +71,7 @@ namespace LocalParks.API
 
             try
             {
-                var results = await _service.GetSearchedParksAsync(parkName);
+                var results = await _service.GetSearchedAsync(parkName);
 
                 if (results == null) return NoContent();
 
@@ -88,7 +85,7 @@ namespace LocalParks.API
             }
         }
 
-        
+
         [HttpPost]
         [JwtAuthentication]
         public async Task<ActionResult<ParkModel>> AddNewPark(ParkModel model)

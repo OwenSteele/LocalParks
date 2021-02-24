@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using LocalParks.Data;
-using LocalParks.Services;
+﻿using LocalParks.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -11,12 +9,12 @@ namespace LocalParks.Controllers
     public class ParksController : Controller
     {
         private readonly ILogger<ParksController> _logger;
-        private readonly ParksService _service;
+        private readonly IParksService _service;
 
-        public ParksController(ILogger<ParksController> logger, IParkRepository parkRepository, IMapper mapper)
+        public ParksController(ILogger<ParksController> logger, IParksService service)
         {
             _logger = logger;
-            _service = new ParksService(parkRepository, mapper);
+            _service = service;
         }
 
         public async Task<IActionResult> Index(string searchTerm = null, string postcode = null, string sortBy = null)
@@ -28,14 +26,14 @@ namespace LocalParks.Controllers
 
             if (string.IsNullOrWhiteSpace(searchTerm) && string.IsNullOrWhiteSpace(postcode))
             {
-                var parks = await _service.GetAllParkModelsAsync(sortBy);
+                var parks = await _service.GetAllModelsAsync(sortBy);
 
                 if (!string.IsNullOrWhiteSpace(sortBy)) TempData["SortedBy"] = sortBy;
 
                 return View(parks);
             }
 
-            var matches = await _service.GetSearchedParksAsync(searchTerm, postcode, sortBy);
+            var matches = await _service.GetSearchedAsync(searchTerm, postcode, sortBy);
 
             if (matches != null)
             {
@@ -48,7 +46,7 @@ namespace LocalParks.Controllers
             {
                 TempData["Matches"] = "No Matches found";
 
-                var parks = await _service.GetAllParkModelsAsync(sortBy);
+                var parks = await _service.GetAllModelsAsync(sortBy);
                 return View(parks);
             }
 

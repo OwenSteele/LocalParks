@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LocalParks.Services
 {
-    public class ParksService
+    public class ParksService : IParksService
     {
         private readonly IParkRepository _parkRepository;
         private readonly IMapper _mapper;
@@ -19,7 +19,7 @@ namespace LocalParks.Services
             _parkRepository = parkRepository;
             _mapper = mapper;
         }
-        public async Task<ParkModel[]> GetAllParkModelsAsync(string sortBy = null)
+        public async Task<ParkModel[]> GetAllModelsAsync(string sortBy = null)
         {
             var results = _mapper.Map<ParkModel[]>(await _parkRepository.GetAllParksAsync());
 
@@ -28,7 +28,7 @@ namespace LocalParks.Services
 
             return results;
         }
-        public async Task<ParkModel[]> GetSearchedParksAsync(
+        public async Task<ParkModel[]> GetSearchedAsync(
             string searchTerm = null,
             string postcode = null,
             string sortBy = null)

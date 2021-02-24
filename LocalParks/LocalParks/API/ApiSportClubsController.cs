@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using LocalParks.Core;
-using LocalParks.Data;
+﻿using LocalParks.Core;
 using LocalParks.Models;
 using LocalParks.Services;
 using Microsoft.AspNetCore.Http;
@@ -15,13 +13,12 @@ namespace LocalParks.API
     public class SportsClubsController : ControllerBase
     {
         private readonly ILogger<SportsClubsController> _logger;
-        private readonly SportsClubsService _service;
+        private readonly ISportsClubsService _service;
 
-        public SportsClubsController(ILogger<SportsClubsController> logger,
-            IParkRepository parkRepository, IMapper mapper)
+        public SportsClubsController(ILogger<SportsClubsController> logger, ISportsClubsService service)
         {
             _logger = logger;
-            _service = new SportsClubsService(parkRepository, mapper);
+            _service = service;
         }
 
         [Route("api/[controller]")]

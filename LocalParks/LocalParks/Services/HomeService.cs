@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LocalParks.Services
 {
-    public class HomeService
+    public class HomeService : IHomeService
     {
         private readonly IParkRepository _parkRepository;
         private readonly IMapper _mapper;

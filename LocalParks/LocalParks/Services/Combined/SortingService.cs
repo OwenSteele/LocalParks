@@ -18,9 +18,8 @@ namespace LocalParks.Services.Combined
         }
         internal static T[] SortResults<T>(T[] models, string sortBy)
         {
-            var property = typeof(T).GetProperty(sortBy);
-
-            if (property == null) return models;
+            if (typeof(T).GetProperty(sortBy) is not PropertyInfo property)
+                return models;
 
             var sorted = models.Where(p => property.GetValue(p, null) is IComparable);
 

@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using LocalParks.Data;
-using LocalParks.Services;
+﻿using LocalParks.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -11,12 +9,12 @@ namespace LocalParks.Controllers
     public class SportsClubsController : Controller
     {
         private readonly ILogger<ParksController> _logger;
-        private readonly SportsClubsService _service;
+        private readonly ISportsClubsService _service;
 
-        public SportsClubsController(ILogger<ParksController> logger, IParkRepository parkRepository, IMapper mapper)
+        public SportsClubsController(ILogger<ParksController> logger, ISportsClubsService service)
         {
             _logger = logger;
-            _service = new SportsClubsService(parkRepository, mapper);
+            _service = service;
         }
 
         public async Task<IActionResult> Index(

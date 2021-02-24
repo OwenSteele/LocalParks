@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using LocalParks.Data;
-using LocalParks.Services;
+﻿using LocalParks.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -10,12 +8,12 @@ namespace LocalParks.Controllers
     public class SupervisorsController : Controller
     {
         private readonly ILogger<SupervisorsController> _logger;
-        private readonly SupervisorsService _service;
+        private readonly ISupervisorsService _service;
 
-        public SupervisorsController(ILogger<SupervisorsController> logger, IParkRepository parkRepository, IMapper mapper)
+        public SupervisorsController(ILogger<SupervisorsController> logger, ISupervisorsService service)
         {
             _logger = logger;
-            _service = new SupervisorsService(parkRepository, mapper);
+            _service = service;
         }
 
         public async Task<IActionResult> Index(

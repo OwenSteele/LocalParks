@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace LocalParks.Services
 {
-    public class ParkEventsService
+    public class ParkEventsService : IParkEventsService
     {
         private readonly IParkRepository _parkRepository;
         private readonly IMapper _mapper;

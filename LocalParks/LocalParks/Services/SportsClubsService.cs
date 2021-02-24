@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace LocalParks.Services
 {
-    public class SportsClubsService
+    public class SportsClubsService : ISportsClubsService
     {
         private readonly IParkRepository _parkRepository;
         private readonly IMapper _mapper;

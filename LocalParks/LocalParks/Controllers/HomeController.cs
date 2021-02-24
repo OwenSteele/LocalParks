@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using LocalParks.Data;
-using LocalParks.Models;
+﻿using LocalParks.Models;
 using LocalParks.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,12 +10,12 @@ namespace LocalParks.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly HomeService _service;
+        private readonly IHomeService _service;
 
-        public HomeController(ILogger<HomeController> logger, IParkRepository parkRepository, IMapper mapper)
+        public HomeController(ILogger<HomeController> logger, IHomeService service)
         {
             _logger = logger;
-            _service = new HomeService(parkRepository, mapper);
+            _service = service;
         }
 
         public async Task<IActionResult> Index(string latitude = null, string longitude = null)

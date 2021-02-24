@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using LocalParks.Data;
-using LocalParks.Models;
+﻿using LocalParks.Models;
 using LocalParks.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +12,12 @@ namespace LocalParks.API
     public class SupervisorsController : ControllerBase
     {
         private readonly ILogger<SupervisorsController> _logger;
-        private readonly SupervisorsService _service;
+        private readonly ISupervisorsService _service;
 
-        public SupervisorsController(ILogger<SupervisorsController> logger, IParkRepository parkRepository, IMapper mapper)
+        public SupervisorsController(ILogger<SupervisorsController> logger, ISupervisorsService service)
         {
             _logger = logger;
-            _service = new SupervisorsService(parkRepository, mapper);
+            _service = service;
         }
 
         [Route("api/[controller]")]

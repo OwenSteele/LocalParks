@@ -7,7 +7,8 @@ using System.Web.Http;
 namespace LocalParks.Authentication
 {
     public class AuthenticationFailureResult : IHttpActionResult
-    {        public string ReasonPhrase { get; }
+    {
+        public string ReasonPhrase { get; }
         public HttpRequestMessage Request { get; }
 
         public AuthenticationFailureResult(string reasonPhrase, HttpRequestMessage request)

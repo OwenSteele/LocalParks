@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LocalParks.Services
 {
-    public class SupervisorsService
+    public class SupervisorsService : ISupervisorsService
     {
         private readonly IParkRepository _parkRepository;
         private readonly IMapper _mapper;

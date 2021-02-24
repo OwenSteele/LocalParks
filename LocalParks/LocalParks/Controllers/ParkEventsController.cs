@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using LocalParks.Data;
-using LocalParks.Models;
+﻿using LocalParks.Models;
 using LocalParks.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,13 +11,13 @@ namespace LocalParks.Controllers
     public class ParkEventsController : Controller
     {
         private readonly ILogger<ParkEventsController> _logger;
-        private readonly ParkEventsService _service;
+        private readonly IParkEventsService _service;
         private ParkEventModel _tempEvent;
 
-        public ParkEventsController(ILogger<ParkEventsController> logger, IParkRepository parkRepository, IMapper mapper)
+        public ParkEventsController(ILogger<ParkEventsController> logger, IParkEventsService service)
         {
             _logger = logger;
-            _service = new ParkEventsService(parkRepository, mapper);
+            _service = service;
         }
 
         [BindProperty]

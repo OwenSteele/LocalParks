@@ -1,5 +1,5 @@
-using AutoMapper;
 using LocalParks.Data;
+using LocalParks.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +25,14 @@ namespace LocalParks
             {
                 options.UseSqlServer(Configuration.GetConnectionString("LocalParks"));
             });
+
+            services.AddTransient<IHomeService, HomeService>();
+            services.AddTransient<IParksService, ParksService>();
+            services.AddTransient<IParkEventsService, ParkEventsService>();
+            services.AddTransient<ISupervisorsService, SupervisorsService>();
+            services.AddTransient<ISportsClubsService, SportsClubsService>();
+
+            services.AddMvc();
 
             services.AddScoped<IParkRepository, ParkRepository>();
 
