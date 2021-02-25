@@ -1,5 +1,4 @@
-﻿using LocalParks.Authentication;
-using LocalParks.Models;
+﻿using LocalParks.Models;
 using LocalParks.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -87,7 +86,7 @@ namespace LocalParks.API
 
 
         [HttpPost]
-        [JwtAuthentication]
+        //[JwtAuthentication]
         public async Task<ActionResult<ParkModel>> AddNewPark(ParkModel model)
         {
             try

@@ -113,3 +113,6 @@ ServiceFabricBackup/
 
 # Local History for Visual Studio
 .localhistory/
+
+#client-sdie libs
+.@fortawesome/

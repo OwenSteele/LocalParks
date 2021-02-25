@@ -6,14 +6,17 @@
     <title>Local Parks | @ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+        <nav class="navbar fixed-top navbar-expand-sm navbar-toggleable-sm navbar-dark 
+             bg-dark border-bottom box-shadow mb-3 navbar-">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img src="~/images/LogoT.PNG" alt="Home" 
-                         width="70px" height="75px"/>
+                         style="width:70px; height: 75px;"/>
                 </a>
                 <button class="navbar-toggler" 
                         type="button" 
@@ -27,42 +30,42 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav font-weight-bolder">
                         <li class="nav-item w3-padding-16">
-                            <a class="nav-link text-light w3-hover-amber w3-hover-text-black rounded" asp-area="" asp-controller="Parks" 
-                               asp-action="Index">Parks</a>
+                            <a class="nav-link text-light w3-hover-amber w3-hover-text-black rounded" asp-controller="Parks" 
+                               asp-action="Index"><i class="fa fa-campground"></i> Parks</a>
                         </li>
                         <li class="nav-item w3-padding-16">
-                            <a class="nav-link text-light w3-hover-amber w3-hover-text-black rounded" asp-area="" asp-controller="SportsClubs" 
-                               asp-action="">Sports Clubs</a>
+                            <a class="nav-link text-light w3-hover-amber w3-hover-text-black rounded" asp-controller="SportsClubs" 
+                               asp-action=""><i class="fa fa-football-ball"></i> Sports Clubs</a>
                         </li>
                         <li class="nav-item w3-padding-16">
-                            <a class="nav-link text-light w3-hover-amber w3-hover-text-black rounded" asp-area="" asp-controller="ParkEvents" 
-                               asp-action="">Events</a>
+                            <a class="nav-link text-light w3-hover-amber w3-hover-text-black rounded" asp-controller="ParkEvents" 
+                               asp-action=""><i class="fa fa-calendar-check"></i> Events</a>
                         </li>
                         <li class="nav-item w3-padding-16 w3-hover-text-black">
-                            <a class="nav-link text-light w3-hover-amber  rounded" asp-area="" asp-controller="Supervisors" 
-                               asp-action="">Staff</a>
+                            <a class="nav-link text-light w3-hover-amber rounded" asp-controller="Supervisors" 
+                               asp-action=""><i class="fa fa-id-badge"></i> Staff</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container mx-auto p-4">
+        <main role="main" class="pb-3" style="padding-top: 100px;">
             @RenderBody()
             <br />
         </main>
         <br />
     </div>
     <br /><br /><br />
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer">
         <div class="container">
             &copy; 2021 - Owen Steele <br />
-            <a style="color:deepskyblue" asp-area="" asp-controller="Home" 
+            <a style="color:deepskyblue" asp-controller="Home" 
                asp-action="Privacy">Privacy Notice -    </a>
-            <a style="color:saddlebrown" asp-area="" asp-controller="Home" 
+            <a style="color:saddlebrown" asp-controller="Home" 
                asp-action="Contact">Contact Us -    </a>
-            <a style="color:darkgreen" asp-area="" asp-controller="Home" 
+            <a style="color:darkgreen" asp-controller="Home" 
                asp-action="AboutMe">About Me     </a>
         </div>
     </footer>

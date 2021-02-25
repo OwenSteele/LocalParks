@@ -18,6 +18,7 @@ namespace LocalParks.Models
         public string Name { get; set; }
         public string Sport { get; set; }
         [IsSortable]
+        [DisplayName("Annual Membership Fee")]
         public double MembershipFee { get; set; }
         [IsSortable]
         public int Members { get; set; }

@@ -1,5 +1,4 @@
-﻿using LocalParks.Authentication;
-using LocalParks.Services;
+﻿using LocalParks.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -28,7 +27,9 @@ namespace LocalParks.API
             {
                 _logger.LogInformation($"API Token granted [{username.ToCharArray()}]");
 
-                return Ok(JwtManager.GenerateToken(username));
+                //var token = JwtManager.GenerateToken(username);
+
+                return Ok();
             }
 
             return StatusCode(StatusCodes.Status401Unauthorized);

@@ -31,10 +31,30 @@ namespace LocalParks.Controllers
         {
             return View();
         }
-        public IActionResult Contact()
+
+        [HttpGet]
+        public async Task<IActionResult> Contact()
         {
+            ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
+
+            return View(new ContactModel());
+        }
+        [HttpPost]
+        public async Task<IActionResult> Contact(ContactModel model)
+        {
+            ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
+
+            if (!ModelState.IsValid) return View(model);
+
+            if (!await _service.PostFeedBackAsync(model)) return View(model);
+
+            ModelState.Clear();
+
+            ViewData["FeedBackSuccess"] = "Thank you for you feedback!";
+
             return View();
         }
+
         public IActionResult AboutMe()
         {
             return View();

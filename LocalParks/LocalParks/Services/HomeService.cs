@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using LocalParks.Data;
 using LocalParks.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LocalParks.Services
@@ -15,6 +18,7 @@ namespace LocalParks.Services
             _parkRepository = parkRepository;
             _mapper = mapper;
         }
+
         public async Task<HomeModel> GetHomeModelAsync(string latitude, string longitude)
         {
             var parks = await _parkRepository.GetAllParksAsync();
@@ -45,6 +49,28 @@ namespace LocalParks.Services
                                 postcodesModels,
                                 eventsModels,
                                 sportsClubsModel, latNull, longNull);
+        }
+
+
+        public async Task<IEnumerable<SelectListItem>> GetPostcodeSelectListItemsAsync()
+        {
+            var postcodes = _mapper.Map<IEnumerable<PostcodeModel>>(await _parkRepository.GetAllPostcodesAsync());
+
+            return from p in postcodes
+                   where p.Parks.Count > 0
+                   select new SelectListItem
+                   {
+                       Selected = false,
+                       Text = p.Zone,
+                       Value = p.Zone
+                   };
+        }
+
+        public async Task<bool> PostFeedBackAsync(ContactModel model)
+        {
+            //implement DB table with feedback
+
+            return true;
         }
     }
 }
