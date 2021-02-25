@@ -115,4 +115,5 @@ ServiceFabricBackup/
 .localhistory/
 
 #client-sdie libs
-.@fortawesome/
+node_modules/
+font-awesome/
