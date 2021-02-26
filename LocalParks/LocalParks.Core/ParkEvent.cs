@@ -13,5 +13,6 @@ namespace LocalParks.Core
         public string OrganiserLastName { get; set; }
         public string OrganiserEmail { get; set; }
         public string OrganiserPhoneNumber { get; set; }
+        public LocalParksUser User { get; set; }
     }
 }

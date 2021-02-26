@@ -283,5 +283,17 @@ namespace LocalParks.Data
 
             return await query.ToArrayAsync();
         }
+
+        public async Task<LocalParksUser> GetLocalParksUserByUsernameAsync(string username)
+        {
+            _logger.LogInformation($"Getting user by username");
+
+            IQueryable<LocalParksUser> query = _context.Users
+                .Include(u => u.OrganisedEvents);
+
+            query.Where(u => u.UserName == username);
+
+            return await query.FirstOrDefaultAsync();
+        }
     }
 }

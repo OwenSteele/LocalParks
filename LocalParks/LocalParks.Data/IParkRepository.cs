@@ -32,5 +32,7 @@ namespace LocalParks.Data
         Task<ParkEvent> GetEventByParkIdAsync(int parkId, int eventId);
         Task<ParkEvent[]> GetEventsByDateAsync(DateTime dateTime);
         Task<ParkEvent> GetEventByParkIdByDateAsync(int parkId, DateTime dateTime);
+
+        Task<LocalParksUser> GetLocalParksUserByUsernameAsync(string username);
     }
 }

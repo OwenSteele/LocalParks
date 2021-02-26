@@ -57,7 +57,6 @@ namespace LocalParks.Services
             var postcodes = _mapper.Map<IEnumerable<PostcodeModel>>(await _parkRepository.GetAllPostcodesAsync());
 
             return from p in postcodes
-                   where p.Parks.Count > 0
                    select new SelectListItem
                    {
                        Selected = false,

@@ -1,11 +1,12 @@
 ﻿using LocalParks.Core;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 
 namespace LocalParks.Data
 {
-    public class ParkContext : DbContext
+    public class ParkContext : IdentityDbContext<LocalParksUser>
     {
         private readonly IConfiguration _config;
 
@@ -28,23 +29,26 @@ namespace LocalParks.Data
 
         protected override void OnModelCreating(ModelBuilder bd)
         {
+            // LocalParksUser
+            base.OnModelCreating(bd);
 
-            //defined relationships
+            // defined relationships
             bd.Entity<Postcode>().HasMany(p => p.Parks).WithOne(z => z.Postcode)
                 .HasForeignKey(z => z.PostcodeZone);
             bd.Entity<Park>().HasOne(p => p.Supervisor).WithOne(s => s.Park)
                 .HasForeignKey<Supervisor>(s => s.ParkRef);
             bd.Entity<Park>().HasMany(p => p.SportClubs).WithOne(c => c.Park);
             bd.Entity<Park>().HasMany(p => p.Events).WithOne(e => e.Park);
+            bd.Entity<LocalParksUser>().HasMany(u => u.OrganisedEvents).WithOne(e => e.User);
 
-            //defined keys
+            // defined keys
             bd.Entity<Postcode>().HasKey(k => k.Zone);
             bd.Entity<Park>().HasKey(k => k.ParkId);
             bd.Entity<Supervisor>().HasKey(k => k.SupervisorId);
             bd.Entity<SportsClub>().HasKey(k => k.ClubId);
             bd.Entity<ParkEvent>().HasKey(k => k.EventId);
 
-            //decimal properties
+            // decimal properties
             bd.Entity<SportsClub>().Property(c => c.MembershipFee)
                 .HasColumnType("decimal(18,4)");
             bd.Entity<Supervisor>().Property(s => s.Salary)
@@ -54,7 +58,7 @@ namespace LocalParks.Data
             bd.Entity<Park>().Property(p => p.Longitude)
                 .HasColumnType("decimal(18,4)");
 
-            //defined starting data
+            // entity data
             bd.Entity<Postcode>()
                 .HasData(new
                 {

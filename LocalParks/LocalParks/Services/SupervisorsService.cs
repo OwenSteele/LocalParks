@@ -71,12 +71,12 @@ namespace LocalParks.Services
 
             return _mapper.Map<SupervisorModel>(result);
         }
-        public async Task<IEnumerable<SelectListItem>> GetParkSelectListItemsAsync(bool onlyWithEvents = false)
+        public async Task<IEnumerable<SelectListItem>> GetParkSelectListItemsAsync(bool onlyWithSupervisors = false)
         {
             var parks = _mapper.Map<ICollection<ParkModel>>(await _parkRepository.GetAllParksAsync());
 
             return from p in parks
-                   where !onlyWithEvents || p.Events.Count > 0
+                   where !onlyWithSupervisors || p.Supervisor != null
                    select new SelectListItem
                    {
                        Selected = false,

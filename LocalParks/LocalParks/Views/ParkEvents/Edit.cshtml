@@ -4,7 +4,7 @@
     else ViewData["Title"] = $"Editing {Model.Name}";
 }
 
-<form asp-controller="ParkEventsView" asp-action="Edit" method="post">
+<form asp-controller="ParkEvents" asp-action="Edit" method="post">
 
     <label class="font-weight-bolder">Event details</label>
     <input type="hidden" asp-for="@Model.EventId" />

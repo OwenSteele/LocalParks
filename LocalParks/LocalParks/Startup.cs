@@ -1,7 +1,9 @@
+using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +23,13 @@ namespace LocalParks
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<LocalParksUser, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                // add tokens
+            }
+            ).AddEntityFrameworkStores<ParkContext>();
+
             services.AddDbContext<ParkContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("LocalParks"));
@@ -32,7 +41,11 @@ namespace LocalParks
             services.AddTransient<ISupervisorsService, SupervisorsService>();
             services.AddTransient<ISportsClubsService, SportsClubsService>();
 
+            services.AddScoped<IAccountService, AccountService>();
+
             services.AddMvc();
+
+            services.AddTransient<ParksPartialSeeder>();
 
             services.AddScoped<IParkRepository, ParkRepository>();
 
@@ -55,10 +68,11 @@ namespace LocalParks
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseAuthentication();
+
             app.UseRouting();
 
             app.UseAuthorization();
-            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

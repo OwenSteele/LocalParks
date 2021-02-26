@@ -5,8 +5,8 @@
 <h1>Reach out to us at the Parks Authority:</h1>
 
 <div class="col-md-6 offset-3">
-    <div class="card card-body">
-        <form asp-controller="Home" asp-action="Contact" method="post">
+    <div class="card card-body m-2">
+        <form asp-controller="Home" asp-action="Contact" method="post" class="p-md-4">
             <div class="form-group">
                 <label asp-for="@Model.FullName"></label>
                 <input asp-for="@Model.FullName"
@@ -46,17 +46,19 @@
                        required />
                 <span class="text-danger" asp-validation-for="@Model.Message"></span>
             </div>
-            
+
             <input type="submit" class="btn-outline-light btn-dark btn-light rounded"
-       value="Send feedback" />
+                   value="Send feedback" />
         </form>
     </div>
 
-    <div class="badge-success">@ViewData["FeedBackSuccess"]</div>
-
-    <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
-           type="button"
-           value="Return to Home"
-           onclick="location.href='@Url.Action("Index", "Home")'" />
+    @if (ViewData.Keys.Contains("FeedBackSuccess"))
+    {
+        <div class="badge-success p-2">@ViewData["FeedBackSuccess"]</div>
+        <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded p-2"
+               type="button"
+               value="Return to Home"
+               onclick="location.href='@Url.Action("Index", "Home")'" />
+    }
 </div>
 

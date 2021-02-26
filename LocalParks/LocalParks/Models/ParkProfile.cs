@@ -7,6 +7,8 @@ namespace LocalParks.Models
     {
         public ParkProfile()
         {
+            CreateMap<LocalParksUser, LocalParksUserModel>().ReverseMap();
+
             CreateMap<Postcode, PostcodeModel>().ReverseMap();
 
             CreateMap<Park, ParkModel>().ReverseMap();
