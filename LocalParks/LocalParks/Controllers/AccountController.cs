@@ -28,9 +28,9 @@ namespace LocalParks.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Login()
+        public IActionResult Login()
         {
-            _logger.LogInformation("Executing UserAcount.Login Model");
+            _logger.LogInformation("Executing Acount.Login Model");
 
             if (this.User.Identity.IsAuthenticated)
                 return RedirectToAction("Index");
@@ -40,7 +40,7 @@ namespace LocalParks.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel model)
         {
-            _logger.LogInformation("Executing UserAcount.Login Post");
+            _logger.LogInformation("Executing Acount.Login Post");
 
             if (ModelState.IsValid)
             {

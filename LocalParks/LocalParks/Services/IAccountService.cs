@@ -12,5 +12,6 @@ namespace LocalParks.Services
         Task<LocalParksUserModel> SignInAttemptAsync(LoginModel model);
         Task<LocalParksUserModel> GetUserAsync(string name);
         Task SignOutAsync();
+        Task<object> GetUserTokenAsync(LoginModel model);
     }
 }

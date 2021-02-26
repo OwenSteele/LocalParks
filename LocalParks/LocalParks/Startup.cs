@@ -8,7 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
+using System.Text;
 
 namespace LocalParks
 {
@@ -26,9 +28,21 @@ namespace LocalParks
             services.AddIdentity<LocalParksUser, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
-                // add tokens
             }
             ).AddEntityFrameworkStores<ParkContext>();
+
+            services.AddAuthentication()
+                .AddCookie()
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidIssuer = Configuration["Tokens:Issuer"],
+                        ValidAudience = Configuration["Tokens:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
+                    };
+                });
 
             services.AddDbContext<ParkContext>(options =>
             {
