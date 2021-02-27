@@ -9,27 +9,35 @@ namespace LocalParks.Models
         {
             CreateMap<LocalParksUser, LocalParksUserModel>().ReverseMap();
 
-            CreateMap<Postcode, PostcodeModel>().ReverseMap();
+            CreateMap<Postcode, PostcodeModel>().ReverseMap()
+                .ForMember(p => p.Parks, o => o.Ignore());
 
-            CreateMap<Park, ParkModel>().ReverseMap();
+            CreateMap<Park, ParkModel>()
+                .ReverseMap()
+                .ForMember(p => p.Supervisor, o => o.Ignore())
+                .ForMember(p => p.SportClubs, o => o.Ignore())
+                .ForMember(p => p.Events, o => o.Ignore());
 
             CreateMap<SportsClub, SportsClubModel>()
                 .ForMember(m => m.ParkId, o => o.MapFrom(c => c.Park.ParkId))
                 .ForMember(m => m.ParkName, o => o.MapFrom(c => c.Park.Name))
                 .ForMember(m => m.Sport, o => o.MapFrom(c => c.Sport.ToString()))
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(p => p.Park, o => o.Ignore());
 
             CreateMap<ParkEvent, ParkEventModel>()
                 .ForMember(m => m.ParkId, o => o.MapFrom(e => e.Park.ParkId))
                 .ForMember(m => m.ParkName, o => o.MapFrom(e => e.Park.Name))
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(p => p.Park, o => o.Ignore());
 
             CreateMap<Supervisor, SupervisorModel>()
                 .ForMember(m => m.ParkId, o => o.MapFrom(s => s.Park.ParkId))
                 .ForMember(m => m.ParkName, o => o.MapFrom(s => s.Park.Name))
                 .ForMember(m => m.ParkPostcode, o => o.MapFrom(s => s.Park.Postcode))
                 .ForMember(m => m.EmployeeId, o => o.MapFrom(s => s.SupervisorId))
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(p => p.Park, o => o.Ignore());
         }
     }
 }

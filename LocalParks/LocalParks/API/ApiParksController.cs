@@ -1,4 +1,5 @@
-﻿using LocalParks.Models;
+﻿using AutoMapper;
+using LocalParks.Models;
 using LocalParks.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -13,15 +14,19 @@ namespace LocalParks.API
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ParksController : ControllerBase
     {
         private readonly ILogger<ParksController> _logger;
         private readonly IParksService _service;
+        private readonly IAuthenticationService _authenticationService;
 
-        public ParksController(ILogger<ParksController> logger, IParksService service)
+        public ParksController(ILogger<ParksController> logger, IParksService service,
+            IAuthenticationService authenticationService, IMapper mapper)
         {
             _logger = logger;
             _service = service;
+            _authenticationService = authenticationService;
         }
 
         [HttpGet]
@@ -87,12 +92,19 @@ namespace LocalParks.API
         }
 
         [HttpPost]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(Roles = "Administrator")]
         public async Task<ActionResult<ParkModel>> AddNewPark(ParkModel model)
         {
+            if(!await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
+                return StatusCode(StatusCodes.Status403Forbidden);
+
             try
             {
                 if (!model.ParkId.Equals(0)) return BadRequest("The 'parkId' cannot be set, remove this property from model or set value to 0.");
+
+                if (model.Supervisor != null) return BadRequest("Cannot alter supervisor from within a park.");
+                if (model.Events != null) return BadRequest("Cannot alter park events from within a park.");
+                if (model.SportClubs != null) return BadRequest("Cannot alter sports clubs from within a park.");
 
                 var existing = await _service.GetParkAsync(model.Name);
                 if (existing != null) return BadRequest("A park with this name already exists.");
@@ -105,6 +117,52 @@ namespace LocalParks.API
                 if (result == null) return BadRequest();
 
                 return Created("", result);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
+            }
+        }
+        [HttpPut("{parkId:int}")]
+        //[Authorize(Roles = "Administrator")]
+        public async Task<ActionResult<ParkModel>> UpdatePark(int parkId, ParkModel model)
+        {
+            if (!await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
+                return StatusCode(StatusCodes.Status403Forbidden);
+
+            try
+            {
+                if (!(model.ParkId.Equals(0) || model.ParkId.Equals(parkId))) return BadRequest("Invalid ParkId");
+
+                if (!ModelState.IsValid) return BadRequest();
+
+                if (await _service.GetPostcodeAsync(model.PostcodeZone) == null)
+                    return BadRequest("Invalid Postcode.");
+
+                var result = await _service.UpdateParkAsync(model);
+                if(result == null) return BadRequest("No changes were made.");
+
+                return result;
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
+            }
+        }
+        [HttpDelete("{parkId:int}")]
+        public async Task<IActionResult> DeletePark(int parkId)
+        {
+            if (!await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
+                return StatusCode(StatusCodes.Status403Forbidden);
+
+            try
+            {
+                var existing = await _service.GetParkAsync(parkId);
+                if (existing == null) return BadRequest("Park not found.");
+
+                if (await _service.DeleteParkAsync(existing)) return Ok();
+
+                return BadRequest();
             }
             catch (Exception)
             {

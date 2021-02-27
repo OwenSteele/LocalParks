@@ -35,7 +35,7 @@ namespace LocalParks.Controllers
             if (this.User.Identity.IsAuthenticated)
                 return RedirectToAction("Index");
 
-            return View();
+            return View(new LoginModel());
         }
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel model)
@@ -46,19 +46,19 @@ namespace LocalParks.Controllers
             {
                 var user = await _service.SignInAttemptAsync(model);
 
-                if (user == null) RedirectToAction("Index", "Home");
+                if (user == null) return RedirectToAction("Index", "Home");
 
                 if(Request.Query.Keys.Contains("ReturnUrl"))
                 {
                     Redirect(Request.Query["ReturnUrl"].First());
                 }
 
-                RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
             
             ModelState.AddModelError("", "Failed to Login");
 
-            return View();
+            return RedirectToAction("Login");
         }
         public async Task<IActionResult> Logout()
         {

@@ -29,7 +29,9 @@ namespace LocalParks
             {
                 options.User.RequireUniqueEmail = true;
             }
-            ).AddEntityFrameworkStores<ParkContext>();
+            ).AddRoles<IdentityRole>()
+             .AddRoleManager<RoleManager<IdentityRole>>()
+             .AddEntityFrameworkStores<ParkContext>();
 
             services.AddAuthentication()
                 .AddCookie()
@@ -56,6 +58,7 @@ namespace LocalParks
             services.AddTransient<ISportsClubsService, SportsClubsService>();
 
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             services.AddMvc();
 
@@ -82,9 +85,10 @@ namespace LocalParks
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseAuthentication();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

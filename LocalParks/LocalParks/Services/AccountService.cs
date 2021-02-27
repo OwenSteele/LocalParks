@@ -81,11 +81,13 @@ namespace LocalParks.Services
 
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+            var tokenLifetime = 20 * (await _userManager.IsInRoleAsync(user, "Administrator") ? 3 : 1);
+
             var token = new JwtSecurityToken(
                 _configuration["Tokens:Issuer"],
                 _configuration["Tokens:Audience"],
                 claims,
-                expires: DateTime.UtcNow.AddHours(1),
+                expires: DateTime.UtcNow.AddMinutes(20),
                 signingCredentials: credentials
                 ) ;
 

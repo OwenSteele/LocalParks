@@ -1,6 +1,7 @@
 ﻿using LocalParks.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace LocalParks.Services
@@ -15,5 +16,7 @@ namespace LocalParks.Services
         Task<IEnumerable<SelectListItem>> GetPostcodeSelectListItemsAsync();
         Task<ParkModel[]> GetSearchedAsync(string searchTerm = null, string postcode = null, string sortBy = null);
         IEnumerable<SelectListItem> GetSortSelectListItems();
+        Task<ParkModel> UpdateParkAsync(ParkModel model);
+        Task<bool> DeleteParkAsync(ParkModel model);
     }
 }
