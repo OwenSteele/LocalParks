@@ -29,11 +29,7 @@ namespace LocalParks.Data
             _logger.LogInformation($"Removing an object of type: {entity.GetType()} to the context.");
             _context.Remove(entity);
         }
-        public void Update<T>(T entity) where T : class
-        {
-            _logger.LogInformation($"Removing an object of type: {entity.GetType()} to the context.");
-            _context.Update(entity);
-        }
+
         public async Task<bool> SaveChangesAsync()
         {
             _logger.LogInformation($"Attempting to save changes to the context.");
@@ -180,6 +176,17 @@ namespace LocalParks.Data
             query = query.OrderByDescending(s => s.SupervisorId);
 
             return await query.ToArrayAsync();
+        }
+        public async Task<Supervisor> GetSupervisorByIdAsync(int employeeId)
+        {
+            _logger.LogInformation($"Getting the supervisor for ID: {employeeId}.");
+
+            IQueryable<Supervisor> query = _context.Supervisors
+                .Include(s => s.Park);
+
+            query = query.Where(s => s.SupervisorId == employeeId);
+
+            return await query.FirstOrDefaultAsync();
         }
         public async Task<Supervisor> GetSupervisorByParkIdAsync(int parkId)
         {

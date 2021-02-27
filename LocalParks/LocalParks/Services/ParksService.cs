@@ -96,9 +96,11 @@ namespace LocalParks.Services
         public async Task<ParkModel> AddParkAsync(ParkModel model)
         {
             var park = _mapper.Map<Park>(model);
+
             _parkRepository.Add(park);
 
-            if (await _parkRepository.SaveChangesAsync()) return _mapper.Map<ParkModel>(park);
+            if (await _parkRepository.SaveChangesAsync()) 
+                return _mapper.Map<ParkModel>(park);
 
             return null;
         }

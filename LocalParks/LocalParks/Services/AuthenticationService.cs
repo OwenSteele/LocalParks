@@ -11,7 +11,6 @@ namespace LocalParks.Services
     public class AuthenticationService : IAuthenticationService
     {
         private readonly UserManager<LocalParksUser> _userManager;
-        private readonly RoleManager<LocalParksUser> _roleManager;
 
         public AuthenticationService(UserManager<LocalParksUser> userManager)
         {
@@ -20,6 +19,8 @@ namespace LocalParks.Services
 
         public async Task<bool> HasRequiredRoleAsync(string username, string role)
         {
+            if (string.IsNullOrWhiteSpace(username)) return false;
+
             var user = await _userManager.FindByNameAsync(username);
             if (user == null) return false;
 

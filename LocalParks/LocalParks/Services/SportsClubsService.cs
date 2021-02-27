@@ -110,6 +110,54 @@ namespace LocalParks.Services
                        Value = p.ParkId.ToString()
                    };
         }
+        public async Task<bool> CheckParkExistsAsync(int parkId, string clubName = null)
+        {
+            var result = await _parkRepository.GetParkByIdAsync(parkId);
+
+            if (!string.IsNullOrWhiteSpace(clubName) && result != null)
+            {
+                 return !result.SportClubs.Where(c => c.Name == clubName).Any();
+            }
+            return result != null;
+        }
+        public async Task<SportsClubModel> AddNewSportsClubAsync(SportsClubModel model)
+        {
+            var sportsClub = _mapper.Map<SportsClub>(model);
+
+            sportsClub.Park = await _parkRepository.GetParkByIdAsync(model.ParkId);
+
+            _parkRepository.Add(sportsClub);
+
+            if (await _parkRepository.SaveChangesAsync())
+                return _mapper.Map<SportsClubModel>(sportsClub);
+
+            return null;
+        }
+        public async Task<SportsClubModel> UpdateSportsClubAsync(SportsClubModel model)
+        {
+            var existing = await _parkRepository.GetSportsClubByIdAsync(model.ClubId);
+            if (existing == null) return null;
+
+            _mapper.Map(model, existing);
+
+            if(existing.Park == null || model.ParkId != existing.Park.ParkId)
+            {
+                existing.Park = await _parkRepository.GetParkByIdAsync(model.ParkId);
+            }
+
+            if (await _parkRepository.SaveChangesAsync())
+                return _mapper.Map<SportsClubModel>(existing);
+
+            return null;
+        }
+        public async Task<bool> DeleteSportsClubAsync(SportsClubModel model)
+        {
+            var sportsClub = _mapper.Map<SportsClub>(model);
+            _parkRepository.Delete(sportsClub);
+
+            return await _parkRepository.SaveChangesAsync();
+        }
+
         public IEnumerable<SelectListItem> GetSportListItems()
         {
             return from i in Enum.GetValues<SportType>().ToArray()
@@ -131,6 +179,9 @@ namespace LocalParks.Services
                        Value = p.Name
                    };
         }
-
+        public ICollection<string> GetAllSports()
+        {
+            return Enum.GetNames(typeof(SportType));
+        }
     }
 }

@@ -14,5 +14,10 @@ namespace LocalParks.Services
         Task<SportsClubModel> GetSportsClubModelAsync(int clubId, int? parkId = null);
         Task<SportsClubModel[]> GetSportsClubModelsByParkAsync(int parkId);
         Task<SportsClubModel[]> GetSportsClubModelsBySportAsync(int parkId, SportType sportType);
+        Task<bool> CheckParkExistsAsync(int parkId, string clubName = null);
+        Task<SportsClubModel> AddNewSportsClubAsync(SportsClubModel model);
+        Task<SportsClubModel> UpdateSportsClubAsync(SportsClubModel model);
+        Task<bool> DeleteSportsClubAsync(SportsClubModel model);
+        ICollection<string> GetAllSports();
     }
 }

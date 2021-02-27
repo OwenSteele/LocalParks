@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
 using LocalParks.Services.Combined;
@@ -63,14 +64,59 @@ namespace LocalParks.Services
 
             return models;
         }
-        public async Task<SupervisorModel> GetSupervisorModelAsync(int parkId)
+        public async Task<SupervisorModel> GetSupervisorModelAsync(int Id, bool UseParkId = true)
         {
-            var result = await _parkRepository.GetSupervisorByParkIdAsync(parkId);
+            Supervisor result;
+
+            if(UseParkId) result = await _parkRepository.GetSupervisorByParkIdAsync(Id);
+            else result = await _parkRepository.GetSupervisorByIdAsync(Id);
 
             if (result == null) return null;
 
             return _mapper.Map<SupervisorModel>(result);
         }
+        public async Task<bool> CheckParkExistsAsync(int parkId, bool IfHasSupervisorReturnFalse = false)
+        {
+            var result = await _parkRepository.GetParkByIdAsync(parkId);
+
+            if (IfHasSupervisorReturnFalse && result != null)
+            {
+                return result.Supervisor == null;
+            }
+
+            return result == null;
+        }
+        public async Task<SupervisorModel> AddNewSupervisorAsync(SupervisorModel model)
+        {
+            var supervisor = _mapper.Map<Supervisor>(model);
+
+            _parkRepository.Add(supervisor);
+
+            if (await _parkRepository.SaveChangesAsync()) 
+                return _mapper.Map<SupervisorModel>(supervisor);
+
+            return null;
+        }
+        public async Task<SupervisorModel> UpdateSupervisorAsync(SupervisorModel model)
+        {
+            var existing = await _parkRepository.GetSupervisorByIdAsync(model.EmployeeId);
+            if (existing == null) return null;
+
+            _mapper.Map(model, existing);
+
+            if (await _parkRepository.SaveChangesAsync())
+                return _mapper.Map<SupervisorModel>(existing);
+
+            return null;
+        }
+        public async Task<bool> DeleteSupervisorAsync(SupervisorModel model)
+        {
+            var supervisor = _mapper.Map<Supervisor>(model);
+            _parkRepository.Delete(supervisor);
+
+            return await _parkRepository.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<SelectListItem>> GetParkSelectListItemsAsync(bool onlyWithSupervisors = false)
         {
             var parks = _mapper.Map<ICollection<ParkModel>>(await _parkRepository.GetAllParksAsync());
@@ -95,5 +141,6 @@ namespace LocalParks.Services
                        Value = p.Name
                    };
         }
+
     }
 }

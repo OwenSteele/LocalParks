@@ -87,7 +87,7 @@ namespace LocalParks.Services
                 _configuration["Tokens:Issuer"],
                 _configuration["Tokens:Audience"],
                 claims,
-                expires: DateTime.UtcNow.AddMinutes(20),
+                expires: DateTime.UtcNow.AddMinutes(tokenLifetime),
                 signingCredentials: credentials
                 ) ;
 

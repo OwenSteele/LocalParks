@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LocalParks.Core;
+using System;
 
 namespace LocalParks.Models
 {
@@ -23,6 +24,7 @@ namespace LocalParks.Models
                 .ForMember(m => m.ParkName, o => o.MapFrom(c => c.Park.Name))
                 .ForMember(m => m.Sport, o => o.MapFrom(c => c.Sport.ToString()))
                 .ReverseMap()
+                .ForMember(c => c.Sport, o => o.MapFrom(m => Enum.Parse(typeof(SportType), m.Sport)))
                 .ForMember(p => p.Park, o => o.Ignore());
 
             CreateMap<ParkEvent, ParkEventModel>()
@@ -34,10 +36,11 @@ namespace LocalParks.Models
             CreateMap<Supervisor, SupervisorModel>()
                 .ForMember(m => m.ParkId, o => o.MapFrom(s => s.Park.ParkId))
                 .ForMember(m => m.ParkName, o => o.MapFrom(s => s.Park.Name))
-                .ForMember(m => m.ParkPostcode, o => o.MapFrom(s => s.Park.Postcode))
+                .ForMember(m => m.ParkPostcode, o => o.MapFrom(s => s.Park.PostcodeZone))
                 .ForMember(m => m.EmployeeId, o => o.MapFrom(s => s.SupervisorId))
                 .ReverseMap()
-                .ForMember(p => p.Park, o => o.Ignore());
+                .ForMember(s => s.ParkRef, o => o.MapFrom(m => m.ParkId))
+                .ForMember(s => s.Park, o => o.Ignore());
         }
     }
 }

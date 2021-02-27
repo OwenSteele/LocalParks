@@ -8,7 +8,6 @@ namespace LocalParks.Data
     {
         void Add<T>(T entity) where T : class;
         void Delete<T>(T entity) where T : class;
-        void Update<T>(T entity) where T : class;
         Task<bool> SaveChangesAsync();
 
         Task<Postcode[]> GetAllPostcodesAsync();
@@ -25,6 +24,7 @@ namespace LocalParks.Data
         Task<SportsClub[]> GetSportsClubsBySportAsync(SportType sport, int? parkId = null);
 
         Task<Supervisor[]> GetAllSupervisorsAsync();
+        Task<Supervisor> GetSupervisorByIdAsync(int employeeId);
         Task<Supervisor> GetSupervisorByParkIdAsync(int parkId);
 
         Task<ParkEvent[]> GetAllEventsAsync();

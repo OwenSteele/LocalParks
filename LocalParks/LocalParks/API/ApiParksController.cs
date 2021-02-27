@@ -22,7 +22,7 @@ namespace LocalParks.API
         private readonly IAuthenticationService _authenticationService;
 
         public ParksController(ILogger<ParksController> logger, IParksService service,
-            IAuthenticationService authenticationService, IMapper mapper)
+            IAuthenticationService authenticationService)
         {
             _logger = logger;
             _service = service;
@@ -101,10 +101,6 @@ namespace LocalParks.API
             try
             {
                 if (!model.ParkId.Equals(0)) return BadRequest("The 'parkId' cannot be set, remove this property from model or set value to 0.");
-
-                if (model.Supervisor != null) return BadRequest("Cannot alter supervisor from within a park.");
-                if (model.Events != null) return BadRequest("Cannot alter park events from within a park.");
-                if (model.SportClubs != null) return BadRequest("Cannot alter sports clubs from within a park.");
 
                 var existing = await _service.GetParkAsync(model.Name);
                 if (existing != null) return BadRequest("A park with this name already exists.");

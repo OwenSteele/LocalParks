@@ -25,6 +25,7 @@ namespace LocalParks.Models
         [StringLength(100, MinimumLength = 2)]
         [DisplayName("Surname")]
         public string LastName { get; set; }
+        [Required]
         [IsSortable]
         [DateInPast]
         [DateWithoutTime]
@@ -34,15 +35,23 @@ namespace LocalParks.Models
         [DisplayName("Email Address")]
         public string Email
         {
-            get { return $"supervisor.{ParkName.Replace(' ', '_')}@ParkAuthority.co.uk"; }
+            get {
+                if(string.IsNullOrWhiteSpace(ParkName)) 
+                    return $"headoffice@ParkAuthority.co.uk";
+                else
+                    return $"supervisor.{ParkName.Replace(' ', '_')}@ParkAuthority.co.uk"; 
+            }
         }
-
+        [Required]
         [StringLength(100, MinimumLength = 2)]
         [DisplayName("Office Address")]
         public string Office { get; set; }
+        [Required]
         [Phone]
         [DisplayName("Emergency Number")]
         public string EmergencyNumber { get; set; }
+        [Required]
+        public decimal Salary { get; set; }
 
         public string Tenure()
         {
