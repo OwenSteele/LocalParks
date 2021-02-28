@@ -183,7 +183,7 @@ namespace LocalParks.API
                 if (!await _service.CheckParkExistsAsync(model.ParkId, model.Name))
                     return BadRequest("Cannot add sports club to park with this parkId/club name.");
 
-                if (await _service.GetSportsClubModelAsync(model.ClubId) != null) 
+                if (await _service.GetSportsClubModelAsync(model.ClubId) != null)
                     return BadRequest("A sports club with this Id for this park already exists.");
 
                 var result = await _service.AddNewSportsClubAsync(model);
@@ -205,9 +205,9 @@ namespace LocalParks.API
 
             try
             {
-                if (!model.ClubId.Equals(0) && !model.ClubId.Equals(clubId)) 
+                if (!model.ClubId.Equals(0) && !model.ClubId.Equals(clubId))
                     return BadRequest("Must include the 'clubId' in query and must if included in body (cannot be edited).");
-                
+
                 if (model.ParkId.Equals(0)) return BadRequest("Must include 'parkId'.");
 
                 if (!_service.GetAllSports().Contains(model.Sport)) return BadRequest("Sport not found.");

@@ -151,5 +151,93 @@ namespace LocalParks.Services
                        Value = p.Name
                    };
         }
+
+        public async Task<bool> CheckParkExistsAsync(int parkId)
+        {
+            return await _parkRepository.GetParkByIdAsync(parkId) != null;
+        }
+
+        public async Task<ParkEventModel> AddNewParkEventAsync(ParkEventModel model, string username)
+        {
+            var user = await _parkRepository.GetLocalParksUserByUsernameAsync(username);
+
+            var email = model.OrganiserEmail.ToLower();
+            email = email[..email.IndexOf("@")];
+
+            if (email == "me" ||
+                email == "this" ||
+                email == "user")
+                model.OrganiserEmail = user.Email;
+            
+            if (model.OrganiserPhoneNumber.ToLower() == "me" ||
+                 model.OrganiserPhoneNumber.ToLower() == "this" ||
+                 model.OrganiserPhoneNumber.ToLower() == "user")
+                model.OrganiserPhoneNumber = user.PhoneNumber;
+
+            if (model.OrganiserFirstName.ToLower() == "me" ||
+                 model.OrganiserFirstName.ToLower() == "this" ||
+                 model.OrganiserFirstName.ToLower() == "user")
+                model.OrganiserFirstName = user.FirstName;
+
+            if (model.OrganiserLastName.ToLower() == "me" ||
+                 model.OrganiserLastName.ToLower() == "this" ||
+                 model.OrganiserLastName.ToLower() == "user")
+                model.OrganiserLastName = user.LastName;
+
+            var parkEvent = _mapper.Map<ParkEvent>(model);
+
+            parkEvent.Park = await _parkRepository.GetParkByIdAsync(model.ParkId);
+            parkEvent.User = user;
+
+            _parkRepository.Add(parkEvent);
+
+            if (await _parkRepository.SaveChangesAsync())
+            {
+                var result = _mapper.Map<ParkEventModel>(parkEvent);
+                result.Username = null;
+                return result;
+            }
+
+            return null;
+        }
+        public async Task<ParkEventModel> UpdateParkEventAsync(ParkEventModel model)
+        {
+            var existing = await _parkRepository.GetEventByIdAsync(model.EventId);
+            if (existing == null) return null;
+
+            _mapper.Map(model, existing);
+
+            if (existing.Park == null || model.ParkId != existing.Park.ParkId)
+            {
+                existing.Park = await _parkRepository.GetParkByIdAsync(model.ParkId);
+            }
+
+            if (await _parkRepository.SaveChangesAsync())
+            {
+                var result =  _mapper.Map<ParkEventModel>(existing);
+                result.Username = null;
+                return result;
+            }
+
+            return null;
+        }
+        public async Task<bool> DeleteParkEventAsync(ParkEventModel model)
+        {
+            var parkEvent = _mapper.Map<ParkEvent>(model);
+            _parkRepository.Delete(parkEvent);
+
+            return await _parkRepository.SaveChangesAsync();
+        }
+        public async Task<LocalParksUserModel> GetEventOwner(int eventId, string userName = null)
+        {
+            var result = await _parkRepository.GetEventByIdAsync(eventId);
+
+            if(result.User == null) return null;
+
+            if (string.IsNullOrWhiteSpace(userName) || result.User.UserName == userName)
+                return _mapper.Map<LocalParksUserModel>(result.User);
+
+            return null;
+        }
     }
 }

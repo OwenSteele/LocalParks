@@ -206,7 +206,8 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting all events.");
 
             IQueryable<ParkEvent> query = _context.Events
-                .Include(e => e.Park);
+                .Include(e => e.Park)
+                .Include(e => e.User);
 
             query = query.Where(e => e.Date >= DateTime.Today)
                 .OrderByDescending(e => e.Date);
@@ -218,7 +219,8 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting events from park ID: {parkId}.");
 
             IQueryable<ParkEvent> query = _context.Events
-                .Include(e => e.Park);
+                .Include(e => e.Park)
+                .Include(e => e.User);
 
             query = query.Where(e =>
             e.Park.ParkId == parkId &&
@@ -232,7 +234,8 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting events from park ID: {eventId}.");
 
             IQueryable<ParkEvent> query = _context.Events
-                .Include(e => e.Park);
+                .Include(e => e.Park)
+                .Include(e => e.User);
 
             query = query.Where(e =>
             e.EventId == eventId &&
@@ -246,7 +249,8 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting an event with ID: {eventId} from park ID: {parkId}.");
 
             IQueryable<ParkEvent> query = _context.Events
-                .Include(e => e.Park);
+                .Include(e => e.Park)
+                .Include(e => e.User);
 
             query = query.Where(e =>
             e.EventId == eventId &&
@@ -261,7 +265,8 @@ namespace LocalParks.Data
                 $"Getting an event from park ID: {parkId} on date: {dateTime.ToShortDateString()}.");
 
             IQueryable<ParkEvent> query = _context.Events
-                .Include(e => e.Park);
+                .Include(e => e.Park)
+                .Include(e => e.User);
 
             query = query.Where(e =>
             e.Date == dateTime &&
@@ -275,7 +280,8 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting all events.");
 
             IQueryable<ParkEvent> query = _context.Events
-                .Include(e => e.Park);
+                .Include(e => e.Park)
+                .Include(e => e.User);
 
             query = query.Where(e =>
             e.Date == dateTime &&
@@ -289,7 +295,8 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting all events.");
 
             IQueryable<ParkEvent> query = _context.Events
-                .Include(e => e.Park);
+                .Include(e => e.Park)
+                .Include(e => e.User);
 
             query = query.OrderByDescending(e => e.Date);
 

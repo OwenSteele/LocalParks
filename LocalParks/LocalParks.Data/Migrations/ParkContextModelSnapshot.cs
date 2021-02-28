@@ -235,7 +235,7 @@ namespace LocalParks.Data.Migrations
                     b.Property<string>("OrganiserPhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ParkRef")
+                    b.Property<int?>("ParkId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -243,7 +243,7 @@ namespace LocalParks.Data.Migrations
 
                     b.HasKey("EventId");
 
-                    b.HasIndex("ParkRef");
+                    b.HasIndex("ParkId");
 
                     b.HasIndex("UserId");
 
@@ -260,7 +260,7 @@ namespace LocalParks.Data.Migrations
                             OrganiserFirstName = "Joan",
                             OrganiserLastName = "Roberts",
                             OrganiserPhoneNumber = "07123456789",
-                            ParkRef = 1
+                            ParkId = 1
                         },
                         new
                         {
@@ -272,7 +272,7 @@ namespace LocalParks.Data.Migrations
                             OrganiserFirstName = "Dan",
                             OrganiserLastName = "Jackson",
                             OrganiserPhoneNumber = "0700345876",
-                            ParkRef = 2
+                            ParkId = 2
                         },
                         new
                         {
@@ -284,7 +284,7 @@ namespace LocalParks.Data.Migrations
                             OrganiserFirstName = "Mark",
                             OrganiserLastName = "Davis",
                             OrganiserPhoneNumber = "01196596691",
-                            ParkRef = 2
+                            ParkId = 2
                         });
                 });
 
@@ -385,7 +385,7 @@ namespace LocalParks.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ParkRef")
+                    b.Property<int?>("ParkId")
                         .HasColumnType("int");
 
                     b.Property<string>("President")
@@ -399,7 +399,7 @@ namespace LocalParks.Data.Migrations
 
                     b.HasKey("ClubId");
 
-                    b.HasIndex("ParkRef");
+                    b.HasIndex("ParkId");
 
                     b.ToTable("SportsClubs");
 
@@ -411,7 +411,7 @@ namespace LocalParks.Data.Migrations
                             Members = 103,
                             MembershipFee = 20000m,
                             Name = "Curling Polo Club",
-                            ParkRef = 1,
+                            ParkId = 1,
                             President = "Matthrew Albright",
                             Sport = 0,
                             Website = "CPCPolo-OS.co.uk"
@@ -423,7 +423,7 @@ namespace LocalParks.Data.Migrations
                             Members = 20,
                             MembershipFee = 150m,
                             Name = "Meadow RFC",
-                            ParkRef = 1,
+                            ParkId = 1,
                             President = "Jess Hampston",
                             Sport = 2,
                             Website = "Meadow-Rugby-OS.co.uk"
@@ -435,7 +435,7 @@ namespace LocalParks.Data.Migrations
                             Members = 67,
                             MembershipFee = 330m,
                             Name = "Chesterly Cricket Club",
-                            ParkRef = 2,
+                            ParkId = 2,
                             President = "Linda Paul",
                             Sport = 8,
                             Website = "ChesterlyCricketClub-OS.co.uk"
@@ -701,9 +701,7 @@ namespace LocalParks.Data.Migrations
                 {
                     b.HasOne("LocalParks.Core.Park", "Park")
                         .WithMany("Events")
-                        .HasForeignKey("ParkRef")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ParkId");
 
                     b.HasOne("LocalParks.Core.LocalParksUser", "User")
                         .WithMany("OrganisedEvents")
@@ -718,9 +716,7 @@ namespace LocalParks.Data.Migrations
                 {
                     b.HasOne("LocalParks.Core.Park", "Park")
                         .WithMany("SportClubs")
-                        .HasForeignKey("ParkRef")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ParkId");
 
                     b.Navigation("Park");
                 });

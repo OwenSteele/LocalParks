@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LocalParks.Data.Migrations
 {
     [DbContext(typeof(ParkContext))]
-    [Migration("20210226002416_Identity")]
-    partial class Identity
+    [Migration("20210228123124_User")]
+    partial class User
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

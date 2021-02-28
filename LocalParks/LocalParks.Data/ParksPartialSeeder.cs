@@ -37,9 +37,10 @@ namespace LocalParks.Data
 
                 var result = await _userManager.CreateAsync(user, "AdminP4ssw0rd!.");
                 if (result != IdentityResult.Success) throw new Exception("Could not seed user.");
+
+                _context.SaveChanges();
             }
 
-            _context.SaveChanges();
 
             var test = await _userManager.FindByEmailAsync("example@owensteele.co.uk");
             if (test == null)
@@ -54,11 +55,11 @@ namespace LocalParks.Data
                     PostcodeZone = "LP1"
                 };
 
-                var result = await _userManager.CreateAsync(test, "Test12345678");
+                var result = await _userManager.CreateAsync(test, "Test12345678!");
                 if (result != IdentityResult.Success) throw new Exception("Could not seed user.");
-            }
 
             _context.SaveChanges();
+            }
 
             var roleAdmin = await _roleManager.FindByNameAsync("Administrator");
             if(roleAdmin == null)
@@ -71,17 +72,17 @@ namespace LocalParks.Data
 
                 var result = await _roleManager.CreateAsync(roleAdmin);
                 if (result != IdentityResult.Success) throw new Exception("Could not seed Admin role.");
-            }
 
             _context.SaveChanges();
+            }
 
             if (!await _userManager.IsInRoleAsync(user, "Administrator"))
             {
                 var result = await _userManager.AddToRoleAsync(user, "Administrator");
                 if (result != IdentityResult.Success) throw new Exception("Could not seed User with Role.");
-            }
 
             _context.SaveChanges();
+            }
         }
     }
 }

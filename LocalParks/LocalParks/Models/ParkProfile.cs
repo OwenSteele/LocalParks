@@ -30,8 +30,10 @@ namespace LocalParks.Models
             CreateMap<ParkEvent, ParkEventModel>()
                 .ForMember(m => m.ParkId, o => o.MapFrom(e => e.Park.ParkId))
                 .ForMember(m => m.ParkName, o => o.MapFrom(e => e.Park.Name))
+                .ForMember(m => m.Username, o => o.MapFrom(e => e.User.UserName))
                 .ReverseMap()
-                .ForMember(p => p.Park, o => o.Ignore());
+                .ForMember(p => p.Park, o => o.Ignore())
+                .ForMember(p => p.User, o => o.Ignore());
 
             CreateMap<Supervisor, SupervisorModel>()
                 .ForMember(m => m.ParkId, o => o.MapFrom(s => s.Park.ParkId))

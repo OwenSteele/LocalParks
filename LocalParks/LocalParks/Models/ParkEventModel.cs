@@ -35,22 +35,19 @@ namespace LocalParks.Models
         [DisplayName("Surname")]
         public string OrganiserLastName { get; set; }
         [Required]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "For API POST 'user/this/me' - change to 'user/this/me@email'")]
         [DisplayName("Email address")]
         public string OrganiserEmail { get; set; }
         [Required]
         [Phone]
         [DisplayName("Contact number")]
         public string OrganiserPhoneNumber { get; set; }
-
+        public string Username { get; set; }
         public string ObsfucatedNumber()
         {
             int len = OrganiserPhoneNumber.Length;
-            var stars = new string('*', len - 3);
-            var obs = new StringBuilder(stars, len);
-            obs.Append(OrganiserPhoneNumber[(len - 3)..]);
-
-            return obs.ToString();
+            return new StringBuilder(new string('*', len - 3), len).
+                Append(OrganiserPhoneNumber[(len - 3)..]).ToString();
         }
     }
 }
