@@ -4,14 +4,16 @@ using LocalParks.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LocalParks.Data.Migrations
 {
     [DbContext(typeof(ParkContext))]
-    partial class ParkContextModelSnapshot : ModelSnapshot
+    [Migration("20210228222914_ParkRef_Events")]
+    partial class ParkRef_Events
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,7 +240,7 @@ namespace LocalParks.Data.Migrations
                     b.Property<string>("OrganiserPhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ParkRef")
+                    b.Property<int?>("ParkId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -246,7 +248,7 @@ namespace LocalParks.Data.Migrations
 
                     b.HasKey("EventId");
 
-                    b.HasIndex("ParkRef");
+                    b.HasIndex("ParkId");
 
                     b.HasIndex("UserId");
 
@@ -263,7 +265,7 @@ namespace LocalParks.Data.Migrations
                             OrganiserFirstName = "Joan",
                             OrganiserLastName = "Roberts",
                             OrganiserPhoneNumber = "07123456789",
-                            ParkRef = 1
+                            ParkId = 1
                         },
                         new
                         {
@@ -275,7 +277,7 @@ namespace LocalParks.Data.Migrations
                             OrganiserFirstName = "Dan",
                             OrganiserLastName = "Jackson",
                             OrganiserPhoneNumber = "0700345876",
-                            ParkRef = 2
+                            ParkId = 2
                         },
                         new
                         {
@@ -287,7 +289,7 @@ namespace LocalParks.Data.Migrations
                             OrganiserFirstName = "Mark",
                             OrganiserLastName = "Davis",
                             OrganiserPhoneNumber = "01196596691",
-                            ParkRef = 2
+                            ParkId = 2
                         });
                 });
 
@@ -704,9 +706,7 @@ namespace LocalParks.Data.Migrations
                 {
                     b.HasOne("LocalParks.Core.Park", "Park")
                         .WithMany("Events")
-                        .HasForeignKey("ParkRef")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ParkId");
 
                     b.HasOne("LocalParks.Core.LocalParksUser", "User")
                         .WithMany("OrganisedEvents")

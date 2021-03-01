@@ -1,0 +1,24 @@
+﻿@using LocalParks.Models
+@model ParkEventModel
+
+<div class="panel panel-default">
+    <table class="table table-striped table-bordered dt-responsive wrap w3-center btn rounded">
+        <tr>
+            <td colspan="2">
+                <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
+                       type="button"
+                       value="@Model.Name"
+                       onclick="location.href='@Url.Action("Details", "ParkEvents",
+                                      new { parkId = Model.ParkId, date = Model.Date })'" />
+            </td>
+        </tr>
+        <tr>
+            <th class="thead-light">@Html.DisplayNameFor(model => model.ParkName)</th>
+            <th class="thead-light">@Html.DisplayNameFor(model => model.Date)</th>
+        </tr>
+        <tr>
+            <td class="text-wrap p-0">@Model.ParkName</td>
+            <td class="text-wrap p-0">@Model.Date.ToShortDateString()</td>
+        </tr>
+    </table>
+</div>

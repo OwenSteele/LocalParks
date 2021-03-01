@@ -118,28 +118,6 @@ namespace LocalParks.Services
             return _mapper.Map<ParkModel>(result);
         }
 
-        public async Task<ParkEventModel> CreateNewEventAsync(ParkEventModel newEvent, ParkModel park)
-        {
-            var result = _mapper.Map<ParkEvent>(newEvent);
-
-            result.Park = _mapper.Map<Park>(park);
-
-            _parkRepository.Add(result);
-
-            if (!await _parkRepository.SaveChangesAsync()) return null;
-
-            var parkEvent = await _parkRepository.GetEventByParkIdByDateAsync(newEvent.ParkId, newEvent.Date);
-
-            return _mapper.Map<ParkEventModel>(parkEvent);
-        }
-        public async Task<bool> RemoveEventAsync(ParkEventModel parkEventModel)
-        {
-            var parkEvent = _mapper.Map<ParkEvent>(parkEventModel);
-
-            _parkRepository.Delete(parkEvent);
-
-            return await _parkRepository.SaveChangesAsync();
-        }
         public IEnumerable<SelectListItem> GetSortSelectListItems()
         {
             return from p in typeof(ParkEventModel).GetProperties()
@@ -152,12 +130,7 @@ namespace LocalParks.Services
                    };
         }
 
-        public async Task<bool> CheckParkExistsAsync(int parkId)
-        {
-            return await _parkRepository.GetParkByIdAsync(parkId) != null;
-        }
-
-        public async Task<ParkEventModel> AddNewParkEventAsync(ParkEventModel model, string username)
+        public async Task<ParkEventModel> AddNewParkEventAsync(ParkEventModel model, string username, bool hideUsername = true)
         {
             var user = await _parkRepository.GetLocalParksUserByUsernameAsync(username);
 
@@ -194,7 +167,7 @@ namespace LocalParks.Services
             if (await _parkRepository.SaveChangesAsync())
             {
                 var result = _mapper.Map<ParkEventModel>(parkEvent);
-                result.Username = null;
+                if(hideUsername) result.Username = null;
                 return result;
             }
 
@@ -233,6 +206,17 @@ namespace LocalParks.Services
             var result = await _parkRepository.GetEventByIdAsync(eventId);
 
             if(result.User == null) return null;
+
+            if (string.IsNullOrWhiteSpace(userName) || result.User.UserName == userName)
+                return _mapper.Map<LocalParksUserModel>(result.User);
+
+            return null;
+        }
+        public async Task<LocalParksUserModel> GetEventOwner(int parkId, DateTime date,string userName = null)
+        {
+            var result = await _parkRepository.GetEventByParkIdByDateAsync(parkId, date);
+
+            if (result == null || result.User == null) return null;
 
             if (string.IsNullOrWhiteSpace(userName) || result.User.UserName == userName)
                 return _mapper.Map<LocalParksUserModel>(result.User);

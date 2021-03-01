@@ -150,7 +150,6 @@ namespace LocalParks.API
             }
         }
 
-
         [Route("api/[controller]")]
         [HttpPost]
         public async Task<ActionResult<ParkEventModel>> AddParkEventClub(ParkEventModel model)
@@ -191,10 +190,10 @@ namespace LocalParks.API
 
                 if (model.ParkId.Equals(0)) return BadRequest("Must include 'parkId'.");
 
-                if (!await _service.CheckParkExistsAsync(model.ParkId))
+                if (await _service.GetParkAsync(model.ParkId) == null)
                     return BadRequest("No park with this Id");
 
-                if (model.EventId.Equals(0)) model.EventId = eventId;
+                if (model.EventId.Equals(0)) model.EventId = eventId;                                                             
 
                 var result = await _service.UpdateParkEventAsync(model);
                 if (result == null) return BadRequest("No changes were made.");

@@ -6,6 +6,7 @@ namespace LocalParks.Core
     {
         public int EventId { get; set; }
         public string Name { get; set; }
+        public int ParkId { get; set; }
         public Park Park { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }

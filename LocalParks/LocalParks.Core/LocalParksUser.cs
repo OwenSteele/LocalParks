@@ -9,11 +9,11 @@ namespace LocalParks.Core
 {
     public class LocalParksUser : IdentityUser
     {
-        //UserName, PasswordHash, Email, PhoneNumber in Base
-
+        //UserName, Email, PhoneNumber in Base
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public ICollection<ParkEvent> OrganisedEvents { get; set; }
         public string PostcodeZone { get; set; }
+        public DateTime MemberSince { get; set; }
     }
 }

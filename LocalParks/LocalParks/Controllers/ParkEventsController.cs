@@ -12,12 +12,15 @@ namespace LocalParks.Controllers
     {
         private readonly ILogger<ParkEventsController> _logger;
         private readonly IParkEventsService _service;
+        private readonly IAuthenticationService _authenticationService;
         private ParkEventModel _tempEvent;
 
-        public ParkEventsController(ILogger<ParkEventsController> logger, IParkEventsService service)
+        public ParkEventsController(ILogger<ParkEventsController> logger, IParkEventsService service,
+            IAuthenticationService authenticationService)
         {
             _logger = logger;
             _service = service;
+            _authenticationService = authenticationService;
         }
 
         [BindProperty]
@@ -37,6 +40,11 @@ namespace LocalParks.Controllers
 
             ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
             ViewData["SortOptions"] = _service.GetSortSelectListItems();
+
+            if (await _authenticationService.IsSignedIn(this.User))
+            {
+                    ViewData["User"] = "User";
+            }
 
             if (string.IsNullOrWhiteSpace(searchTerm) &&
                 string.IsNullOrWhiteSpace(parkFilter) &&
@@ -75,6 +83,15 @@ namespace LocalParks.Controllers
 
             var parkEvent = await _service.GetParkEventModelAsync(parkId, date);
 
+            if (await _authenticationService.IsSignedIn(this.User))
+            {
+                if (await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
+                    ViewData["User"] = "Admin";
+
+                else
+                    ViewData["User"] = _service.GetEventOwner(parkId, date, this.User.Identity.Name);
+            }
+
             if (parkEvent == null) return View("NotFound");
 
             return View(parkEvent);
@@ -84,6 +101,16 @@ namespace LocalParks.Controllers
         public async Task<IActionResult> Edit(int parkId, DateTime date)
         {
             _logger.LogInformation("Executing ParkEvents.Details Model");
+
+            if (!await _authenticationService.IsSignedIn(this.User))
+                return RedirectToAction("Details", "ParkEvents",
+                    new { _tempEvent.ParkId, _tempEvent.Date });
+
+            if (parkId != 0 &&
+                date != DateTime.MinValue &&
+                await _service.GetEventOwner(parkId, date, this.User.Identity.Name) == null &&
+                !await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
+                return RedirectToAction("Details", "ParkEvents", new { parkId, date });
 
             ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
 
@@ -100,50 +127,53 @@ namespace LocalParks.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit()
         {
+            if (!await _authenticationService.IsSignedIn(this.User))
+                return RedirectToAction("Details", "ParkEvents",
+                    new { _tempEvent.ParkId, _tempEvent.Date });
+
+            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
+
             if (!ModelState.IsValid)
             {
-                ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
-
                 return View("Edit", _tempEvent);
             }
 
             var match = await _service.GetParkAsync(_tempEvent.ParkId);
             if (match == null)
             {
-                ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
-
                 return View("Edit", _tempEvent);
             }
 
             if (match.Events.FirstOrDefault(e => e.Date == _tempEvent.Date) != null)
             {
-                ViewData["DateTaken"] = $"An Event is already booked for this date at {match.Name}";
-
-                ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
-
                 return View("Edit", _tempEvent);
             }
 
-            var result = await _service.CreateNewEventAsync(_tempEvent, match);
+            var result = await _service.AddNewParkEventAsync(_tempEvent, this.User.Identity.Name, false);
 
             if (result != null)
             {
                 return RedirectToAction("Details", "ParkEvents", new { result.ParkId, result.Date });
             }
 
-            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
-
             return View("Edit", _tempEvent);
         }
 
         public async Task<IActionResult> Delete(int parkId, DateTime date, bool confirmed = false)
         {
+            if (!await _authenticationService.IsSignedIn(this.User))
+                return RedirectToAction("Details", "ParkEvents", new { parkId, date });
+
+            if (await _service.GetEventOwner(parkId, date, this.User.Identity.Name) == null &&
+                !await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
+                return RedirectToAction("Details", "ParkEvents", new { parkId, date });
+
             var result = await _service.GetParkEventModelAsync(parkId, date);
             if (result == null) RedirectToAction("NotFound", "ParkEvents");
 
             if (!confirmed) return View(result);
 
-            if (await _service.RemoveEventAsync(result))
+            if (await _service.DeleteParkEventAsync(result))
                 return RedirectToAction("Index", "ParkEvents");
 
             return RedirectToAction("Details", "ParkEvents", new { parkId, date });

@@ -10,12 +10,25 @@
                 <h1>Upcoming events</h1>
             </td>
             <td class="w3-right">
-                <h1>
-                    <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded btn-group-lg"
-                           type="button"
-                           value="Schedule an event"
-                           onclick="location.href='@Url.Action("Edit", "ParkEvents")'" />
-                </h1>
+                @if (ViewData["User"] != null)
+                {
+                    <h3>
+                        <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded btn-group-lg"
+                               type="button"
+                               value="Schedule an event"
+                               onclick="location.href='@Url.Action("Edit", "ParkEvents")'" />
+                    </h3>
+                }
+                else
+                {
+                    <h3>
+                        <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded btn-group-lg"
+                               type="button"
+                               value="Log in to schedule an event"
+                               onclick="location.href='@Url.Action("Login", "Account",
+                                      new { returnUrl = Url.Action("Edit", "ParkEvents")})'" />
+                    </h3>
+                }
             </td>
         </tr>
     </table>

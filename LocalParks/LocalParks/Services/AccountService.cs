@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -45,12 +44,14 @@ namespace LocalParks.Services
             if (!result.Succeeded) return null;
 
             var user = await _parkRepository.GetLocalParksUserByUsernameAsync(model.Username);
+
             return _mapper.Map<LocalParksUserModel>(user);
         }
 
         public async Task<LocalParksUserModel> GetUserAsync(string name)
         {
             var user = await _parkRepository.GetLocalParksUserByUsernameAsync(name);
+
             return _mapper.Map<LocalParksUserModel>(user);
         }
 
@@ -89,7 +90,7 @@ namespace LocalParks.Services
                 claims,
                 expires: DateTime.UtcNow.AddMinutes(tokenLifetime),
                 signingCredentials: credentials
-                ) ;
+                );
 
             var results = new
             {

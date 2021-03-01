@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,6 +26,12 @@ namespace LocalParks.Services
             if (user == null) return false;
 
             return await _userManager.IsInRoleAsync(user, role);
+        }
+        public async Task<bool> IsSignedIn(ClaimsPrincipal user)
+        {
+            if (user == null || user.Identity.Name == null) return false;
+
+            return await _userManager.FindByNameAsync(user.Identity.Name) != null;
         }
     }
 }

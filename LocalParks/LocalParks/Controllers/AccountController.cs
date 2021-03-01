@@ -1,5 +1,7 @@
 ﻿using LocalParks.Models;
 using LocalParks.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Linq;
@@ -28,9 +30,11 @@ namespace LocalParks.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null)
         {
             _logger.LogInformation("Executing Acount.Login Model");
+
+            ViewData["ReturnUrl"] = returnUrl;
 
             if (this.User.Identity.IsAuthenticated)
                 return RedirectToAction("Index");
@@ -38,7 +42,7 @@ namespace LocalParks.Controllers
             return View(new LoginModel());
         }
         [HttpPost]
-        public async Task<IActionResult> Login(LoginModel model)
+        public async Task<IActionResult> Login(LoginModel model, string returnUrl = null)
         {
             _logger.LogInformation("Executing Acount.Login Post");
 
@@ -48,9 +52,9 @@ namespace LocalParks.Controllers
 
                 if (user == null) return RedirectToAction("Index", "Home");
 
-                if(Request.Query.Keys.Contains("ReturnUrl"))
+                if(returnUrl != null)
                 {
-                    Redirect(Request.Query["ReturnUrl"].First());
+                    return Redirect(returnUrl);
                 }
 
                 return RedirectToAction("Index");
@@ -60,11 +64,75 @@ namespace LocalParks.Controllers
 
             return RedirectToAction("Login");
         }
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Logout(string returnUrl = null)
         {
+            if (!this.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
             await _service.SignOutAsync();
 
+            if(!string.IsNullOrWhiteSpace(returnUrl)) return Redirect(returnUrl);
+
             return RedirectToAction("Index", "Home");
+        }
+        [HttpGet]
+        public IActionResult SignUp()
+        {
+            if (this.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index");
+
+            return View(new LocalParksUserModel());
+        }
+        [HttpPost]
+        public IActionResult SignUp(LocalParksUserModel model)
+        {
+            return View();
+        }
+        public IActionResult Developers()
+        {
+            if (!this.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+            return View();
+        }
+        public IActionResult TokenGenerator()
+        {
+            if (!this.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+            return View();
+        }
+        public IActionResult ApiDocumentation()
+        {
+            if (!this.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+            return View();
+        }
+        public IActionResult ChangePassword()
+        {
+            if (!this.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+            return View();
+        }
+        public IActionResult EditDetails()
+        {
+            if (!this.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+            return View();
+        }
+        public IActionResult DeleteUserAccount()
+        {
+            if (!this.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+            return View();
+        }
+        public IActionResult WhySignUp()
+        {
+            return View();
         }
     }
 }

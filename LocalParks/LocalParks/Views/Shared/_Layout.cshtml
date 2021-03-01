@@ -52,21 +52,21 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item w3-padding-16 w3-hover-text-black">
-                                <a class="nav-link text-light w3-hover-amber rounded border-dark" asp-controller="Account"
+                                <a class="nav-link text-light w3-text-amber w3-border-amber rounded border-dark" asp-controller="Account"
                                    asp-action="Index"><i class="fa fa-sign-out"></i>@User.Identity.Name</a>
                             </li>
 
                             <li class="nav-item w3-padding-16 w3-hover-text-black">
-                                <a class="nav-link text-light w3-hover-amber rounded" asp-controller="Account"
-                                   asp-action="Logout"><i class="fa fa-sign-out"></i>Logout</a>
+                                <a class="nav-link text-light rounded " asp-controller="Account"
+                                   asp-action="Logout" asp-route-returnUrl="@Url.PageLink()" style="color: red;"><i class="fa fa-sign-out"></i>Logout</a>
                             </li>
 
                         }
                         else
                         {
-                            <li class="nav-item w3-padding-16 w3-hover-text-black float-md-right">
-                                <a class="nav-link text-light w3-hover-amber rounded" asp-controller="Account"
-                                   asp-action="Login"><i class="fa fa-sign-in"></i>Login</a>
+                            <li class="nav-item w3-padding-16 w3-hover-text-black float-md-right w3-text-green">
+                                <a class="nav-link text-light rounded" asp-controller="Account"
+                                   asp-action="Login" style="color: green;"><i class="fa fa-sign-in"></i>Login</a>
                             </li>
                         }
                         </ul>

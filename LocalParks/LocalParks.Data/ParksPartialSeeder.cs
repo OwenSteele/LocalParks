@@ -32,7 +32,8 @@ namespace LocalParks.Data
                     LastName = "Steele",
                     Email = "contact@owensteele.co.uk",
                     PhoneNumber = "070000000000",
-                    PostcodeZone = "LP1"
+                    PostcodeZone = "LP1",
+                    MemberSince = new DateTime(2021, 2, 1)
                 };
 
                 var result = await _userManager.CreateAsync(user, "AdminP4ssw0rd!.");
@@ -41,9 +42,17 @@ namespace LocalParks.Data
                 _context.SaveChanges();
             }
 
+            if (user.MemberSince == DateTime.MinValue)
+            {
+                user.MemberSince = new DateTime(2021, 2, 1);
+                var result = await _userManager.UpdateAsync(user);
+                if (result != IdentityResult.Success) throw new Exception("Could not seed member since");
+
+                _context.SaveChanges();
+            }
 
             var test = await _userManager.FindByEmailAsync("example@owensteele.co.uk");
-            if (test == null)
+            if (test == null || user.MemberSince == DateTime.MinValue)
             {
                 test = new LocalParksUser
                 {
@@ -52,13 +61,23 @@ namespace LocalParks.Data
                     LastName = "User",
                     Email = "example@owensteele.co.uk",
                     PhoneNumber = "099999999999",
-                    PostcodeZone = "LP1"
+                    PostcodeZone = "LP1",
+                    MemberSince = DateTime.Today
                 };
 
                 var result = await _userManager.CreateAsync(test, "Test12345678!");
                 if (result != IdentityResult.Success) throw new Exception("Could not seed user.");
 
             _context.SaveChanges();
+            }
+
+            if (test.MemberSince == DateTime.MinValue)
+            {
+                test.MemberSince = new DateTime(2021, 2, 1);
+                var result = await _userManager.UpdateAsync(test);
+                if (result != IdentityResult.Success) throw new Exception("Could not seed member since");
+
+                _context.SaveChanges();
             }
 
             var roleAdmin = await _roleManager.FindByNameAsync("Administrator");
@@ -81,8 +100,9 @@ namespace LocalParks.Data
                 var result = await _userManager.AddToRoleAsync(user, "Administrator");
                 if (result != IdentityResult.Success) throw new Exception("Could not seed User with Role.");
 
-            _context.SaveChanges();
             }
+
+            _context.SaveChanges();
         }
     }
 }

@@ -32,6 +32,7 @@ namespace LocalParks.Models
                 .ForMember(m => m.ParkName, o => o.MapFrom(e => e.Park.Name))
                 .ForMember(m => m.Username, o => o.MapFrom(e => e.User.UserName))
                 .ReverseMap()
+                .ForMember(e => e.ParkId, o => o.MapFrom(e => e.ParkId))
                 .ForMember(p => p.Park, o => o.Ignore())
                 .ForMember(p => p.User, o => o.Ignore());
 

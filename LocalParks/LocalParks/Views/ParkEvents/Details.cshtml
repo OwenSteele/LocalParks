@@ -41,15 +41,26 @@
     </tbody>
 </table>
 <div>
-    <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
-           type="button"
-           value="Edit"
-           onclick="location.href='@Url.Action("Edit", "ParkEvents",
-                                      new { parkId = Model.ParkId, date = Model.Date })'" />
+    @if (ViewData["User"] != null)
+    {
+        <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
+               type="button"
+               value="Edit"
+               onclick="location.href='@Url.Action("Edit", "ParkEvents",
+                new { parkId = Model.ParkId, date = Model.Date })'" />
 
-    <input class="btn-danger w3-hover-border-white w3-hover-text-white rounded"
-       type="button"
-       value="Delete"
-       onclick="location.href='@Url.Action("Delete", "ParkEvents",
-                                      new { parkId = Model.ParkId, date = Model.Date })'" />
+        <input class="btn-danger w3-hover-border-white w3-hover-text-white rounded"
+               type="button"
+               value="Delete"
+               onclick="location.href='@Url.Action("Delete", "ParkEvents",
+                    new { parkId = Model.ParkId, date = Model.Date })'" />
+    }
+    else
+    {
+        <input class="btn-danger w3-hover-border-white w3-hover-text-white rounded"
+               type="button"
+               value="Log in to edit your events"
+               onclick="location.href='@Url.Action("Login", "Account",
+                                      new { returnUrl = Url.PageLink()})'" />
+    }
 </div>
