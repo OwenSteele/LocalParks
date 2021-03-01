@@ -11,6 +11,18 @@
         Athletics,
         Yoga,
         Basketball,
-        Cricket
+        Cricket,
+        Archery,
+        Badminton,
+        Skateboarding,
+        Softball,
+        Frisbee,
+        Golf,
+        Hockey,
+        Netball,
+        MartialArts,
+        Sailing,
+        Volleyball,
+        Swimming
     }
 }

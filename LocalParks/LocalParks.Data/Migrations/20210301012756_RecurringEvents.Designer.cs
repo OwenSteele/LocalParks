@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LocalParks.Data.Migrations
 {
     [DbContext(typeof(ParkContext))]
-    [Migration("20210228152717_Membership")]
-    partial class Membership
+    [Migration("20210301012756_RecurringEvents")]
+    partial class RecurringEvents
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -240,8 +240,11 @@ namespace LocalParks.Data.Migrations
                     b.Property<string>("OrganiserPhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ParkId")
+                    b.Property<int>("ParkId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Recurring")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -265,7 +268,8 @@ namespace LocalParks.Data.Migrations
                             OrganiserFirstName = "Joan",
                             OrganiserLastName = "Roberts",
                             OrganiserPhoneNumber = "07123456789",
-                            ParkId = 1
+                            ParkId = 1,
+                            Recurring = "0,6,0"
                         },
                         new
                         {
@@ -289,7 +293,8 @@ namespace LocalParks.Data.Migrations
                             OrganiserFirstName = "Mark",
                             OrganiserLastName = "Davis",
                             OrganiserPhoneNumber = "01196596691",
-                            ParkId = 2
+                            ParkId = 2,
+                            Recurring = "0, 0, 90"
                         });
                 });
 
@@ -706,7 +711,9 @@ namespace LocalParks.Data.Migrations
                 {
                     b.HasOne("LocalParks.Core.Park", "Park")
                         .WithMany("Events")
-                        .HasForeignKey("ParkId");
+                        .HasForeignKey("ParkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("LocalParks.Core.LocalParksUser", "User")
                         .WithMany("OrganisedEvents")

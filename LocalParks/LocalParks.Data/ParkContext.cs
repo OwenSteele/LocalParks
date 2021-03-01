@@ -326,7 +326,8 @@ namespace LocalParks.Data
                     OrganiserFirstName = "Joan",
                     OrganiserLastName = "Roberts",
                     OrganiserEmail = "JoanRoberts@owensteele.co.uk",
-                    OrganiserPhoneNumber = "07123456789"
+                    OrganiserPhoneNumber = "07123456789",
+                    Recurring = "0,6,0"
                 }, new
                 {
                     EventId = 2,
@@ -348,8 +349,9 @@ namespace LocalParks.Data
                     OrganiserFirstName = "Mark",
                     OrganiserLastName = "Davis",
                     OrganiserEmail = "MarkDavis@owensteele.co.uk",
-                    OrganiserPhoneNumber = "01196596691"
-                });
+                    OrganiserPhoneNumber = "01196596691",
+                    Recurring = "0, 0, 90"
+                }) ;
         }
     }
 }

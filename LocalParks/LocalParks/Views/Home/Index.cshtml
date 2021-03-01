@@ -16,12 +16,12 @@
 
 <h1 class="text-lg-center">Welcome to the Parks Authority new Website!</h1>
 
-<div class="col-xl-4 col-lg-6 col-md-12">
+<div class="col-md-6 offset-md-3 align-content-center align-items-center align-self-center">
     <img style="height: 60%; width: 60%;" src="~/images/LogoFull.PNG" />
 </div>
 
-<div class="text-center col-xl-8 col-lg-6 col-md-12">
-    <div style="padding: 10px">
+<div class="row text-center col-md-10 offset-md-1 flex-wrap text-wrap">
+    <div class="font-weight-bold p-1 m-1">
         <p>
             Our new redesigned site contains lots more features,
             such as being able to look at the wonderful parks in your area
@@ -37,58 +37,60 @@
         </p>
 
     </div>
-
-    <div>
-        <h4>Selected park</h4>
-        <p>
-            <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
-                   type="button"
-                   value="@Model.NearestPark.Name"
-                   onclick="location.href='@Url.Action("Details", "Parks",
+    <div class="row">
+        <div class="col-md-5 border-secondary card rounded  p-1 m-1">
+            <h3 class="border-bottom">Selected park</h3>
+            <p>
+                <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
+                       type="button"
+                       value="@Model.NearestPark.Name"
+                       onclick="location.href='@Url.Action("Details", "Parks",
                                       new { parkId = @Model.NearestPark.ParkId })'" />
-            ! Click on the parks name to find out all about it.
-        </p>
-    </div>
+                ! Click on the parks name to find out all about it.
+            </p>
+        </div>
 
-    <div>
-        <h4>Open Parks</h4>
-        <p>
-            Right now
-            @if (Model.OpenParksCount > 1)
-            {<span>we have @Model.OpenParksCount parks open!</span> }
-        else if (Model.OpenParksCount == 1)
-        {<span>only one of our parks is open, but may close soon too!</span>}
-        else
-        {<span>
-                All of our parks are shut, please check the parks page to see when they open:
-            </span>}
-            <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
-                   type="button"
-                   value="See our parks"
-                   onclick="location.href='@Url.Action("Index", "Park")'" />
-        </p>
+        <div class="col-md-5 border-secondary card rounded p-1 m-1">
+            <h3 class="border-bottom">Open Parks</h3>
+            <p>
+                Right now
+                @if (Model.OpenParksCount > 1)
+                {<span>we have @Model.OpenParksCount parks open!</span> }
+            else if (Model.OpenParksCount == 1)
+            {<span>only one of our parks is open, but may close soon too!</span>}
+            else
+            {<span>
+                    All of our parks are shut, please check the parks page to see when they open:
+                </span>}
+                <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
+                       type="button"
+                       value="See our parks"
+                       onclick="location.href='@Url.Action("Index", "Parks")'" />
+            </p>
+        </div>
     </div>
-    @if (Model.OpenParksCount > 0)
-    {<h4>Closing Soon</h4>
-        <div>
-            @foreach (var park in Model.Parks)
-            {
-                if (park.ClosingTime.Hour >= DateTime.Now.Hour && park.ClosingTime.Hour <= DateTime.Now.Hour + 2)
+        @if (Model.OpenParksCount > 0)
+        {<h3 class="border-bottom">Closing Soon</h3>
+            <div class="border-danger card rounded  p-1 m-1">
+                @foreach (var park in Model.Parks)
                 {
-                    <p>
-                        <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
-                               type="button"
-                               value="@park.Name"
-                               onclick="location.href='@Url.Action("Details", "Parks",
+                    if (park.ClosingTime.Hour >= DateTime.Now.Hour && park.ClosingTime.Hour <= DateTime.Now.Hour + 2)
+                    {
+                        <p>
+                            <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
+                                   type="button"
+                                   value="@park.Name"
+                                   onclick="location.href='@Url.Action("Details", "Parks",
                                       new { parkId = park.ParkId })'" />
-                        closes at @park.ClosingTime.TimeOfDay
-                    </p>
+                            closes at @park.ClosingTime.TimeOfDay
+                        </p>
+                    }
                 }
-            }
-        </div>}
+            </div>}
 
-    <div>
-        <h4>Upcoming Events</h4>
+<div class="row">
+    <div class="col-md-5 bg-light p-1 m-0 rounded">
+        <h3 class="border-bottom font-weight-bolder">Upcoming Events</h3>
         @if (!Model.EventsThisMonth.Any())
         {
             <p>
@@ -137,19 +139,19 @@
         }
     </div>
 
-    <div>
-        <h4>Recently Added Events</h4>
+    <div class="col-md-5 bg-light p-1 m-0 rounded">
+        <h3 class="border-bottom font-weight-bolder">Recently Added Events</h3>
         <p>
             <table class="align-content-center">
                 <thead>
                     <tr>
-                        <td colspan="3">@Model.AllEvents.Last().Name</td>
+                        <td class="bg-light" colspan="3">@Model.AllEvents.Last().Name</td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>In park: @Model.AllEvents.Last().ParkName</td>
-                        <td>Date: @Model.AllEvents.Last().Date.ToLongDateString()</td>
+                        <td><span class="bg-light">In park:</span> @Model.AllEvents.Last().ParkName</td>
+                        <td><span class="bg-light">Date:</span> @Model.AllEvents.Last().Date.ToLongDateString()</td>
                         <td>
                             <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
                                    type="button"
@@ -162,18 +164,19 @@
             </table>
         </p>
     </div>
-    <div class="w3-center">
-        <h4>Newest Club</h4>
-        <p>
+</div>    
+    <div class="col-md-10 offset-md-1 p-1 m-0">
+        <h3 class="border-bottom font-weight-bolder">Newest Club</h3>
+        <p class="align-content-center align-self-center align-items-center">
             <table>
                 <thead>
                     <tr>
-                        <td colspan="2">@Model.NewestSportsClub.Name</td>
+                        <td class="bg-dark rounded" colspan="2">@Model.NewestSportsClub.Name</td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Their sport is: @Model.NewestSportsClub.Sport.ToString()</td>
+                        <td><span class="bg-primary text-light">Their sport is:</span> <span class="font-weight-bolder">@Model.NewestSportsClub.Sport.ToString()</span></td>
                         <td>
                             <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
                                    type="button"

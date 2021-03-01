@@ -21,7 +21,7 @@
             <form asp-controller="Account" asp-action="Login" method="post">
 
                 <div asp-validation-summary="ModelOnly"></div>
-                <input contenteditable="false" hidden="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]"></input>
+                <input contenteditable="false" hidden="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
 
                 <div class="row form-group p-1 d-block">
                     <label asp-for="@Model.Username"></label>

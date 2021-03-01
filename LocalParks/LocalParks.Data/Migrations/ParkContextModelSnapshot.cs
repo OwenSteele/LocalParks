@@ -238,15 +238,18 @@ namespace LocalParks.Data.Migrations
                     b.Property<string>("OrganiserPhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ParkRef")
+                    b.Property<int>("ParkId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Recurring")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("EventId");
 
-                    b.HasIndex("ParkRef");
+                    b.HasIndex("ParkId");
 
                     b.HasIndex("UserId");
 
@@ -263,7 +266,8 @@ namespace LocalParks.Data.Migrations
                             OrganiserFirstName = "Joan",
                             OrganiserLastName = "Roberts",
                             OrganiserPhoneNumber = "07123456789",
-                            ParkRef = 1
+                            ParkId = 1,
+                            Recurring = "0,6,0"
                         },
                         new
                         {
@@ -275,7 +279,7 @@ namespace LocalParks.Data.Migrations
                             OrganiserFirstName = "Dan",
                             OrganiserLastName = "Jackson",
                             OrganiserPhoneNumber = "0700345876",
-                            ParkRef = 2
+                            ParkId = 2
                         },
                         new
                         {
@@ -287,7 +291,8 @@ namespace LocalParks.Data.Migrations
                             OrganiserFirstName = "Mark",
                             OrganiserLastName = "Davis",
                             OrganiserPhoneNumber = "01196596691",
-                            ParkRef = 2
+                            ParkId = 2,
+                            Recurring = "0, 0, 90"
                         });
                 });
 
@@ -704,7 +709,7 @@ namespace LocalParks.Data.Migrations
                 {
                     b.HasOne("LocalParks.Core.Park", "Park")
                         .WithMany("Events")
-                        .HasForeignKey("ParkRef")
+                        .HasForeignKey("ParkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

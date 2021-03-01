@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LocalParks.Data.Migrations
 {
-    public partial class User : Migration
+    public partial class RecurringEvents : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,6 +29,7 @@ namespace LocalParks.Data.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PostcodeZone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MemberSince = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -200,14 +201,15 @@ namespace LocalParks.Data.Migrations
                     EventId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ParkId = table.Column<int>(type: "int", nullable: true),
+                    ParkId = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrganiserFirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrganiserLastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrganiserEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrganiserPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Recurring = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -223,7 +225,7 @@ namespace LocalParks.Data.Migrations
                         column: x => x.ParkId,
                         principalTable: "Parks",
                         principalColumn: "ParkId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -310,12 +312,12 @@ namespace LocalParks.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Events",
-                columns: new[] { "EventId", "Date", "Description", "Name", "OrganiserEmail", "OrganiserFirstName", "OrganiserLastName", "OrganiserPhoneNumber", "ParkId", "UserId" },
+                columns: new[] { "EventId", "Date", "Description", "Name", "OrganiserEmail", "OrganiserFirstName", "OrganiserLastName", "OrganiserPhoneNumber", "ParkId", "Recurring", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2021, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "A fair for everyone, for hobbyists and professionals to come together and meet.", "Arts and Crafts Fair", "JoanRoberts@owensteele.co.uk", "Joan", "Roberts", "07123456789", 1, null },
-                    { 2, new DateTime(2021, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "Come and race other from the village, egg and spoons provided!", "Egg and Spoon Race", "DanJackson@owensteele.co.uk", "Dan", "Jackson", "0700345876", 2, null },
-                    { 3, new DateTime(2021, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "Come and adopt a new feline or canine friend, all looking for good homes.", "Pet adoption Clinic", "MarkDavis@owensteele.co.uk", "Mark", "Davis", "01196596691", 2, null }
+                    { 1, new DateTime(2021, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "A fair for everyone, for hobbyists and professionals to come together and meet.", "Arts and Crafts Fair", "JoanRoberts@owensteele.co.uk", "Joan", "Roberts", "07123456789", 1, "0,6,0", null },
+                    { 2, new DateTime(2021, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "Come and race other from the village, egg and spoons provided!", "Egg and Spoon Race", "DanJackson@owensteele.co.uk", "Dan", "Jackson", "0700345876", 2, null, null },
+                    { 3, new DateTime(2021, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "Come and adopt a new feline or canine friend, all looking for good homes.", "Pet adoption Clinic", "MarkDavis@owensteele.co.uk", "Mark", "Davis", "01196596691", 2, "0, 0, 90", null }
                 });
 
             migrationBuilder.InsertData(

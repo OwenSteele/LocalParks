@@ -28,7 +28,7 @@ namespace LocalParks.Models
             RecentEvent = allEvents.Last();
 
             OpenParksCount = parks.Where(p =>
-            p.ClosingTime.TimeOfDay > DateTime.Now.TimeOfDay).Count();
+            p.ClosingTime.TimeOfDay > DateTime.Now.TimeOfDay && p.OpeningTime.TimeOfDay < DateTime.Now.TimeOfDay).Count();
 
             EventsThisMonth = allEvents.Where(e => e.Date.Month == DateTime.Now.Month).ToArray();
 
