@@ -76,17 +76,55 @@ namespace LocalParks.Controllers
             return RedirectToAction("Index", "Home");
         }
         [HttpGet]
-        public IActionResult SignUp()
+        public async Task<IActionResult> SignUp()
         {
             if (this.User.Identity.IsAuthenticated)
                 return RedirectToAction("Index");
 
-            return View(new LocalParksUserModel());
+            ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
+
+            return View(new SignInModel());
         }
         [HttpPost]
-        public IActionResult SignUp(LocalParksUserModel model)
+        public async Task<IActionResult> SignUp(SignInModel model)
         {
-            return View();
+            ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
+
+            bool error = false;
+
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Failed to Create Profile - Check your fields.");
+
+                return View("SignUp", model);
+            }
+
+            if(await _service.GetUserAsync(model.Username) != null)
+            {
+                ModelState.AddModelError("", "This username is not available.");
+
+                error = true;
+            }
+
+            if (await _service.GetUserByEmailAsync(model.Email) != null)
+            {
+                ModelState.AddModelError("", "An account is already associated with this email.");
+
+                error = true;
+            }
+
+            if(error) return View("SignUp",model);
+
+            var user = await _service.AddUserAsync(model);
+
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Could not create user at this time, please try again later.");
+
+                return View("SignUp", model);
+            }
+
+            return RedirectToAction("Index");
         }
         public IActionResult Developers()
         {
@@ -123,12 +161,27 @@ namespace LocalParks.Controllers
 
             return View();
         }
+        [HttpGet]
         public IActionResult DeleteUserAccount()
         {
             if (!this.User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
 
             return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult >DeleteUserAccount(string confirmed = null)
+        {
+            if (!this.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+            if(confirmed == "true")
+            {
+                if (!await _service.DeleteUserAsync(this.User.Identity.Name))
+                    return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index","Home");
         }
         public IActionResult WhySignUp()
         {

@@ -37,7 +37,7 @@ namespace LocalParks.Data
                 };
 
                 var result = await _userManager.CreateAsync(user, "AdminP4ssw0rd!.");
-                if (result != IdentityResult.Success) throw new Exception("Could not seed user.");
+                if (!result.Succeeded) throw new Exception("Could not seed user.");
 
                 _context.SaveChanges();
             }
@@ -46,7 +46,7 @@ namespace LocalParks.Data
             {
                 user.MemberSince = new DateTime(2021, 2, 1);
                 var result = await _userManager.UpdateAsync(user);
-                if (result != IdentityResult.Success) throw new Exception("Could not seed member since");
+                if (!result.Succeeded) throw new Exception("Could not seed member since");
 
                 _context.SaveChanges();
             }
@@ -66,22 +66,22 @@ namespace LocalParks.Data
                 };
 
                 var result = await _userManager.CreateAsync(test, "Test12345678!");
-                if (result != IdentityResult.Success) throw new Exception("Could not seed user.");
+                if (!result.Succeeded) throw new Exception("Could not seed user.");
 
-            _context.SaveChanges();
+                _context.SaveChanges();
             }
 
             if (test.MemberSince == DateTime.MinValue)
             {
                 test.MemberSince = new DateTime(2021, 2, 1);
                 var result = await _userManager.UpdateAsync(test);
-                if (result != IdentityResult.Success) throw new Exception("Could not seed member since");
+                if (!result.Succeeded) throw new Exception("Could not seed member since");
 
                 _context.SaveChanges();
             }
 
             var roleAdmin = await _roleManager.FindByNameAsync("Administrator");
-            if(roleAdmin == null)
+            if (roleAdmin == null)
             {
                 roleAdmin = new IdentityRole
                 {
@@ -90,16 +90,15 @@ namespace LocalParks.Data
                 };
 
                 var result = await _roleManager.CreateAsync(roleAdmin);
-                if (result != IdentityResult.Success) throw new Exception("Could not seed Admin role.");
+                if (!result.Succeeded) throw new Exception("Could not seed Admin role.");
 
-            _context.SaveChanges();
+                _context.SaveChanges();
             }
 
             if (!await _userManager.IsInRoleAsync(user, "Administrator"))
             {
                 var result = await _userManager.AddToRoleAsync(user, "Administrator");
-                if (result != IdentityResult.Success) throw new Exception("Could not seed User with Role.");
-
+                if (!result.Succeeded) throw new Exception("Could not seed User with Role.");
             }
 
             _context.SaveChanges();

@@ -315,5 +315,17 @@ namespace LocalParks.Data
 
             return await query.FirstOrDefaultAsync();
         }
+        public async Task<LocalParksUser> GetLocalParksUserByEmailAsync(string email)
+        {
+            _logger.LogInformation($"Getting user by username");
+
+            // no support for recursive queries - parks need to be included in services
+            IQueryable<LocalParksUser> query = _context.Users
+                .Include(u => u.OrganisedEvents);
+
+            query = query.Where(u => u.Email == email);
+
+            return await query.FirstOrDefaultAsync();
+        }
     }
 }

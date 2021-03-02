@@ -64,12 +64,17 @@
                         }
                         else
                         {
+                            <li class="nav-item w3-padding-16 w3-hover-text-black">
+                                <a class="nav-link text-light w3-text-amber w3-border-amber rounded border-dark" asp-controller="Account"
+                                   asp-action="SignUp"><i class="fa fa-sign-out"></i>Sign Up</a>
+                            </li>
+
                             <li class="nav-item w3-padding-16 w3-hover-text-black float-md-right w3-text-green">
                                 <a class="nav-link text-light rounded" asp-controller="Account"
                                    asp-action="Login" style="color: green;"><i class="fa fa-sign-in"></i>Login</a>
                             </li>
                         }
-                        </ul>
+                    </ul>
                     </div>
                 </div>
             </nav>

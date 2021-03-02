@@ -35,5 +35,6 @@ namespace LocalParks.Data
         Task<ParkEvent> GetEventByParkIdByDateAsync(int parkId, DateTime dateTime);
 
         Task<LocalParksUser> GetLocalParksUserByUsernameAsync(string username);
+        Task<LocalParksUser> GetLocalParksUserByEmailAsync(string email);
     }
 }

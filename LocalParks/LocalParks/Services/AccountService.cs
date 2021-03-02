@@ -3,9 +3,11 @@ using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -54,6 +56,12 @@ namespace LocalParks.Services
 
             return _mapper.Map<LocalParksUserModel>(user);
         }
+        public async Task<LocalParksUserModel> GetUserByEmailAsync(string email)
+        {
+            var user = await _parkRepository.GetLocalParksUserByEmailAsync(email);
+
+            return _mapper.Map<LocalParksUserModel>(user);
+        }
 
         public async Task SignOutAsync()
         {
@@ -99,6 +107,61 @@ namespace LocalParks.Services
             };
 
             return results;
+        }
+        public async Task<IEnumerable<SelectListItem>> GetPostcodeSelectListItemsAsync()
+        {
+            var postcodes = _mapper.Map<IEnumerable<PostcodeModel>>(await _parkRepository.GetAllPostcodesAsync());
+
+            return from p in postcodes
+                   select new SelectListItem
+                   {
+                       Selected = false,
+                       Text = p.Zone,
+                       Value = p.Zone
+                   };
+        }
+
+        public async Task<LocalParksUserModel> AddUserAsync(SignInModel model, bool signInAfter = true)
+        {
+            var user = _mapper.Map<LocalParksUser>(model);
+
+            _parkRepository.Add(user);
+
+            var created = await _userManager.CreateAsync(user, model.Password);
+            if (!created.Succeeded) return null;
+
+            if (signInAfter)
+            {
+                var result = await _signInManager.PasswordSignInAsync(
+                model.Username,
+                model.Password,
+                false,
+                false);
+
+                if (!result.Succeeded)
+                {
+                    return null;
+                }
+            }
+
+            if (!await _parkRepository.SaveChangesAsync()) return null;
+
+            return _mapper.Map<LocalParksUserModel>(user);
+        }
+
+        public async Task<bool> DeleteUserAsync(string username)
+        {
+            var user = await _parkRepository.GetLocalParksUserByUsernameAsync(username);
+
+            if (user == null) return false;
+
+            _parkRepository.Delete(user);
+
+            var result = await _userManager.DeleteAsync(user);
+
+            if (!result.Succeeded) return false;
+
+            return await _parkRepository.SaveChangesAsync();
         }
     }
 }

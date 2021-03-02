@@ -32,6 +32,7 @@ namespace LocalParks.Models
         [DisplayName("Your Events")]
         public ICollection<ParkEventModel> OrganisedEvents { get; set; }
         [DisplayName("Your Postcode area")]
+        [Required]
         public string PostcodeZone { get; set; }
         [DisplayName("Local Parks Member Since")]
         public DateTime MemberSince { get; set; }
