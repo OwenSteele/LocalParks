@@ -1,10 +1,7 @@
 ﻿using LocalParks.Models;
 using LocalParks.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace LocalParks.Controllers
@@ -49,28 +46,28 @@ namespace LocalParks.Controllers
         {
             _logger.LogInformation("Executing Acount.Login Post");
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = await _service.SignInAttemptAsync(model);
+                ModelState.AddModelError("", "Failed to Login");
 
-                if (user == null)
-                {
-                    ModelState.AddModelError("","Username or Password Invalid.");
-
-                    return View("Login");
-                }
-
-                if(returnUrl != null)
-                {
-                    return Redirect(returnUrl);
-                }
-
-                return RedirectToAction("Index");
+                return View(model);
             }
-            
-            ModelState.AddModelError("", "Failed to Login");
 
-            return RedirectToAction("Login");
+            var user = await _service.SignInAttemptAsync(model);
+
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Username or Password Invalid.");
+
+                return View(model);
+            }
+
+            if (returnUrl != null)
+            {
+                return Redirect(returnUrl);
+            }
+
+            return RedirectToAction("Index");
         }
         public async Task<IActionResult> Logout(string returnUrl = null)
         {
@@ -79,7 +76,7 @@ namespace LocalParks.Controllers
 
             await _service.SignOutAsync();
 
-            if(!string.IsNullOrWhiteSpace(returnUrl)) return Redirect(returnUrl);
+            if (!string.IsNullOrWhiteSpace(returnUrl)) return Redirect(returnUrl);
 
             return RedirectToAction("Index", "Home");
         }
@@ -107,7 +104,7 @@ namespace LocalParks.Controllers
                 return View("SignUp");
             }
 
-            if(await _service.GetUserAsync(model.Username) != null)
+            if (await _service.GetUserAsync(model.Username) != null)
             {
                 ModelState.AddModelError("", "This username is not available.");
 
@@ -121,7 +118,7 @@ namespace LocalParks.Controllers
                 error = true;
             }
 
-            if(error) return View("SignUp",model);
+            if (error) return View("SignUp", model);
 
             var user = await _service.AddUserAsync(model);
 
@@ -196,6 +193,7 @@ namespace LocalParks.Controllers
 
             return View(user);
         }
+        [HttpGet]
         public async Task<IActionResult> ChangePassword()
         {
             if (!this.User.Identity.IsAuthenticated)
@@ -207,8 +205,50 @@ namespace LocalParks.Controllers
 
             var user = await _service.GetUserAsync(this.User.Identity.Name);
 
-            return View(user);
+            return View(new ChangePasswordModel());
         }
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
+        {
+            if (!this.User.Identity.IsAuthenticated)
+            {
+                ModelState.AddModelError("", "Please log on to access this");
+
+                return RedirectToAction("Login");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (!await _service.CheckPasswordAsync(this.User.Identity.Name, model.Old))
+            {
+                ModelState.AddModelError("", "Existing password does not match.");
+
+                return View(model);
+            }
+
+            if (!model.New.Equals(model.NewConfirmed))
+            {
+                ModelState.AddModelError("", "New passwords do not match.");
+
+                return View(model);
+            }
+
+            if (!await _service.ChangePasswordAsync(this.User.Identity.Name, model.New))
+            {
+                ModelState.AddModelError("", "Could not change password - check new password meet requirements.");
+
+                return View(model);
+            }
+
+            TempData["Success"] = "Password changed successfully.";
+
+            return View(new ChangePasswordModel());
+
+        }
+        [HttpGet]
         public async Task<IActionResult> EditDetails()
         {
             if (!this.User.Identity.IsAuthenticated)
@@ -217,9 +257,41 @@ namespace LocalParks.Controllers
 
                 return RedirectToAction("Login");
             }
-            var user = await _service.GetUserAsync(this.User.Identity.Name);
+            var user = await _service.GetChangeDetailsModelAsync(this.User.Identity.Name);
+
+            ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
 
             return View(user);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditDetails(ChangeDetailsModel model)
+        {
+            if (!this.User.Identity.IsAuthenticated)
+            {
+                ModelState.AddModelError("", "Please log on to access this");
+
+                return RedirectToAction("Login");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
+
+                return View(model);
+            }
+
+            if (!await _service.ChangeDetailsAsync(model, this.User.Identity.Name))
+            {
+                ModelState.AddModelError("", "Details could not be changed");
+
+                ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
+
+                return View(model);
+            }
+
+            TempData["Success"] = "Password changed successfully.";
+
+            return View(new ChangeDetailsModel());
         }
         [HttpGet]
         public IActionResult DeleteUserAccount()
@@ -234,7 +306,7 @@ namespace LocalParks.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult >DeleteUserAccount(string confirmed = null)
+        public async Task<IActionResult> DeleteUserAccount(string confirmed = null)
         {
             if (!this.User.Identity.IsAuthenticated)
             {
@@ -256,7 +328,7 @@ namespace LocalParks.Controllers
                     return RedirectToAction("Index");
             }
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
         public IActionResult WhySignUp()
         {

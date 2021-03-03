@@ -18,5 +18,10 @@ namespace LocalParks.Services
         Task<IEnumerable<SelectListItem>> GetPostcodeSelectListItemsAsync();
         Task<LocalParksUserModel> AddUserAsync(SignInModel model);
         Task<bool> DeleteUserAsync(string username, bool signOutUser = true);
+        Task<bool> ChangePasswordAsync(string username, string newPassword);
+        Task<bool> CheckPasswordAsync(string username, string password);
+        Task<bool> CheckPostcodeExistsAsync(string postcodeZone);
+        Task<bool> ChangeDetailsAsync(ChangeDetailsModel model, string username);
+        Task<ChangeDetailsModel> GetChangeDetailsModelAsync(string name);
     }
 }

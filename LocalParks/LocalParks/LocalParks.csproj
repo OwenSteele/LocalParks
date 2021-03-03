@@ -53,6 +53,7 @@
 
   <ItemGroup>
     <Folder Include="API\.vs\API\v16\" />
+    <Folder Include="Models\Accounts\" />
   </ItemGroup>
 
   <ItemGroup>

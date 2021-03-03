@@ -160,5 +160,75 @@ namespace LocalParks.Services
 
             return result.Succeeded;
         }
+
+        public async Task<bool> ChangePasswordAsync(string username, string newPassword)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            if(user == null || !await _userManager.HasPasswordAsync(user))
+                return false;
+
+            var removed = await _userManager.RemovePasswordAsync(user);
+            if(!removed.Succeeded)return false;
+
+            user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, newPassword);
+
+            var updated = await _userManager.UpdateAsync(user);
+
+            return updated.Succeeded;
+        }
+        public async Task<bool> CheckPasswordAsync(string username, string password)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null || !await _userManager.HasPasswordAsync(user))
+                return false;
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, password, false);
+
+            return result.Succeeded;
+        }
+        public async Task<bool> ChangeDetailsAsync(ChangeDetailsModel model, string username)
+        {
+            if (string.IsNullOrWhiteSpace(model.FirstName) &&
+                string.IsNullOrWhiteSpace(model.LastName) &&
+                string.IsNullOrWhiteSpace(model.PhoneNumber) &&
+                string.IsNullOrWhiteSpace(model.PostcodeZone))
+                return false;
+
+            if (await CheckPostcodeExistsAsync(model.PostcodeZone)) 
+                return false;
+
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null) return false;
+
+            if (!string.IsNullOrWhiteSpace(model.FirstName)) user.FirstName = model.FirstName;
+            if (!string.IsNullOrWhiteSpace(model.LastName)) user.LastName = model.LastName;
+            if (!string.IsNullOrWhiteSpace(model.PhoneNumber)) user.PhoneNumber = model.PhoneNumber;
+            if (!string.IsNullOrWhiteSpace(model.FirstName)) user.PostcodeZone = model.PostcodeZone;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            return result.Succeeded;
+        }
+        public async Task<bool> CheckPostcodeExistsAsync(string postcodeZone)
+        {
+            return await _parkRepository.GetPostcodeByZoneAsync(postcodeZone) == null;
+        }
+        public async Task<ChangeDetailsModel> GetChangeDetailsModelAsync(string name)
+        {
+            var user = await _userManager.FindByNameAsync(name);
+            if (user == null) return null;
+
+            return new ChangeDetailsModel
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                PostcodeZone = user.PostcodeZone
+
+            };
+        }
     }
 }
