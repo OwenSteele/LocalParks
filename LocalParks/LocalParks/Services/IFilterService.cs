@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace LocalParks.Services
 {
-    public interface IFilterService
+    internal interface IFilterService
     {
         Task<IEnumerable<SelectListItem>> GetParkSelectListItemsAsync(bool onlyWithModels = false);
         IEnumerable<SelectListItem> GetSortSelectListItems();
