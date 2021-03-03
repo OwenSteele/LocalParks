@@ -1,8 +1,32 @@
-﻿<form asp-controller="Account" asp-action="DeleteUserAccount" method="post">
-    <div class="row form-group p-1 d-block">
-        <input contenteditable="false" hidden="hidden" name="confirmed" value="true" />
+﻿<div class="jumbotron alert-danger bg-danger">
+    <h1 class="btn-outline-warning">Are you sure?</h1>
+</div>
+
+<div class="card bg-light font-weight-bolder">
+    <p>If you delete your account, it cannot be recovered. Deleting an account is permanent!</p>
+
+    <p>If you have any upcoming event scheduled, these will not be deleted.</p>
+    <p>To remove any of your events first, click the button below to see your events</p>
+    <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded w-auto"
+           type="button"
+           value="Return home"
+           onclick="location.href='@Url.Action("Index")'" />
+</div>
+
+<div class="d-inline">
+    <div class="row p-1 d-block">
+        <input class="row btn-outline-light btn-info text-light rounded d-block p-1"
+               type="button"
+               value="Cancel"
+               onclick="location.href='@Url.Action("Index")'" />
+    </div>
+
+    <form asp-controller="Account" asp-action="DeleteUserAccount" method="post">
+        <div class="row form-group p-1 d-block">
+            <input contenteditable="false" hidden="hidden" name="confirmed" value="true" />
         </div>
         <div class="row form-group p-1 d-block">
-            <input type="submit" value="Delete?" class="row btn-outline-light btn-success rounded d-block p-1" />
+            <input type="submit" value="Delete Account" class="row btn-outline-light btn-danger rounded d-block p-1" />
         </div>
-</form>
+    </form>
+</div>

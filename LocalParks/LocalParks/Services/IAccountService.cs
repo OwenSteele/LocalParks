@@ -14,9 +14,9 @@ namespace LocalParks.Services
         Task<LocalParksUserModel> GetUserAsync(string name);
         Task<LocalParksUserModel> GetUserByEmailAsync(string email);
         Task SignOutAsync();
-        Task<object> GetUserTokenAsync(LoginModel model);
+        Task<string[]> GetUserTokenAsync(LocalParksUserModel model);
         Task<IEnumerable<SelectListItem>> GetPostcodeSelectListItemsAsync();
-        Task<LocalParksUserModel> AddUserAsync(SignInModel model, bool signInAfter = true);
-        Task<bool> DeleteUserAsync(string username);
+        Task<LocalParksUserModel> AddUserAsync(SignInModel model);
+        Task<bool> DeleteUserAsync(string username, bool signOutUser = true);
     }
 }

@@ -13,11 +13,14 @@ namespace LocalParks.Controllers
     {
         private readonly ILogger<AccountController> _logger;
         private readonly IAccountService _service;
+        private readonly IAuthenticationService _authenticationService;
 
-        public AccountController(ILogger<AccountController> logger, IAccountService service)
+        public AccountController(ILogger<AccountController> logger, IAccountService service,
+            IAuthenticationService authenticationService)
         {
             _logger = logger;
             _service = service;
+            _authenticationService = authenticationService;
         }
         public async Task<IActionResult> Index()
         {
@@ -96,7 +99,7 @@ namespace LocalParks.Controllers
             {
                 ModelState.AddModelError("", "Failed to Create Profile - Check your fields.");
 
-                return View("SignUp", model);
+                return View("Login");
             }
 
             if(await _service.GetUserAsync(model.Username) != null)
@@ -126,46 +129,102 @@ namespace LocalParks.Controllers
 
             return RedirectToAction("Index");
         }
-        public IActionResult Developers()
+        public async Task<IActionResult> Developers()
         {
             if (!this.User.Identity.IsAuthenticated)
-                return RedirectToAction("Index", "Home");
+            {
+                ModelState.AddModelError("", "Please log on to access this");
 
-            return View();
+                return RedirectToAction("Login");
+            }
+
+            var user = await _service.GetUserAsync(this.User.Identity.Name);
+
+            return View(user);
         }
-        public IActionResult TokenGenerator()
+        [HttpGet]
+        public async Task<IActionResult> TokenGenerator()
         {
             if (!this.User.Identity.IsAuthenticated)
-                return RedirectToAction("Index", "Home");
+            {
+                ModelState.AddModelError("", "Please log on to access this");
 
-            return View();
+                return RedirectToAction("Login");
+            }
+
+            var user = await _service.GetUserAsync(this.User.Identity.Name);
+
+            return View(user);
         }
-        public IActionResult ApiDocumentation()
+        [HttpPost]
+        public async Task<IActionResult> TokenGenerator(string requested)
         {
             if (!this.User.Identity.IsAuthenticated)
-                return RedirectToAction("Index", "Home");
+            {
+                ModelState.AddModelError("", "Please log on to access this");
 
-            return View();
+                return RedirectToAction("Login");
+            }
+
+            var user = await _service.GetUserAsync(this.User.Identity.Name);
+
+            if (requested == "true")
+            {
+                var token = await _service.GetUserTokenAsync(user);
+
+                TempData["Token"] = token[0];
+                TempData["Expiry"] = token[1];
+            }
+
+            return View(user);
         }
-        public IActionResult ChangePassword()
+        public async Task<IActionResult> ApiDocumentation()
         {
             if (!this.User.Identity.IsAuthenticated)
-                return RedirectToAction("Index", "Home");
+            {
+                ModelState.AddModelError("", "Please log on to access this");
 
-            return View();
+                return RedirectToAction("Login");
+            }
+
+            var user = await _service.GetUserAsync(this.User.Identity.Name);
+
+            return View(user);
         }
-        public IActionResult EditDetails()
+        public async Task<IActionResult> ChangePassword()
         {
             if (!this.User.Identity.IsAuthenticated)
-                return RedirectToAction("Index", "Home");
+            {
+                ModelState.AddModelError("", "Please log on to access this");
 
-            return View();
+                return RedirectToAction("Login");
+            }
+
+            var user = await _service.GetUserAsync(this.User.Identity.Name);
+
+            return View(user);
+        }
+        public async Task<IActionResult> EditDetails()
+        {
+            if (!this.User.Identity.IsAuthenticated)
+            {
+                ModelState.AddModelError("", "Please log on to access this");
+
+                return RedirectToAction("Login");
+            }
+            var user = await _service.GetUserAsync(this.User.Identity.Name);
+
+            return View(user);
         }
         [HttpGet]
         public IActionResult DeleteUserAccount()
         {
             if (!this.User.Identity.IsAuthenticated)
-                return RedirectToAction("Index", "Home");
+            {
+                ModelState.AddModelError("", "Please log on to access this");
+
+                return RedirectToAction("Login");
+            }
 
             return View();
         }
@@ -173,9 +232,20 @@ namespace LocalParks.Controllers
         public async Task<IActionResult >DeleteUserAccount(string confirmed = null)
         {
             if (!this.User.Identity.IsAuthenticated)
-                return RedirectToAction("Index", "Home");
+            {
+                ModelState.AddModelError("", "Please log on to access this");
 
-            if(confirmed == "true")
+                return RedirectToAction("Login");
+            }
+
+            if (await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
+            {
+                ModelState.AddModelError("", "Cannot delete this account");
+
+                return RedirectToAction("Index");
+            }
+
+            if (confirmed == "true")
             {
                 if (!await _service.DeleteUserAsync(this.User.Identity.Name))
                     return RedirectToAction("Index");

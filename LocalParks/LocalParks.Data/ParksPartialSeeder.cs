@@ -39,7 +39,7 @@ namespace LocalParks.Data
                 var result = await _userManager.CreateAsync(user, "AdminP4ssw0rd!.");
                 if (!result.Succeeded) throw new Exception("Could not seed user.");
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
             if (user.MemberSince == DateTime.MinValue)
@@ -48,7 +48,7 @@ namespace LocalParks.Data
                 var result = await _userManager.UpdateAsync(user);
                 if (!result.Succeeded) throw new Exception("Could not seed member since");
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
             var test = await _userManager.FindByEmailAsync("example@owensteele.co.uk");
@@ -68,7 +68,7 @@ namespace LocalParks.Data
                 var result = await _userManager.CreateAsync(test, "Test12345678!");
                 if (!result.Succeeded) throw new Exception("Could not seed user.");
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
             if (test.MemberSince == DateTime.MinValue)
@@ -77,7 +77,7 @@ namespace LocalParks.Data
                 var result = await _userManager.UpdateAsync(test);
                 if (!result.Succeeded) throw new Exception("Could not seed member since");
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
             var roleAdmin = await _roleManager.FindByNameAsync("Administrator");
@@ -92,7 +92,7 @@ namespace LocalParks.Data
                 var result = await _roleManager.CreateAsync(roleAdmin);
                 if (!result.Succeeded) throw new Exception("Could not seed Admin role.");
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
             if (!await _userManager.IsInRoleAsync(user, "Administrator"))
@@ -101,7 +101,7 @@ namespace LocalParks.Data
                 if (!result.Succeeded) throw new Exception("Could not seed User with Role.");
             }
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

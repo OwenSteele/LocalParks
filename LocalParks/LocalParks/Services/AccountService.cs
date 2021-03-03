@@ -52,13 +52,13 @@ namespace LocalParks.Services
 
         public async Task<LocalParksUserModel> GetUserAsync(string name)
         {
-            var user = await _parkRepository.GetLocalParksUserByUsernameAsync(name);
+            var user = await _userManager.FindByNameAsync(name);
 
             return _mapper.Map<LocalParksUserModel>(user);
         }
         public async Task<LocalParksUserModel> GetUserByEmailAsync(string email)
         {
-            var user = await _parkRepository.GetLocalParksUserByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(email);
 
             return _mapper.Map<LocalParksUserModel>(user);
         }
@@ -68,15 +68,13 @@ namespace LocalParks.Services
             await _signInManager.SignOutAsync();
         }
 
-        public async Task<object> GetUserTokenAsync(LoginModel model)
+        public async Task<string[]> GetUserTokenAsync(LocalParksUserModel model)
         {
             var user = await _userManager.FindByNameAsync(model.Username);
 
             if (user == null) return null;
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
-
-            if (!result.Succeeded) return null;
+            await _signInManager.SignInAsync(user, false);
 
             var claims = new[]
             {
@@ -90,7 +88,7 @@ namespace LocalParks.Services
 
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var tokenLifetime = 20 * (await _userManager.IsInRoleAsync(user, "Administrator") ? 3 : 1);
+            var tokenLifetime = 60 * (await _userManager.IsInRoleAsync(user, "Administrator") ? 3 : 1);
 
             var token = new JwtSecurityToken(
                 _configuration["Tokens:Issuer"],
@@ -100,10 +98,10 @@ namespace LocalParks.Services
                 signingCredentials: credentials
                 );
 
-            var results = new
+            var results = new string[]
             {
-                token = new JwtSecurityTokenHandler().WriteToken(token),
-                expiration = token.ValidTo
+                new JwtSecurityTokenHandler().WriteToken(token),
+                token.ValidTo.ToString()
             };
 
             return results;
@@ -121,47 +119,46 @@ namespace LocalParks.Services
                    };
         }
 
-        public async Task<LocalParksUserModel> AddUserAsync(SignInModel model, bool signInAfter = true)
+        public async Task<LocalParksUserModel> AddUserAsync(SignInModel model)
         {
-            var user = _mapper.Map<LocalParksUser>(model);
+            var existing = await _userManager.FindByNameAsync(model.Username);
+            if(existing != null) return _mapper.Map<LocalParksUserModel>(existing);
 
-            _parkRepository.Add(user);
+            var user = new LocalParksUser
+            {
+                UserName = model.Username,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                PostcodeZone = model.PostcodeZone,
+                MemberSince = DateTime.Today,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber
+            };
 
             var created = await _userManager.CreateAsync(user, model.Password);
-            if (!created.Succeeded) return null;
-
-            if (signInAfter)
+            if (!created.Succeeded)
             {
-                var result = await _signInManager.PasswordSignInAsync(
-                model.Username,
-                model.Password,
-                false,
-                false);
-
-                if (!result.Succeeded)
-                {
-                    return null;
-                }
+                return null;
             }
 
-            if (!await _parkRepository.SaveChangesAsync()) return null;
+            //if (!await _parkRepository.SaveChangesAsync()) return null;
 
-            return _mapper.Map<LocalParksUserModel>(user);
+            var result = await _userManager.FindByNameAsync(user.UserName);
+
+            return _mapper.Map<LocalParksUserModel>(result);
         }
 
-        public async Task<bool> DeleteUserAsync(string username)
+        public async Task<bool> DeleteUserAsync(string username, bool signOutUser = true)
         {
-            var user = await _parkRepository.GetLocalParksUserByUsernameAsync(username);
+            var user = await _userManager.FindByNameAsync(username);
 
             if (user == null) return false;
 
-            _parkRepository.Delete(user);
+            if(signOutUser) await _signInManager.SignOutAsync();
 
             var result = await _userManager.DeleteAsync(user);
 
-            if (!result.Succeeded) return false;
-
-            return await _parkRepository.SaveChangesAsync();
+            return result.Succeeded;
         }
     }
 }

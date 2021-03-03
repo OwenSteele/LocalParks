@@ -87,17 +87,26 @@
             <br />
         </div>
         <br /><br /><br />
-        <footer class="border-top footer">
-            <div class="container">
-                &copy; 2021 - Owen Steele <br />
-                <a style="color:deepskyblue" asp-controller="Home"
-                   asp-action="Privacy">Privacy Notice -    </a>
-                <a style="color:saddlebrown" asp-controller="Home"
-                   asp-action="Contact">Contact Us -    </a>
-                <a style="color:darkgreen" asp-controller="Home"
-                   asp-action="AboutMe">About Me     </a>
-            </div>
-        </footer>
+                    <footer class="border-top footer m-1 p-2">
+                        <p class="pl-4">&copy; 2021 - Owen Steele</p>
+                        <div class="container row">
+
+                            <ul class="font-weight-bolder d-inline-flex justify-content-between" style="list-style-type: none;">
+                                <li class="pl-4 pr-4">
+                                    <a class="w3-hover-amber w3-hover-text-black rounded w3-text-blue" asp-controller="Home"
+                                       asp-action="Privacy">Privacy Notice</a>
+                                </li>
+                                <li class="pl-4 pr-4">
+                                    <a class="w3-hover-amber w3-hover-text-black rounded w3-text-brown" asp-controller="Home"
+                                       asp-action="Contact">Contact Us</a>
+                                </li>
+                                <li class="pl-4 pr-4">
+                                    <a class="w3-hover-amber w3-hover-text-black rounded w3-text-green" asp-controller="Home"
+                                       asp-action="AboutMe">About Me</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </footer>
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>

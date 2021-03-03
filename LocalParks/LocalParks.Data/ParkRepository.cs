@@ -319,7 +319,6 @@ namespace LocalParks.Data
         {
             _logger.LogInformation($"Getting user by username");
 
-            // no support for recursive queries - parks need to be included in services
             IQueryable<LocalParksUser> query = _context.Users
                 .Include(u => u.OrganisedEvents);
 
