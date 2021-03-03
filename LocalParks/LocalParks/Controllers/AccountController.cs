@@ -53,7 +53,12 @@ namespace LocalParks.Controllers
             {
                 var user = await _service.SignInAttemptAsync(model);
 
-                if (user == null) return RedirectToAction("Index", "Home");
+                if (user == null)
+                {
+                    ModelState.AddModelError("","Username or Password Invalid.");
+
+                    return View("Login");
+                }
 
                 if(returnUrl != null)
                 {
@@ -99,7 +104,7 @@ namespace LocalParks.Controllers
             {
                 ModelState.AddModelError("", "Failed to Create Profile - Check your fields.");
 
-                return View("Login");
+                return View("SignUp");
             }
 
             if(await _service.GetUserAsync(model.Username) != null)
@@ -127,7 +132,7 @@ namespace LocalParks.Controllers
                 return View("SignUp", model);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Login");
         }
         public async Task<IActionResult> Developers()
         {
