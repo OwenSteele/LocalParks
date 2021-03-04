@@ -48,20 +48,24 @@
     <div class="col-md-4 offset-md-1 p-1 d-block">
         @if (Model.OrganisedEvents.Any())
         {
-            <h3 class="badge-info rounded p-1">Your organised events</h3>
+        <h3 class="badge-info rounded p-1">Your organised events</h3>
 
-            @foreach (var ev in Model.OrganisedEvents)
+        @foreach (var ev in Model.OrganisedEvents)
             {
-                <partial name="_EventSummary" model="ev" />
+        <partial name="_EventSummary" model="ev" />
             }
+        <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
+               type="button"
+               value="Create another"
+               onclick="location.href='@Url.Action("Edit", "ParkEvents")'" />
         }
         else
         {
-            <h4 class="badge-info align-self-md-center">Organise an event today!</h4>
-            <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
-                   type="button"
-                   value="Create an Event"
-                   onclick="location.href='@Url.Action("Edit", "ParkEvents")'" />
+        <h4 class="badge-info align-self-md-center">Organise an event today!</h4>
+        <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
+               type="button"
+               value="Create an Event"
+               onclick="location.href='@Url.Action("Edit", "ParkEvents")'" />
         }
     </div>
 </div>

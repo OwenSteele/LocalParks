@@ -151,7 +151,7 @@ namespace LocalParks.Controllers
 
             if (result != null)
             {
-                return RedirectToAction("Details", "ParkEvents", new { result.ParkId, result.Date });
+                return RedirectToAction("Details", "ParkEvents", new { result.EventId });
             }
 
             return View("Edit", _tempEvent);
