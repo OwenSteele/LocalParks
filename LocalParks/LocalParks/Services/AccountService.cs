@@ -54,13 +54,17 @@ namespace LocalParks.Services
         {
             var user = await _userManager.FindByNameAsync(name);
 
-            return _mapper.Map<LocalParksUserModel>(user);
+            var result = await _parkRepository.GetLocalParksUserByUsernameAsync(user.UserName);
+
+            return _mapper.Map<LocalParksUserModel>(result);
         }
         public async Task<LocalParksUserModel> GetUserByEmailAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
-            return _mapper.Map<LocalParksUserModel>(user);
+            var result = await _parkRepository.GetLocalParksUserByEmailAsync(user.Email);
+
+            return _mapper.Map<LocalParksUserModel>(result);
         }
 
         public async Task SignOutAsync()

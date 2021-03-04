@@ -15,6 +15,5 @@ namespace LocalParks.Services
         Task<ParkEventModel> UpdateParkEventAsync(ParkEventModel model);
         Task<bool> DeleteParkEventAsync(ParkEventModel model);
         Task<LocalParksUserModel> GetEventOwner(int eventId, string userName = null);
-        Task<LocalParksUserModel> GetEventOwner(int parkId, DateTime date, string userName = null);
     }
 }

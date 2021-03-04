@@ -3,7 +3,7 @@
     ViewData["Title"] = "Your Account";
 }
 
-<partial name="_AccountNavBar"/>
+<partial name="_AccountNavBar" />
 
 <h1 class="jumbotron-fluid align-self-md-center">Hi, @Model.FirstName</h1>
 
@@ -46,9 +46,10 @@
     </div>
 
     <div class="col-md-4 offset-md-1 p-1 d-block">
-        @if (Model.OrganisedEvents != null)
+        @if (Model.OrganisedEvents.Any())
         {
             <h3 class="badge-info rounded p-1">Your organised events</h3>
+
             @foreach (var ev in Model.OrganisedEvents)
             {
                 <partial name="_EventSummary" model="ev" />

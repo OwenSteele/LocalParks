@@ -77,11 +77,11 @@ namespace LocalParks.Controllers
             return View(matches);
         }
 
-        public async Task<IActionResult> Details(int parkId, DateTime date)
+        public async Task<IActionResult> Details(int eventId)
         {
             _logger.LogInformation("Executing ParkEvents.Details Model");
 
-            var parkEvent = await _service.GetParkEventModelAsync(parkId, date);
+            var parkEvent = await _service.GetParkEventModelByIdAsync(eventId);
 
             if (await _authenticationService.IsSignedIn(this.User))
             {
@@ -89,7 +89,7 @@ namespace LocalParks.Controllers
                     ViewData["User"] = "Admin";
 
                 else
-                    ViewData["User"] = _service.GetEventOwner(parkId, date, this.User.Identity.Name);
+                    ViewData["User"] = _service.GetEventOwner(eventId, this.User.Identity.Name);
             }
 
             if (parkEvent == null) return View("NotFound");
@@ -98,26 +98,24 @@ namespace LocalParks.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int parkId, DateTime date)
+        public async Task<IActionResult> Edit(int eventId)
         {
             _logger.LogInformation("Executing ParkEvents.Details Model");
 
             if (!await _authenticationService.IsSignedIn(this.User))
-                return RedirectToAction("Details", "ParkEvents",
-                    new { _tempEvent.ParkId, _tempEvent.Date });
+                return RedirectToAction("Index", "ParkEvents");
 
-            if (parkId != 0 &&
-                date != DateTime.MinValue &&
-                await _service.GetEventOwner(parkId, date, this.User.Identity.Name) == null &&
+            if (eventId != 0 &&
+                await _service.GetEventOwner(eventId, this.User.Identity.Name) == null &&
                 !await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
-                return RedirectToAction("Details", "ParkEvents", new { parkId, date });
+                return RedirectToAction("Details", "ParkEvents", new { eventId });
 
             ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
 
-            if (parkId == 0 && date == DateTime.MinValue)
+            if (eventId == 0)
                 return View(new ParkEventModel());
 
-            var result = await _service.GetParkEventModelAsync(parkId, date);
+            var result = await _service.GetParkEventModelByIdAsync(eventId);
 
             if (result == null) return View("NotFound");
 
@@ -159,16 +157,16 @@ namespace LocalParks.Controllers
             return View("Edit", _tempEvent);
         }
 
-        public async Task<IActionResult> Delete(int parkId, DateTime date, bool confirmed = false)
+        public async Task<IActionResult> Delete(int eventId, bool confirmed = false)
         {
             if (!await _authenticationService.IsSignedIn(this.User))
-                return RedirectToAction("Details", "ParkEvents", new { parkId, date });
+                return RedirectToAction("Details", "ParkEvents", new { eventId });
 
-            if (await _service.GetEventOwner(parkId, date, this.User.Identity.Name) == null &&
+            if (await _service.GetEventOwner(eventId, this.User.Identity.Name) == null &&
                 !await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
-                return RedirectToAction("Details", "ParkEvents", new { parkId, date });
+                return RedirectToAction("Details", "ParkEvents", new { eventId });
 
-            var result = await _service.GetParkEventModelAsync(parkId, date);
+            var result = await _service.GetParkEventModelByIdAsync(eventId);
             if (result == null) RedirectToAction("NotFound", "ParkEvents");
 
             if (!confirmed) return View(result);
@@ -176,7 +174,7 @@ namespace LocalParks.Controllers
             if (await _service.DeleteParkEventAsync(result))
                 return RedirectToAction("Index", "ParkEvents");
 
-            return RedirectToAction("Details", "ParkEvents", new { parkId, date });
+            return RedirectToAction("Details", "ParkEvents", new { eventId });
         }
     }
 }

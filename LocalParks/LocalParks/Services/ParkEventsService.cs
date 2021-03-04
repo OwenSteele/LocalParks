@@ -141,7 +141,7 @@ namespace LocalParks.Services
                 email == "this" ||
                 email == "user")
                 model.OrganiserEmail = user.Email;
-            
+
             if (model.OrganiserPhoneNumber.ToLower() == "me" ||
                  model.OrganiserPhoneNumber.ToLower() == "this" ||
                  model.OrganiserPhoneNumber.ToLower() == "user")
@@ -164,14 +164,13 @@ namespace LocalParks.Services
 
             _parkRepository.Add(parkEvent);
 
-            if (await _parkRepository.SaveChangesAsync())
-            {
-                var result = _mapper.Map<ParkEventModel>(parkEvent);
-                if(hideUsername) result.Username = null;
-                return result;
-            }
+            user.OrganisedEvents.Add(parkEvent);
 
-            return null;
+            if (!await _parkRepository.SaveChangesAsync()) return null;
+                
+            var result = _mapper.Map<ParkEventModel>(parkEvent);
+            if (hideUsername) result.Username = null;
+            return result;
         }
         public async Task<ParkEventModel> UpdateParkEventAsync(ParkEventModel model)
         {
@@ -187,7 +186,7 @@ namespace LocalParks.Services
 
             if (await _parkRepository.SaveChangesAsync())
             {
-                var result =  _mapper.Map<ParkEventModel>(existing);
+                var result = _mapper.Map<ParkEventModel>(existing);
                 result.Username = null;
                 return result;
             }
@@ -205,18 +204,7 @@ namespace LocalParks.Services
         {
             var result = await _parkRepository.GetEventByIdAsync(eventId);
 
-            if(result.User == null) return null;
-
-            if (string.IsNullOrWhiteSpace(userName) || result.User.UserName == userName)
-                return _mapper.Map<LocalParksUserModel>(result.User);
-
-            return null;
-        }
-        public async Task<LocalParksUserModel> GetEventOwner(int parkId, DateTime date,string userName = null)
-        {
-            var result = await _parkRepository.GetEventByParkIdByDateAsync(parkId, date);
-
-            if (result == null || result.User == null) return null;
+            if (result.User == null) return null;
 
             if (string.IsNullOrWhiteSpace(userName) || result.User.UserName == userName)
                 return _mapper.Map<LocalParksUserModel>(result.User);

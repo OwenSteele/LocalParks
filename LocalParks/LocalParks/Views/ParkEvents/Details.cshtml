@@ -47,13 +47,13 @@
                type="button"
                value="Edit"
                onclick="location.href='@Url.Action("Edit", "ParkEvents",
-                new { parkId = Model.ParkId, date = Model.Date })'" />
+                new { eventId = Model.EventId })'" />
 
         <input class="btn-danger w3-hover-border-white w3-hover-text-white rounded"
                type="button"
                value="Delete"
                onclick="location.href='@Url.Action("Delete", "ParkEvents",
-                    new { parkId = Model.ParkId, date = Model.Date })'" />
+                    new { eventId = Model.EventId })'" />
     }
     else
     {

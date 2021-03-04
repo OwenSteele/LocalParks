@@ -194,7 +194,7 @@ namespace LocalParks.Controllers
             return View(user);
         }
         [HttpGet]
-        public async Task<IActionResult> ChangePassword()
+        public IActionResult ChangePassword()
         {
             if (!this.User.Identity.IsAuthenticated)
             {
@@ -202,8 +202,6 @@ namespace LocalParks.Controllers
 
                 return RedirectToAction("Login");
             }
-
-            var user = await _service.GetUserAsync(this.User.Identity.Name);
 
             return View(new ChangePasswordModel());
         }
