@@ -39,6 +39,27 @@
         </p>
 
     </div>
+
+    @if (Model.ParksClosingSoon.Any())
+    {
+        <div class="row w-100">
+            <div class="border-danger card rounded p-1 m-1 col-md-10 offset-md-1">
+                <h3 class="border-bottom font-weight-bold text-danger">Closing Soon</h3>
+                @foreach (var park in Model.ParksClosingSoon)
+                {
+                    <p>
+                        <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
+                               type="button"
+                               value="@park.Name"
+                               onclick="location.href='@Url.Action("Details", "Parks",
+                                      new { parkId = park.ParkId })'" />
+                        (@park.PostcodeZone) closes at @park.ClosingTime.TimeOfDay
+                    </p>
+                }
+            </div>
+        </div>
+    }
+
     <div class="row  w-100">
         <div class="col-md-5 border-secondary card rounded w-50 p-1 m-1">
             <h3 class="border-bottom">Selected park</h3>
@@ -70,27 +91,6 @@
                        onclick="location.href='@Url.Action("Index", "Parks")'" />
             </p>
         </div>
-    </div>
-
-    <div class="row  w-100">
-        @if (Model.OpenParksCount > 0)
-        {<h3 class="border-bottom">Closing Soon</h3>
-            <div class="border-danger card rounded p-1 m-1">
-                @foreach (var park in Model.Parks)
-                {
-                    if (park.ClosingTime.Hour >= DateTime.Now.Hour && park.ClosingTime.Hour <= DateTime.Now.Hour + 2)
-                    {
-                        <p>
-                            <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
-                                   type="button"
-                                   value="@park.Name"
-                                   onclick="location.href='@Url.Action("Details", "Parks",
-                                      new { parkId = park.ParkId })'" />
-                            closes at @park.ClosingTime.TimeOfDay
-                        </p>
-                    }
-                }
-            </div>}
     </div>
 
     <div class="row  w-100">

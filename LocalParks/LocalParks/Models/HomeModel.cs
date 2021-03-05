@@ -12,6 +12,8 @@ namespace LocalParks.Models
         public ParkEventModel RecentEvent { get; private set; }
         public ICollection<ParkEventModel> AllEvents { get; set; }
         public int OpenParksCount { get; set; }
+
+        public ICollection<ParkModel> ParksClosingSoon { get; set; }
         public ICollection<ParkEventModel> EventsThisMonth { get; set; }
         public ParkModel NearestPark { get; set; }
         public string ClosestEmergencyNumber { get; set; }
@@ -29,6 +31,10 @@ namespace LocalParks.Models
 
             OpenParksCount = parks.Where(p =>
             p.ClosingTime.TimeOfDay > DateTime.Now.TimeOfDay && p.OpeningTime.TimeOfDay < DateTime.Now.TimeOfDay).Count();
+
+            ParksClosingSoon = Parks.Where(p =>
+            p.ClosingTime.Hour >= DateTime.Now.Hour &&
+            p.ClosingTime.Hour <= DateTime.Now.Hour + 2).ToArray();
 
             EventsThisMonth = allEvents.Where(e => e.Date.Month == DateTime.Now.Month).ToArray();
 
