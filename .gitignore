@@ -114,6 +114,10 @@ ServiceFabricBackup/
 # Local History for Visual Studio
 .localhistory/
 
-#client-sdie libs
+#client-side libs
 node_modules/
 font-awesome/
+
+# LocalParks User Data
+
+*LocalParksUser.json

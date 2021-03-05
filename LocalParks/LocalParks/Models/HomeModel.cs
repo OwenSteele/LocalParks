@@ -36,7 +36,7 @@ namespace LocalParks.Models
             p.ClosingTime.Hour >= DateTime.Now.Hour &&
             p.ClosingTime.Hour <= DateTime.Now.Hour + 2).ToArray();
 
-            EventsThisMonth = allEvents.Where(e => e.Date.Month == DateTime.Now.Month).ToArray();
+            EventsThisMonth = allEvents.Where(e => e.Date.DayOfYear >= DateTime.Now.DayOfYear && e.Date.DayOfYear <= DateTime.Now.DayOfYear + 30).ToArray();
 
             if (latitude != null && longitude != null)
             {
