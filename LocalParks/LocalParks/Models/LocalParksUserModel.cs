@@ -25,7 +25,7 @@ namespace LocalParks.Models
         [Required]
         [StringLength(20, MinimumLength = 3)]
         public string FirstName { get; set; }
-        [DisplayName("Name")]
+        [DisplayName("Surname")]
         [Required]
         [StringLength(20, MinimumLength = 3)]
         public string LastName { get; set; }

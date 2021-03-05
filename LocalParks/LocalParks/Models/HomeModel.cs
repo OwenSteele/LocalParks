@@ -33,7 +33,7 @@ namespace LocalParks.Models
             p.ClosingTime.TimeOfDay > DateTime.Now.TimeOfDay && p.OpeningTime.TimeOfDay < DateTime.Now.TimeOfDay).Count();
 
             ParksClosingSoon = Parks.Where(p =>
-            p.ClosingTime.Hour >= DateTime.Now.Hour &&
+            p.ClosingTime >= DateTime.Now &&
             p.ClosingTime.Hour <= DateTime.Now.Hour + 2).ToArray();
 
             EventsThisMonth = allEvents.Where(e => e.Date.DayOfYear >= DateTime.Now.DayOfYear && e.Date.DayOfYear <= DateTime.Now.DayOfYear + 30).ToArray();

@@ -122,13 +122,13 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <td colspan="3">@parkEvent.Name</td>
+                                    <td colspan="3" class="font-weight-bolder border-secondary">@parkEvent.Name</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>In park: @parkEvent.ParkName</td>
-                                    <td>Date: @parkEvent.Date.ToLongDateString()</td>
+                                    <td><span class="font-weight-bolder">In park:</span> @parkEvent.ParkName</td>
+                                    <td><span class="font-weight-bolder">Date: </span>@parkEvent.Date.ToLongDateString()</td>
                                     <td>
                                         <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
                                                type="button"
@@ -150,13 +150,13 @@
                 <table class="align-content-center">
                     <thead>
                         <tr>
-                            <td class="bg-light" colspan="3">@Model.AllEvents.Last().Name</td>
+                            <td class="bg-light font-weight-bolder border-secondary" colspan="3">@Model.AllEvents.Last().Name</td>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><span class="bg-light">In park:</span> @Model.AllEvents.Last().ParkName</td>
-                            <td><span class="bg-light">Date:</span> @Model.AllEvents.Last().Date.ToLongDateString()</td>
+                            <td><span class="font-weight-bolder">In park:</span> @Model.AllEvents.Last().ParkName</td>
+                            <td><span class="font-weight-bolder">Date:</span> @Model.AllEvents.Last().Date.ToLongDateString()</td>
                             <td>
                                 <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
                                        type="button"

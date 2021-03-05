@@ -31,7 +31,7 @@ namespace LocalParks.Services
             var eventsModels = _mapper.Map<ParkEventModel[]>(events);
 
             var sportsClubs = await _parkRepository.GetAllSportsClubsAsync();
-            var lastSportsClub = sportsClubs[^1];
+            var lastSportsClub = sportsClubs[0];
 
             var sportsClubsModel = _mapper.Map<SportsClubModel>(lastSportsClub);
 

@@ -54,6 +54,8 @@ namespace LocalParks.Services
         {
             var user = await _userManager.FindByNameAsync(name);
 
+            if (user == null) return null;
+
             var result = await _parkRepository.GetLocalParksUserByUsernameAsync(user.UserName);
 
             return _mapper.Map<LocalParksUserModel>(result);
@@ -61,6 +63,8 @@ namespace LocalParks.Services
         public async Task<LocalParksUserModel> GetUserByEmailAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null) return null;
 
             var result = await _parkRepository.GetLocalParksUserByEmailAsync(user.Email);
 
