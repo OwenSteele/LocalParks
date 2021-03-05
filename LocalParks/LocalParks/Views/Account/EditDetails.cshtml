@@ -30,21 +30,21 @@
                         <label asp-for="@Model.FirstName"></label>
                         <input asp-for="@Model.FirstName"
                                type="text"
-                               class="border-dark rounded form-control"/>
+                               class="border-dark rounded form-control" />
                     </div>
 
                     <div class="row form-group p-1 d-block">
                         <label asp-for="@Model.LastName"></label>
                         <input asp-for="@Model.LastName"
                                type="text"
-                               class="border-dark rounded form-control"/>
+                               class="border-dark rounded form-control" />
                     </div>
 
                     <div class="row form-group p-1 d-block">
                         <label asp-for="@Model.PhoneNumber"></label>
                         <input asp-for="@Model.PhoneNumber"
                                type="text"
-                               class="border-dark rounded form-control"/>
+                               class="border-dark rounded form-control" />
                     </div>
 
                     <div class="row form-group p-1 d-block">
@@ -67,3 +67,7 @@
         }
     </div>
 </div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}

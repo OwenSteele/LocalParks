@@ -70,13 +70,17 @@
     <div class="form-group">
         @Html.LabelFor(x => Model.ParkName, htmlAttributes: new { @class = "" })
 
-        @Html.DropDownListFor(x => Model.ParkId, 
-       new SelectList((System.Collections.IEnumerable)ViewData["Parks"], "Value", "Text"), "Select Park", 
+        @Html.DropDownListFor(x => Model.ParkId,
+       new SelectList((System.Collections.IEnumerable)ViewData["Parks"], "Value", "Text"), "Select Park",
        htmlAttributes: new { @class = "form-control", id = "Park" })
 
         @Html.ValidationMessageFor(x => x.ParkId, "", new { @class = "text-danger" })
     </div>
 
     <input type="submit" class="btn-outline-light btn-dark btn-light rounded"
-           value="Save"/>
+           value="Save" />
 </form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}
