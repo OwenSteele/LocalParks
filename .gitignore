@@ -118,6 +118,7 @@ ServiceFabricBackup/
 node_modules/
 font-awesome/
 
-# LocalParks User Data
-
+# LocalParks Data
 *LocalParksUser.json
+*Migrations
+*appsettings.json
