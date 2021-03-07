@@ -1,0 +1,52 @@
+[
+	{
+		"zone": "PF15",
+		"neighbourhood": "Caelfall",
+		"population": 968	
+	},
+	{
+		"zone": "PF14",
+		"neighbourhood": "Accreton",
+		"population": 6510		
+	},
+	{
+		"zone": "PF13",
+		"neighbourhood": "Romsby",
+		"population": 12808		
+	},
+	{
+		"zone": "PF12",
+		"neighbourhood": "Snowbush",
+		"population": 10334		
+	},
+	{
+		"zone": "PF11",
+		"neighbourhood": "MarketTown",
+		"population": 3948		
+	},
+	{
+		"zone": "PF10",
+		"neighbourhood": "Chapterborough",
+		"population": 100311		
+	},
+	{
+		"zone": "LP4",
+		"neighbourhood": "Rakeley",
+		"population": 7654		
+	},
+	{
+		"zone": "LP3",
+		"neighbourhood": "Alterdon",
+		"population": 98105		
+	},
+	{
+		"zone": "LP2",
+		"neighbourhood": "MapleDown",
+		"population": 16570		
+	},
+	{
+		"zone": "LP1",
+		"neighbourhood": "Ringhurst",
+		"population": 274987		
+	}
+]

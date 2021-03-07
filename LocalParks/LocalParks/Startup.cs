@@ -62,7 +62,7 @@ namespace LocalParks
 
             services.AddMvc();
 
-            services.AddTransient<ParksPartialSeeder>();
+            services.AddTransient<ParksSeeder>();
 
             services.AddScoped<IParkRepository, ParkRepository>();
 

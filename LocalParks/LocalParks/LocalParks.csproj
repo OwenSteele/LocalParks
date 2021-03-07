@@ -14,7 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Users\adminLocalParksUser.json" />
+    <Content Remove="SeededData\seededEvents.Json" />
+    <Content Remove="SeededData\seededParks.Json" />
+    <Content Remove="SeededData\seededPostcodes.Json" />
+    <Content Remove="SeededData\seededSportsClubs.Json" />
+    <Content Remove="SeededData\seededSupervisors.Json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -62,7 +66,12 @@
 
   <ItemGroup>
     <None Include="API\.vs\slnx.sqlite" />
-    <None Include="Users\adminLocalParksUser.json" />
+    <None Include="SeededData\seededEvents.Json" />
+    <None Include="SeededData\seededParks.Json" />
+    <None Include="SeededData\seededPostcodes.Json" />
+    <None Include="SeededData\seededSportsClubs.Json" />
+    <None Include="SeededData\seededSupervisors.Json" />
+    <None Include="SeededData\adminLocalParksUser.json" />
   </ItemGroup>
 
 </Project>

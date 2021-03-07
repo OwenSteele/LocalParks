@@ -1,0 +1,72 @@
+[	
+	{
+		"postcodeZone": "LP4",
+		"name": "Leafy Meadows",
+		"sizeInMetresSquared": 200000,
+		"longitude": 0.3848,
+		"latitude": 40.3486,
+		"openingTime": "2021-01-01T07:00:00",
+		"closingTime": "2021-01-01T19:00:00",
+		"SupervisorId": 1
+	},
+	{
+		"postcodeZone": "PF15",
+		"name": "Middlesbrook Park",
+		"sizeInMetresSquared": 85000,
+		"longitude": 0.1880,
+		"latitude": 38.8765,
+		"openingTime": "2021-01-01T06:00:00",
+		"closingTime": "2021-01-01T22:00:00",
+		"SupervisorId": 2
+	},
+	{
+		"postcodeZone": "PF10",
+		"name": "Mirror Lake Park",
+		"sizeInMetresSquared": 2000,
+		"longitude": 2.4678,
+		"latitude": 35.1034,
+		"openingTime": "2021-01-01T09:00:00",
+		"closingTime": "2021-01-01T23:00:00",
+		"SupervisorId": 3
+	},
+	{
+		"postcodeZone": "LP4",
+		"name": "Shadow Grounds",
+		"sizeInMetresSquared": 26500,
+		"longitude": -1.5640,
+		"latitude": 41.6545,
+		"openingTime": "2021-01-01T08:30:00",
+		"closingTime": "2021-01-01T16:30:00",
+		"SupervisorId": 4
+	},
+	{
+		"postcodeZone": "PF13",
+		"name": "Sapphire Gardens",
+		"sizeInMetresSquared": 6000,
+		"longitude": -5.9380,
+		"latitude": 38.9990,
+		"openingTime": "2021-01-01T08:00:00",
+		"closingTime": "2021-01-01T18:30:00",
+		"SupervisorId": 5
+	},
+	{
+		"postcodeZone": "PF13",
+		"name": "Fletcher Plaza",
+		"sizeInMetresSquared": 70000,
+		"longitude": -4.1230,
+		"latitude": 39.7145,
+		"openingTime": "2021-01-01T05:00:00",
+		"closingTime": "2021-01-01T20:30:00",
+		"SupervisorId": 6
+	},
+	{
+		"postcodeZone": "LP2",
+		"name": "Hilltop Fields",
+		"sizeInMetresSquared": 31030,
+		"longitude": -2.9088,
+		"latitude": 41.0301,
+		"openingTime": "2021-01-01T08:30:00",
+		"closingTime": "2021-01-01T17:15:00",
+		"SupervisorId": 7
+	}
+]

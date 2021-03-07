@@ -122,3 +122,4 @@ font-awesome/
 *LocalParksUser.json
 *Migrations
 *appsettings.json
+*ApiAdminController.cs
