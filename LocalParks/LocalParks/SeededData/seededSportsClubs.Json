@@ -1,6 +1,5 @@
 [
 	{
-		"clubId": 5,
 		"name": "Hilltop Judio Studio",
 		"parkId": 7,
 		"sport": 17,
@@ -11,7 +10,6 @@
 		"president": "Lizzy Swanson"
 	},
 	{
-		"clubId": 7,
 		"name": "Skating Club",
 		"parkId": 6,
 		"sport": 11,
@@ -22,7 +20,6 @@
 		"president": "Ella Bawan"
 	},
 	{
-		"clubId": 6,
 		"name": "Community Badminton Club",
 		"parkId": 6,
 		"sport": 10,
@@ -33,7 +30,6 @@
 		"president": "Dan Turman"
 	},
 	{
-		"clubId": 3,
 		"name": "Chesterly Cricket Club",
 		"parkId": 2,
 		"sport": 8,
@@ -44,7 +40,6 @@
 		"president": "Linda Paul"
 	},
 	{
-		"clubId": 4,
 		"name": "Super OAP Bowls Club",
 		"parkId": 7,
 		"sport": 4,
@@ -55,7 +50,6 @@
 		"president": "Donald McDonald"
 	},
 	{
-		"clubId": 2,
 		"name": "Meadow RFC",
 		"parkId": 1,
 		"sport": 2,
@@ -66,7 +60,6 @@
 		"president": "Jess Hampston"
 	},
 	{
-		"clubId": 1,
 		"name": "Curling Polo Club",
 		"parkId": 1,
 		"sport": 0,

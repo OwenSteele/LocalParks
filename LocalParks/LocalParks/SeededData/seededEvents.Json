@@ -1,6 +1,5 @@
 [
 	{
-		"eventId": 8,
 		"name": "WI Bake Sale",
 		"parkId": 6,		
 		"date": "2021-09-09T00:00:00",
@@ -11,7 +10,6 @@
 		"organiserPhoneNumber": "019467411"		
 	},
 	{
-		"eventId": 1,
 		"name": "Arts and Crafts Fair",
 		"parkId": 1,		
 		"date": "2021-08-18T00:00:00",
@@ -23,7 +21,6 @@
 		"recurring": "0,6,0"
 	},
 	{
-		"eventId": 7,
 		"name": "Wakely Primary Bake Sale",
 		"parkId": 7,		
 		"date": "2021-08-01T00:00:00",
@@ -34,7 +31,6 @@
 		"organiserPhoneNumber": "019367492"
 	},
 	{
-		"eventId": 3,
 		"name": "Pet adoption Clinic",
 		"parkId": 2,		
 		"date": "2021-07-19T00:00:00",
@@ -46,7 +42,6 @@
 		"recurring": "0, 0, 90"
 	},
 	{
-		"eventId": 2,
 		"name": "Egg and Spoon Race",
 		"parkId": 2,		
 		"date": "2021-06-03T00:00:00",
@@ -57,7 +52,6 @@
 		"organiserPhoneNumber": "0700345876"		
 	},
 	{
-		"eventId": 4,
 		"name": "Wilmsby Sack Race",
 		"parkId": 3,		
 		"date": "2021-04-28T00:00:00",
@@ -68,7 +62,6 @@
 		"organiserPhoneNumber": "07920500297"		
 	},
 	{
-		"eventId": 5,
 		"name": "Barn Dance",
 		"parkId": 5,		
 		"date": "2021-04-01T00:00:00",
@@ -79,7 +72,6 @@
 		"organiserPhoneNumber": "0700000001"		
 	},
 	{
-		"eventId": 6,
 		"name": "Wakely Primary Bake Sale",
 		"parkId": 6,		
 		"date": "2021-04-01T00:00:00",
