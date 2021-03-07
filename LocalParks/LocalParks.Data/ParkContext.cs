@@ -37,7 +37,8 @@ namespace LocalParks.Data
                 .HasForeignKey(z => z.PostcodeZone);
             bd.Entity<Park>().HasOne(p => p.Supervisor).WithOne(s => s.Park)
                 .HasForeignKey<Supervisor>(s => s.ParkRef);
-            bd.Entity<Park>().HasMany(p => p.SportClubs).WithOne(c => c.Park);
+            bd.Entity<Park>().HasMany(p => p.SportClubs).WithOne(c => c.Park)
+                .HasForeignKey(c => c.ParkId);
             bd.Entity<Park>().HasMany(p => p.Events).WithOne(e => e.Park)
                 .HasForeignKey(e => e.ParkId);
             bd.Entity<LocalParksUser>().HasMany(u => u.OrganisedEvents).WithOne(e => e.User);

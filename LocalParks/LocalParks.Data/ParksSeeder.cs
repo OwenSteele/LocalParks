@@ -134,7 +134,7 @@ namespace LocalParks.Data
 
             if (!_context.SportsClubs.Any())
             {
-                var filePath = Path.Combine(folderPath, "seededParks.json");
+                var filePath = Path.Combine(folderPath, "seededSportsClubs.json");
                 var file = File.ReadAllText(filePath);
                 var seeded = JsonConvert.DeserializeObject<IEnumerable<SportsClub>>(file);
 
