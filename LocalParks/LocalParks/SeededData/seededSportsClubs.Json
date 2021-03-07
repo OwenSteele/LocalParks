@@ -1,0 +1,79 @@
+[
+	{
+		"clubId": 5,
+		"name": "Hilltop Judio Studio",
+		"parkId": 7,
+		"sport": 17,
+		"membershipFee": 220.0000,
+		"members": 71,
+		"website": "http://Judio-OS.co.uk",
+		"email": "Hilltop.Judio@owensteele.co.uk",
+		"president": "Lizzy Swanson"
+	},
+	{
+		"clubId": 7,
+		"name": "Skating Club",
+		"parkId": 6,
+		"sport": 11,
+		"membershipFee": 40.0000,
+		"members": 103,
+		"website": "http://FletcherSkaters-OS.co.uk",
+		"email": "FletcherSkaters@owensteele.co.uk",
+		"president": "Ella Bawan"
+	},
+	{
+		"clubId": 6,
+		"name": "Community Badminton Club",
+		"parkId": 6,
+		"sport": 10,
+		"membershipFee": 80.0000,
+		"members": 47,
+		"website": "http://FletcherCommunity-OS.co.uk",
+		"email": "Badminton.FletcherCommunity@owensteele.co.uk",
+		"president": "Dan Turman"
+	},
+	{
+		"clubId": 3,
+		"name": "Chesterly Cricket Club",
+		"parkId": 2,
+		"sport": 8,
+		"membershipFee": 330.0000,
+		"members": 67,
+		"website": "ChesterlyCricketClub-OS.co.uk",
+		"email": "Admin.ChesterlyCricket@owensteele.co.uk",
+		"president": "Linda Paul"
+	},
+	{
+		"clubId": 4,
+		"name": "Super OAP Bowls Club",
+		"parkId": 7,
+		"sport": 4,
+		"membershipFee": 200.0000,
+		"members": 88,
+		"website": "http://SOAPBowls-OS.co.uk",
+		"email": "SOAP.Bowls@owensteele.co.uk",
+		"president": "Donald McDonald"
+	},
+	{
+		"clubId": 2,
+		"name": "Meadow RFC",
+		"parkId": 1,
+		"sport": 2,
+		"membershipFee": 150.0000,
+		"members": 20,
+		"website": "Meadow-Rugby-OS.co.uk",
+		"email": "Contact.Meadow-Rugby@owensteele.co.uk",
+		"president": "Jess Hampston"
+	},
+	{
+		"clubId": 1,
+		"name": "Curling Polo Club",
+		"parkId": 1,
+		"sport": 0,
+		"membershipFee": 20000.0000,
+		"members": 103,
+		"website": "CPCPolo-OS.co.uk",
+		"email": "CPCPolo@owensteele.co.uk",
+		"president": "Matthrew Albright"
+	}
+]

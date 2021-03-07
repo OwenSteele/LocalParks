@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 using System.IO;
 using LocalParks.Data.User;
 using Newtonsoft.Json;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace LocalParks.Data
 {
-    public class ParksPartialSeeder
+    public class ParksSeeder
     {
         private readonly ParkContext _context;
         private readonly UserManager<LocalParksUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IHostingEnvironment _hosting;
 
-        public ParksPartialSeeder(ParkContext context, UserManager<LocalParksUser> userManager,
+        public ParksSeeder(ParkContext context, UserManager<LocalParksUser> userManager,
             RoleManager<IdentityRole> roleManager, IHostingEnvironment hosting)
         {
             _context = context;
@@ -29,11 +31,13 @@ namespace LocalParks.Data
         {
             _context.Database.EnsureCreated();
 
+            var folderPath = $"{_hosting.ContentRootPath}/seededData";
 
             var user = await _userManager.FindByEmailAsync("contact@owensteele.co.uk");
             if (user == null)
             {
-                var file = File.ReadAllText($"{_hosting.ContentRootPath}/Users/adminLocalParksUser.json");
+                var filePath = Path.Combine(folderPath, "adminLocalParksUser.json");
+                var file = File.ReadAllText(filePath);
                 var seededUser = JsonConvert.DeserializeObject<LocalParksSeedUser>(file);
 
                 user = new LocalParksUser
@@ -84,6 +88,73 @@ namespace LocalParks.Data
             }
 
             await _context.SaveChangesAsync();
+
+            //
+            // seed postcodes
+            //                    
+
+            if(!_context.Postcodes.Any())
+            {
+                var filePath = Path.Combine(folderPath, "seededPostcodes.json");
+                var file = File.ReadAllText(filePath);
+                var seeded = JsonConvert.DeserializeObject<IEnumerable<Postcode>>(file);
+
+                await _context.Postcodes.AddRangeAsync(seeded);
+
+                await _context.SaveChangesAsync();
+            }
+
+            // seed parks              
+
+            if (!_context.Parks.Any())
+            {
+                var filePath = Path.Combine(folderPath, "seededParks.json");
+                var file = File.ReadAllText(filePath);
+                var seeded = JsonConvert.DeserializeObject<IEnumerable<Park>>(file);
+
+                await _context.Parks.AddRangeAsync(seeded);
+
+                await _context.SaveChangesAsync();
+            }
+
+            // seed supervisors              
+
+            if (!_context.Supervisors.Any())
+            {
+                var filePath = Path.Combine(folderPath, "seededSupervisors.json");
+                var file = File.ReadAllText(filePath);
+                var seeded = JsonConvert.DeserializeObject<IEnumerable<Supervisor>>(file);
+
+                await _context.Supervisors.AddRangeAsync(seeded);
+
+                await _context.SaveChangesAsync();
+            }
+
+            // seed sports clubs                
+
+            if (!_context.SportsClubs.Any())
+            {
+                var filePath = Path.Combine(folderPath, "seededParks.json");
+                var file = File.ReadAllText(filePath);
+                var seeded = JsonConvert.DeserializeObject<IEnumerable<SportsClub>>(file);
+
+                await _context.SportsClubs.AddRangeAsync(seeded);
+
+                await _context.SaveChangesAsync();
+            }
+
+            // seed park events
+
+            if (!_context.Events.Any())
+            {
+                var filePath = Path.Combine(folderPath, "seededEvents.json");
+                var file = File.ReadAllText(filePath);
+                var seeded = JsonConvert.DeserializeObject<IEnumerable<ParkEvent>>(file);
+
+                await _context.Events.AddRangeAsync(seeded);
+
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

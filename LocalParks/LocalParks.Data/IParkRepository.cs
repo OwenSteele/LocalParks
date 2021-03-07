@@ -10,24 +10,24 @@ namespace LocalParks.Data
         void Delete<T>(T entity) where T : class;
         Task<bool> SaveChangesAsync();
 
-        Task<Postcode[]> GetAllPostcodesAsync();
+        Task<Postcode[]> GetAllPostcodesAsync(bool includeChildren = true);
         Task<Postcode> GetPostcodeByZoneAsync(string Zone);
 
-        Task<Park[]> GetAllParksAsync();
+        Task<Park[]> GetAllParksAsync(bool includeChildren = true);
         Task<Park> GetParkByIdAsync(int parkId);
         Task<Park> GetParkByNameAsync(string parkName);
         Task<Park[]> GetParksByPostcodeAsync(string postcode);
 
-        Task<SportsClub[]> GetAllSportsClubsAsync();
+        Task<SportsClub[]> GetAllSportsClubsAsync(bool includeChildren = true);
         Task<SportsClub[]> GetSportsClubsByParkIdAsync(int parkId);
         Task<SportsClub> GetSportsClubByIdAsync(int sportsClubId, int? parkId = null);
         Task<SportsClub[]> GetSportsClubsBySportAsync(SportType sport, int? parkId = null);
 
-        Task<Supervisor[]> GetAllSupervisorsAsync();
+        Task<Supervisor[]> GetAllSupervisorsAsync(bool includeChildren = true);
         Task<Supervisor> GetSupervisorByIdAsync(int employeeId);
         Task<Supervisor> GetSupervisorByParkIdAsync(int parkId);
 
-        Task<ParkEvent[]> GetAllEventsAsync();
+        Task<ParkEvent[]> GetAllEventsAsync(bool includeChildren = true);
         Task<ParkEvent> GetEventByIdAsync(int eventId);
         Task<ParkEvent[]> GetEventsByParkIdAsync(int parkId);
         Task<ParkEvent> GetEventByParkIdAsync(int parkId, int eventId);

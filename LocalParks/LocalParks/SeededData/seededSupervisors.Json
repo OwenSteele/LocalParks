@@ -1,0 +1,79 @@
+[
+	{
+		"supervisorId": 7,
+		"parkId": 7,
+		"parkRef": 7,
+		"firstName": "Abraham",
+		"lastName": "Yoluni",
+		"salary": 22850.0000,
+		"startingDate": "2008-02-22T00:00:00",
+		"office": "Ramping Cottage, Little Lane",
+		"emergencyNumber": "0789871231"
+	},
+	{
+		"supervisorId": 6,
+		"parkId": 6,
+		"parkRef": 6,
+		"firstName": "Daniel",
+		"lastName": "Cotting",
+		"salary": 26350.0000,
+		"startingDate": "2011-09-14T00:00:00",
+		"office": "Little Cottage, Ramping Lane",
+		"emergencyNumber": "0787876876"
+	},
+	{
+		"supervisorId": 5,
+		"parkId": 5,
+		"parkRef": 5,
+		"firstName": "Michael",
+		"lastName": "Mitchell",
+		"salary": 34000.0000,
+		"startingDate": "2016-11-05T00:00:00",
+		"office": "154 Wednesday drive",
+		"emergencyNumber": "0723096876"
+	},
+	{
+		"supervisorId": 4,
+		"parkId": 4,
+		"parkRef": 4,
+		"firstName": "Yohan",
+		"lastName": "Blake",
+		"salary": 29000.0000,
+		"startingDate": "2019-03-05T00:00:00",
+		"office": "1 Park Lane",
+		"emergencyNumber": "0762985702"
+	},
+	{
+		"supervisorId": 3,
+		"parkId": 3,
+		"parkRef": 3,
+		"firstName": "Robert",
+		"lastName": "Bob",
+		"salary": 35500.0000,
+		"startingDate": "1986-08-11T00:00:00",
+		"office": "Bramble side, Supervisor Street",
+		"emergencyNumber": "0784368711"
+	},
+	{
+		"supervisorId": 2,
+		"parkId": 2,
+		"parkRef": 2,
+		"firstName": "Anne",
+		"lastName": "Smith",
+		"salary": 32000.0000,
+		"startingDate": "1960-01-21T00:00:00",
+		"office": "Parkside Cottage, Park Avenue",
+		"emergencyNumber": "07685940321"
+	},
+	{
+		"supervisorId": 1,
+		"parkId": 1,
+		"parkRef": 1,
+		"firstName": "Joe",
+		"lastName": "Bloggs",
+		"salary": 35000.0000,
+		"startingDate": "1980-07-13T00:00:00",
+		"office": "123 Chestnut Drive",
+		"emergencyNumber": "07654321000"
+	}
+]

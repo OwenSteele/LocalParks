@@ -29,7 +29,7 @@ namespace LocalParks.API
 
         [Route("api/[controller]")]
         [HttpGet]
-        public async Task<ActionResult<ParkEventModel[]>> GetAllSportsClubs()
+        public async Task<ActionResult<ParkEventModel[]>> GetAllParkEvents()
         {
             _logger.LogInformation("API GET request: All Events");
 

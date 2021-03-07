@@ -19,14 +19,11 @@ namespace LocalParks.API
     {
         private readonly ILogger<PostCodesController> _logger;
         private readonly IPostcodesService _service;
-        private readonly IAuthenticationService _authenticationService;
 
-        public PostCodesController(ILogger<PostCodesController> logger, IPostcodesService service,
-            IAuthenticationService authenticationService)
+        public PostCodesController(ILogger<PostCodesController> logger, IPostcodesService service)
         {
             _logger = logger;
             _service = service;
-            _authenticationService = authenticationService;
         }
 
         [HttpGet]
