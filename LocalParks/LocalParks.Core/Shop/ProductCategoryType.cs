@@ -2,7 +2,10 @@
 {
     public enum ProductCategoryType
     {
+        Misc,
         ClubMembership,
-        ShopItem
+        Clothing,
+        Decor,
+        Utensils
     }
 }

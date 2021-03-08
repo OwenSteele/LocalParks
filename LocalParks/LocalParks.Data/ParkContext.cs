@@ -1,4 +1,5 @@
 ﻿using LocalParks.Core;
+using LocalParks.Core.Shop;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,9 @@ namespace LocalParks.Data
         public DbSet<SportsClub> SportsClubs { get; set; }
         public DbSet<ParkEvent> Events { get; set; }
         public DbSet<Postcode> Postcodes { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
@@ -43,12 +47,17 @@ namespace LocalParks.Data
                 .HasForeignKey(e => e.ParkId);
             bd.Entity<LocalParksUser>().HasMany(u => u.OrganisedEvents).WithOne(e => e.User);
 
+            bd.Entity<Order>().HasMany(o => o.Items).WithOne(i => i.Order);
+
             // defined keys
             bd.Entity<Postcode>().HasKey(k => k.Zone);
             bd.Entity<Park>().HasKey(k => k.ParkId);
             bd.Entity<Supervisor>().HasKey(k => k.SupervisorId);
             bd.Entity<SportsClub>().HasKey(k => k.ClubId);
             bd.Entity<ParkEvent>().HasKey(k => k.EventId);
+            bd.Entity<Product>().HasKey(k => k.ProductId);
+            bd.Entity<Order>().HasKey(k => k.OrderId);
+            bd.Entity<OrderItem>().HasKey(k => k.ItemId);
 
             // decimal properties
             bd.Entity<SportsClub>().Property(c => c.MembershipFee)
@@ -58,6 +67,11 @@ namespace LocalParks.Data
             bd.Entity<Park>().Property(p => p.Latitude)
                 .HasColumnType("decimal(18,4)");
             bd.Entity<Park>().Property(p => p.Longitude)
+                .HasColumnType("decimal(18,4)");
+
+            bd.Entity<Product>().Property(p => p.Price)
+                .HasColumnType("decimal(18,4)");
+            bd.Entity<OrderItem>().Property(p => p.Price)
                 .HasColumnType("decimal(18,4)");
         }
     }
