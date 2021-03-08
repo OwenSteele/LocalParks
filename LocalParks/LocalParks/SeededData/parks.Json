@@ -1,4 +1,4 @@
-[	
+[
 	{
 		"postcodeZone": "LP4",
 		"name": "Leafy Meadows",
@@ -68,5 +68,55 @@
 		"openingTime": "2021-01-01T08:30:00",
 		"closingTime": "2021-01-01T17:15:00",
 		"SupervisorId": 7
+	},
+	{
+		"postcodeZone": "LP1",
+		"name": "Northlake Meadows",
+		"sizeInMetresSquared": 31030,
+		"longitude": -2.9088,
+		"latitude": 0.1212,
+		"openingTime": "2021-01-01T05:30:00",
+		"closingTime": "2021-01-01T23:45:00",
+		"SupervisorId": 8
+	},
+	{
+		"postcodeZone": "LP3",
+		"name": "Almond Meadows",
+		"sizeInMetresSquared": 31030,
+		"longitude": -2.8318,
+		"latitude": 35.7462,
+		"openingTime": "2021-01-01T07:15:00",
+		"closingTime": "2021-01-01T22:00:00",
+		"SupervisorId": 9
+	},
+	{
+		"postcodeZone": "PF11",
+		"name": "Richfait Gardens",
+		"sizeInMetresSquared": 31030,
+		"longitude": -3.7187,
+		"latitude": 31.2330,
+		"openingTime": "2021-01-01T11:00:00",
+		"closingTime": "2021-01-01T16:15:00",
+		"SupervisorId": 10
+	},
+	{
+		"postcodeZone": "PF12",
+		"name": "Little Brook Park",
+		"sizeInMetresSquared": 31030,
+		"longitude": 0.7603,
+		"latitude": 34.7619,
+		"openingTime": "2021-01-01T08:00:00",
+		"closingTime": "2021-01-01T19:30:00",
+		"SupervisorId": 11
+	},
+	{
+		"postcodeZone": "PF11",
+		"name": "Pleasant View Park",
+		"sizeInMetresSquared": 31030,
+		"longitude": -1.6068,
+		"latitude": 42.8887,
+		"openingTime": "2021-01-01T08:00:00",
+		"closingTime": "2021-01-01T23:00:00",
+		"SupervisorId": 12
 	}
 ]

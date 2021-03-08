@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Threading.Tasks;
 using System.IO;
-using LocalParks.Data.User;
+using LocalParks.Core.User;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Collections.Generic;

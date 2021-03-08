@@ -1,0 +1,197 @@
+[
+	{
+		"name": "Hilltop Judio Studio",
+		"parkId": 7,
+		"sport": 17,
+		"membershipFee": 220.0000,
+		"members": 71,
+		"website": "http://Judio-OS.co.uk",
+		"email": "Hilltop.Judio@owensteele.co.uk",
+		"president": "Lizzy Swanson"
+	},
+	{
+		"name": "Skating Club",
+		"parkId": 6,
+		"sport": 11,
+		"membershipFee": 40.0000,
+		"members": 103,
+		"website": "http://FletcherSkaters-OS.co.uk",
+		"email": "FletcherSkaters@owensteele.co.uk",
+		"president": "Ella Bawan"
+	},
+	{
+		"name": "Community Badminton Club",
+		"parkId": 6,
+		"sport": 10,
+		"membershipFee": 80.0000,
+		"members": 47,
+		"website": "http://FletcherCommunity-OS.co.uk",
+		"email": "Badminton.FletcherCommunity@owensteele.co.uk",
+		"president": "Dan Turman"
+	},
+	{
+		"name": "Chesterly Cricket Club",
+		"parkId": 2,
+		"sport": 8,
+		"membershipFee": 330.0000,
+		"members": 67,
+		"website": "ChesterlyCricketClub-OS.co.uk",
+		"email": "Admin.ChesterlyCricket@owensteele.co.uk",
+		"president": "Linda Paul"
+	},
+	{
+		"name": "Super OAP Bowls Club",
+		"parkId": 7,
+		"sport": 4,
+		"membershipFee": 200.0000,
+		"members": 88,
+		"website": "http://SOAPBowls-OS.co.uk",
+		"email": "SOAP.Bowls@owensteele.co.uk",
+		"president": "Donald McDonald"
+	},
+	{
+		"name": "Meadow RFC",
+		"parkId": 1,
+		"sport": 2,
+		"membershipFee": 150.0000,
+		"members": 20,
+		"website": "Meadow-Rugby-OS.co.uk",
+		"email": "Contact.Meadow-Rugby@owensteele.co.uk",
+		"president": "Jess Hampston"
+	},
+	{
+		"name": "Curling Polo Club",
+		"parkId": 1,
+		"sport": 0,
+		"membershipFee": 20000.0000,
+		"members": 103,
+		"website": "CPCPolo-OS.co.uk",
+		"email": "CPCPolo@owensteele.co.uk",
+		"president": "Matthrew Albright"
+	},
+
+
+
+
+
+	{
+		"name": "Glacier Volleyball",
+		"parkId": 12,
+		"sport": 19,
+		"membershipFee": 190.0000,
+		"members": 14,
+		"website": "GlacierVolleyball-OS.co.uk",
+		"email": "GlacierVolleyball@owensteele.co.uk",
+		"president": "Vincent Griffin"
+	},
+	{
+		"name": "Flying Frisbees",
+		"parkId": 12,
+		"sport": 13,
+		"membershipFee": 80.0000,
+		"members": 26,
+		"website": "FlyingFrisbees-OS.co.uk",
+		"email": "FlyingFrisbees@owensteele.co.uk",
+		"president": "Eva Descoteaux"
+	},
+	{
+		"name": "AppleOnTheHead",
+		"parkId": 11,
+		"sport": 9,
+		"membershipFee": 310.0000,
+		"members": 41,
+		"website": "AppleArchery-OS.co.uk",
+		"email": "AppleArchery@owensteele.co.uk",
+		"president": "AppleArchery"
+	},
+	{
+		"name": "Quisset Yacht Club",
+		"parkId": 11,
+		"sport": 20,
+		"membershipFee": 1000.0000,
+		"members": 207,
+		"website": "QYC-OS.co.uk",
+		"email": "QYC@owensteele.co.uk",
+		"president": "Kip Krüger"
+	},
+	{
+		"name": "Softies Ball Club",
+		"parkId": 10,
+		"sport": 12,
+		"membershipFee": 125.0000,
+		"members": 66,
+		"website": "SoftballSofties-OS.co.uk",
+		"email": "SoftballSofties@owensteele.co.uk",
+		"president": "Cindi Jarrett"
+	},
+	{
+		"name": "Dolphins Kids Swimming",
+		"parkId": 10,
+		"sport": 20,
+		"membershipFee": 150.0000,
+		"members": 49,
+		"website": "DolphinSwimming-OS.co.uk",
+		"email": "DolphinSwimming@owensteele.co.uk",
+		"president": "Marlyn Elliston"
+	},
+	{
+		"name": "Old Boys' FC",
+		"parkId": 9,
+		"sport": 1,
+		"membershipFee": 50.0000,
+		"members": 37,
+		"website": "OBFC-OS.co.uk",
+		"email": "OBFC@owensteele.co.uk",
+		"president": "Angelica Schmitt"
+	},
+	{
+		"name": "Billingsy Golf Club",
+		"parkId": 7,
+		"sport": 14,
+		"membershipFee": 4500.0000,
+		"members": 243,
+		"website": "BillingsyGolf-OS.co.uk",
+		"email": "BillingsyGolf@owensteele.co.uk",
+		"president": "Sven Key"
+	},
+	{
+		"name": "TaeWonder",
+		"parkId": 7,
+		"sport": 17,
+		"membershipFee": 135.0000,
+		"members": 50,
+		"website": "TaeWonderMA-OS.co.uk",
+		"email": "TaeWonderMA@owensteele.co.uk",
+		"president": "Herbert Hunter"
+	},
+	{
+		"name": "Treetops Tennis Clubs",
+		"parkId": 6,
+		"sport": 3,
+		"membershipFee": 510.0000,
+		"members": 20,
+		"website": "TreetopsTennis-OS.co.uk",
+		"email": "TreetopsTennis@owensteele.co.uk",
+		"president": "Bambi Lynton"
+	},
+	{
+		"name": "Wiz Athletics Club",
+		"parkId": 4,
+		"sport": 5,
+		"membershipFee": 90.0000,
+		"members": 88,
+		"website": "WizAC-OS.co.uk",
+		"email": "WizAthletics@owensteele.co.uk",
+		"president": "Dorothy Evered"
+	},
+	{
+		"name": "Community Rugby Club",
+		"parkId": 4,
+		"sport": 2,
+		"membershipFee": 125.0000,
+		"members": 52,
+		"website": "CommunityRFC-OS.co.uk",
+		"email": "CommunityRFC@owensteele.co.uk",
+		"president": "Nevil Willard"
+	}
+]
