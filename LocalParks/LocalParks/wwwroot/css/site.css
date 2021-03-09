@@ -1615,3 +1615,9 @@ a {
 .w3-border-pale-blue, .w3-hover-border-pale-blue:hover {
     border-color: #e7ffff !important
 }
+
+.required-field:after {
+    content: "*";
+    font-weight: bold;
+    color: red;
+}

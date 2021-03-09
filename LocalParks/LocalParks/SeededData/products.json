@@ -28,42 +28,42 @@
     "category": 4
   },
   {
-    "name": "Park Sunset Post - A4",
+    "name": "Park Sunset Poster - A4",
     "price": 15.0000,
     "description": "A beautiful photo of one of our parks, captured at sunset",
     "imageId": "poster_sunset_1",
     "category": 3
   },
   {
-    "name": "Park Sunset Post - A3",
+    "name": "Park Sunset Poster - A3",
     "price": 22.0000,
     "description": "A beautiful photo of one of our parks, captured at sunset",
     "imageId": "poster_sunset_1",
     "category": 3
   },
   {
-    "name": "Park Sunset Post - A1",
+    "name": "Park Sunset Poster - A1",
     "price": 30.0000,
     "description": "A beautiful photo of one of our parks, captured at sunset",
     "imageId": "poster_sunset_1",
     "category": 3
   },
   {
-    "name": "Park Snowy Post - A4",
+    "name": "Park Snowy Poster - A4",
     "price": 14.0000,
     "description": "A beautiful photo of one of our parks, from the snowfall last winter",
     "imageId": "poster_winter_1",
     "category": 3
   },
   {
-    "name": "Park Snowy Post - A2",
+    "name": "Park Snowy Poster - A2",
     "price": 26.0000,
     "description": "A beautiful photo of one of our parks, from the snowfall last winter",
     "imageId": "poster_winter_1",
     "category": 3
   },
   {
-    "name": "Park Snowy Post - A1",
+    "name": "Park Snowy Poster - A1",
     "price": 32.0000,
     "description": "A beautiful photo of one of our parks, from the snowfall last winter",
     "imageId": "poster_winter_1",
@@ -86,7 +86,7 @@
   {
     "name": "Wolly Hat",
     "price": 18.0000,
-    "description": "Keep your head toasty with this bobble hat, repsonsibly sourced and stitched with our new logo",
+    "description": "Keep your head toasty with this bobble hat, responsibly sourced and stitched with our new logo",
     "imageId": "hat_1",
     "category": 2
   },
@@ -99,7 +99,7 @@
   },
   {
     "name": "Local Parks Lanyard",
-    "price": 20.0000,
+    "price": 5.0000,
     "description": "Local Parks Lanyard with our logo, great for ID cards, keys and much more",
     "imageId": "lanyard_1",
     "category": 2
@@ -123,6 +123,13 @@
     "price": 5.5000,
     "description": "'Protect our parks' - Bumper Sticker for your car, fridge or just for decoration",
     "imageId": "sticker_2",
+    "category": 0
+  },
+  {
+    "name": "Snow Globe",
+    "price": 7.5000,
+    "description": "A snow globe of the big hill in one of our parks",
+    "imageId": "snowglobe_1",
     "category": 0
   }
 ]
