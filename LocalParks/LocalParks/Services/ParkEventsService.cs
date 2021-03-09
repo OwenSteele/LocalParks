@@ -195,7 +195,7 @@ namespace LocalParks.Services
         }
         public async Task<bool> DeleteParkEventAsync(ParkEventModel model)
         {
-            var parkEvent = _mapper.Map<ParkEvent>(model);
+            var parkEvent = await _parkRepository.GetEventByIdAsync(model.EventId);
             _parkRepository.Delete(parkEvent);
 
             return await _parkRepository.SaveChangesAsync();
@@ -204,7 +204,7 @@ namespace LocalParks.Services
         {
             var result = await _parkRepository.GetEventByIdAsync(eventId);
 
-            if (result.User == null) return null;
+            if (result == null || result.User == null) return null;
 
             if (string.IsNullOrWhiteSpace(userName) || result.User.UserName == userName)
                 return _mapper.Map<LocalParksUserModel>(result.User);
