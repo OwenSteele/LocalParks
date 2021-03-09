@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Threading.Tasks;
 using System.IO;
-using LocalParks.Data.User;
+using LocalParks.Core.User;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Collections.Generic;
+using LocalParks.Core.Shop;
 
 namespace LocalParks.Data
 {
@@ -95,7 +96,7 @@ namespace LocalParks.Data
 
             if(!_context.Postcodes.Any())
             {
-                var filePath = Path.Combine(folderPath, "seededPostcodes.json");
+                var filePath = Path.Combine(folderPath, "postcodes.json");
                 var file = File.ReadAllText(filePath);
                 var seeded = JsonConvert.DeserializeObject<IEnumerable<Postcode>>(file);
 
@@ -108,7 +109,7 @@ namespace LocalParks.Data
 
             if (!_context.Parks.Any())
             {
-                var filePath = Path.Combine(folderPath, "seededParks.json");
+                var filePath = Path.Combine(folderPath, "parks.json");
                 var file = File.ReadAllText(filePath);
                 var seeded = JsonConvert.DeserializeObject<IEnumerable<Park>>(file);
 
@@ -121,7 +122,7 @@ namespace LocalParks.Data
 
             if (!_context.Supervisors.Any())
             {
-                var filePath = Path.Combine(folderPath, "seededSupervisors.json");
+                var filePath = Path.Combine(folderPath, "supervisors.json");
                 var file = File.ReadAllText(filePath);
                 var seeded = JsonConvert.DeserializeObject<IEnumerable<Supervisor>>(file);
 
@@ -130,28 +131,55 @@ namespace LocalParks.Data
                 await _context.SaveChangesAsync();
             }
 
+            // seed park events
+
+            if (!_context.Events.Any())
+            {
+                var filePath = Path.Combine(folderPath, "parkEvents.json");
+                var file = File.ReadAllText(filePath);
+                var seeded = JsonConvert.DeserializeObject<IEnumerable<ParkEvent>>(file);
+
+                await _context.Events.AddRangeAsync(seeded);
+
+                await _context.SaveChangesAsync();
+            }
+
+            // seed shop products BEFORE SPORTS CLUBS
+
+            if (!_context.Products.Any())
+            {
+                var filePath = Path.Combine(folderPath, "products.json");
+                var file = File.ReadAllText(filePath);
+                var seeded = JsonConvert.DeserializeObject<IEnumerable<Product>>(file);
+
+                await _context.Products.AddRangeAsync(seeded);
+
+                await _context.SaveChangesAsync();
+            }
+
             // seed sports clubs                
 
             if (!_context.SportsClubs.Any())
             {
-                var filePath = Path.Combine(folderPath, "seededParks.json");
+                var filePath = Path.Combine(folderPath, "sportsClubs.json");
                 var file = File.ReadAllText(filePath);
                 var seeded = JsonConvert.DeserializeObject<IEnumerable<SportsClub>>(file);
 
                 await _context.SportsClubs.AddRangeAsync(seeded);
 
-                await _context.SaveChangesAsync();
-            }
+                foreach (var club in seeded)
+                {
+                    var membershipProduct = new Product
+                    {
+                        Name = $"{club.Name} membership",
+                        Price = club.MembershipFee,
+                        Description = $"Membership for Sports Club: {club.Name}",
+                        ImageId = "membership_1",
+                        Category = ProductCategoryType.ClubMembership
+                    };
 
-            // seed park events
-
-            if (!_context.Events.Any())
-            {
-                var filePath = Path.Combine(folderPath, "seededEvents.json");
-                var file = File.ReadAllText(filePath);
-                var seeded = JsonConvert.DeserializeObject<IEnumerable<ParkEvent>>(file);
-
-                await _context.Events.AddRangeAsync(seeded);
+                    await _context.Products.AddAsync(membershipProduct);
+                }
 
                 await _context.SaveChangesAsync();
             }

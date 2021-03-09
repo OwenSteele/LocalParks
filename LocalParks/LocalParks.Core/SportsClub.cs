@@ -4,6 +4,7 @@
     {
         public int ClubId { get; set; }
         public string Name { get; set; }
+        public int ParkId { get; set; }
         public Park Park { get; set; }
         public SportType Sport { get; set; }
         public decimal MembershipFee { get; set; }

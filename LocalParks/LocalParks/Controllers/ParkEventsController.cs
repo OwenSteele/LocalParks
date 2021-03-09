@@ -157,7 +157,8 @@ namespace LocalParks.Controllers
             return View("Edit", _tempEvent);
         }
 
-        public async Task<IActionResult> Delete(int eventId, bool confirmed = false)
+        [HttpGet]
+        public async Task<IActionResult> Delete(int eventId)
         {
             if (!await _authenticationService.IsSignedIn(this.User))
                 return RedirectToAction("Details", "ParkEvents", new { eventId });
@@ -169,12 +170,37 @@ namespace LocalParks.Controllers
             var result = await _service.GetParkEventModelByIdAsync(eventId);
             if (result == null) RedirectToAction("NotFound", "ParkEvents");
 
-            if (!confirmed) return View(result);
+            return View(result);
+        }
 
-            if (await _service.DeleteParkEventAsync(result))
-                return RedirectToAction("Index", "ParkEvents");
+        [HttpPost]
+        public async Task<IActionResult> Delete(int eventId, bool confirmed)
+        {
+            if (!await _authenticationService.IsSignedIn(this.User))
+                return RedirectToAction("Details", "ParkEvents", new { eventId });
+
+            if (await _service.GetEventOwner(eventId, this.User.Identity.Name) == null &&
+                !await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
+                return RedirectToAction("Details", "ParkEvents", new { eventId });
+
+            var result = await _service.GetParkEventModelByIdAsync(eventId);
+            if (result == null) RedirectToAction("NotFound", "ParkEvents");
+
+            if(!confirmed) return View(result);
+
+            try
+            {
+                if (await _service.DeleteParkEventAsync(result))
+                    return RedirectToAction("Index", "ParkEvents");
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Could not delete event. Please contact us about this issue");
+                return View(result);
+            }
 
             return RedirectToAction("Details", "ParkEvents", new { eventId });
         }
+
     }
 }

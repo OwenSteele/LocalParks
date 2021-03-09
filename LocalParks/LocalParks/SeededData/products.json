@@ -1,0 +1,135 @@
+[
+  {
+    "name": "Local Parks T-Shirt, Large",
+    "price": 12.0000,
+    "description": "A local parks branded t-shirt, 100% cotton, unisex large",
+    "imageId": "tshirt_1",
+    "category": 2
+  },
+  {
+    "name": "Local Parks T-Shirt, Medium",
+    "price": 12.0000,
+    "description": "A local parks branded t-shirt, 100% cotton, unisex medium",
+    "imageId": "tshirt_1",
+    "category": 2
+  },
+  {
+    "name": "Local Parks T-Shirt, Small",
+    "price": 12.0000,
+    "description": "A local parks branded t-shirt, 100% cotton, unisex small",
+    "imageId": "tshirt_1",
+    "category": 2
+  },
+  {
+    "name": "Mug",
+    "price": 8.0000,
+    "description": "A china mug with our wonderful new logo, perfect for a hot drink after a long walk",
+    "imageId": "mug_1",
+    "category": 4
+  },
+  {
+    "name": "Park Sunset Poster - A4",
+    "price": 15.0000,
+    "description": "A beautiful photo of one of our parks, captured at sunset",
+    "imageId": "poster_sunset_1",
+    "category": 3
+  },
+  {
+    "name": "Park Sunset Poster - A3",
+    "price": 22.0000,
+    "description": "A beautiful photo of one of our parks, captured at sunset",
+    "imageId": "poster_sunset_1",
+    "category": 3
+  },
+  {
+    "name": "Park Sunset Poster - A1",
+    "price": 30.0000,
+    "description": "A beautiful photo of one of our parks, captured at sunset",
+    "imageId": "poster_sunset_1",
+    "category": 3
+  },
+  {
+    "name": "Park Snowy Poster - A4",
+    "price": 14.0000,
+    "description": "A beautiful photo of one of our parks, from the snowfall last winter",
+    "imageId": "poster_winter_1",
+    "category": 3
+  },
+  {
+    "name": "Park Snowy Poster - A2",
+    "price": 26.0000,
+    "description": "A beautiful photo of one of our parks, from the snowfall last winter",
+    "imageId": "poster_winter_1",
+    "category": 3
+  },
+  {
+    "name": "Park Snowy Poster - A1",
+    "price": 32.0000,
+    "description": "A beautiful photo of one of our parks, from the snowfall last winter",
+    "imageId": "poster_winter_1",
+    "category": 3
+  },
+  {
+    "name": "Autumn Postcard",
+    "price": 3.5000,
+    "description": "Send this lovely postcard to a friend or loved one, taken in one of our parks",
+    "imageId": "postcard_1",
+    "category": 0
+  },
+  {
+    "name": "Sailors Postcard",
+    "price": 4.000,
+    "description": "Send this lovely postcard to a friend or loved one, taken in one of our parks",
+    "imageId": "postcard_2",
+    "category": 0
+  },
+  {
+    "name": "Wolly Hat",
+    "price": 18.0000,
+    "description": "Keep your head toasty with this bobble hat, responsibly sourced and stitched with our new logo",
+    "imageId": "hat_1",
+    "category": 2
+  },
+  {
+    "name": "Baseball Cap",
+    "price": 20.0000,
+    "description": "An adjustable summer hat, stitched with our new logo",
+    "imageId": "hat_2",
+    "category": 2
+  },
+  {
+    "name": "Local Parks Lanyard",
+    "price": 5.0000,
+    "description": "Local Parks Lanyard with our logo, great for ID cards, keys and much more",
+    "imageId": "lanyard_1",
+    "category": 2
+  },
+  {
+    "name": "Silver Cutlery Set",
+    "price": 80.0000,
+    "description": "Sterling Silver Cutlery Set, 50% of price goes to charity",
+    "imageId": "cutlery_1",
+    "category": 4
+  },
+  {
+    "name": "'I love nature' - Bumper Sticker",
+    "price": 6.0000,
+    "description": "'I love nature' - Bumper Sticker for your car, fridge or just for decoration",
+    "imageId": "sticker_1",
+    "category": 0
+  },
+  {
+    "name": "'Protect our parks' - Bumper Sticker",
+    "price": 5.5000,
+    "description": "'Protect our parks' - Bumper Sticker for your car, fridge or just for decoration",
+    "imageId": "sticker_2",
+    "category": 0
+  },
+  {
+    "name": "Snow Globe",
+    "price": 7.5000,
+    "description": "A snow globe of the big hill in one of our parks",
+    "imageId": "snowglobe_1",
+    "category": 0
+  }
+]

@@ -53,11 +53,15 @@ namespace LocalParks.Data
         {
             _logger.LogInformation($"Getting all postcodes.");
 
-            IQueryable<Postcode> query = _context.Postcodes;
+            IQueryable<Postcode> query;
 
             if (includeChildren)
             {
-                query.Include(c => c.Parks);
+                query = _context.Postcodes.Include(c => c.Parks);
+            }
+            else
+            {
+                query = _context.Postcodes;
             }
 
             query = query.OrderByDescending(z => z.Zone);
@@ -68,13 +72,18 @@ namespace LocalParks.Data
         {
             _logger.LogInformation($"Getting all parks.");
 
-            IQueryable<Park> query = _context.Parks;
+            IQueryable<Park> query; 
 
             if (includeChildren)
             {
-                query.Include(p => p.Supervisor)
+                query = _context.Parks
+                .Include(p => p.Supervisor)
                 .Include(p => p.SportClubs)
                 .Include(p => p.Events);
+            }
+            else
+            {
+                query = _context.Parks;
             }
 
             query = query.OrderByDescending(p => p.Postcode);
@@ -125,15 +134,15 @@ namespace LocalParks.Data
         {
             _logger.LogInformation($"Getting all sports clubs.");
 
-            IQueryable<SportsClub> query = _context.SportsClubs;
+            IQueryable<SportsClub> query;
 
             if (includeChildren)
             {
-                query.Include(c => c.Park);
+                query = _context.SportsClubs.Include(c => c.Park);
             }
             else
             {
-                query.Include(c => c.Park.ParkId);
+                query = _context.SportsClubs.Include(c => c.Park.ParkId);
             }
 
             query = query.OrderByDescending(s => s.Sport);
@@ -186,11 +195,15 @@ namespace LocalParks.Data
         {
             _logger.LogInformation($"Getting all supervisors.");
 
-            IQueryable<Supervisor> query = _context.Supervisors;
+            IQueryable<Supervisor> query;
 
             if (includeChildren)
             {
-                query.Include(c => c.Park);
+                query = _context.Supervisors.Include(c => c.Park);
+            }
+            else
+            {
+                query = _context.Supervisors;
             }
 
             query = query.OrderByDescending(s => s.SupervisorId);
@@ -225,16 +238,17 @@ namespace LocalParks.Data
         {
             _logger.LogInformation($"Getting all events.");
 
-            IQueryable<ParkEvent> query = _context.Events;
+            IQueryable<ParkEvent> query;
 
             if (includeChildren)
             {
-                query.Include(c => c.Park)
-                .Include(e => e.User);
+                query = _context.Events
+                    .Include(c => c.Park)
+                    .Include(e => e.User);
             }
             else
             {
-                query.IgnoreAutoIncludes();
+                query = _context.Events;
             }
 
             query = query.Where(e => e.Date >= DateTime.Today)
