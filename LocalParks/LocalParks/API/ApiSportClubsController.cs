@@ -122,9 +122,9 @@ namespace LocalParks.API
 
             try
             {
-                var result = await _service.GetSportsClubModelAsync(clubId, parkId);
+                var result = await _service.GetSportsClubModelAsync(clubId);
 
-                if (result == null) return NoContent();
+                if (result == null || result.ParkId != parkId) return NoContent();
 
                 return Ok(result);
             }

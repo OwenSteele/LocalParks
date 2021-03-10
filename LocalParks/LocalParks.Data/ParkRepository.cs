@@ -1,4 +1,5 @@
 ﻿using LocalParks.Core;
+using LocalParks.Core.Shop;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -42,9 +43,8 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting postcode of zone: {zone}.");
 
             IQueryable<Postcode> query = _context.Postcodes
-                 .Include(z => z.Parks);
-
-            query = query.Where(z => z.Zone.ToLower() == zone.ToLower());
+                 .Include(z => z.Parks)
+                 .Where(z => z.Zone.ToLower() == zone.ToLower());
 
             return await query.FirstOrDefaultAsync();
         }
@@ -72,7 +72,7 @@ namespace LocalParks.Data
         {
             _logger.LogInformation($"Getting all parks.");
 
-            IQueryable<Park> query; 
+            IQueryable<Park> query;
 
             if (includeChildren)
             {
@@ -97,9 +97,8 @@ namespace LocalParks.Data
             IQueryable<Park> query = _context.Parks
                 .Include(p => p.Supervisor)
                 .Include(p => p.SportClubs)
-                .Include(p => p.Events);
-
-            query = query.Where(p => p.ParkId == parkId);
+                .Include(p => p.Events)
+                .Where(p => p.ParkId == parkId);
 
             return await query.FirstOrDefaultAsync();
         }
@@ -110,9 +109,8 @@ namespace LocalParks.Data
             IQueryable<Park> query = _context.Parks
                 .Include(p => p.Supervisor)
                 .Include(p => p.SportClubs)
-                .Include(p => p.Events);
-
-            query = query.Where(p => p.Name.ToLower() == parkName.ToLower());
+                .Include(p => p.Events)
+                .Where(p => p.Name.ToLower() == parkName.ToLower());
 
             return await query.FirstOrDefaultAsync();
         }
@@ -123,9 +121,8 @@ namespace LocalParks.Data
             IQueryable<Park> query = _context.Parks
                 .Include(p => p.Supervisor)
                 .Include(p => p.SportClubs)
-                .Include(p => p.Events);
-
-            query = query.Where(p => p.Postcode.Zone == postcodeZone);
+                .Include(p => p.Events)
+                .Where(p => p.Postcode.Zone == postcodeZone);
 
             return await query.ToArrayAsync();
         }
@@ -154,22 +151,18 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting sports clubs from park ID: {parkId}.");
 
             IQueryable<SportsClub> query = _context.SportsClubs
-                .Include(c => c.Park);
-
-            query = query.Where(c => c.Park.ParkId == parkId);
+                .Include(c => c.Park)
+                .Where(c => c.Park.ParkId == parkId);
 
             return await query.ToArrayAsync();
         }
-        public async Task<SportsClub> GetSportsClubByIdAsync(int sportsClubId, int? parkId = null)
+        public async Task<SportsClub> GetSportsClubByIdAsync(int sportsClubId)
         {
             _logger.LogInformation($"Getting a sports club with ID: {sportsClubId}.");
 
             IQueryable<SportsClub> query = _context.SportsClubs
-                .Include(c => c.Park);
-
-            query = query.Where(c => c.ClubId == sportsClubId);
-
-            if (parkId.HasValue) query = query.Where(c => c.Park.ParkId == parkId);
+                .Include(c => c.Park)
+                .Where(c => c.ClubId == sportsClubId);
 
             return await query.FirstOrDefaultAsync();
         }
@@ -178,9 +171,8 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting sports clubs with sport: {sport}.");
 
             IQueryable<SportsClub> query = _context.SportsClubs
-                .Include(c => c.Park);
-
-            query = query.Where(s => s.Sport == sport)
+                .Include(c => c.Park)
+                .Where(s => s.Sport == sport)
                 .OrderByDescending(s => s.Sport);
 
             if (parkId.HasValue) query = query.Where(c => c.Park.ParkId == parkId);
@@ -215,9 +207,8 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting the supervisor for ID: {employeeId}.");
 
             IQueryable<Supervisor> query = _context.Supervisors
-                .Include(s => s.Park);
-
-            query = query.Where(s => s.SupervisorId == employeeId);
+                .Include(s => s.Park)
+                .Where(s => s.SupervisorId == employeeId);
 
             return await query.FirstOrDefaultAsync();
         }
@@ -226,9 +217,8 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting the supervisor for park ID: {parkId}.");
 
             IQueryable<Supervisor> query = _context.Supervisors
-                .Include(s => s.Park);
-
-            query = query.Where(s => s.Park.ParkId == parkId);
+                .Include(s => s.Park)
+                .Where(s => s.Park.ParkId == parkId);
 
             return await query.FirstOrDefaultAsync();
         }
@@ -244,15 +234,16 @@ namespace LocalParks.Data
             {
                 query = _context.Events
                     .Include(c => c.Park)
-                    .Include(e => e.User);
+                    .Include(e => e.User)
+                    .Where(e => e.Date >= DateTime.Today)
+                .OrderByDescending(e => e.Date);
             }
             else
             {
-                query = _context.Events;
-            }
-
-            query = query.Where(e => e.Date >= DateTime.Today)
+                query = _context.Events
+                    .Where(e => e.Date >= DateTime.Today)
                 .OrderByDescending(e => e.Date);
+            }
 
             return await query.ToArrayAsync();
         }
@@ -262,11 +253,10 @@ namespace LocalParks.Data
 
             IQueryable<ParkEvent> query = _context.Events
                 .Include(e => e.Park)
-                .Include(e => e.User);
-
-            query = query.Where(e =>
-            e.Park.ParkId == parkId &&
-            e.Date >= DateTime.Today)
+                .Include(e => e.User)
+                .Where(e =>
+                    e.Park.ParkId == parkId &&
+                    e.Date >= DateTime.Today)
                 .OrderByDescending(e => e.Date);
 
             return await query.ToArrayAsync();
@@ -277,9 +267,8 @@ namespace LocalParks.Data
 
             IQueryable<ParkEvent> query = _context.Events
                 .Include(e => e.Park)
-                .Include(e => e.User);
-
-            query = query.Where(e =>
+                .Include(e => e.User)
+                .Where(e =>
             e.EventId == eventId &&
             e.Date >= DateTime.Today)
                 .OrderByDescending(e => e.Date);
@@ -292,9 +281,8 @@ namespace LocalParks.Data
 
             IQueryable<ParkEvent> query = _context.Events
                 .Include(e => e.Park)
-                .Include(e => e.User);
-
-            query = query.Where(e =>
+                .Include(e => e.User)
+                .Where(e =>
             e.EventId == eventId &&
             e.Park.ParkId == parkId &&
             e.Date >= DateTime.Today);
@@ -308,9 +296,8 @@ namespace LocalParks.Data
 
             IQueryable<ParkEvent> query = _context.Events
                 .Include(e => e.Park)
-                .Include(e => e.User);
-
-            query = query.Where(e =>
+                .Include(e => e.User)
+                .Where(e =>
             e.Date == dateTime &&
             e.Park.ParkId == parkId &&
             e.Date >= DateTime.Today);
@@ -323,9 +310,8 @@ namespace LocalParks.Data
 
             IQueryable<ParkEvent> query = _context.Events
                 .Include(e => e.Park)
-                .Include(e => e.User);
-
-            query = query.Where(e =>
+                .Include(e => e.User)
+                .Where(e =>
             e.Date == dateTime &&
             e.Date >= DateTime.Today)
                 .OrderByDescending(e => e.Name);
@@ -351,9 +337,8 @@ namespace LocalParks.Data
 
             // no support for recursive queries - parks need to be included in services
             IQueryable<LocalParksUser> query = _context.Users
-                .Include(u => u.OrganisedEvents);
-
-            query = query.Where(u => u.UserName == username);
+                .Include(u => u.OrganisedEvents)
+                .Where(u => u.UserName == username);
 
             return await query.FirstOrDefaultAsync();
         }
@@ -362,9 +347,62 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting user by username");
 
             IQueryable<LocalParksUser> query = _context.Users
-                .Include(u => u.OrganisedEvents);
+                .Include(u => u.OrganisedEvents)
+                .Where(u => u.Email == email);
 
-            query = query.Where(u => u.Email == email);
+            return await query.FirstOrDefaultAsync();
+        }
+
+        public async Task<Product[]> GetAllProductsAsync()
+        {
+            _logger.LogInformation($"Getting all products.");
+
+            IQueryable<Product> query = _context.Products;
+
+            query = query.OrderByDescending(p => p.ProductId);
+
+            return await query.ToArrayAsync();
+        }
+        public async Task<Order[]> GetAllOrdersAsync()
+        {
+            _logger.LogInformation($"Getting all order.");
+
+            IQueryable<Order> query = _context.Orders
+                .Include(o => o.Items);
+
+            query = query.OrderByDescending(o => o.DateCreated);
+
+            return await query.ToArrayAsync();
+        }
+        public async Task<Order[]> GetOrdersByUsernameAsync(string username)
+        {
+            _logger.LogInformation($"Getting all order of user: {username}.");
+
+            IQueryable<Order> query = _context.Orders
+                .Include(o => o.User)
+                .Where(o => o.User != null && o.User.UserName == username);
+
+            query = query.OrderByDescending(e => e.DateCreated);
+
+            return await query.ToArrayAsync();
+        }
+        public async Task<Order> GetOrderByIdAsync(int id)
+        {
+            _logger.LogInformation($"Getting order with Id: {id}.");
+
+            IQueryable<Order> query = _context.Orders
+                .Include(o => o.User)
+                .Where(o => o.OrderId == id);
+
+            return await query.FirstOrDefaultAsync();
+        }
+        public async Task<Order> GetOrderByNumberAsync(string number)
+        {
+            _logger.LogInformation($"Getting order with Number: {number}.");
+
+            IQueryable<Order> query = _context.Orders
+                .Include(o => o.User)
+                .Where(o => o.OrderNumber == number);
 
             return await query.FirstOrDefaultAsync();
         }

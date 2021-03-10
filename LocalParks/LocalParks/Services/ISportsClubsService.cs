@@ -11,7 +11,7 @@ namespace LocalParks.Services
         Task<SportsClubModel[]> GetAllSportsClubModelsAsync(string sortBy = null);
         Task<SportsClubModel[]> GetSearchedSportsClubModelsAsync(string searchTerm = null, string parkId = null, string sportType = null, string sortBy = null);
         IEnumerable<SelectListItem> GetSportListItems();
-        Task<SportsClubModel> GetSportsClubModelAsync(int clubId, int? parkId = null);
+        Task<SportsClubModel> GetSportsClubModelAsync(int clubId);
         Task<SportsClubModel[]> GetSportsClubModelsByParkAsync(int parkId);
         Task<SportsClubModel[]> GetSportsClubModelsBySportAsync(int parkId, SportType sportType);
         Task<bool> CheckParkExistsAsync(int parkId, string clubName = null);

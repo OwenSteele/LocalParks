@@ -1,4 +1,5 @@
 ﻿using LocalParks.Core;
+using LocalParks.Core.Shop;
 using System;
 using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@ namespace LocalParks.Data
 
         Task<SportsClub[]> GetAllSportsClubsAsync(bool includeChildren = true);
         Task<SportsClub[]> GetSportsClubsByParkIdAsync(int parkId);
-        Task<SportsClub> GetSportsClubByIdAsync(int sportsClubId, int? parkId = null);
+        Task<SportsClub> GetSportsClubByIdAsync(int sportsClubId);
         Task<SportsClub[]> GetSportsClubsBySportAsync(SportType sport, int? parkId = null);
 
         Task<Supervisor[]> GetAllSupervisorsAsync(bool includeChildren = true);
@@ -36,5 +37,12 @@ namespace LocalParks.Data
 
         Task<LocalParksUser> GetLocalParksUserByUsernameAsync(string username);
         Task<LocalParksUser> GetLocalParksUserByEmailAsync(string email);
+
+        Task<Order[]> GetAllOrdersAsync();
+        Task<Order[]> GetOrdersByUsernameAsync(string username);
+        Task<Order> GetOrderByIdAsync(int id);
+        Task<Order> GetOrderByNumberAsync(string number);
+
+        Task<Product[]> GetAllProductsAsync();
     }
 }

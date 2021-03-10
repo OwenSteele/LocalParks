@@ -73,9 +73,9 @@ namespace LocalParks.Services
 
             return models;
         }
-        public async Task<SportsClubModel> GetSportsClubModelAsync(int clubId, int? parkId = null)
+        public async Task<SportsClubModel> GetSportsClubModelAsync(int clubId)
         {
-            var result = await _parkRepository.GetSportsClubByIdAsync(clubId, parkId);
+            var result = await _parkRepository.GetSportsClubByIdAsync(clubId);
 
             if (result == null) return null;
 
