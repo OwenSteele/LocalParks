@@ -123,5 +123,5 @@ font-awesome/
 *Migrations
 *appsettings.json
 *ApiAdminController.cs
-wwwroot/ClientApp/
-LocalParks/dist/out-tsc
+*wwwroot/ClientApp/
+*LocalParks/dist/out-tsc
