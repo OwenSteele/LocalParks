@@ -20,7 +20,7 @@ namespace LocalParks.Controllers
 
         public async Task<IActionResult> Index(string latitude = null, string longitude = null)
         {
-            _logger.LogInformation("Index page: getting all parks.");
+            _logger.LogInformation("Index page: getting home model.");
 
             var result = await _service.GetHomeModelAsync(latitude, longitude);
 
