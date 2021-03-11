@@ -71,7 +71,7 @@ namespace LocalParks.Data
 
             bd.Entity<Product>().Property(p => p.Price)
                 .HasColumnType("decimal(18,4)");
-            bd.Entity<OrderItem>().Property(p => p.Price)
+            bd.Entity<OrderItem>().Property(p => p.UnitPrice)
                 .HasColumnType("decimal(18,4)");
         }
     }

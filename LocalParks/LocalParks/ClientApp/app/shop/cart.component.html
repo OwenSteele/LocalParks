@@ -1,1 +1,31 @@
-﻿
+﻿<table class="table table-condensed table-hover">
+    <thead>
+        <tr>
+            <td>Item</td>
+            <td>Type</td>
+            <td>Amount</td>
+            <td>Price each</td>
+            <td>Subtotal</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let i of data.order.items">
+            <td>{{i.productName}}</td>
+            <td>{{i.productCategory}}</td>
+            <td>{{i.quantity}}</td>
+            <td>{{i.unitPrice | currency:"GBP":true }}</td>
+            <td>{{ (i.unitPrice * i.quantity) | currency:"GBP":true }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<div>
+    <span class="font-weight-bolder">Number of items:</span>
+    {{ data.order.items.length }}
+</div>
+<div>
+    <span class="font-weight-bolder">Subtotal:</span>
+    {{ data.order.total | currency:"GBP":true }}
+</div>
+
+<a routerLink="/checkout" *ngIf="data.order.items.length >0"></a>

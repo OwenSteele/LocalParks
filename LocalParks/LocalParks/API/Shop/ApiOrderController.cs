@@ -20,14 +20,11 @@ namespace LocalParks.API.Shop
     {
         private readonly ILogger<OrdersController> _logger;
         private readonly IShopService _service;
-        private readonly IAuthenticationService _authenticationService;
 
-        public OrdersController(ILogger<OrdersController> logger, IShopService service,
-            IAuthenticationService authenticationService)
+        public OrdersController(ILogger<OrdersController> logger, IShopService service)
         {
             _logger = logger;
             _service = service;
-            _authenticationService = authenticationService;
         }
         [HttpGet]
         public async Task<IActionResult> GetUserOrders()
@@ -90,7 +87,6 @@ namespace LocalParks.API.Shop
 
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
             }
-            return BadRequest("Failed to save order");
         }
     }
 }

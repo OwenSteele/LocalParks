@@ -1,1 +1,13 @@
-﻿
+﻿<div class="row">
+    <div class="shop-product col-md-4" *ngFor="let p for products">
+        <div class="card bg-dark p-1 m-1 text-light">
+            <img src="/images/shop/products/{{p.imageId}}.jpg" class="img-fluid" [alt]="p.name" />
+            <h3><strong>{{p.name}}</strong> ({{p.category}})</h3>
+            <ul class="product-props list-unstyled">
+                <li><strong>Price</strong>: {{ p.price | currency:"GBP":true }}</li>
+                <li><strong>Description</strong>: {{ p.description }}</li>
+            </ul>
+            <button id="buyButton" class="btn btn-success">Add to Cart</button>
+        </div>
+    </div>
+</div>

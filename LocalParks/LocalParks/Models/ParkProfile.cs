@@ -49,7 +49,6 @@ namespace LocalParks.Models
 
             CreateMap<Order, OrderModel>()
                 .ForMember(m => m.Username, o => o.MapFrom(o => o.User.UserName))
-                .ForMember(m => m, o => o.MapFrom(o => o.User.UserName))
                 .ReverseMap();
 
             CreateMap<OrderItem, OrderItemModel>()
