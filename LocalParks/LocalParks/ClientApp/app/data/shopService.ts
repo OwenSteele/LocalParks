@@ -14,6 +14,7 @@ export class ShopService {
 
     public order: Order = new Order();
     public products: Product[] = [];
+    public memberships: Product[] = [];
 
     constructor(private http: HttpClient) { }
 
@@ -22,7 +23,7 @@ export class ShopService {
     }
 
     public checkout() {
-        return this.http.post("api/shop/orders", this.order, {
+        return this.http.post("/api/shop/orders", this.order, {
             headers: new HttpHeaders().set("Authorisation", "Bearer " + this.token)
         })
             .pipe(map(response => {
@@ -33,9 +34,17 @@ export class ShopService {
     }
 
     getProducts(): Observable<boolean> {
-        return this.http.get("api/shop/products")
+        return this.http.get("/api/shop/products")
             .pipe(map((data: any) => {
                 this.products = data;
+                return true;
+            }));
+    }
+
+    getMemberships(): Observable<boolean> {
+        return this.http.get("/api/shop/products/memberships")
+            .pipe(map((data: any) => {
+                this.memberships = data;
                 return true;
             }));
     }

@@ -7,7 +7,7 @@ let Shop = class Shop {
 };
 Shop = __decorate([
     Component({
-        selector: "the-shop",
+        selector: "shop-home",
         templateUrl: "shop.component.html"
     })
 ], Shop);

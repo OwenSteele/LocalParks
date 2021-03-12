@@ -1,5 +1,5 @@
 ﻿import { Component } from "@angular/core";
-import { ShopService } from '../shared/shopService';
+import { ShopService } from '../data/shopService';
 import { Router } from "@angular/router";
 
 @Component({

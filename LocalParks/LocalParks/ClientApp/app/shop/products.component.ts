@@ -1,14 +1,16 @@
 ﻿import { Component, OnInit } from "@angular/core";
-import { ShopService } from "../shared/shopService";
-import { Product } from "../shared/product";
+import { ShopService } from "../data/shopService";
+import { Product } from "../data/product";
 
 @Component({
     selector: "shop-products",
-    templateUrl: "Products.component.html",
-    styleUrls: []
+    templateUrl: "products.component.html",
+    styleUrls: ["products.component.css"]
 })
 export class Products implements OnInit {
+
     public products: Product[];
+    public memberships: Product[];
 
     constructor(private data: ShopService) {
     }

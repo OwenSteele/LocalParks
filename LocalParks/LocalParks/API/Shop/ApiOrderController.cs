@@ -67,7 +67,7 @@ namespace LocalParks.API.Shop
             }
         }
         [HttpPost]
-        public async Task<IActionResult> PostOrder([FromBody] OrderModel model)
+        public async Task<IActionResult> Post([FromBody] OrderModel model)
         {
             _logger.LogInformation($"API POST request: New Order");
 

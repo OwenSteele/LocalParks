@@ -29,6 +29,15 @@ namespace LocalParks.Services
         {
             return await _parkRepository.GetAllProductsAsync();
         }
+        public async Task<Product[]> GetShopProductsAsync()
+        {
+            return await _parkRepository.GetShopProductsAsync();
+        }
+
+        public async Task<Product[]> GetMembershipProductsAsync()
+        {
+            return await _parkRepository.GetMembershipProductsAsync();
+        }
         public async Task<OrderModel[]> GetAllOrdersAsync()
         {
             return _mapper.Map<OrderModel[]>(await _parkRepository.GetAllOrdersAsync());

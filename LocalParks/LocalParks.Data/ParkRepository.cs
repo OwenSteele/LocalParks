@@ -363,6 +363,28 @@ namespace LocalParks.Data
 
             return await query.ToArrayAsync();
         }
+        public async Task<Product[]> GetShopProductsAsync()
+        {
+            _logger.LogInformation($"Getting shop products.");
+
+            IQueryable<Product> query = _context.Products
+                .Where(p => p.Category != ProductCategoryType.ClubMembership);
+
+            query = query.OrderByDescending(p => p.ProductId);
+
+            return await query.ToArrayAsync();
+        }
+        public async Task<Product[]> GetMembershipProductsAsync()
+        {
+            _logger.LogInformation($"Getting all products.");
+
+            IQueryable<Product> query = _context.Products
+                .Where(p => p.Category == ProductCategoryType.ClubMembership);
+
+            query = query.OrderByDescending(p => p.ProductId);
+
+            return await query.ToArrayAsync();
+        }
         public async Task<Order[]> GetAllOrdersAsync()
         {
             _logger.LogInformation($"Getting all order.");

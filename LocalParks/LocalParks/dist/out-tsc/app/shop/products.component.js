@@ -19,8 +19,8 @@ let Products = class Products {
 Products = __decorate([
     Component({
         selector: "shop-products",
-        templateUrl: "Products.component.html",
-        styleUrls: []
+        templateUrl: "products.component.html",
+        styleUrls: ["products.component.css"]
     })
 ], Products);
 export { Products };

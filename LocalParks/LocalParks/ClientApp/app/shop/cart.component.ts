@@ -1,5 +1,5 @@
 ﻿import { Component } from "@angular/core";
-import { ShopService } from "../shared/shopService";
+import { ShopService } from "../data/shopService";
 
 @Component({
     selector: "user-cart",
@@ -7,7 +7,5 @@ import { ShopService } from "../shared/shopService";
     styleUrls: []
 })
 export class Cart {
-
     constructor(public data: ShopService) { }
-
 }

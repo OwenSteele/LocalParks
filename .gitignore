@@ -124,4 +124,4 @@ font-awesome/
 *appsettings.json
 *ApiAdminController.cs
 *wwwroot/ClientApp/
-*LocalParks/dist/out-tsc
+*LocalParks/dist/out-tsc/

@@ -44,5 +44,7 @@ namespace LocalParks.Data
         Task<Order> GetOrderByNumberAsync(string number);
 
         Task<Product[]> GetAllProductsAsync();
+        Task<Product[]> GetShopProductsAsync();
+        Task<Product[]> GetMembershipProductsAsync();
     }
 }

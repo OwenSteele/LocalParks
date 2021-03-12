@@ -1,19 +1,15 @@
-﻿<table class="table table-condensed table-hover">
+﻿<table class="table table-condensed table-hover table-responsive">
     <thead>
-        <tr>
+        <tr class="font-weight-bolder">
             <td>Item</td>
-            <td>Type</td>
-            <td>Amount</td>
-            <td>Price each</td>
+            <td># Price</td>
             <td>Subtotal</td>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let i of data.order.items">
             <td>{{i.productName}}</td>
-            <td>{{i.productCategory}}</td>
-            <td>{{i.quantity}}</td>
-            <td>{{i.unitPrice | currency:"GBP":true }}</td>
+            <td>{{i.quantity}}x {{i.unitPrice | currency:"GBP":true }}</td>
             <td>{{ (i.unitPrice * i.quantity) | currency:"GBP":true }}</td>
         </tr>
     </tbody>
