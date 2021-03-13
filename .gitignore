@@ -117,12 +117,11 @@ ServiceFabricBackup/
 #client-side libs
 node_modules/
 font-awesome/
+dist/
+out-tsc/
 
 # LocalParks Data
 *LocalParksUser.json
 *Migrations
 *appsettings.json
 *ApiAdminController.cs
-wwwroot/ClientApp/
-dist/out-tsc/
-

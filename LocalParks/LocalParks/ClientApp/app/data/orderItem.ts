@@ -5,4 +5,5 @@
     unitPrice: number;
     productName: string;
     productCategory: string;
+    imageId: string;
 }

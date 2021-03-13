@@ -9,8 +9,8 @@
     <tbody>
         <tr *ngFor="let i of data.order.items">
             <td>{{i.productName}}</td>
-            <td>{{i.quantity}}x {{i.unitPrice | currency:"GBP":true }}</td>
-            <td>{{ (i.unitPrice * i.quantity) | currency:"GBP":true }}</td>
+            <td>{{i.quantity}}x {{i.unitPrice | currency:"GBP":"symbol" }}</td>
+            <td>{{ (i.unitPrice * i.quantity) | currency:"GBP":"symbol" }}</td>
         </tr>
     </tbody>
 </table>
@@ -21,7 +21,7 @@
 </div>
 <div>
     <span class="font-weight-bolder">Subtotal:</span>
-    {{ data.order.total | currency:"GBP":true }}
+    {{ data.order.total | currency:"GBP":"symbol" }}
 </div>
 
-<a routerLink="/checkout" *ngIf="data.order.items.length >0"></a>
+<button *ngIf="data.order.total > 0" (click)="onCheckout()" value="Checkout" class="btn btn-info"></button>

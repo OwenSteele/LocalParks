@@ -17,10 +17,24 @@ export class Checkout {
 
     onCheckout() {
 
-        return this.data.checkout().subscribe(success => {
-            if (success) {
-                this.router.navigate(["/"]);
-            }
-        }, err => this.errorMessage = "Failed to checkout.");
+        if (this.data.IsSignedIn) {
+            return this.data.checkout()
+                .subscribe(success => {
+                if (success) {
+                    this.router.navigate([""]);
+                }
+            }, err => this.errorMessage = "Failed to checkout.");
+        }
+        else {
+            return this.data.getToken()
+                .subscribe(success => {
+                    if (success) {
+                        this.router.navigate([""]);
+                    }
+                    else {
+                        this.router.navigate(["login"]);
+                    }
+                })
+        }
     }
 }

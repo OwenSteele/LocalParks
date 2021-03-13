@@ -16,10 +16,32 @@ export class ShopService {
     public products: Product[] = [];
     public memberships: Product[] = [];
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+        this.token = "";
+    }
 
     public get IsSignedIn(): boolean {
-        return this.token.length > 0 || this.tokenExpiration <= new Date;
+        return this.token != "" ||
+            this.token.length > 0 ||
+            this.tokenExpiration <= new Date;
+    }
+
+    login(creds: any): Observable<boolean> {
+        return this.http.post("/api/account/createtoken", creds)
+            .pipe(map((data: any) => {
+                this.token = data[0];
+                this.tokenExpiration = data[1];
+                return true;
+            }));
+    }
+
+    getToken(): Observable<boolean> {
+        return this.http.get("/api/account/createtoken")
+            .pipe(map((data: any) => {
+                this.token = data[0];
+                this.tokenExpiration = data[1];
+                return true;
+            }));
     }
 
     public checkout() {
@@ -63,6 +85,7 @@ export class ShopService {
             item.productName = product.name;
             item.productCategory = product.category;
             item.quantity = 1;
+            item.imageId = product.imageId;
 
             this.order.items.push(item);
         }

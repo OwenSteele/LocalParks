@@ -8,6 +8,7 @@ import { Shop } from "./shop/shop.component"
 import { Products } from "./shop/products.component"
 import { Cart } from "./shop/cart.component"
 import { Checkout } from "./checkout/checkout.component"
+import { Login } from "./login/login.component"
 
 import { ShopService } from "./data/shopService"
 
@@ -17,7 +18,8 @@ import { ShopService } from "./data/shopService"
         Shop,
         Products,
         Cart,
-        Checkout
+        Checkout,
+        Login
     ],
     exports: [
         AppComponent
