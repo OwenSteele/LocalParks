@@ -123,3 +123,6 @@ font-awesome/
 *Migrations
 *appsettings.json
 *ApiAdminController.cs
+wwwroot/ClientApp/
+dist/out-tsc/
+

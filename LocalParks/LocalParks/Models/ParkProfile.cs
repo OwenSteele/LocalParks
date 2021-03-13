@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using LocalParks.Core;
+using LocalParks.Core.Shop;
+using LocalParks.Models.Shop;
 using System;
 
 namespace LocalParks.Models
@@ -44,6 +46,15 @@ namespace LocalParks.Models
                 .ReverseMap()
                 .ForMember(s => s.ParkRef, o => o.MapFrom(m => m.ParkId))
                 .ForMember(s => s.Park, o => o.Ignore());
+
+            CreateMap<Order, OrderModel>()
+                .ForMember(m => m.Username, o => o.MapFrom(o => o.User.UserName))
+                .ReverseMap();
+
+            CreateMap<OrderItem, OrderItemModel>()
+                .ForMember(m => m.ProductId, o => o.MapFrom(i => i.Product.ProductId))
+                .ForMember(m => m.OrderId, o => o.MapFrom(i => i.Order.OrderId))
+                .ReverseMap();
         }
     }
 }

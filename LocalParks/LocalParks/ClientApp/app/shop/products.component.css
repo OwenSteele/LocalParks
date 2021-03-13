@@ -1,0 +1,6 @@
+﻿.shop-product img {
+    max-width: 200px;
+    float: left;
+    margin: 0 2px;
+    border: solid 1px black;
+}

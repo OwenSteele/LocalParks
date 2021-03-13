@@ -45,8 +45,12 @@
                             <a class="nav-link text-light w3-hover-amber rounded" asp-controller="Supervisors"
                                asp-action=""><i class="fa fa-id-badge"></i> Staff</a>
                         </li>
+                        <li class="nav-item w3-padding-16 w3-hover-text-black">
+                            <a class="nav-link text-light w3-hover-amber rounded" asp-controller="Shop"
+                               asp-action="Index"><i class="fa fa-shopping-cart"></i> Shop</a>
+                        </li>
 
-                        </ul>
+                    </ul>
                     <ul class="navbar-nav font-weight-bolder" style="float: right">
 
                         @if (User.Identity.IsAuthenticated)
@@ -80,7 +84,7 @@
             </nav>
         </header>
         <div class="container mx-auto p-4">
-            <main role="main" class="pb-3" style="padding-top: 100px;">
+            <main role="main" class="pb-3 w-100" style="padding-top: 100px;">
                 @RenderBody()
                 <br />
             </main>

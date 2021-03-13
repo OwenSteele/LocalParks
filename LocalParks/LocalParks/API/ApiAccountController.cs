@@ -11,10 +11,15 @@ namespace LocalParks.API
     public class AccountController : ControllerBase
     {
         private readonly ILogger<AccountController> _logger;
+        private readonly IAccountService _service;
+        private readonly IAuthenticationService _authenticationService;
 
-        public AccountController(ILogger<AccountController> logger)
+        public AccountController(ILogger<AccountController> logger,
+            IAccountService service, IAuthenticationService authenticationService)
         {
             _logger = logger;
+            _service = service;
+            _authenticationService = authenticationService;
         }
 
         [Route("api/[controller]/CreateToken")]
@@ -37,6 +42,24 @@ namespace LocalParks.API
                     }
                 }
             });
+        }
+        [Route("api/[controller]/GetShopToken")]
+        public async Task<IActionResult> GetShopToken(string requestor)
+        {
+            _logger.LogInformation("GetShopToken Request ApiAccountController");
+
+            if (!requestor.Equals("shop") ||
+                this.User.Identity.Name == null ||
+                !await _authenticationService.IsSignedIn(this.User))
+                return Unauthorized();
+
+            var user = await _service.GetUserAsync(this.User.Identity.Name);
+
+            if (user == null) return BadRequest();
+
+            var result = await _service.GetUserTokenAsync(user);
+
+            return Created("", result);
         }
     }
 }

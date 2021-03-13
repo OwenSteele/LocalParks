@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using LocalParks.Core.Shop;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace LocalParks.Core
         public ICollection<ParkEvent> OrganisedEvents { get; set; }
         public string PostcodeZone { get; set; }
         public DateTime MemberSince { get; set; }
+        public ICollection<Order> Orders { get; set; }
     }
 }
