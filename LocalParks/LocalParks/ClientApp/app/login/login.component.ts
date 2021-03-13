@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 
 @Component({
     selector: "login",
-    template: "login.component.html",
+    templateUrl: "login.component.html",
     styleUrls: []
 })
 
@@ -21,7 +21,7 @@ export class Login {
         password: ""
     }
 
-    OnLogin() {
+    onLogin() {
         this.data.login(this.creds)
             .subscribe(success => {
                 if (this.data.order.items.length == 0) {

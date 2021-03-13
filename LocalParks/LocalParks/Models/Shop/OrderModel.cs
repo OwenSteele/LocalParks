@@ -17,7 +17,6 @@ namespace LocalParks.Models.Shop
         [MinLength(5)]
         public string OrderNumber { get; set; }
         public ICollection<OrderItemModel> Items { get; set; }
-        [Required]
         public string Username { get; set; }
     }
 }

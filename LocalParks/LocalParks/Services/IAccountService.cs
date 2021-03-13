@@ -1,4 +1,5 @@
 ﻿using LocalParks.Models;
+using LocalParks.Models.Accounts;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace LocalParks.Services
         Task<LocalParksUserModel> GetUserAsync(string name);
         Task<LocalParksUserModel> GetUserByEmailAsync(string email);
         Task SignOutAsync();
-        Task<string[]> GetUserTokenAsync(LocalParksUserModel model);
+        Task<TokenModel> GetUserTokenAsync(LocalParksUserModel model);
         Task<IEnumerable<SelectListItem>> GetPostcodeSelectListItemsAsync();
         Task<LocalParksUserModel> AddUserAsync(SignInModel model);
         Task<bool> DeleteUserAsync(string username, bool signOutUser = true);

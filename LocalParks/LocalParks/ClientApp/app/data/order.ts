@@ -2,9 +2,9 @@
 import { OrderItem } from "./orderItem"
 
 export class Order {
-    orderId: number;
-    dateCreated: Date;
-    orderNumber: string;
+    orderId: number = 0;
+    dateCreated!: Date;
+    orderNumber: string = '';
     items: Array<OrderItem> = new Array<OrderItem>();
 
     get total(): number {

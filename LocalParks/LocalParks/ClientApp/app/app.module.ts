@@ -1,16 +1,20 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from "@angular/common/http";
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { Shop } from "./shop/shop.component"
-import { Products } from "./shop/products.component"
-import { Cart } from "./shop/cart.component"
-import { Checkout } from "./checkout/checkout.component"
-import { Login } from "./login/login.component"
 
-import { ShopService } from "./data/shopService"
+import { CompletedOrder } from "./checkout/order.component"
+import { AppComponent } from './app.component';
+import { Checkout } from "./checkout/checkout.component";
+import { Products } from "./shop/products.component";
+import { Login } from "./login/login.component";
+import { Cart } from "./shop/cart.component";
+import { Shop } from "./shop/shop.component";
+
+import { ShopService } from "./data/shopService";
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -19,7 +23,8 @@ import { ShopService } from "./data/shopService"
         Products,
         Cart,
         Checkout,
-        Login
+        Login,
+        CompletedOrder
     ],
     exports: [
         AppComponent
@@ -27,10 +32,12 @@ import { ShopService } from "./data/shopService"
     imports: [
         HttpClientModule,
         BrowserModule,
-      AppRoutingModule      
+        AppRoutingModule,
+        FormsModule
   ],
     providers: [
-        ShopService
+        ShopService,
+        DatePipe
     ],
   bootstrap: [AppComponent]
 })

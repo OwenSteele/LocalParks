@@ -174,8 +174,8 @@ namespace LocalParks.Controllers
             {
                 var token = await _service.GetUserTokenAsync(user);
 
-                TempData["Token"] = token[0];
-                TempData["Expiry"] = token[1];
+                TempData["Token"] = token.Token;
+                TempData["Expiry"] = token.Expiry;
             }
 
             return View(user);

@@ -9,6 +9,7 @@ namespace LocalParks.Models.Shop
 {
     public class OrderItemModel
     {
+        [Required]
         public int ItemId { get; set; }
         [Required]
         public int ProductId { get; set; }
@@ -16,7 +17,6 @@ namespace LocalParks.Models.Shop
         public int Quantity { get; set; }
         [Required]
         public decimal UnitPrice { get; set; }
-        [Required]
         public int OrderId { get; set; }
     }
 }

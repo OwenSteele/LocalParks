@@ -21,45 +21,51 @@ namespace LocalParks.API
             _service = service;
             _authenticationService = authenticationService;
         }
-
+        [HttpPost]
         [Route("api/[controller]/CreateToken")]
-        public IActionResult CreateToken()
+        public async Task<IActionResult> CreateToken([FromBody] LoginModel model)
         {
             _logger.LogInformation("CreateToken Request ApiAccountController");
 
-            return Ok(new
-            {
-                Error = new
-                {
-                    Code = "Endpoint no longer in use.",
-                    Information = "This API function has been deprecated and is no longer usable.",
-                    Message = "To improve security, sending user information is no longer recommended or supported with the Local Parks API.",
-                    Redirect = new
-                    {
-                        Message = "Please log on to the Local Parks Website and generate a token.",
-                        Path = "/Account/TokenGenerator",
-                        URL = "https://localparks.azurewebsites.net/Account/TokenGenerator"
-                    }
-                }
-            });
-        }
-        [Route("api/[controller]/GetShopToken")]
-        public async Task<IActionResult> GetShopToken(string requestor)
-        {
-            _logger.LogInformation("GetShopToken Request ApiAccountController");
+            if (!ModelState.IsValid) return BadRequest();
 
-            if (!requestor.Equals("shop") ||
-                this.User.Identity.Name == null ||
-                !await _authenticationService.IsSignedIn(this.User))
-                return Unauthorized();
-
-            var user = await _service.GetUserAsync(this.User.Identity.Name);
+            var user = await _service.SignInAttemptAsync(model);
 
             if (user == null) return BadRequest();
 
-            var result = await _service.GetUserTokenAsync(user);
+            var token = await CreateTokenObjectAsync(user);
 
-            return Created("", result);
+            return Created("", token);
+        }
+        [HttpGet]
+        [Route("api/[controller]/GetShopToken")]
+        public async Task<IActionResult> GetShopToken()
+        {
+            _logger.LogInformation("GetShopToken Request ApiAccountController");
+
+            if (User == null ||
+                User.Identity.Name == null ||
+                !await _authenticationService.IsSignedIn(User))
+                return Unauthorized();
+
+            var user = await _service.GetUserAsync(User.Identity.Name);
+
+            if (user == null) return BadRequest();
+
+            var token = await CreateTokenObjectAsync(user);
+
+            return Created("", token);
+        }
+
+        private async Task<object> CreateTokenObjectAsync(LocalParksUserModel user)
+        {
+            var model = await _service.GetUserTokenAsync(user);
+
+            return new
+            {
+                token = model.Token,
+                expiry = model.Expiry
+            };
         }
     }
 }

@@ -12,20 +12,19 @@ export class Cart {
         private router: Router) { }
 
     onCheckout() {
-        if (this.data.IsSignedIn) {
-            console.log("issigned in");
-            this.router.navigate([""]);
+        if (this.data.SignInRequired) {
+            this.data.getToken()
+            .subscribe(success => {
+                if (success) {
+                    this.router.navigate(["checkout"]);
+                }
+                else {
+                    this.router.navigate(["login"]);
+                }
+            })
         }
         else {
-            this.data.getToken()
-                .subscribe(success => {
-                    if (success) {
-                        this.router.navigate([""]);
-                    }
-                    else {
-                        this.router.navigate(["login"]);
-                    }
-                })
+            this.router.navigate([""]);            
         }
     }
 }

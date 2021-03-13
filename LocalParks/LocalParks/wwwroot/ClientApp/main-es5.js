@@ -177,7 +177,7 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](": ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind3"](12, 5, p_r1.price, "GBP", true), "");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](": ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind3"](12, 5, p_r1.price, "GBP", "symbol"), "");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
 
@@ -353,7 +353,9 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate1"]("src", "/img/", o_r2.imageId, ".jpg", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeUrl"]);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate1"]("src", "/images/shop/products/", o_r2.imageId, ".jpg", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeUrl"]);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate"]("alt", o_r2.productName);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
@@ -365,11 +367,11 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind3"](9, 5, o_r2.unitPrice, "GBP", "symbol"));
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind3"](9, 6, o_r2.unitPrice, "GBP", "symbol"));
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind3"](12, 9, o_r2.unitPrice * o_r2.quantity, "GBP", "symbol"));
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind3"](12, 10, o_r2.unitPrice * o_r2.quantity, "GBP", "symbol"));
         }
       }
 
@@ -387,23 +389,21 @@
           value: function onCheckout() {
             var _this2 = this;
 
-            if (this.data.IsSignedIn) {
-              return this.data.checkout().subscribe(function (success) {
-                if (success) {
-                  _this2.router.navigate([""]);
-                }
-              }, function (err) {
-                return _this2.errorMessage = "Failed to checkout.";
-              });
-            } else {
-              return this.data.getToken().subscribe(function (success) {
-                if (success) {
-                  _this2.router.navigate([""]);
-                } else {
+            if (this.data.SignInRequired) {
+              this.data.getToken().subscribe(function (success) {
+                if (success == false) {
                   _this2.router.navigate(["login"]);
                 }
               });
             }
+
+            return this.data.checkout().subscribe(function (success) {
+              if (success) {
+                _this2.router.navigate(["order"]);
+              }
+            }, function (err) {
+              return _this2.errorMessage = "Failed to checkout.";
+            });
           }
         }]);
 
@@ -419,7 +419,7 @@
         selectors: [["checkout"]],
         decls: 29,
         vars: 12,
-        consts: [[1, "row"], ["class", "text-danger", 4, "ngIf"], [1, "table", "table-bordered", "table-hover"], [4, "ngFor", "ngForOf"], [1, "col-md-4", "col-md-offset-8", "text-right"], [1, "table", "table-condensed"], [1, "text-right"], [1, "btn", "btn-success", 3, "click"], ["routerLink", "/", 1, "btn", "btn-info"], [1, "text-danger"], ["alt", "o.productTitle", 1, "img-thumbnail", "checkout-thumb", 3, "src"]],
+        consts: [[1, "row"], ["class", "text-danger", 4, "ngIf"], [1, "table", "table-bordered", "table-hover"], [4, "ngFor", "ngForOf"], [1, "col-md-4", "col-md-offset-8", "text-right"], [1, "table", "table-condensed"], [1, "text-right"], [1, "btn", "btn-success", 3, "click"], ["routerLink", "/", 1, "btn", "btn-outline-danger", "text-danger"], [1, "text-danger"], [1, "img-thumbnail", "checkout-thumb", 3, "src", "alt"]],
         template: function Checkout_Template(rf, ctx) {
           if (rf & 1) {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
@@ -434,7 +434,7 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "table", 2);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, Checkout_tr_5_Template, 13, 13, "tr", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, Checkout_tr_5_Template, 13, 14, "tr", 3);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -470,7 +470,7 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](17, "td", 6);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](18, "$ 0.00");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](18, "\xA3 0.00");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -537,7 +537,7 @@
         },
         directives: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["NgIf"], _angular_common__WEBPACK_IMPORTED_MODULE_3__["NgForOf"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterLinkWithHref"]],
         pipes: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["CurrencyPipe"]],
-        encapsulation: 2
+        styles: [".checkout-item[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\r\n    max-width: 60px;\r\n    float: left;\r\n    margin: 0 2px;\r\n    border: solid 1px black;\r\n}\r\n.checkout-item[_ngcontent-%COMP%]   table[_ngcontent-%COMP%]   td[_ngcontent-%COMP%] {\r\n    align-content: center;\r\n    vertical-align: central;\r\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNoZWNrb3V0LmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxlQUFlO0lBQ2YsV0FBVztJQUNYLGFBQWE7SUFDYix1QkFBdUI7QUFDM0I7QUFDQTtJQUNJLHFCQUFxQjtJQUNyQix1QkFBdUI7QUFDM0IiLCJmaWxlIjoiY2hlY2tvdXQuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jaGVja291dC1pdGVtIGltZyB7XHJcbiAgICBtYXgtd2lkdGg6IDYwcHg7XHJcbiAgICBmbG9hdDogbGVmdDtcclxuICAgIG1hcmdpbjogMCAycHg7XHJcbiAgICBib3JkZXI6IHNvbGlkIDFweCBibGFjaztcclxufVxyXG4uY2hlY2tvdXQtaXRlbSB0YWJsZSB0ZCB7XHJcbiAgICBhbGlnbi1jb250ZW50OiBjZW50ZXI7XHJcbiAgICB2ZXJ0aWNhbC1hbGlnbjogY2VudHJhbDtcclxufVxyXG4iXX0= */"]
       });
       /***/
     },
@@ -570,53 +570,66 @@
       /* harmony import */
 
 
-      var rxjs_operators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+      var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+      /*! rxjs */
+      "qCKp");
+      /* harmony import */
+
+
+      var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
       /*! rxjs/operators */
       "kU1M");
       /* harmony import */
 
 
-      var _order__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+      var _order__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
       /*! ./order */
       "H3A9");
       /* harmony import */
 
 
-      var _orderItem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+      var _orderItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
       /*! ./orderItem */
       "62IP");
       /* harmony import */
 
 
-      var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+      var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
       /*! @angular/core */
       "fXoL");
+      /* harmony import */
+
+
+      var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+      /*! @angular/common */
+      "ofXK");
 
       var ShopService = /*#__PURE__*/function () {
-        function ShopService(http) {
+        function ShopService(http, datePipe) {
           _classCallCheck(this, ShopService);
 
           this.http = http;
-          this.token = "";
-          this.order = new _order__WEBPACK_IMPORTED_MODULE_2__["Order"]();
+          this.datePipe = datePipe;
+          this.order = new _order__WEBPACK_IMPORTED_MODULE_3__["Order"]();
           this.products = [];
           this.memberships = [];
-          this.token = "";
+          this.token = 'value';
+          this.tokenExpiration = new Date('0001-01-01T00:00:00Z');
         }
 
         _createClass(ShopService, [{
-          key: "IsSignedIn",
+          key: "SignInRequired",
           get: function get() {
-            return this.token != "" || this.token.length > 0 || this.tokenExpiration <= new Date();
+            return this.token === undefined || this.token === 'value' || this.token.length == 0 || this.tokenExpiration >= new Date();
           }
         }, {
           key: "login",
           value: function login(creds) {
             var _this3 = this;
 
-            return this.http.post("/api/account/createtoken", creds).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (data) {
-              _this3.token = data[0];
-              _this3.tokenExpiration = data[1];
+            return this.http.post("/api/account/createtoken", creds).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (data) {
+              _this3.token = data.token;
+              _this3.tokenExpiration = data.expiry;
               return true;
             }));
           }
@@ -625,10 +638,12 @@
           value: function getToken() {
             var _this4 = this;
 
-            return this.http.get("/api/account/createtoken").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (data) {
-              _this4.token = data[0];
-              _this4.tokenExpiration = data[1];
+            return this.http.get("/api/account/getshoptoken").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (data) {
+              _this4.token = data.token;
+              _this4.tokenExpiration = data.expiry;
               return true;
+            }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(function (err) {
+              return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["of"])(false);
             }));
           }
         }, {
@@ -636,19 +651,31 @@
           value: function checkout() {
             var _this5 = this;
 
+            var _a;
+
+            console.log(this.token);
+            console.log(JSON.stringify(this.order));
+            this.order.dateCreated = new Date();
+            this.order.orderNumber = (_a = this.datePipe.transform(new Date(), "yyyy-MM-dd_HH:mm:ss:SSS")) === null || _a === void 0 ? void 0 : _a.toString();
             return this.http.post("/api/shop/orders", this.order, {
               headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpHeaders"]().set("Authorisation", "Bearer " + this.token)
-            }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (response) {
-              _this5.order = new _order__WEBPACK_IMPORTED_MODULE_2__["Order"]();
+            }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (response) {
+              console.log(JSON.stringify(response));
+              _this5.order = new _order__WEBPACK_IMPORTED_MODULE_3__["Order"]();
               return true; // add in page redirect
             }));
+          }
+        }, {
+          key: "clearCart",
+          value: function clearCart() {
+            this.order = new _order__WEBPACK_IMPORTED_MODULE_3__["Order"]();
           }
         }, {
           key: "getProducts",
           value: function getProducts() {
             var _this6 = this;
 
-            return this.http.get("/api/shop/products").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (data) {
+            return this.http.get("/api/shop/products").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (data) {
               _this6.products = data;
               return true;
             }));
@@ -658,7 +685,7 @@
           value: function getMemberships() {
             var _this7 = this;
 
-            return this.http.get("/api/shop/products/memberships").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (data) {
+            return this.http.get("/api/shop/products/memberships").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (data) {
               _this7.memberships = data;
               return true;
             }));
@@ -673,7 +700,7 @@
             if (item) {
               item.quantity++;
             } else {
-              item = new _orderItem__WEBPACK_IMPORTED_MODULE_3__["OrderItem"]();
+              item = new _orderItem__WEBPACK_IMPORTED_MODULE_4__["OrderItem"]();
               item.productId = product.productId;
               item.unitPrice = product.price;
               item.productName = product.name;
@@ -689,10 +716,10 @@
       }();
 
       ShopService.ɵfac = function ShopService_Factory(t) {
-        return new (t || ShopService)(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]));
+        return new (t || ShopService)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵinject"](_angular_common__WEBPACK_IMPORTED_MODULE_6__["DatePipe"]));
       };
 
-      ShopService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineInjectable"]({
+      ShopService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjectable"]({
         token: ShopService,
         factory: ShopService.ɵfac
       });
@@ -771,6 +798,8 @@
         function Order() {
           _classCallCheck(this, Order);
 
+          this.orderId = 0;
+          this.orderNumber = '';
           this.items = new Array();
         }
 
@@ -869,51 +898,51 @@
       /* harmony import */
 
 
-      var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+      var _angular_forms__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+      /*! @angular/forms */
+      "3Pt+");
+      /* harmony import */
+
+
+      var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
       /*! @angular/platform-browser */
       "jhN1");
       /* harmony import */
 
 
-      var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+      var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
       /*! @angular/common/http */
       "tk/3");
       /* harmony import */
 
 
-      var _app_routing_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+      var _app_routing_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
       /*! ./app-routing.module */
       "JS56");
       /* harmony import */
 
 
-      var _app_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+      var _checkout_order_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+      /*! ./checkout/order.component */
+      "SAke");
+      /* harmony import */
+
+
+      var _app_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
       /*! ./app.component */
       "HJlE");
       /* harmony import */
 
 
-      var _shop_shop_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
-      /*! ./shop/shop.component */
-      "TAhd");
-      /* harmony import */
-
-
-      var _shop_products_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
-      /*! ./shop/products.component */
-      "9T0X");
-      /* harmony import */
-
-
-      var _shop_cart_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
-      /*! ./shop/cart.component */
-      "lTML");
-      /* harmony import */
-
-
-      var _checkout_checkout_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+      var _checkout_checkout_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
       /*! ./checkout/checkout.component */
       "Bj0p");
+      /* harmony import */
+
+
+      var _shop_products_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+      /*! ./shop/products.component */
+      "9T0X");
       /* harmony import */
 
 
@@ -923,13 +952,31 @@
       /* harmony import */
 
 
-      var _data_shopService__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
+      var _shop_cart_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
+      /*! ./shop/cart.component */
+      "lTML");
+      /* harmony import */
+
+
+      var _shop_shop_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(
+      /*! ./shop/shop.component */
+      "TAhd");
+      /* harmony import */
+
+
+      var _data_shopService__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(
       /*! ./data/shopService */
       "E+9J");
       /* harmony import */
 
 
-      var _angular_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(
+      var _angular_common__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(
+      /*! @angular/common */
+      "ofXK");
+      /* harmony import */
+
+
+      var _angular_core__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(
       /*! @angular/core */
       "fXoL");
 
@@ -941,20 +988,20 @@
         return new (t || AppModule)();
       };
 
-      AppModule.ɵmod = _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵdefineNgModule"]({
+      AppModule.ɵmod = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵdefineNgModule"]({
         type: AppModule,
-        bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
+        bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]]
       });
-      AppModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵdefineInjector"]({
-        providers: [_data_shopService__WEBPACK_IMPORTED_MODULE_9__["ShopService"]],
-        imports: [[_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClientModule"], _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"], _app_routing_module__WEBPACK_IMPORTED_MODULE_2__["AppRoutingModule"]]]
+      AppModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵdefineInjector"]({
+        providers: [_data_shopService__WEBPACK_IMPORTED_MODULE_11__["ShopService"], _angular_common__WEBPACK_IMPORTED_MODULE_12__["DatePipe"]],
+        imports: [[_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"], _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"], _app_routing_module__WEBPACK_IMPORTED_MODULE_3__["AppRoutingModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormsModule"]]]
       });
 
       (function () {
-        (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵsetNgModuleScope"](AppModule, {
-          declarations: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"], _shop_shop_component__WEBPACK_IMPORTED_MODULE_4__["Shop"], _shop_products_component__WEBPACK_IMPORTED_MODULE_5__["Products"], _shop_cart_component__WEBPACK_IMPORTED_MODULE_6__["Cart"], _checkout_checkout_component__WEBPACK_IMPORTED_MODULE_7__["Checkout"], _login_login_component__WEBPACK_IMPORTED_MODULE_8__["Login"]],
-          imports: [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClientModule"], _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"], _app_routing_module__WEBPACK_IMPORTED_MODULE_2__["AppRoutingModule"]],
-          exports: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
+        (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵsetNgModuleScope"](AppModule, {
+          declarations: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"], _shop_shop_component__WEBPACK_IMPORTED_MODULE_10__["Shop"], _shop_products_component__WEBPACK_IMPORTED_MODULE_7__["Products"], _shop_cart_component__WEBPACK_IMPORTED_MODULE_9__["Cart"], _checkout_checkout_component__WEBPACK_IMPORTED_MODULE_6__["Checkout"], _login_login_component__WEBPACK_IMPORTED_MODULE_8__["Login"], _checkout_order_component__WEBPACK_IMPORTED_MODULE_4__["CompletedOrder"]],
+          imports: [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"], _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"], _app_routing_module__WEBPACK_IMPORTED_MODULE_3__["AppRoutingModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormsModule"]],
+          exports: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]]
         });
       })();
       /***/
@@ -1007,7 +1054,13 @@
       /* harmony import */
 
 
-      var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+      var _checkout_order_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+      /*! ./checkout/order.component */
+      "SAke");
+      /* harmony import */
+
+
+      var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
       /*! @angular/core */
       "fXoL");
 
@@ -1020,6 +1073,9 @@
       }, {
         path: "login",
         component: _login_login_component__WEBPACK_IMPORTED_MODULE_3__["Login"]
+      }, {
+        path: "order",
+        component: _checkout_order_component__WEBPACK_IMPORTED_MODULE_4__["CompletedOrder"]
       }];
 
       var AppRoutingModule = function AppRoutingModule() {
@@ -1030,10 +1086,10 @@
         return new (t || AppRoutingModule)();
       };
 
-      AppRoutingModule.ɵmod = _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineNgModule"]({
+      AppRoutingModule.ɵmod = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineNgModule"]({
         type: AppRoutingModule
       });
-      AppRoutingModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineInjector"]({
+      AppRoutingModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjector"]({
         imports: [[_angular_router__WEBPACK_IMPORTED_MODULE_0__["RouterModule"].forRoot(routes, {
           useHash: true,
           enableTracing: true
@@ -1041,7 +1097,7 @@
       });
 
       (function () {
-        (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵsetNgModuleScope"](AppRoutingModule, {
+        (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵsetNgModuleScope"](AppRoutingModule, {
           imports: [_angular_router__WEBPACK_IMPORTED_MODULE_0__["RouterModule"]],
           exports: [_angular_router__WEBPACK_IMPORTED_MODULE_0__["RouterModule"]]
         });
@@ -1100,6 +1156,243 @@
     },
 
     /***/
+    "SAke":
+    /*!***************************************************!*\
+      !*** ./ClientApp/app/checkout/order.component.ts ***!
+      \***************************************************/
+
+    /*! exports provided: CompletedOrder */
+
+    /***/
+    function SAke(module, __webpack_exports__, __webpack_require__) {
+      "use strict";
+
+      __webpack_require__.r(__webpack_exports__);
+      /* harmony export (binding) */
+
+
+      __webpack_require__.d(__webpack_exports__, "CompletedOrder", function () {
+        return CompletedOrder;
+      });
+      /* harmony import */
+
+
+      var _data_order__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+      /*! ../data/order */
+      "H3A9");
+      /* harmony import */
+
+
+      var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+      /*! @angular/core */
+      "fXoL");
+      /* harmony import */
+
+
+      var _data_shopService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+      /*! ../data/shopService */
+      "E+9J");
+      /* harmony import */
+
+
+      var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+      /*! @angular/common */
+      "ofXK");
+
+      function CompletedOrder_tr_16_Template(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "tr");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](1, "td");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](2, "img", 6);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](3, "td");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](4);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](5, "td");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](6);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](7, "td");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](8);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵpipe"](9, "currency");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](10, "td");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](11);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵpipe"](12, "currency");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        }
+
+        if (rf & 2) {
+          var o_r1 = ctx.$implicit;
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵpropertyInterpolate1"]("src", "/images/shop/products/", o_r1.imageId, ".jpg", _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵsanitizeUrl"]);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵpropertyInterpolate"]("alt", o_r1.productName);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate"](o_r1.productName);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate"](o_r1.quantity);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵpipeBind3"](9, 6, o_r1.unitPrice, "GBP", "symbol"));
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](3);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵpipeBind3"](12, 10, o_r1.unitPrice * o_r1.quantity, "GBP", "symbol"));
+        }
+      }
+
+      var CompletedOrder = function CompletedOrder(data) {
+        _classCallCheck(this, CompletedOrder);
+
+        this.data = data;
+        this.order = new _data_order__WEBPACK_IMPORTED_MODULE_0__["Order"]();
+        this.order = data.order;
+        data.clearCart();
+      };
+
+      CompletedOrder.ɵfac = function CompletedOrder_Factory(t) {
+        return new (t || CompletedOrder)(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdirectiveInject"](_data_shopService__WEBPACK_IMPORTED_MODULE_2__["ShopService"]));
+      };
+
+      CompletedOrder.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
+        type: CompletedOrder,
+        selectors: [["completed-order"]],
+        decls: 25,
+        vars: 7,
+        consts: [[1, "row"], [1, "col-md-4", "col-md-offset-8", "text-right"], [1, "table", "table-condensed"], [1, "text-right"], [1, "table", "table-bordered", "table-hover"], [4, "ngFor", "ngForOf"], [1, "img-thumbnail", "checkout-thumb", 3, "src", "alt"]],
+        template: function CompletedOrder_Template(rf, ctx) {
+          if (rf & 1) {
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "div", 0);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](1, "h3");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](2, "Your order");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](3, "div", 1);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](4, "table", 2);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](5, "tr");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](6, "td", 3);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](7, "Date Created");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](8, "td", 3);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](9);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](10, "tr");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](11, "td", 3);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](12, "Expected delivery time");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](13, "td", 3);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](14, "3 working days");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](15, "table", 4);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](16, CompletedOrder_tr_16_Template, 13, 14, "tr", 5);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](17, "div", 1);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](18, "table", 2);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](19, "tr");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](20, "td", 3);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](21, "Total:");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](22, "td", 3);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](23);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵpipe"](24, "currency");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+          }
+
+          if (rf & 2) {
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](9);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate"](ctx.order.dateCreated);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](7);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("ngForOf", ctx.order.items);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](7);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵpipeBind3"](24, 3, ctx.order.total, "GBP", "symbol"));
+          }
+        },
+        directives: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["NgForOf"]],
+        pipes: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["CurrencyPipe"]],
+        encapsulation: 2
+      });
+      /***/
+    },
+
+    /***/
     "TAhd":
     /*!**********************************************!*\
       !*** ./ClientApp/app/shop/shop.component.ts ***!
@@ -1150,7 +1443,7 @@
       Shop.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
         type: Shop,
         selectors: [["shop-home"]],
-        decls: 10,
+        decls: 11,
         vars: 1,
         consts: [[1, "row"], [1, "col-md-3", "col-lg-3", "col-sm-10"], [1, "card", "bg-light", "p-2", "w-auto"], [1, "col-md-7", "col-lg-7", "col-sm-10"]],
         template: function Shop_Template(rf, ctx) {
@@ -1181,7 +1474,11 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](9, "shop-products");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](9, "shop-products");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](10, "Fetching our products!");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -1237,6 +1534,24 @@
       var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
       /*! @angular/router */
       "tyNb");
+      /* harmony import */
+
+
+      var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+      /*! @angular/forms */
+      "3Pt+");
+      /* harmony import */
+
+
+      var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+      /*! @angular/common */
+      "ofXK");
+
+      function Login_div_9_Template(rf, ctx) {
+        if (rf & 1) {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "div", 13);
+        }
+      }
 
       var Login = /*#__PURE__*/function () {
         function Login(data, router) {
@@ -1252,8 +1567,8 @@
         }
 
         _createClass(Login, [{
-          key: "OnLogin",
-          value: function OnLogin() {
+          key: "onLogin",
+          value: function onLogin() {
             var _this8 = this;
 
             this.data.login(this.creds).subscribe(function (success) {
@@ -1278,13 +1593,101 @@
       Login.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
         type: Login,
         selectors: [["login"]],
-        decls: 1,
-        vars: 0,
+        decls: 18,
+        vars: 4,
+        consts: [[1, "row"], [1, "col-md-4", "col-md-offset-4"], ["novalidate", "", 3, "submit"], ["theForm", "ngForm"], [1, "form-group"], ["for", "username"], ["type", "text", "name", "username", "required", "", 1, "form-control", 3, "ngModel", "ngModelChange"], ["username", "ngModel"], ["class", "text-danger", 4, "ngIf"], ["for", "password"], ["type", "password", "name", "password", 1, "form-control", 3, "ngModel", "ngModelChange"], ["type", "submit", "value", "Login", 1, "btn", "btn-success", 3, "disabled"], ["routerLink", "/", 1, "btn", "btn-default"], [1, "text-danger"]],
         template: function Login_Template(rf, ctx) {
           if (rf & 1) {
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](0, "login.component.html");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "form", 2, 3);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("submit", function Login_Template_form_submit_2_listener() {
+              return ctx.onLogin();
+            });
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 4);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "label", 5);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](6, "Username");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "input", 6, 7);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("ngModelChange", function Login_Template_input_ngModelChange_7_listener($event) {
+              return ctx.creds.username = $event;
+            });
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](9, Login_div_9_Template, 1, 0, "div", 8);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](10, "div", 4);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](11, "label", 9);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](12, "Password");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "input", 10);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("ngModelChange", function Login_Template_input_ngModelChange_13_listener($event) {
+              return ctx.creds.password = $event;
+            });
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "div", 4);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](15, "input", 11);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](16, "a", 12);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](17, "Cancel");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+          }
+
+          if (rf & 2) {
+            var _r0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵreference"](3);
+
+            var _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵreference"](8);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](7);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx.creds.username);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", _r1.invalid);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx.creds.password);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("disabled", _r0.invalid);
           }
         },
+        directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["ɵangular_packages_forms_forms_y"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__["NgForm"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__["RequiredValidator"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__["NgModel"], _angular_common__WEBPACK_IMPORTED_MODULE_4__["NgIf"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterLinkWithHref"]],
         encapsulation: 2
       });
       /***/
@@ -1372,27 +1775,29 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate2"]("", i_r2.quantity, "x ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind3"](5, 4, i_r2.unitPrice, "GBP", true), "");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate2"]("", i_r2.quantity, "x ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind3"](5, 4, i_r2.unitPrice, "GBP", "symbol"), "");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind3"](8, 8, i_r2.unitPrice * i_r2.quantity, "GBP", true));
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind3"](8, 8, i_r2.unitPrice * i_r2.quantity, "GBP", "symbol"));
         }
       }
 
-      function Cart_button_20_Template(rf, ctx) {
+      function Cart_button_21_Template(rf, ctx) {
         if (rf & 1) {
           var _r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "button", 4);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function Cart_button_20_Template_button_click_0_listener() {
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function Cart_button_21_Template_button_click_0_listener() {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r4);
 
             var ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
 
             return ctx_r3.onCheckout();
           });
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "Checkout");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         }
@@ -1411,17 +1816,16 @@
           value: function onCheckout() {
             var _this9 = this;
 
-            if (this.data.IsSignedIn) {
-              console.log("issigned in");
-              this.router.navigate([""]);
-            } else {
+            if (this.data.SignInRequired) {
               this.data.getToken().subscribe(function (success) {
                 if (success) {
-                  _this9.router.navigate([""]);
+                  _this9.router.navigate(["checkout"]);
                 } else {
                   _this9.router.navigate(["login"]);
                 }
               });
+            } else {
+              this.router.navigate([""]);
             }
           }
         }]);
@@ -1436,9 +1840,9 @@
       Cart.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
         type: Cart,
         selectors: [["user-cart"]],
-        decls: 21,
+        decls: 22,
         vars: 8,
-        consts: [[1, "table", "table-condensed", "table-hover", "table-responsive"], [1, "font-weight-bolder"], [4, "ngFor", "ngForOf"], ["value", "Checkout", "class", "btn btn-info", 3, "click", 4, "ngIf"], ["value", "Checkout", 1, "btn", "btn-info", 3, "click"]],
+        consts: [[1, "table", "table-condensed", "table-hover", "table-responsive"], [1, "font-weight-bolder"], [4, "ngFor", "ngForOf"], ["class", "btn btn-info m-1 p-1 ", 3, "click", 4, "ngIf"], [1, "btn", "btn-info", "m-1", "p-1", 3, "click"]],
         template: function Cart_Template(rf, ctx) {
           if (rf & 1) {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "table", 0);
@@ -1503,7 +1907,11 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](20, Cart_button_20_Template, 1, 0, "button", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](20, "div");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](21, Cart_button_21_Template, 2, 0, "button", 3);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
           }
 
           if (rf & 2) {
@@ -1517,9 +1925,9 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind3"](19, 4, ctx.data.order.total, "GBP", true), "\n");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind3"](19, 4, ctx.data.order.total, "GBP", "symbol"), "\n");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.data.order.total > 0);
           }

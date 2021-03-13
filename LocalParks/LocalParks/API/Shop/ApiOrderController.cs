@@ -46,7 +46,7 @@ namespace LocalParks.API.Shop
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
             }
         }
-        [HttpGet]
+        [HttpGet("orderId:int")]
         public async Task<IActionResult> GetOrder(int orderId)
         {
             _logger.LogInformation($"API GET request: get order with Id: {orderId} ");

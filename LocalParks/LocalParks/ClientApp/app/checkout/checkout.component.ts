@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 @Component({
     selector: "checkout",
     templateUrl: "checkout.component.html",
-    styleUrls: []
+    styleUrls: ["checkout.component.css"]
 })
 export class Checkout {
 
@@ -17,24 +17,21 @@ export class Checkout {
 
     onCheckout() {
 
-        if (this.data.IsSignedIn) {
-            return this.data.checkout()
+        if (this.data.SignInRequired) {
+            this.data.getToken()
                 .subscribe(success => {
-                if (success) {
-                    this.router.navigate([""]);
-                }
-            }, err => this.errorMessage = "Failed to checkout.");
-        }
-        else {
-            return this.data.getToken()
-                .subscribe(success => {
-                    if (success) {
-                        this.router.navigate([""]);
-                    }
-                    else {
+                    if (success == false) {
                         this.router.navigate(["login"]);
                     }
                 })
         }
+
+
+        return this.data.checkout()
+            .subscribe(success => {
+            if (success) {
+                this.router.navigate(["order"]);
+            }
+        }, err => this.errorMessage = "Failed to checkout.");
     }
 }

@@ -119,6 +119,8 @@ node_modules/
 font-awesome/
 dist/
 out-tsc/
+/wwwroot/ClientApp/
+/wwwroot/lib/
 
 # LocalParks Data
 *LocalParksUser.json

@@ -3,7 +3,7 @@
     <div class="text-danger" *ngIf="errorMessage">{{errorMessage}}</div>
     <table class="table table-bordered table-hover">
         <tr *ngFor="let o of data.order.items">
-            <td><img src="/img/{{ o.imageId }}.jpg" alt="o.productTitle" class="img-thumbnail checkout-thumb" /></td>
+            <td><img src="/images/shop/products/{{ o.imageId }}.jpg" alt="{{o.productName}}" class="img-thumbnail checkout-thumb" /></td>
             <td>{{ o.productName }}</td>
             <td>{{ o.quantity }}</td>
             <td>{{ o.unitPrice|currency:"GBP":"symbol" }}</td>
@@ -18,7 +18,7 @@
             </tr>
             <tr>
                 <td class="text-right">Shipping</td>
-                <td class="text-right">$ 0.00</td>
+                <td class="text-right">£ 0.00</td>
             </tr>
             <tr>
                 <td class="text-right">Total:</td>
@@ -26,7 +26,7 @@
             </tr>
         </table>
         <button class="btn btn-success" (click)="onCheckout()">Complete Purchase</button>
-        <a routerLink="/" class="btn btn-info">Cancel</a>
+        <a routerLink="/" class="btn btn-outline-danger text-danger">Cancel</a>
     </div>
 
 </div>

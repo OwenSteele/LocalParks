@@ -2,6 +2,7 @@
 using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
+using LocalParks.Models.Accounts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
@@ -76,7 +77,7 @@ namespace LocalParks.Services
             await _signInManager.SignOutAsync();
         }
 
-        public async Task<string[]> GetUserTokenAsync(LocalParksUserModel model)
+        public async Task<TokenModel> GetUserTokenAsync(LocalParksUserModel model)
         {
             var user = await _userManager.FindByNameAsync(model.Username);
 
@@ -106,10 +107,10 @@ namespace LocalParks.Services
                 signingCredentials: credentials
                 );
 
-            var results = new string[]
+            var results = new TokenModel
             {
-                new JwtSecurityTokenHandler().WriteToken(token),
-                token.ValidTo.ToString()
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                Expiry = token.ValidTo.ToString()
             };
 
             return results;

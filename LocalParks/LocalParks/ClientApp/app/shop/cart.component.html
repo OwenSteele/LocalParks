@@ -23,5 +23,6 @@
     <span class="font-weight-bolder">Subtotal:</span>
     {{ data.order.total | currency:"GBP":"symbol" }}
 </div>
-
-<button *ngIf="data.order.total > 0" (click)="onCheckout()" value="Checkout" class="btn btn-info"></button>
+<div>
+    <button *ngIf="data.order.total > 0" (click)="onCheckout()" class="btn btn-info m-1 p-1 ">Checkout</button>
+</div>

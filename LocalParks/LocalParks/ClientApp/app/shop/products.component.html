@@ -5,7 +5,7 @@
                 <img src="/images/shop/products/{{p.imageId}}.jpg" class="img-fluid" [alt]="p.name" />
                 <h3><strong>{{p.name}}</strong></h3>
                 <ul class="product-props list-unstyled">
-                    <li><strong>Price</strong>: {{ p.price | currency:"GBP":true }}</li>
+                    <li><strong>Price</strong>: {{ p.price | currency:"GBP":"symbol" }}</li>
                     <li><strong>Description</strong>: {{ p.description }}</li>
                 </ul>
                 <button id="buyButton" class="btn btn-success align-bottom" (click)="addProduct(p)">Add to Cart</button>

@@ -1,58 +1,79 @@
 ﻿import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs"
-import { map } from 'rxjs/operators';
+import { Observable, of } from "rxjs"
+import { catchError, map } from 'rxjs/operators';
 import { Product } from "./product";
 import { Order} from "./order";
 import { OrderItem } from "./orderItem";
+import { DatePipe } from '@angular/common';
 
 @Injectable()
 export class ShopService {
 
-    private token: string = "";
-    private tokenExpiration: Date;
 
     public order: Order = new Order();
     public products: Product[] = [];
     public memberships: Product[] = [];
 
-    constructor(private http: HttpClient) {
-        this.token = "";
+    constructor(private http: HttpClient,
+    private datePipe: DatePipe) {
     }
 
-    public get IsSignedIn(): boolean {
-        return this.token != "" ||
-            this.token.length > 0 ||
-            this.tokenExpiration <= new Date;
+    private token: string = 'value';
+    private tokenExpiration: Date = new Date('0001-01-01T00:00:00Z');
+
+
+    public get SignInRequired(): boolean {
+        return this.token === undefined ||
+            this.token === 'value' ||
+            this.token.length == 0 ||
+            this.tokenExpiration >= new Date;
     }
 
     login(creds: any): Observable<boolean> {
-        return this.http.post("/api/account/createtoken", creds)
+        return this.http
+            .post("/api/account/createtoken", creds)
             .pipe(map((data: any) => {
-                this.token = data[0];
-                this.tokenExpiration = data[1];
+                this.token = data.token;
+                this.tokenExpiration = data.expiry;
                 return true;
             }));
     }
 
     getToken(): Observable<boolean> {
-        return this.http.get("/api/account/createtoken")
+        return this.http
+            .get("/api/account/getshoptoken")
             .pipe(map((data: any) => {
-                this.token = data[0];
-                this.tokenExpiration = data[1];
+                this.token = data.token;
+                this.tokenExpiration = data.expiry;
                 return true;
+            }), catchError(err => {
+                return of(false);
             }));
     }
 
     public checkout() {
+
+        console.log(this.token);
+
+        console.log(JSON.stringify(this.order));
+
+        this.order.dateCreated = new Date();
+        this.order.orderNumber = this.datePipe.transform(new Date(), "yyyy-MM-dd_HH:mm:ss:SSS")?.toString()!;
+
         return this.http.post("/api/shop/orders", this.order, {
             headers: new HttpHeaders().set("Authorisation", "Bearer " + this.token)
         })
             .pipe(map(response => {
+                console.log(JSON.stringify(response));
                 this.order = new Order;
                 return true;
                 // add in page redirect
             }));
+    }
+
+    public clearCart() {
+        this.order = new Order();
     }
 
     getProducts(): Observable<boolean> {
