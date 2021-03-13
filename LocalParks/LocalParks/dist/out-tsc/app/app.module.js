@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { Shop } from "./shop/shop.component";
 import { Products } from "./shop/products.component";
 import { Cart } from "./shop/cart.component";
+import { Checkout } from "./checkout/checkout.component";
 import { ShopService } from "./data/shopService";
 let AppModule = class AppModule {
 };
@@ -16,7 +17,8 @@ AppModule = __decorate([
             AppComponent,
             Shop,
             Products,
-            Cart
+            Cart,
+            Checkout
         ],
         exports: [
             AppComponent

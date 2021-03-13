@@ -73,11 +73,11 @@ namespace LocalParks.API.Shop
 
             try
             {
-                if(!ModelState.IsValid) return BadRequest(ModelState);
+                if (!ModelState.IsValid) return BadRequest(ModelState);
 
                 var result = await _service.SubmitNewOrderAsync(model, User.Identity.Name);
-                
-                if(result == null) return BadRequest();
+
+                if (result == null) return BadRequest();
 
                 return Created($"api/shop/orders/{result.OrderId}", result);
             }
