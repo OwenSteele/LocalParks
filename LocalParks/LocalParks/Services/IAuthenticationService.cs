@@ -10,6 +10,6 @@ namespace LocalParks.Services
     public interface IAuthenticationService
     {
         Task<bool> HasRequiredRoleAsync(string username, string role);
-        Task<bool> IsSignedIn(ClaimsPrincipal user);
+        Task<bool> IsSignedInAsync(ClaimsPrincipal user);
     }
 }

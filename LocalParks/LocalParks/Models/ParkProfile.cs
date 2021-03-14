@@ -53,8 +53,11 @@ namespace LocalParks.Models
 
             CreateMap<OrderItem, OrderItemModel>()
                 .ForMember(m => m.ProductId, o => o.MapFrom(i => i.Product.ProductId))
+                .ForMember(m => m.ProductName, o => o.MapFrom(i => i.Product.Name))
+                .ForMember(m => m.ImageId, o => o.MapFrom(i => i.Product.ImageId))
                 .ForMember(m => m.OrderId, o => o.MapFrom(i => i.Order.OrderId))
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(i => i.Product, o => o.Ignore());
         }
     }
 }

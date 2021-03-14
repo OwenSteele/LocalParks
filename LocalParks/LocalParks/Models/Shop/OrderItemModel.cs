@@ -18,5 +18,11 @@ namespace LocalParks.Models.Shop
         [Required]
         public decimal UnitPrice { get; set; }
         public int OrderId { get; set; }
+
+        public string ProductName { get; set; }
+
+        public string ImageId { get; set; }
+
+        public decimal Subtotal { get { return Math.Round(Quantity * UnitPrice, 2); } }
     }
 }

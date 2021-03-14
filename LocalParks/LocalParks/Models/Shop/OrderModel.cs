@@ -18,5 +18,7 @@ namespace LocalParks.Models.Shop
         public string OrderNumber { get; set; }
         public ICollection<OrderItemModel> Items { get; set; }
         public string Username { get; set; }
+
+        public decimal Total { get { return Math.Round(Items.Sum(i => i.UnitPrice * i.Quantity),2); } }
     }
 }

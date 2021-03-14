@@ -1,0 +1,15 @@
+﻿@model ICollection<OrderModel>
+@{ 
+    ViewData["Title"] = "Your Orders";
+}
+
+<partial name="_AccountNavBar" />
+
+<h1 class="jumbotron-fluid align-self-md-center">Your Orders</h1>
+
+<p class="font-weight-bolder">These are all of your orders from our shop!</p>
+
+@foreach (var order in Model)
+{
+    <partial name="_UserOrders" model="order" />
+}

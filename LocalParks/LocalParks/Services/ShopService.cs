@@ -58,7 +58,7 @@ namespace LocalParks.Services
             var order = _mapper.Map<Order>(model);
 
             if (order.Items == null || !order.Items.Any()) throw new Exception("items not mapped");
-
+          
             if (order.DateCreated == DateTime.MinValue)
                 order.DateCreated = DateTime.Now;
 

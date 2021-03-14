@@ -3,6 +3,7 @@ using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
 using LocalParks.Models.Accounts;
+using LocalParks.Models.Shop;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
@@ -238,6 +239,15 @@ namespace LocalParks.Services
                 PostcodeZone = user.PostcodeZone
 
             };
+        }
+
+        public async Task<OrderModel[]> GetUserOrdersAsync(string name)
+        {
+            if (await _userManager.FindByNameAsync(name) == null) return null;
+
+            var result = await _parkRepository.GetOrdersByUsernameAsync(name);
+
+            return _mapper.Map<OrderModel[]>(result);
         }
     }
 }

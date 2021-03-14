@@ -22,7 +22,6 @@ export class ShopService {
     private token: string = 'value';
     private tokenExpiration: Date = new Date('0001-01-01T00:00:00Z');
 
-
     public get SignInRequired(): boolean {
         return this.token === undefined ||
             this.token === 'value' ||
@@ -54,19 +53,17 @@ export class ShopService {
 
     public checkout() {
 
-        console.log(this.token);
-
-        console.log(JSON.stringify(this.order));
-
         this.order.dateCreated = new Date();
         this.order.orderNumber = this.datePipe.transform(new Date(), "yyyy-MM-dd_HH:mm:ss:SSS")?.toString()!;
 
         return this.http.post("/api/shop/orders", this.order, {
-            headers: new HttpHeaders().set("Authorisation", "Bearer " + this.token)
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.token}`
+            })
         })
             .pipe(map(response => {
                 console.log(JSON.stringify(response));
-                this.order = new Order;
                 return true;
                 // add in page redirect
             }));

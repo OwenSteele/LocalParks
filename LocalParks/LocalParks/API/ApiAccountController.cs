@@ -45,7 +45,7 @@ namespace LocalParks.API
 
             if (User == null ||
                 User.Identity.Name == null ||
-                !await _authenticationService.IsSignedIn(User))
+                !await _authenticationService.IsSignedInAsync(User))
                 return Unauthorized();
 
             var user = await _service.GetUserAsync(User.Identity.Name);

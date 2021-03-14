@@ -27,7 +27,7 @@ namespace LocalParks.Services
 
             return await _userManager.IsInRoleAsync(user, role);
         }
-        public async Task<bool> IsSignedIn(ClaimsPrincipal user)
+        public async Task<bool> IsSignedInAsync(ClaimsPrincipal user)
         {
             if (user == null || user.Identity.Name == null) return false;
 

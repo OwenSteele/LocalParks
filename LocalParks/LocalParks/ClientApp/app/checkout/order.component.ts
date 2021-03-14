@@ -5,7 +5,7 @@ import { ShopService } from "../data/shopService";
 @Component({
     selector: "completed-order",
     templateUrl: "order.component.html",
-    styleUrls: []
+    styleUrls: ["checkout.component.css"]
 })
 
 export class CompletedOrder {
@@ -14,6 +14,8 @@ export class CompletedOrder {
 
     constructor(public data: ShopService) {
         this.order = data.order;
+        console.log(JSON.stringify(this.order));
         data.clearCart();
+        console.log(JSON.stringify(this.order));
     }
 }

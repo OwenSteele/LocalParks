@@ -41,7 +41,7 @@ namespace LocalParks.Controllers
             ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
             ViewData["SortOptions"] = _service.GetSortSelectListItems();
 
-            if (await _authenticationService.IsSignedIn(this.User))
+            if (await _authenticationService.IsSignedInAsync(User))
             {
                     ViewData["User"] = "User";
             }
@@ -83,13 +83,13 @@ namespace LocalParks.Controllers
 
             var parkEvent = await _service.GetParkEventModelByIdAsync(eventId);
 
-            if (await _authenticationService.IsSignedIn(this.User))
+            if (await _authenticationService.IsSignedInAsync(User))
             {
-                if (await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
+                if (await _authenticationService.HasRequiredRoleAsync(User.Identity.Name, "Administrator"))
                     ViewData["User"] = "Admin";
 
                 else
-                    ViewData["User"] = _service.GetEventOwner(eventId, this.User.Identity.Name);
+                    ViewData["User"] = _service.GetEventOwner(eventId, User.Identity.Name);
             }
 
             if (parkEvent == null) return View("NotFound");
@@ -102,12 +102,12 @@ namespace LocalParks.Controllers
         {
             _logger.LogInformation("Executing ParkEvents.Details Model");
 
-            if (!await _authenticationService.IsSignedIn(this.User))
+            if (!await _authenticationService.IsSignedInAsync(User))
                 return RedirectToAction("Index", "ParkEvents");
 
             if (eventId != 0 &&
-                await _service.GetEventOwner(eventId, this.User.Identity.Name) == null &&
-                !await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
+                await _service.GetEventOwner(eventId, User.Identity.Name) == null &&
+                !await _authenticationService.HasRequiredRoleAsync(User.Identity.Name, "Administrator"))
                 return RedirectToAction("Details", "ParkEvents", new { eventId });
 
             ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
@@ -125,7 +125,7 @@ namespace LocalParks.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit()
         {
-            if (!await _authenticationService.IsSignedIn(this.User))
+            if (!await _authenticationService.IsSignedInAsync(User))
                 return RedirectToAction("Details", "ParkEvents",
                     new { _tempEvent.ParkId, _tempEvent.Date });
 
@@ -147,7 +147,7 @@ namespace LocalParks.Controllers
                 return View("Edit", _tempEvent);
             }
 
-            var result = await _service.AddNewParkEventAsync(_tempEvent, this.User.Identity.Name, false);
+            var result = await _service.AddNewParkEventAsync(_tempEvent, User.Identity.Name, false);
 
             if (result != null)
             {
@@ -160,11 +160,11 @@ namespace LocalParks.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int eventId)
         {
-            if (!await _authenticationService.IsSignedIn(this.User))
+            if (!await _authenticationService.IsSignedInAsync(User))
                 return RedirectToAction("Details", "ParkEvents", new { eventId });
 
-            if (await _service.GetEventOwner(eventId, this.User.Identity.Name) == null &&
-                !await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
+            if (await _service.GetEventOwner(eventId, User.Identity.Name) == null &&
+                !await _authenticationService.HasRequiredRoleAsync(User.Identity.Name, "Administrator"))
                 return RedirectToAction("Details", "ParkEvents", new { eventId });
 
             var result = await _service.GetParkEventModelByIdAsync(eventId);
@@ -176,11 +176,11 @@ namespace LocalParks.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int eventId, bool confirmed)
         {
-            if (!await _authenticationService.IsSignedIn(this.User))
+            if (!await _authenticationService.IsSignedInAsync(User))
                 return RedirectToAction("Details", "ParkEvents", new { eventId });
 
-            if (await _service.GetEventOwner(eventId, this.User.Identity.Name) == null &&
-                !await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
+            if (await _service.GetEventOwner(eventId, User.Identity.Name) == null &&
+                !await _authenticationService.HasRequiredRoleAsync(User.Identity.Name, "Administrator"))
                 return RedirectToAction("Details", "ParkEvents", new { eventId });
 
             var result = await _service.GetParkEventModelByIdAsync(eventId);

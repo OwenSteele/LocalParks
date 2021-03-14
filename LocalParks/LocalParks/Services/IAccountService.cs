@@ -1,5 +1,6 @@
 ﻿using LocalParks.Models;
 using LocalParks.Models.Accounts;
+using LocalParks.Models.Shop;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -24,5 +25,6 @@ namespace LocalParks.Services
         Task<bool> CheckPostcodeExistsAsync(string postcodeZone);
         Task<bool> ChangeDetailsAsync(ChangeDetailsModel model, string username);
         Task<ChangeDetailsModel> GetChangeDetailsModelAsync(string name);
+        Task <OrderModel[]> GetUserOrdersAsync(string name);
     }
 }

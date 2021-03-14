@@ -293,7 +293,9 @@
         if (rf & 1) {
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 9);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "i", 10);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         }
@@ -301,7 +303,7 @@
         if (rf & 2) {
           var ctx_r0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx_r0.errorMessage);
         }
@@ -313,7 +315,7 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "td");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](2, "img", 10);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](2, "img", 11);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -419,7 +421,7 @@
         selectors: [["checkout"]],
         decls: 29,
         vars: 12,
-        consts: [[1, "row"], ["class", "text-danger", 4, "ngIf"], [1, "table", "table-bordered", "table-hover"], [4, "ngFor", "ngForOf"], [1, "col-md-4", "col-md-offset-8", "text-right"], [1, "table", "table-condensed"], [1, "text-right"], [1, "btn", "btn-success", 3, "click"], ["routerLink", "/", 1, "btn", "btn-outline-danger", "text-danger"], [1, "text-danger"], [1, "img-thumbnail", "checkout-thumb", 3, "src", "alt"]],
+        consts: [[1, "row", "order-item"], ["class", "text-danger d-block m-2 p-1 font-weight-bolder", 4, "ngIf"], [1, "table", "table-bordered", "table-hover"], [4, "ngFor", "ngForOf"], [1, "col-md-4", "col-md-offset-8", "text-right"], [1, "table", "table-condensed"], [1, "text-right"], [1, "btn", "btn-success", "mr-2", 3, "click"], ["routerLink", "/", 1, "btn", "btn-outline-danger", "text-danger", "ml-2"], [1, "text-danger", "d-block", "m-2", "p-1", "font-weight-bolder"], [1, "fa-exclamation"], [1, "img-thumbnail", "checkout-thumb", 3, "src", "alt"]],
         template: function Checkout_Template(rf, ctx) {
           if (rf & 1) {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
@@ -430,7 +432,7 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, Checkout_div_3_Template, 2, 1, "div", 1);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, Checkout_div_3_Template, 3, 1, "div", 1);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "table", 2);
 
@@ -537,7 +539,7 @@
         },
         directives: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["NgIf"], _angular_common__WEBPACK_IMPORTED_MODULE_3__["NgForOf"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterLinkWithHref"]],
         pipes: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["CurrencyPipe"]],
-        styles: [".checkout-item[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\r\n    max-width: 60px;\r\n    float: left;\r\n    margin: 0 2px;\r\n    border: solid 1px black;\r\n}\r\n.checkout-item[_ngcontent-%COMP%]   table[_ngcontent-%COMP%]   td[_ngcontent-%COMP%] {\r\n    align-content: center;\r\n    vertical-align: central;\r\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNoZWNrb3V0LmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxlQUFlO0lBQ2YsV0FBVztJQUNYLGFBQWE7SUFDYix1QkFBdUI7QUFDM0I7QUFDQTtJQUNJLHFCQUFxQjtJQUNyQix1QkFBdUI7QUFDM0IiLCJmaWxlIjoiY2hlY2tvdXQuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jaGVja291dC1pdGVtIGltZyB7XHJcbiAgICBtYXgtd2lkdGg6IDYwcHg7XHJcbiAgICBmbG9hdDogbGVmdDtcclxuICAgIG1hcmdpbjogMCAycHg7XHJcbiAgICBib3JkZXI6IHNvbGlkIDFweCBibGFjaztcclxufVxyXG4uY2hlY2tvdXQtaXRlbSB0YWJsZSB0ZCB7XHJcbiAgICBhbGlnbi1jb250ZW50OiBjZW50ZXI7XHJcbiAgICB2ZXJ0aWNhbC1hbGlnbjogY2VudHJhbDtcclxufVxyXG4iXX0= */"]
+        styles: [".order-item[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\r\n    max-height: 60px;\r\n    float: left;\r\n    margin: 0 2px;\r\n    border: solid 1px black;\r\n}\r\n.order-item[_ngcontent-%COMP%]   table[_ngcontent-%COMP%]   td[_ngcontent-%COMP%] {\r\n    align-content: center;\r\n    vertical-align: central;\r\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNoZWNrb3V0LmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxnQkFBZ0I7SUFDaEIsV0FBVztJQUNYLGFBQWE7SUFDYix1QkFBdUI7QUFDM0I7QUFDQTtJQUNJLHFCQUFxQjtJQUNyQix1QkFBdUI7QUFDM0IiLCJmaWxlIjoiY2hlY2tvdXQuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5vcmRlci1pdGVtIGltZyB7XHJcbiAgICBtYXgtaGVpZ2h0OiA2MHB4O1xyXG4gICAgZmxvYXQ6IGxlZnQ7XHJcbiAgICBtYXJnaW46IDAgMnB4O1xyXG4gICAgYm9yZGVyOiBzb2xpZCAxcHggYmxhY2s7XHJcbn1cclxuLm9yZGVyLWl0ZW0gdGFibGUgdGQge1xyXG4gICAgYWxpZ24tY29udGVudDogY2VudGVyO1xyXG4gICAgdmVydGljYWwtYWxpZ246IGNlbnRyYWw7XHJcbn1cclxuIl19 */"]
       });
       /***/
     },
@@ -649,19 +651,17 @@
         }, {
           key: "checkout",
           value: function checkout() {
-            var _this5 = this;
-
             var _a;
 
-            console.log(this.token);
-            console.log(JSON.stringify(this.order));
             this.order.dateCreated = new Date();
             this.order.orderNumber = (_a = this.datePipe.transform(new Date(), "yyyy-MM-dd_HH:mm:ss:SSS")) === null || _a === void 0 ? void 0 : _a.toString();
             return this.http.post("/api/shop/orders", this.order, {
-              headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpHeaders"]().set("Authorisation", "Bearer " + this.token)
+              headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpHeaders"]({
+                'Content-Type': 'application/json',
+                'Authorization': "Bearer ".concat(this.token)
+              })
             }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (response) {
               console.log(JSON.stringify(response));
-              _this5.order = new _order__WEBPACK_IMPORTED_MODULE_3__["Order"]();
               return true; // add in page redirect
             }));
           }
@@ -673,20 +673,20 @@
         }, {
           key: "getProducts",
           value: function getProducts() {
-            var _this6 = this;
+            var _this5 = this;
 
             return this.http.get("/api/shop/products").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (data) {
-              _this6.products = data;
+              _this5.products = data;
               return true;
             }));
           }
         }, {
           key: "getMemberships",
           value: function getMemberships() {
-            var _this7 = this;
+            var _this6 = this;
 
             return this.http.get("/api/shop/products/memberships").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (data) {
-              _this7.memberships = data;
+              _this6.memberships = data;
               return true;
             }));
           }
@@ -1273,7 +1273,9 @@
         this.data = data;
         this.order = new _data_order__WEBPACK_IMPORTED_MODULE_0__["Order"]();
         this.order = data.order;
+        console.log(JSON.stringify(this.order));
         data.clearCart();
+        console.log(JSON.stringify(this.order));
       };
 
       CompletedOrder.ɵfac = function CompletedOrder_Factory(t) {
@@ -1285,7 +1287,7 @@
         selectors: [["completed-order"]],
         decls: 25,
         vars: 7,
-        consts: [[1, "row"], [1, "col-md-4", "col-md-offset-8", "text-right"], [1, "table", "table-condensed"], [1, "text-right"], [1, "table", "table-bordered", "table-hover"], [4, "ngFor", "ngForOf"], [1, "img-thumbnail", "checkout-thumb", 3, "src", "alt"]],
+        consts: [[1, "row", "order-item"], [1, "col-md-4", "col-md-offset-8", "text-right"], [1, "table", "table-condensed"], [1, "text-right"], [1, "table", "table-bordered", "table-hover"], [4, "ngFor", "ngForOf"], [1, "img-thumbnail", "checkout-thumb", 3, "src", "alt"]],
         template: function CompletedOrder_Template(rf, ctx) {
           if (rf & 1) {
             _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "div", 0);
@@ -1387,7 +1389,7 @@
         },
         directives: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["NgForOf"]],
         pipes: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["CurrencyPipe"]],
-        encapsulation: 2
+        styles: [".order-item[_ngcontent-%COMP%]   img[_ngcontent-%COMP%] {\r\n    max-height: 60px;\r\n    float: left;\r\n    margin: 0 2px;\r\n    border: solid 1px black;\r\n}\r\n.order-item[_ngcontent-%COMP%]   table[_ngcontent-%COMP%]   td[_ngcontent-%COMP%] {\r\n    align-content: center;\r\n    vertical-align: central;\r\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNoZWNrb3V0LmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxnQkFBZ0I7SUFDaEIsV0FBVztJQUNYLGFBQWE7SUFDYix1QkFBdUI7QUFDM0I7QUFDQTtJQUNJLHFCQUFxQjtJQUNyQix1QkFBdUI7QUFDM0IiLCJmaWxlIjoiY2hlY2tvdXQuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5vcmRlci1pdGVtIGltZyB7XHJcbiAgICBtYXgtaGVpZ2h0OiA2MHB4O1xyXG4gICAgZmxvYXQ6IGxlZnQ7XHJcbiAgICBtYXJnaW46IDAgMnB4O1xyXG4gICAgYm9yZGVyOiBzb2xpZCAxcHggYmxhY2s7XHJcbn1cclxuLm9yZGVyLWl0ZW0gdGFibGUgdGQge1xyXG4gICAgYWxpZ24tY29udGVudDogY2VudGVyO1xyXG4gICAgdmVydGljYWwtYWxpZ246IGNlbnRyYWw7XHJcbn1cclxuIl19 */"]
       });
       /***/
     },
@@ -1569,16 +1571,16 @@
         _createClass(Login, [{
           key: "onLogin",
           value: function onLogin() {
-            var _this8 = this;
+            var _this7 = this;
 
             this.data.login(this.creds).subscribe(function (success) {
-              if (_this8.data.order.items.length == 0) {
-                _this8.router.navigate([""]);
+              if (_this7.data.order.items.length == 0) {
+                _this7.router.navigate([""]);
               } else {
-                _this8.router.navigate(["checkout"]);
+                _this7.router.navigate(["checkout"]);
               }
             }, function (err) {
-              return _this8.errorMessage = "Failed to login.";
+              return _this7.errorMessage = "Failed to login.";
             });
           }
         }]);
@@ -1814,14 +1816,14 @@
         _createClass(Cart, [{
           key: "onCheckout",
           value: function onCheckout() {
-            var _this9 = this;
+            var _this8 = this;
 
             if (this.data.SignInRequired) {
               this.data.getToken().subscribe(function (success) {
                 if (success) {
-                  _this9.router.navigate(["checkout"]);
+                  _this8.router.navigate(["checkout"]);
                 } else {
-                  _this9.router.navigate(["login"]);
+                  _this8.router.navigate(["login"]);
                 }
               });
             } else {

@@ -46,8 +46,8 @@ namespace LocalParks.Data
             bd.Entity<Park>().HasMany(p => p.Events).WithOne(e => e.Park)
                 .HasForeignKey(e => e.ParkId);
             bd.Entity<LocalParksUser>().HasMany(u => u.OrganisedEvents).WithOne(e => e.User);
-
             bd.Entity<Order>().HasMany(o => o.Items).WithOne(i => i.Order);
+            bd.Entity<OrderItem>().HasOne(i => i.Product);
 
             // defined keys
             bd.Entity<Postcode>().HasKey(k => k.Zone);
@@ -58,21 +58,22 @@ namespace LocalParks.Data
             bd.Entity<Product>().HasKey(k => k.ProductId);
             bd.Entity<Order>().HasKey(k => k.OrderId);
             bd.Entity<OrderItem>().HasKey(k => k.ItemId);
+            bd.Entity<OrderItem>().HasKey(k => k.ItemId);
 
             // decimal properties
             bd.Entity<SportsClub>().Property(c => c.MembershipFee)
-                .HasColumnType("decimal(18,4)");
+                .HasColumnType("decimal(18,2)");
             bd.Entity<Supervisor>().Property(s => s.Salary)
-                .HasColumnType("decimal(18,4)");
+                .HasColumnType("decimal(18,2)");
             bd.Entity<Park>().Property(p => p.Latitude)
-                .HasColumnType("decimal(18,4)");
+                .HasColumnType("decimal(18,2)");
             bd.Entity<Park>().Property(p => p.Longitude)
-                .HasColumnType("decimal(18,4)");
+                .HasColumnType("decimal(18,2)");
 
             bd.Entity<Product>().Property(p => p.Price)
-                .HasColumnType("decimal(18,4)");
+                .HasColumnType("decimal(18,2)");
             bd.Entity<OrderItem>().Property(p => p.UnitPrice)
-                .HasColumnType("decimal(18,4)");
+                .HasColumnType("decimal(18,2)");
         }
     }
 }

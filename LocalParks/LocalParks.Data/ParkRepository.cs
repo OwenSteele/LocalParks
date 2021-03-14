@@ -402,6 +402,7 @@ namespace LocalParks.Data
 
             IQueryable<Order> query = _context.Orders
                 .Include(o => o.User)
+                .Include(o => o.Items)
                 .Where(o => o.User != null && o.User.UserName == username);
 
             query = query.OrderByDescending(e => e.DateCreated);
@@ -414,6 +415,7 @@ namespace LocalParks.Data
 
             IQueryable<Order> query = _context.Orders
                 .Include(o => o.User)
+                .Include(o => o.Items)
                 .Where(o => o.OrderId == id);
 
             return await query.FirstOrDefaultAsync();
@@ -424,6 +426,7 @@ namespace LocalParks.Data
 
             IQueryable<Order> query = _context.Orders
                 .Include(o => o.User)
+                .Include(o => o.Items)
                 .Where(o => o.OrderNumber == number);
 
             return await query.FirstOrDefaultAsync();
