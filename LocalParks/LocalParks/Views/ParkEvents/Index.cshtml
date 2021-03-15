@@ -3,6 +3,11 @@
     ViewData["Title"] = "Events";
 }
 
+@section scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/filtering.js"></script>
+}
+
 <div class="jumbotron">
     <table style="width: 100%;">
         <tr>
@@ -34,13 +39,13 @@
     </table>
 </div>
 
-<form asp-controller="ParkEvents" asp-action="Index" method="get">
+<form id="filter-form-park-events" asp-controller="ParkEvents" asp-action="Filter" method="get">
     <p class="d-inline-flex font-weight-bolder" style=" width: 100%; ">
 
         <span class="w3-margin-right w3-margin-left">
             Event name:
         </span>
-        <input type="text" class="border-dark rounded" name="searchTerm" value="@TempData["Filter"]" />
+        <input type="text" class="border-dark rounded filter-form-group" name="searchTerm" value="@TempData["Filter"]" />
 
         <span class="w3-margin-right w3-margin-left">
             Park:
@@ -49,7 +54,7 @@
        new SelectList((System.Collections.IEnumerable)ViewData["Parks"], "Value", "Text"), "",
        htmlAttributes: new
        {
-           @class = "form-control d-inline-flex",
+           @class = "form-control d-inline-flex filter-form-group",
            name = "parkFilter",
            style = "max-width: 20%; font-size: 12px; padding: 0px;"
        })
@@ -57,7 +62,7 @@
             Date:
         </span>
         <input name="date" type="date"
-               class="border-dark rounded form-control"
+               class="border-dark rounded form-control filter-form-group"
                style="max-width: 20%; font-size: 12px; padding: 0px;" />
 
         <span class="w3-margin-right w3-margin-left">
@@ -67,7 +72,7 @@
        new SelectList((System.Collections.IEnumerable)ViewData["SortOptions"], "Value", "Text"), "",
        htmlAttributes: new
        {
-           @class = "form-control d-inline-flex",
+           @class = "form-control d-inline-flex filter-form-group",
            name = "sortBy",
            style = "max-width: 20%; font-size: 12px; padding: 0px;"
        })
@@ -84,12 +89,15 @@
 
 @if (TempData["FilteredSorted"] != null || @TempData["Filter"] != null)
 {
-    <form asp-controller="ParkEventss" asp-action="Index" method="get" class="d-inline-flex">
+    <form asp-controller="ParkEvents" asp-action="Index" method="get" class="d-inline-flex">
         <p>
             <input type="submit" value="Remove Filters and Sort" class="border-danger text-danger" />
         </p>
     </form>
 }
+
+<div class="bg-info border-dark text-dark w-auto rounded">Viewing <strong>@Model.Count()</strong> upcoming events.</div>
+
 
 @foreach (var ev in Model)
 {

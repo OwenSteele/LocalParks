@@ -30,7 +30,17 @@ namespace LocalParks.Controllers
             set { _tempEvent = value; }
         }
 
-        public async Task<IActionResult> Index(
+        public async Task<IActionResult> Index()
+        {
+            _logger.LogInformation("Executing ParkEvents.Index Model");
+
+            await SetViewData();
+
+            var results = await _service.GetAllParkEventModelsAsync();
+            return View(results);
+        }
+
+        public async Task<IActionResult> Filter(
             string searchTerm = null,
             string parkFilter = null,
             DateTime? date = null,
@@ -38,12 +48,11 @@ namespace LocalParks.Controllers
         {
             _logger.LogInformation("Executing ParkEvents.Index Model");
 
-            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
-            ViewData["SortOptions"] = _service.GetSortSelectListItems();
+            await SetViewData();
 
             if (await _authenticationService.IsSignedInAsync(User))
             {
-                    ViewData["User"] = "User";
+                ViewData["User"] = "User";
             }
 
             if (string.IsNullOrWhiteSpace(searchTerm) &&
@@ -51,7 +60,7 @@ namespace LocalParks.Controllers
                 date == null)
             {
                 var parkEvents = await _service.GetAllParkEventModelsAsync(sortBy: sortBy);
-                return View(parkEvents);
+                return View("Index", parkEvents);
             }
 
             var matches = await _service.GetSearchedParkEventModelsAsync(
@@ -71,10 +80,10 @@ namespace LocalParks.Controllers
                 TempData["Matches"] = "No Matches found";
 
                 var parkEvents = await _service.GetAllParkEventModelsAsync(sortBy: sortBy);
-                return View(parkEvents);
+                return View("Index", parkEvents);
             }
 
-            return View(matches);
+            return View("Index", matches);
         }
 
         public async Task<IActionResult> Details(int eventId)
@@ -202,5 +211,10 @@ namespace LocalParks.Controllers
             return RedirectToAction("Details", "ParkEvents", new { eventId });
         }
 
+        private async Task SetViewData()
+        {
+            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
+            ViewData["SortOptions"] = _service.GetSortSelectListItems();
+        }
     }
 }

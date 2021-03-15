@@ -3,15 +3,20 @@
     ViewData["Title"] = "Sports Clubs";
 }
 
+@section scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/filtering.js"></script>
+}
+
 <h1 class="jumbotron">Our Sports Clubs</h1>
 
-<form asp-controller="SportsClubs" asp-action="Index" method="get">
+<form id="filter-form-sports-clubs" asp-controller="SportsClubs" asp-action="Filter" method="get">
     <p class="d-inline-flex font-weight-bolder" style=" width: 100%; ">
 
         <span class="w3-margin-right w3-margin-left">
             Club name:
         </span>
-        <input type="text" class="border-dark rounded" name="searchTerm" value="@TempData["Filter"]" />
+        <input type="text" class="border-dark rounded filter-form-group" id="searchTerm" name="searchTerm" value="@TempData["Filter"]" />
 
         <span class="w3-margin-right w3-margin-left">
             Park:
@@ -20,32 +25,35 @@
        new SelectList((System.Collections.IEnumerable)ViewData["Parks"], "Value", "Text"), "",
        htmlAttributes: new
        {
-           @class = "form-control d-inline-flex",
+           @class = "filter-form-group form-control d-inline-flex",
            name = "parkFilter",
-           style = "max-width: 20%; font-size: 12px; padding: 0px;"
+           style = "max-width: 20%; font-size: 12px; padding: 0px;",
+           id = "parkFilter"
        })
         <span class="w3-margin-right w3-margin-left">
             SportType:
         </span>
-        @Html.DropDownList("Sport",
+        @Html.DropDownList("sportType",
        new SelectList((System.Collections.IEnumerable)ViewData["Sports"], "Value", "Text"), "",
        htmlAttributes: new
        {
-           @class = "form-control d-inline-flex",
+           @class = "filter-form-group form-control d-inline-flex",
            name = "sportType",
-           style = "max-width: 20%; font-size: 12px; padding: 0px;"
+           style = "max-width: 20%; font-size: 12px; padding: 0px;",
+           id = "sportType"
        })
 
         <span class="w3-margin-right w3-margin-left">
             Sort by:
         </span>
-        @Html.DropDownList("SortBy",
+        @Html.DropDownList("sortBy",
        new SelectList((System.Collections.IEnumerable)ViewData["SortOptions"], "Value", "Text"), "",
        htmlAttributes: new
        {
-           @class = "form-control d-inline-flex",
+           @class = "filter-form-group form-control d-inline-flex",
            name = "sortBy",
-           style = "max-width: 20%; font-size: 12px; padding: 0px;"
+           style = "max-width: 20%; font-size: 12px; padding: 0px;",
+           id = "sortBy"
        })
 
         <input type="submit" class="btn-outline-light btn-dark btn-light rounded" value="Filter and Sort" />
@@ -66,6 +74,9 @@
         </p>
     </form>
 }
+
+<div class="bg-info border-dark text-dark w-auto rounded">Viewing <strong>@Model.Count()</strong> clubs.</div>
+
 
 @foreach (var club in Model)
 {

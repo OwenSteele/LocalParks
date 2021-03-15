@@ -212,17 +212,3 @@
     </div>
 
 </div>
-
-<script>
-
-    navigator.geolocation.getCurrentPosition(show_map);
-
-    function show_map(position) {
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
-
-        let url = "/Home/Index?latitude=" + latitude + "&longitude=" + longitude;
-        $.post(url, function (data) {
-        });
-    }
-</script>

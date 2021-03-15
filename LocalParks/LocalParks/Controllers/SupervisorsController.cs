@@ -16,21 +16,30 @@ namespace LocalParks.Controllers
             _service = service;
         }
 
-        public async Task<IActionResult> Index(
+        public async Task<IActionResult> Index()
+        {
+            _logger.LogInformation("Executing Supervisors.Index Model");
+
+            await SetViewData();
+
+                var results = await _service.GetAllSupervisorModelsAsync();
+                return View(results);
+        }
+
+        public async Task<IActionResult> Filter(
             string searchTerm = null,
             string parkFilter = null,
             string sortBy = null)
         {
-            _logger.LogInformation("Executing Supervisors.Index Model");
+            _logger.LogInformation("Executing Supervisors.Filter Model");
 
-            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
-            ViewData["SortOptions"] = _service.GetSortSelectListItems();
+            await SetViewData();
 
             if (string.IsNullOrWhiteSpace(searchTerm) &&
                 string.IsNullOrWhiteSpace(parkFilter))
             {
                 var supervisors = await _service.GetAllSupervisorModelsAsync(sortBy);
-                return View(supervisors);
+                return View("Index", supervisors);
             }
 
             var matches = await _service.GetSearchedSupervisorModelsAsync(
@@ -49,11 +58,12 @@ namespace LocalParks.Controllers
                 TempData["Matches"] = "No Matches found";
 
                 var sportClubs = await _service.GetAllSupervisorModelsAsync(sortBy);
-                return View(sportClubs);
+                return View("Index", sportClubs);
             }
 
-            return View(matches);
+            return View("Index", matches);
         }
+
         public async Task<IActionResult> Details(int parkId)
         {
             _logger.LogInformation("Executing Supervisors.Details Model");
@@ -63,6 +73,12 @@ namespace LocalParks.Controllers
             if (supervisor == null) return View("NotFound");
 
             return View(supervisor);
+        }
+
+        private async Task SetViewData()
+        {
+            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
+            ViewData["SortOptions"] = _service.GetSortSelectListItems();
         }
     }
 }

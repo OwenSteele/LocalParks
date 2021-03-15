@@ -17,12 +17,25 @@ namespace LocalParks.Controllers
             _service = service;
         }
 
-        public async Task<IActionResult> Index(string searchTerm = null, string postcode = null, string sortBy = null)
+        public async Task<IActionResult> Index()
         {
             _logger.LogInformation("Executing Parks.Index Model");
 
-            ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
-            ViewData["SortOptions"] = _service.GetSortSelectListItems();
+            await SetViewData();
+
+            var results = await _service.GetAllModelsAsync();
+
+            return View(results);
+        }
+
+        public async Task<IActionResult> Filter(
+            string searchTerm = null, 
+            string postcode = null, 
+            string sortBy = null)
+        {
+            _logger.LogInformation("Executing Parks.Filter");
+
+            await SetViewData();
 
             if (string.IsNullOrWhiteSpace(searchTerm) && string.IsNullOrWhiteSpace(postcode))
             {
@@ -30,27 +43,27 @@ namespace LocalParks.Controllers
 
                 if (!string.IsNullOrWhiteSpace(sortBy)) TempData["SortedBy"] = sortBy;
 
-                return View(parks);
+                return View("Index", parks);
             }
 
             var matches = await _service.GetSearchedAsync(searchTerm, postcode, sortBy);
 
             if (matches != null)
             {
-                TempData["Filter"] = searchTerm;
+                TempData["FilterValue"] = searchTerm;
 
                 if (!string.IsNullOrWhiteSpace(postcode) || !string.IsNullOrWhiteSpace(postcode))
-                    TempData["FilteredSorted"] = "true";
+                    TempData["FilterName"] = "true";
             }
             else
             {
                 TempData["Matches"] = "No Matches found";
 
                 var parks = await _service.GetAllModelsAsync(sortBy);
-                return View(parks);
+                return View("Index", parks);
             }
 
-            return View(matches);
+            return View("Index", matches);
         }
 
         public async Task<IActionResult> Details(int parkId)
@@ -63,5 +76,11 @@ namespace LocalParks.Controllers
 
             return View(park);
         }
+        private async Task SetViewData()
+        {
+            ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
+            ViewData["SortOptions"] = _service.GetSortSelectListItems();
+        }
+
     }
 }

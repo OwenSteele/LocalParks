@@ -17,47 +17,52 @@ namespace LocalParks.Controllers
             _service = service;
         }
 
-        public async Task<IActionResult> Index(
+        public async Task<IActionResult> Index()
+        {
+            _logger.LogInformation("Executing SportsClubs.Index Model");
+
+            await SetViewData();
+
+            var results = await _service.GetSearchedSportsClubModelsAsync();
+
+            return View(results);
+        }
+        public async Task<IActionResult> Filter(
             string searchTerm = null,
             string parkFilter = null,
             string sportType = null,
             string sortBy = null)
         {
-            _logger.LogInformation("Executing SportsClubs.Index Model");
+            _logger.LogInformation("Executing SportsClubs.Filter");
 
-            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
-            ViewData["Sports"] = _service.GetSportListItems();
-            ViewData["SortOptions"] = _service.GetSortSelectListItems();
+            await SetViewData();
 
             if (string.IsNullOrWhiteSpace(searchTerm) &&
                 string.IsNullOrWhiteSpace(parkFilter) &&
                 string.IsNullOrWhiteSpace(sportType))
             {
                 var sportsClubs = await _service.GetAllSportsClubModelsAsync(sortBy);
-                return View(sportsClubs);
+
+                return View("Index", sportsClubs);
             }
 
             var matches = await _service.GetSearchedSportsClubModelsAsync(
                 searchTerm, parkFilter, sportType, sortBy);
 
-            if (matches != null)
-            {
-                TempData["Filter"] = searchTerm;
-
-                if (!string.IsNullOrWhiteSpace(parkFilter)
-                    || !string.IsNullOrWhiteSpace(sortBy)
-                    || !string.IsNullOrWhiteSpace(sportType))
-                    TempData["FilteredSorted"] = "true";
-            }
-            else
+            if (matches == null)
             {
                 TempData["Matches"] = "No Matches found";
 
                 var sportClubs = await _service.GetAllSportsClubModelsAsync(sortBy);
-                return View(sportClubs);
+                return View("Index", sportClubs);                
             }
 
-            return View(matches);
+            TempData["Filter"] = searchTerm;
+
+            TempData["FilteredSorted"] = "true";
+
+            return View("Index", matches);
+
         }
         public async Task<IActionResult> Details(int sportsClubId)
         {
@@ -68,6 +73,13 @@ namespace LocalParks.Controllers
             if (sportsClub == null) return View("NotFound");
 
             return View(sportsClub);
+        }
+
+        private async Task SetViewData()
+        {
+            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
+            ViewData["Sports"] = _service.GetSportListItems();
+            ViewData["SortOptions"] = _service.GetSortSelectListItems();
         }
     }
 }

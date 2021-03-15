@@ -3,15 +3,20 @@
     ViewData["Title"] = "Parks";
 }
 
+@section scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/filtering.js"></script>
+}
+
 <h1 class="jumbotron">Your Local Parks</h1>
 
-<form asp-controller="Parks" asp-action="Index" method="get">
+<form id="filter-form-parks" asp-controller="Parks" asp-action="Filter" method="get">
     <p class="d-inline-flex font-weight-bolder w3-border-amber" style=" width: 100%; ">
 
         <span class="w3-margin-right w3-margin-left">
             Park name:
         </span>
-        <input type="text" class="border-dark rounded" name="searchTerm" value="@TempData["Filter"]" />
+        <input type="text" class="border-dark rounded filter-form-group" name="searchTerm" value="@TempData["Filter"]" />
 
         <span class="w3-margin-right w3-margin-left">
             Postcode:
@@ -20,7 +25,7 @@
        new SelectList((System.Collections.IEnumerable)ViewData["Postcodes"], "Value", "Text"), "",
        htmlAttributes: new
        {
-           @class = "form-control d-inline-flex",
+           @class = "form-control d-inline-flex filter-form-group",
            name = "postcode",
            style = "max-width: 20%; font-size: 12px; padding: 0px;"
        })
@@ -32,7 +37,7 @@
        new SelectList((System.Collections.IEnumerable)ViewData["SortOptions"], "Value", "Text"), "",
        htmlAttributes: new
        {
-           @class = "form-control d-inline-flex",
+           @class = "form-control d-inline-flex filter-form-group",
            name = "sortBy",
            style = "max-width: 20%; font-size: 12px; padding: 0px;"
        })
@@ -55,6 +60,8 @@
         </p>
     </form>
 }
+
+<div class="bg-info border-dark text-dark w-auto rounded">Viewing <strong>@Model.Count()</strong> of our parks.</div>
 
 @foreach (var park in Model)
 {
