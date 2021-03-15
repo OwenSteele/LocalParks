@@ -338,6 +338,7 @@ namespace LocalParks.Data
             // no support for recursive queries - parks need to be included in services
             IQueryable<LocalParksUser> query = _context.Users
                 .Include(u => u.OrganisedEvents)
+                .ThenInclude(e => e.Park)
                 .Where(u => u.UserName == username);
 
             return await query.FirstOrDefaultAsync();
@@ -348,6 +349,7 @@ namespace LocalParks.Data
 
             IQueryable<LocalParksUser> query = _context.Users
                 .Include(u => u.OrganisedEvents)
+                .ThenInclude(e => e.Park)
                 .Where(u => u.Email == email);
 
             return await query.FirstOrDefaultAsync();
@@ -390,7 +392,8 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting all order.");
 
             IQueryable<Order> query = _context.Orders
-                .Include(o => o.Items);
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Product);
 
             query = query.OrderByDescending(o => o.DateCreated);
 
@@ -403,6 +406,7 @@ namespace LocalParks.Data
             IQueryable<Order> query = _context.Orders
                 .Include(o => o.User)
                 .Include(o => o.Items)
+                .ThenInclude(i => i.Product)
                 .Where(o => o.User != null && o.User.UserName == username);
 
             query = query.OrderByDescending(e => e.DateCreated);
@@ -416,6 +420,7 @@ namespace LocalParks.Data
             IQueryable<Order> query = _context.Orders
                 .Include(o => o.User)
                 .Include(o => o.Items)
+                .ThenInclude(i => i.Product)
                 .Where(o => o.OrderId == id);
 
             return await query.FirstOrDefaultAsync();
@@ -427,6 +432,7 @@ namespace LocalParks.Data
             IQueryable<Order> query = _context.Orders
                 .Include(o => o.User)
                 .Include(o => o.Items)
+                .ThenInclude(i => i.Product)
                 .Where(o => o.OrderNumber == number);
 
             return await query.FirstOrDefaultAsync();
