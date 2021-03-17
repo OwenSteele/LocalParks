@@ -91,6 +91,10 @@
     <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
     <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
     <None Include="wwwroot\lib\bootstrap\LICENSE" />
+    <None Include="wwwroot\lib\chartjs\Chart.bundle.js" />
+    <None Include="wwwroot\lib\chartjs\Chart.bundle.min.js" />
+    <None Include="wwwroot\lib\chartjs\Chart.js" />
+    <None Include="wwwroot\lib\chartjs\Chart.min.js" />
     <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
     <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
     <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />

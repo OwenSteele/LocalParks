@@ -56,7 +56,11 @@ namespace LocalParks
             services.AddTransient<IParkEventsService, ParkEventsService>();
             services.AddTransient<ISupervisorsService, SupervisorsService>();
             services.AddTransient<ISportsClubsService, SportsClubsService>();
+
             services.AddTransient<IShopService, ShopService>();
+
+            //services.AddTransient<IReportsService, ReportsService>();
+            services.AddScoped<IViewComponentsService, ViewComponentsService>();
 
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();

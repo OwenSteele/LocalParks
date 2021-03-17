@@ -49,6 +49,10 @@
                             <a class="nav-link text-light w3-hover-amber rounded" asp-controller="Shop"
                                asp-action="Index"><i class="fa fa-shopping-cart"></i> Shop</a>
                         </li>
+                        <li class="nav-item w3-padding-16 w3-hover-text-black">
+                            <a class="nav-link text-light w3-hover-amber rounded" asp-controller="Reports"
+                               asp-action="Index"><i class="fa fa-shopping-cart"></i> Reports</a>
+                        </li>
 
                     </ul>
                     <ul class="navbar-nav font-weight-bolder" style="float: right">
@@ -111,7 +115,10 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/lib/chartjs/Chart.min.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
