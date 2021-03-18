@@ -1,5 +1,6 @@
 ﻿using LocalParks.Core.Chart;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace LocalParks.Models.Chart
 {
@@ -13,7 +14,8 @@ namespace LocalParks.Models.Chart
             _chartData = chartData;
             _json = JsonConvert.SerializeObject(chartData, new JsonSerializerSettings
             {
-                NullValueHandling = NullValueHandling.Ignore
+                NullValueHandling = NullValueHandling.Ignore,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
             }) ;
         }
         public ReportChart ChartData { get => _chartData; }

@@ -8,6 +8,6 @@ namespace LocalParks.Core.Chart
 {
     public class Ticks
     {
-        public bool beginAtZero { get; set; }
+        public bool BeginAtZero { get; set; }
     }
 }

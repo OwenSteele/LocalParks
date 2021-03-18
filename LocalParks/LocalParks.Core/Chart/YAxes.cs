@@ -3,8 +3,8 @@
     public class YAxes
     {
         public string Id { get; set; }
-        public bool Display { get; set; } = true;
+        public bool Display { get; set; }
         public string Type { get; set; }
-        public bool BeginAtZero { get; set; } = true;
+        public Ticks Ticks { get; set; }
     }
 }

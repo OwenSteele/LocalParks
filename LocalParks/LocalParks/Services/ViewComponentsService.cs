@@ -18,27 +18,30 @@ namespace LocalParks.Services
 
         public async Task<ChartModel> CreateSupervisor_Salary_Tenure_ChartAsync()
         {
-            var results = await _parkRepository.GetAllSupervisorsAsync();
+            var data = await _parkRepository.GetAllSupervisorsAsync();
 
-            var dataset = new Dataset[] {
-            new Dataset {
-                Label = "Salary vs Tenure",
-                Data = results.Select(r => r.Salary).ToArray(),
-                XAxisID = "Tenure (Years)",
-                YAxisID = "Salary (£)"
-            } };
+            var results = data.OrderBy(d => d.StartingDate).ToArray();
+
+            var builder = new ChartBuilder();
 
 
-            var data = new Core.Chart.Data
-            {
-                Labels = results.Select(r => ((DateTime.Now - r.StartingDate).TotalDays / 365.25).ToString()).ToArray(),
-                Datasets = dataset
-            };
+            builder.AddDataLabels(results.Select(r =>
+            ((DateTime.Now - r.StartingDate).TotalDays / 365.25).ToString()).ToArray());
 
+            builder.AddDataset(
+                results.Select(r => (int)r.Salary).ToArray(),
+                "Salary vs Tenure"
+                );
 
-            var chart = new ReportChart(data, type: "line");
+            builder.SetType("line");
 
-            return new ChartModel(chart);
+            builder.SetTitle("Salary against Staff Service length");
+
+            var chart = builder.GetChart();
+
+            var model = new ChartModel(chart);
+
+            return model;
         }
     }
 }
