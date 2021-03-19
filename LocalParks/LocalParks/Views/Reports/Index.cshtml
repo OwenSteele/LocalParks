@@ -10,6 +10,9 @@
     <h2>Reports about our parks</h2>
 
 </div>
-
-<vc:charts></vc:charts>
-
+<div>
+    @await Component.InvokeAsync("ParksPerPostcodeChart")
+</div>
+<div>
+    @await Component.InvokeAsync("SalaryTenureChart")
+</div>

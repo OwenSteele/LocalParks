@@ -121,6 +121,8 @@ dist/
 out-tsc/
 LocalParks/wwwroot/ClientApp/
 LocalParks/wwwroot/lib/
+/LocalParks/wwwroot/lib/
+LocalParks/LocalParks/LocalParks/wwwroot/lib/
 
 # LocalParks Data
 *LocalParksUser.json

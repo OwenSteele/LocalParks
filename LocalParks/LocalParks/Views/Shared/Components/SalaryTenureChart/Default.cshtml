@@ -1,0 +1,15 @@
+﻿@model ChartModel
+
+<div class="chart-container" width="600" height="400">
+    <h3>@Model.ChartData.Title.Text</h3>
+    <canvas id="salaryTenureChart"></canvas>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+
+        let ctx = document.getElementById('salaryTenureChart');
+        let data = @Html.Raw(Model.Json);
+        let salaryTenureChart = new Chart(ctx, data);
+    });
+</script>

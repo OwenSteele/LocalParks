@@ -4,7 +4,7 @@
 		"parkRef": 1,
 		"firstName": "Joe",
 		"lastName": "Bloggs",
-		"salary": 35000.0000,
+		"salary": 35000.00,
 		"startingDate": "1980-07-13T00:00:00",
 		"office": "123 Chestnut Drive",
 		"emergencyNumber": "07654321000"
@@ -14,7 +14,7 @@
 		"parkRef": 2,
 		"firstName": "Anne",
 		"lastName": "Smith",
-		"salary": 32000.0000,
+		"salary": 32000.00,
 		"startingDate": "1960-01-21T00:00:00",
 		"office": "Parkside Cottage, Park Avenue",
 		"emergencyNumber": "07685940321"
@@ -24,7 +24,7 @@
 		"parkRef": 3,
 		"firstName": "Robert",
 		"lastName": "Bob",
-		"salary": 35500.0000,
+		"salary": 35500.00,
 		"startingDate": "1986-08-11T00:00:00",
 		"office": "Bramble side, Supervisor Street",
 		"emergencyNumber": "0784368711"
@@ -34,7 +34,7 @@
 		"parkRef": 4,
 		"firstName": "Yohan",
 		"lastName": "Blake",
-		"salary": 29000.0000,
+		"salary": 29000.00,
 		"startingDate": "2019-03-05T00:00:00",
 		"office": "1 Park Lane",
 		"emergencyNumber": "0762985702"
@@ -44,7 +44,7 @@
 		"parkRef": 5,
 		"firstName": "Michael",
 		"lastName": "Mitchell",
-		"salary": 34000.0000,
+		"salary": 28000.00,
 		"startingDate": "2016-11-05T00:00:00",
 		"office": "154 Wednesday drive",
 		"emergencyNumber": "0723096876"
@@ -54,7 +54,7 @@
 		"parkRef": 6,
 		"firstName": "Daniel",
 		"lastName": "Cotting",
-		"salary": 26350.0000,
+		"salary": 28350.00,
 		"startingDate": "2011-09-14T00:00:00",
 		"office": "Little Cottage, Ramping Lane",
 		"emergencyNumber": "0787876876"
@@ -64,7 +64,7 @@
 		"parkRef": 7,
 		"firstName": "Abraham",
 		"lastName": "Yoluni",
-		"salary": 22850.0000,
+		"salary": 27850.00,
 		"startingDate": "2008-02-22T00:00:00",
 		"office": "Ramping Cottage, Little Lane",
 		"emergencyNumber": "0789871231"
@@ -74,7 +74,7 @@
 		"parkRef": 9,
 		"firstName": "Meinhard",
 		"lastName": "Pecháček",
-		"salary": 25010.0000,
+		"salary": 25010.00,
 		"startingDate": "1999-07-28T00:00:00",
 		"office": "The Dalmonds, Stoke Prior",
 		"emergencyNumber": "07865539997"
@@ -84,7 +84,7 @@
 		"parkRef": 10,
 		"firstName": "Dallas",
 		"lastName": "MacClellan",
-		"salary": 24000.0000,
+		"salary": 24000.00,
 		"startingDate": "2015-09-30T00:00:00",
 		"office": "7 Golderton, Church Road",
 		"emergencyNumber": "07868658026"
@@ -94,7 +94,7 @@
 		"parkRef": 11,
 		"firstName": "Shona",
 		"lastName": "Schnur",
-		"salary": 22000.0000,
+		"salary": 29000.00,
 		"startingDate": "2001-11-18T00:00:00",
 		"office": "Manor House, Manor Road",
 		"emergencyNumber": "07759034299"
@@ -104,7 +104,7 @@
 		"parkRef": 12,
 		"firstName": "Tiana",
 		"lastName": "Christians",
-		"salary": 25670.0000,
+		"salary": 31670.00,
 		"startingDate": "1996-08-05T00:00:00",
 		"office": "71 Darnton Drive",
 		"emergencyNumber": "07974030244"
@@ -114,7 +114,7 @@
 		"parkRef": 8,
 		"firstName": "Waylon",
 		"lastName": "Martin",
-		"salary": 19000.0000,
+		"salary": 19000.00,
 		"startingDate": "2020-02-02T00:00:00",
 		"office": "38 Reynolds Road",
 		"emergencyNumber": "07786593909"

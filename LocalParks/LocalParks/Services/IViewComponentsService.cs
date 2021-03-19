@@ -6,5 +6,6 @@ namespace LocalParks.Services
     public interface IViewComponentsService
     {
         Task<ChartModel> CreateSupervisor_Salary_Tenure_ChartAsync();
+        Task<ChartModel> CreateParks_Per_Postcode_ChartAsync();
     }
 }

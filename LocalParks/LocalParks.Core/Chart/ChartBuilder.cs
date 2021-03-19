@@ -7,15 +7,18 @@ namespace LocalParks.Core.Chart
         private readonly ReportChart _chart;
         private bool _hasDataset;
         private bool _hasLabels;
-        public ChartBuilder()
+        public ChartBuilder(ChartType type)
         {
+
             _chart = new();
             _chart.Data = new();
+
+            _chart.Type = type.ToString();
 
             _hasDataset = false;
             _hasLabels = false;
         }
-        public void AddDataLabels(string[] labels)
+        public ChartBuilder AddDataX(string[] labels)
         {
             if (_hasDataset &&
                 (labels.Length != _chart.Data.Datasets[0].Data.Length))
@@ -24,9 +27,11 @@ namespace LocalParks.Core.Chart
             _chart.Data.Labels = labels;
 
             _hasLabels = true;
+
+            return this;
         }
 
-        public void AddDataset(int[] data, string label = null, string[] bgcolors = null, string[] borderColors = null, int borderWidth = 0, string xAxisId = null, string yAxisId = null)
+        public ChartBuilder AddDatasetY(int[] data, string label = null, string bgcolor = null, string borderColor = null, int borderWidth = 0, string xAxisId = null, string yAxisId = null)
         {
             var dataset = new Dataset
             {
@@ -38,8 +43,8 @@ namespace LocalParks.Core.Chart
 
             dataset.BorderWidth = borderWidth;
 
-            if (bgcolors != null && bgcolors.Length != 0) dataset.BackgroundColor = bgcolors;
-            if (borderColors != null && borderColors.Length != 0) dataset.BorderColor = borderColors;
+            if (bgcolor != null ) dataset.BackgroundColor = new string[] { bgcolor };
+            if (borderColor != null) dataset.BorderColor = new string[] { borderColor };
 
 
             if (_chart.Data.Datasets != null && _chart.Data.Datasets.Length != 0)
@@ -55,15 +60,54 @@ namespace LocalParks.Core.Chart
 
                 _hasDataset = true;
 
-                return;
+                return this;
             }
 
             _hasDataset = true;
 
             _chart.Data.Datasets = new Dataset[] { dataset };
+
+            return this;
+        }
+        public ChartBuilder AddBackgroundColors(params string[] colors)
+        {
+
+            if (_chart.Data.Datasets != null && _chart.Data.Datasets.Length != 0)
+            {
+                _chart.Data.Datasets[^1].BackgroundColor = colors;
+
+                return this;
+            }
+
+            var dataset = new Dataset
+            {
+                BackgroundColor = colors
+            };
+
+            _chart.Data.Datasets = new Dataset[] { dataset };
+
+            return this;
+        }
+        public ChartBuilder AddBorderColors(params string[] colors)
+        {
+            if (_chart.Data.Datasets != null && _chart.Data.Datasets.Length != 0)
+            {
+                _chart.Data.Datasets[^1].BorderColor = colors;
+
+                return this;
+            }
+
+            var dataset = new Dataset
+            {
+                BorderColor = colors
+            };
+
+            _chart.Data.Datasets = new Dataset[] { dataset };
+
+            return this;
         }
 
-        public void AddAxesSet(bool xAxis, string id = null, bool? displayOverride = null, string type = null, bool beginAtZero = true)
+        public ChartBuilder AddAxesSet(bool xAxis, string id = null, bool? displayOverride = null, string type = null, bool beginAtZero = true)
         {
             if (_chart.Options == null) _chart.Options = new();
 
@@ -71,9 +115,10 @@ namespace LocalParks.Core.Chart
 
             if (xAxis)
             {
-                var axis = new XAxes();
-
-                axis.Ticks = new();
+                var axis = new XAxes
+                {
+                    Ticks = new()
+                };
 
                 if (string.IsNullOrWhiteSpace(id)) axis.Id = id;
                 if (displayOverride.HasValue) axis.Display = (bool)displayOverride;
@@ -99,9 +144,10 @@ namespace LocalParks.Core.Chart
             }
             else
             {
-                var axis = new YAxes();
-
-                axis.Ticks = new();
+                var axis = new YAxes
+                {
+                    Ticks = new()
+                };
 
                 if (string.IsNullOrWhiteSpace(id)) axis.Id = id;
                 if (displayOverride.HasValue) axis.Display = (bool)displayOverride;
@@ -125,44 +171,48 @@ namespace LocalParks.Core.Chart
                     _chart.Options.Scales.YAxes = axes;
                 }
             }
+
+            return this;
         }
 
         public ReportChart GetChart()
         {
-            if (ValidForReturn())
+            if (IsComplete())
                 return _chart;
 
             throw new Exception("Chart Instance is not valid - required properties have not been set");
         }
 
-        public void IsLazy(bool? value = null)
+        public ChartBuilder IsLazy(bool value)
         {
-            if (value.HasValue)
                 _chart.Lazy = value;
+
+            return this;
         }
 
-        public void IsResponsive(bool? value = null)
+        public ChartBuilder IsResponsive(bool value)
         {
-            if (value.HasValue)
                 _chart.Responsive = value;
+
+            return this;
         }
 
-        public void SetDuration(int? value = null)
+        public ChartBuilder SetDuration(int value)
         {
-            if (value.HasValue)
                 _chart.Duration = value;
+
+            return this;
         }
 
-        public void SetEasing(string value = null)
+        public ChartBuilder SetEasing(string value)
         {
-            if (!string.IsNullOrWhiteSpace(value))
-                _chart.Easing = value;
+            _chart.Easing = value;
+
+            return this;
         }
 
-        public void SetTitle(string value = null, bool? displayOverride = null)
+        public ChartBuilder SetTitle(string value, bool? displayOverride = null)
         {
-            if (!string.IsNullOrWhiteSpace(value))
-            {
                 _chart.Title = new();
 
                 _chart.Title.Text = value;
@@ -171,16 +221,11 @@ namespace LocalParks.Core.Chart
                     _chart.Title.Display = (bool)displayOverride;
 
                 else _chart.Title.Display = true;
-            }
+
+            return this;
         }
 
-        public void SetType(string value = null)
-        {
-            if (!string.IsNullOrWhiteSpace(value))
-                _chart.Type = value;
-        }
-
-        private bool ValidForReturn()
+        private bool IsComplete()
         {
             return _hasDataset && _hasLabels;
         }

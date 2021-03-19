@@ -1,0 +1,15 @@
+﻿@model ChartModel
+
+<div class="chart-container" width="600" height="400">
+    <h3>@Model.ChartData.Title.Text</h3>
+    <canvas id="parksPerPostcodeChart"></canvas>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+
+        let ctx = document.getElementById('parksPerPostcodeChart');
+        let data = @Html.Raw(Model.Json);
+        let parksPerPostcodeChart = new Chart(ctx, data);
+    });
+</script>

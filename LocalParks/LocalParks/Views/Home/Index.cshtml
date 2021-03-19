@@ -11,7 +11,7 @@
            type="button"
            value="@Model.NearestPark.Supervisor.EmergencyNumber"
            onclick="location.href='@Url.Action("Details", "Supervisors",
-                                      new { parkId = @Model.NearestPark.ParkId })'" />
+                                      new { employeeId = @Model.NearestPark.Supervisor.EmployeeId })'" />
 </p>
 
 <h1 class="text-lg-center">Welcome to the Parks Authority new Website!</h1>
@@ -30,8 +30,8 @@
         </p>
         <p>
             Currently we have
-            @Model.Parks.Count()
-            @if (Model.Parks.Count() > 1)
+            @Model.Parks.Count
+            @if (Model.Parks.Count > 1)
             {<span>parks</span> }
             else
             {<span>park</span>}
@@ -134,7 +134,7 @@
                                                type="button"
                                                value="Find out more"
                                                onclick="location.href='@Url.Action("Details", "ParkEvents",
-                                      new { parkId = parkEvent.ParkId, date = parkEvent.Date })'" />
+                                      new { eventId = parkEvent.EventId })'" />
                                     </td>
                                 </tr>
                             </tbody>
@@ -162,7 +162,7 @@
                                        type="button"
                                        value="Find out more"
                                        onclick="location.href='@Url.Action("Details", "ParkEvents",
-                                      new { parkId = Model.AllEvents.Last().ParkId, date = Model.AllEvents.Last().Date })'" />
+                                      new { eventId = @Model.AllEvents.Last().EventId })'" />
                             </td>
                         </tr>
                     </tbody>
