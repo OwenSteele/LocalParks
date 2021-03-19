@@ -142,17 +142,20 @@ namespace LocalParks.Controllers
 
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("", "Invalid fields - see fields for issues.");
                 return View("Edit", _tempEvent);
             }
 
             var match = await _service.GetParkAsync(_tempEvent.ParkId);
             if (match == null)
             {
+                ModelState.AddModelError("", "This park doesn't exist");
                 return View("Edit", _tempEvent);
             }
 
             if (match.Events.FirstOrDefault(e => e.Date == _tempEvent.Date) != null)
             {
+                ModelState.AddModelError("", $"{match.Name} already has an event scheduled on {_tempEvent.Date.ToShortDateString()} - please choose another date.");
                 return View("Edit", _tempEvent);
             }
 
@@ -163,6 +166,53 @@ namespace LocalParks.Controllers
                 return RedirectToAction("Details", "ParkEvents", new { result.EventId });
             }
 
+            ModelState.AddModelError("", "Could not create event - please try again later, or contact us with an issue.");
+            return View("Edit", _tempEvent);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditExisting()
+        {
+            if (!await _authenticationService.IsSignedInAsync(User))
+                return RedirectToAction("Details", "ParkEvents",
+                    new { _tempEvent.ParkId, _tempEvent.Date });
+
+            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
+
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Invalid fields - see fields for issues.");
+                return View("Edit", _tempEvent);
+            }
+
+            var existing = await _service.GetParkEventModelByIdAsync(_tempEvent.EventId);
+
+            if (existing == null) return View("NotFound");
+
+            var park = await _service.GetParkAsync(_tempEvent.ParkId);
+
+            if (park == null)
+            {
+                ModelState.AddModelError("", "This park doesn't exist");
+                return View("Edit", _tempEvent);
+            }
+
+            if (park.Events.FirstOrDefault(e => e.Date == _tempEvent.Date) != null)
+            {
+                ModelState.AddModelError("", $"{park.Name} already has an event scheduled on {_tempEvent.Date.ToShortDateString()} - please choose another date.");
+                return View("Edit", _tempEvent);
+            }
+
+            existing = _tempEvent;
+
+            var result = await _service.UpdateParkEventAsync(existing);
+
+            if (result != null)
+            {
+                return RedirectToAction("Details", "ParkEvents", new { result.EventId });
+            }
+
+            ModelState.AddModelError("", "Could not update event - please try again later, or contact us with an issue.");
             return View("Edit", _tempEvent);
         }
 

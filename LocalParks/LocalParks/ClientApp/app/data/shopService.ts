@@ -54,7 +54,9 @@ export class ShopService {
     public checkout() {
 
         this.order.dateCreated = new Date();
-        this.order.orderNumber = this.datePipe.transform(new Date(), "yyyy-MM-dd_HH:mm:ss:SSS")?.toString()!;
+        console.log("orderno set");
+        this.order.orderNumber = this.datePipe.transform(new Date(), "yyyyMMddHHmmssSSS")?.toString()!;
+        console.log(this.order.orderNumber);
 
         return this.http.post("/api/shop/orders", this.order, {
             headers: new HttpHeaders({
@@ -63,9 +65,7 @@ export class ShopService {
             })
         })
             .pipe(map(response => {
-                console.log(JSON.stringify(response));
                 return true;
-                // add in page redirect
             }));
     }
 

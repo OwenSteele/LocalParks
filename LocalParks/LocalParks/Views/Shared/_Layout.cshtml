@@ -4,10 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Local Parks | @ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
-
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
+    </environment>
+    <environment names="Staging, Production">
+        @*<link rel="stylesheet" asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    </environment>
 </head>
 <body>
     <header>
@@ -51,7 +58,7 @@
                         </li>
                         <li class="nav-item w3-padding-16 w3-hover-text-black">
                             <a class="nav-link text-light w3-hover-amber rounded" asp-controller="Reports"
-                               asp-action="Index"><i class="fa fa-shopping-cart"></i> Reports</a>
+                               asp-action="Index"><i class="fa fa-file-alt"></i> Reports</a>
                         </li>
 
                     </ul>
@@ -61,12 +68,12 @@
                         {
                             <li class="nav-item w3-padding-16 w3-hover-text-black">
                                 <a class="nav-link text-light w3-text-amber w3-border-amber rounded border-dark" asp-controller="Account"
-                                   asp-action="Index"><i class="fa fa-sign-out"></i>@User.Identity.Name</a>
+                                   asp-action="Index">@User.Identity.Name</a>
                             </li>
 
                             <li class="nav-item w3-padding-16 w3-hover-text-black">
                                 <a class="nav-link text-light rounded " asp-controller="Account"
-                                   asp-action="Logout" asp-route-returnUrl="@Url.PageLink()" style="color: red;"><i class="fa fa-sign-out"></i>Logout</a>
+                                   asp-action="Logout" asp-route-returnUrl="@Url.PageLink()" style="color: red;"><i class="fa fa-sign-out"></i> Logout</a>
                             </li>
 
                         }
@@ -74,12 +81,12 @@
                         {
                             <li class="nav-item w3-padding-16 w3-hover-text-black">
                                 <a class="nav-link text-light w3-text-amber w3-border-amber rounded border-dark" asp-controller="Account"
-                                   asp-action="SignUp"><i class="fa fa-sign-out"></i>Sign Up</a>
+                                   asp-action="SignUp">Sign Up</a>
                             </li>
 
                             <li class="nav-item w3-padding-16 w3-hover-text-black float-md-right w3-text-green">
                                 <a class="nav-link text-light rounded" asp-controller="Account"
-                                   asp-action="Login" style="color: green;"><i class="fa fa-sign-in"></i>Login</a>
+                                   asp-action="Login" style="color: green;"><i class="fa fa-sign-in"></i> Login</a>
                             </li>
                         }
                     </ul>
@@ -113,11 +120,26 @@
             </ul>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
-    <script type="text/javascript" src="~/lib/chartjs/Chart.min.js" asp-append-version="true"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
+        <script type="text/javascript" src="~/lib/chartjs/Chart.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging, Production">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"></script>
+        <script asp-fallback-src="~/lib/chartjs/Chart.min.js" asp-append-version="true"></script>
+        <script type="text/javascript" src="~/dist/localparks.min.js" asp-append-version="true"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    </environment>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

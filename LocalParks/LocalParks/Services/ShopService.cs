@@ -62,6 +62,11 @@ namespace LocalParks.Services
             if (order.DateCreated == DateTime.MinValue)
                 order.DateCreated = DateTime.Now;
 
+            order.OrderNumber = order.OrderNumber.Replace("-", "").Replace(":", "").Replace("_", "");
+
+            if (order.DeliveryDate == DateTime.MinValue)
+                order.DeliveryDate = order.DateCreated.AddDays(3);
+
             order.User = user;
 
             _parkRepository.Add(order);

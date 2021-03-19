@@ -46,7 +46,7 @@ namespace LocalParks.Controllers
 
             if (!ModelState.IsValid) return View(model);
 
-            if (!await _service.PostFeedBackAsync(model)) return View(model);
+            if (!_service.PostFeedBackAsync(model)) return View(model);
 
             ModelState.Clear();
 

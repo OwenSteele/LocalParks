@@ -65,7 +65,7 @@ namespace LocalParks.Services
                    };
         }
 
-        public async Task<bool> PostFeedBackAsync(ContactModel model)
+        public bool PostFeedBackAsync(ContactModel model)
         {
             //implement DB table with feedback
 

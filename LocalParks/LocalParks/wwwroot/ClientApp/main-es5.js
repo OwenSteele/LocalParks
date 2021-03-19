@@ -654,15 +654,16 @@
             var _a;
 
             this.order.dateCreated = new Date();
-            this.order.orderNumber = (_a = this.datePipe.transform(new Date(), "yyyy-MM-dd_HH:mm:ss:SSS")) === null || _a === void 0 ? void 0 : _a.toString();
+            console.log("orderno set");
+            this.order.orderNumber = (_a = this.datePipe.transform(new Date(), "yyyyMMddHHmmssSSS")) === null || _a === void 0 ? void 0 : _a.toString();
+            console.log(this.order.orderNumber);
             return this.http.post("/api/shop/orders", this.order, {
               headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpHeaders"]({
                 'Content-Type': 'application/json',
                 'Authorization': "Bearer ".concat(this.token)
               })
             }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (response) {
-              console.log(JSON.stringify(response));
-              return true; // add in page redirect
+              return true;
             }));
           }
         }, {
@@ -1205,7 +1206,7 @@
 
           _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](1, "td");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](2, "img", 6);
+          _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](2, "img", 7);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
 
@@ -1285,9 +1286,9 @@
       CompletedOrder.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({
         type: CompletedOrder,
         selectors: [["completed-order"]],
-        decls: 25,
+        decls: 28,
         vars: 7,
-        consts: [[1, "row", "order-item"], [1, "col-md-4", "col-md-offset-8", "text-right"], [1, "table", "table-condensed"], [1, "text-right"], [1, "table", "table-bordered", "table-hover"], [4, "ngFor", "ngForOf"], [1, "img-thumbnail", "checkout-thumb", 3, "src", "alt"]],
+        consts: [[1, "row", "order-item"], [1, "col-md-4", "col-md-offset-8", "text-right"], [1, "table", "table-condensed"], [1, "text-right"], [1, "table", "table-bordered", "table-hover"], [4, "ngFor", "ngForOf"], [1, "card", "border", "font-weight-bolder", "text-success"], [1, "img-thumbnail", "checkout-thumb", 3, "src", "alt"]],
         template: function CompletedOrder_Template(rf, ctx) {
           if (rf & 1) {
             _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "div", 0);
@@ -1365,6 +1366,16 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](25, "div");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](26, "p", 6);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](27, "You can view your order in your account page!");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
 

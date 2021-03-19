@@ -4,10 +4,13 @@
     else ViewData["Title"] = $"Editing {Model.Name}";
 }
 
-<form asp-controller="ParkEvents" asp-action="Edit" method="post">
+<form asp-controller="ParkEvents" asp-action="Edit" id="parkEventsForm" method="post">
+
+    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
 
     <label class="font-weight-bolder">Event details</label>
-    <input type="hidden" asp-for="@Model.EventId" />
+
+    <input id="eId" type="hidden" asp-for="@Model.EventId" />
     <div class="form-group">
         <label>Name <span class="w3-text-red font-weight-bolder">*</span></label>
         <input asp-for="@Model.Name" value="@if(Model != null) {@Model.Name}"
@@ -18,7 +21,7 @@
     </div>
     <div class="form-group">
         <label>Date <span class="w3-text-red font-weight-bolder">*</span></label>
-        <input asp-for="@Model.Date" value="@if(Model != null) {@Model.Date}"
+        <input asp-for="@Model.Date" value="@if(Model != null) {@Model.Date.ToString("yyyy-MM-dd")}"
                type="date"
                class="border-dark rounded form-control"
                required />
@@ -87,4 +90,20 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial.cshtml" />
+
+<script>
+    console.log("outer");
+    $('#parkEventsForm').submit(function (event) {
+        console.log("inner");
+        if ($("#eId").val() != "0") {
+        event.preventDefault();
+        console.log("prevented");
+            console.log($("#eId").val());
+            $(this).attr("action", "EditExisting");
+            console.log("altered");
+
+            this.submit();
+        }
+    });
+</script>
 }

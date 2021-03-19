@@ -7,6 +7,8 @@
         <li><strong>Expected delivery:</strong> @Model.DeliveryDate </li>
         <li><strong>Total:</strong> £@Model.Total</li>
     </ul>
+    @if(Model.Items.Count >0)
+    {
     <table class="table table-bordered table-hover">
         @foreach (var item in Model.Items)
         {
@@ -19,4 +21,9 @@
             </tr>
         }
     </table>
+    }
+    else
+    {
+    <div class="font-weight-bolder card text-info">You don't have any orders yet <i class="fa fa-sad-tear"></i></div>
+    }
 </div>
