@@ -11,7 +11,7 @@
            type="button"
            value="@Model.NearestPark.Supervisor.EmergencyNumber"
            onclick="location.href='@Url.Action("Details", "Supervisors",
-                                      new { employeeId = @Model.NearestPark.Supervisor.EmployeeId })'" />
+                                      new { parkId = @Model.NearestPark.ParkId })'" />
 </p>
 
 <h1 class="text-lg-center">Welcome to the Parks Authority new Website!</h1>
