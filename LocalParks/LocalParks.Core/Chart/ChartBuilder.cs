@@ -76,8 +76,14 @@ namespace LocalParks.Core.Chart
             {
                 if (colors.Length < _chart.Data.Datasets[^1].Data.Length)
                 {
-                    Array.Resize(ref colors, _chart.Data.Datasets[^1].Data.Length);
-                    colors[..(_chart.Data.Datasets[^1].Data.Length - colors.Length)].CopyTo(colors, colors.Length);
+                    var dataLen = _chart.Data.Datasets[^1].Data.Length;
+                    var len = colors.Length;
+
+                    Array.Resize(ref colors, dataLen);
+
+                    var sub = colors[..(dataLen - len)];
+
+                    sub.CopyTo(colors, len);
                 }
 
                 _chart.Data.Datasets[^1].BackgroundColor = colors;
@@ -100,8 +106,14 @@ namespace LocalParks.Core.Chart
             {
                 if (colors.Length < _chart.Data.Datasets[^1].Data.Length)
                 {
-                    Array.Resize(ref colors, _chart.Data.Datasets[^1].Data.Length);
-                    colors[..(_chart.Data.Datasets[^1].Data.Length - colors.Length)].CopyTo(colors, colors.Length);
+                    var dataLen = _chart.Data.Datasets[^1].Data.Length;
+                    var len = colors.Length;
+
+                    Array.Resize(ref colors, dataLen);
+
+                    var sub = colors[..(dataLen - len)];
+
+                    sub.CopyTo(colors, len);
                 }
 
                 _chart.Data.Datasets[^1].BorderColor = colors;
