@@ -20,9 +20,35 @@ namespace LocalParks.Controllers
         {
             _logger.LogInformation("Index page: getting report model.");
 
-            //var result = await _service.(latitude, longitude);
+            return View();
+        }
+        public IActionResult Parks()
+        {
+            _logger.LogInformation("Parks page: getting report model.");
 
-            //return View("Index", result);
+            return View();
+        }
+        public IActionResult Supervisors()
+        {
+            _logger.LogInformation("Supervisors page: getting report model.");
+
+            return View();
+        }
+        public IActionResult SportsClubs()
+        {
+            _logger.LogInformation("SportsClubs page: getting report model.");
+
+            return View();
+        }
+        public IActionResult ParkEvents()
+        {
+            _logger.LogInformation("ParkEvents page: getting report model.");
+
+            return View();
+        }
+        public IActionResult Shop()
+        {
+            _logger.LogInformation("Shop page: getting report model.");
 
             return View();
         }

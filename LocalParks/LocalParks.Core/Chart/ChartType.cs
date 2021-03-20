@@ -5,6 +5,7 @@
         bar,
         line,
         scatter,
-        pie
+        pie,
+        doughnut
     }
 }

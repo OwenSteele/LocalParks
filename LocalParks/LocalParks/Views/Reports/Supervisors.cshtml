@@ -1,1 +1,15 @@
-﻿
+﻿@model ChartModel
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<partial name="_ReportsNavBar" />
+
+<div class="text-center" style="width: 100%">
+
+    <h2>Staff statistics</h2>
+
+</div>
+<div>
+    @await Component.InvokeAsync("SalaryTenureChart")
+</div>

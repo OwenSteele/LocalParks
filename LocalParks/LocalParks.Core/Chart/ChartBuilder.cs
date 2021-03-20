@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 
 namespace LocalParks.Core.Chart
 {
     public class ChartBuilder
     {
         private readonly ReportChart _chart;
+        private readonly ChartType _type;
         private bool _hasDataset;
         private bool _hasLabels;
         public ChartBuilder(ChartType type)
@@ -14,12 +16,15 @@ namespace LocalParks.Core.Chart
             _chart.Data = new();
 
             _chart.Type = type.ToString();
+            _type = type;
 
             _hasDataset = false;
             _hasLabels = false;
         }
         public ChartBuilder AddDataX(string[] labels)
         {
+            if (_type.Equals(ChartType.scatter)) return null;
+
             if (_hasDataset &&
                 (labels.Length != _chart.Data.Datasets[0].Data.Length))
                 throw new Exception("Label array length does not match the defined dataset length.");
@@ -31,8 +36,16 @@ namespace LocalParks.Core.Chart
             return this;
         }
 
-        public ChartBuilder AddDatasetY(int[] data, string label = null, string bgcolor = null, string borderColor = null, int borderWidth = 0, string xAxisId = null, string yAxisId = null)
+        public ChartBuilder AddDatasetY(decimal[] data, int? dp = null, string label = null, string bgcolor = null, string borderColor = null, int borderWidth = 0, string xAxisId = null, string yAxisId = null)
         {
+            if (_type.Equals(ChartType.scatter)) return null;
+
+            if (dp.HasValue)
+            {
+                var x = (int)dp;
+                data = data.Select(d => Math.Round(d, x)).ToArray();
+            }
+
             var dataset = new Dataset
             {
                 Data = data
@@ -43,9 +56,8 @@ namespace LocalParks.Core.Chart
 
             dataset.BorderWidth = borderWidth;
 
-            if (bgcolor != null ) dataset.BackgroundColor = new string[] { bgcolor };
-            if (borderColor != null) dataset.BorderColor = new string[] { borderColor };
-
+            if (!string.IsNullOrWhiteSpace(bgcolor)) dataset.BackgroundColor = new string[] { bgcolor };
+            if (!string.IsNullOrWhiteSpace(borderColor)) dataset.BorderColor = new string[] { borderColor };
 
             if (_chart.Data.Datasets != null && _chart.Data.Datasets.Length != 0)
             {
@@ -69,21 +81,33 @@ namespace LocalParks.Core.Chart
 
             return this;
         }
+
+        //public ChartBuilder AddScatterData(decimal[] xData, decimal[] yData, string label = null, string bgcolor = null, string borderColor = null, int borderWidth = 0, string xAxisId = null, string yAxisId = null)
+        //{
+        //    if (!_type.Equals(ChartType.scatter)) return null;
+        //}
+
         public ChartBuilder AddBackgroundColors(params string[] colors)
         {
-
             if (_chart.Data.Datasets != null && _chart.Data.Datasets.Length != 0)
             {
                 if (colors.Length < _chart.Data.Datasets[^1].Data.Length)
                 {
-                    var dataLen = _chart.Data.Datasets[^1].Data.Length;
                     var len = colors.Length;
 
-                    Array.Resize(ref colors, dataLen);
+                    Array.Resize(ref colors, _chart.Data.Datasets[^1].Data.Length);
 
-                    var sub = colors[..(dataLen - len)];
+                    var diff = _chart.Data.Datasets[^1].Data.Length - len;
 
-                    sub.CopyTo(colors, len);
+                    int j = 0;
+                    for(int i = len; i < diff; i++)
+                    {
+                        colors[i] = colors[j];
+                        j++;
+                        if (j >= len) j = 0;
+                    }
+
+                    colors[..(diff)].CopyTo(colors, len);
                 }
 
                 _chart.Data.Datasets[^1].BackgroundColor = colors;
@@ -106,14 +130,21 @@ namespace LocalParks.Core.Chart
             {
                 if (colors.Length < _chart.Data.Datasets[^1].Data.Length)
                 {
-                    var dataLen = _chart.Data.Datasets[^1].Data.Length;
                     var len = colors.Length;
 
-                    Array.Resize(ref colors, dataLen);
+                    Array.Resize(ref colors, _chart.Data.Datasets[^1].Data.Length);
 
-                    var sub = colors[..(dataLen - len)];
+                    var diff = _chart.Data.Datasets[^1].Data.Length - len;
 
-                    sub.CopyTo(colors, len);
+                    int j = 0;
+                    for (int i = len; i < diff; i++)
+                    {
+                        colors[i] = colors[j];
+                        j++;
+                        if (j >= len) j = 0;
+                    }
+
+                    colors[..(_chart.Data.Datasets[^1].Data.Length - len)].CopyTo(colors, len);
                 }
 
                 _chart.Data.Datasets[^1].BorderColor = colors;

@@ -7,5 +7,6 @@ namespace LocalParks.Services
     {
         Task<ChartModel> CreateSupervisor_Salary_Tenure_ChartAsync();
         Task<ChartModel> CreateParks_Per_Postcode_ChartAsync();
+        Task<ChartModel> CreateSports_Percentage_ChartAsync();
     }
 }
