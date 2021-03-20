@@ -10,7 +10,8 @@ namespace LocalParks.Services
         Task<ChartModel> CreateParkArea_Postcode_ChartAsync();
         Task<ChartModel> CreateSports_Percentage_ChartAsync();
         Task<ChartModel> CreateClubMembers_Per_ParkSize_ChartAsync();
-        Task<ChartModel> CreateEvents_Per_ParkSize_ChartAsync();
         Task<ChartModel> CreateEvents_Per_Month_ChartAsync();
+        Task<ChartModel> CreatePopular_Shop_Products_ChartAsync();
+
     }
 }

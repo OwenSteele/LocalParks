@@ -3,6 +3,7 @@ using LocalParks.Core.Chart;
 using LocalParks.Data;
 using LocalParks.Models.Chart;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -115,8 +116,22 @@ namespace LocalParks.Services
                     "Total park area",
                     borderWidth: 3
                 )
-                .AddBackgroundColors()
-                .AddBorderColors()
+                .AddBackgroundColors(
+                "rgba(255, 99, 132, 0.5)",
+                "rgba(54, 162, 235, 0.5)",
+                "rgba(255, 206, 86, 0.5)",
+                "rgba(75, 192, 192, 0.5)",
+                "rgba(153, 102, 255, 0.5)",
+                "rgba(255, 159, 64, 0.5)"
+                )
+                .AddBorderColors(
+                "rgba(255, 99, 132, 1)",
+                "rgba(54, 162, 235, 1)",
+                "rgba(255, 206, 86, 1)",
+                "rgba(75, 192, 192, 1)",
+                "rgba(153, 102, 255, 1)",
+                "rgba(255, 159, 64, 1)"
+                )
                 .AddXAxesSet("Postcode")
                 .AddYAxesSet("Total area (metres squared)")
                 .SetTitle("Overall park area per postcode")
@@ -158,14 +173,72 @@ namespace LocalParks.Services
             return new ChartModel(chart);
         }
 
-        public Task<ChartModel> CreateEvents_Per_ParkSize_ChartAsync()
+        public async Task<ChartModel> CreateEvents_Per_Month_ChartAsync()
         {
-            throw new NotImplementedException();
+            var results = await _parkRepository.GetAllEventsAsync();
+
+            var count = new decimal[12];
+
+            var months = new string[12];
+
+            for (int i = 0; i < 12; i++) months[i] = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i+1);
+
+            Console.Write(results);
+
+            foreach (var r in results) count[r.Date.Month-1]++;
+
+            var builder = new ChartBuilder(ChartType.line)
+                .AddDataX(months)
+                .AddDatasetY(count,
+                    label:"Number of Events",
+                    borderWidth: 1
+                )
+                .AddBackgroundColors()
+                .AddBorderColors()
+                .AddXAxesSet("Month")
+                .AddYAxesSet("Events count")
+                .SetTitle("Number of events organised per month")
+                .SetDuration(2);
+
+            var chart = builder.GetChart();
+
+            return new ChartModel(chart);
         }
 
-        public Task<ChartModel> CreateEvents_Per_Month_ChartAsync()
+        public async Task<ChartModel> CreatePopular_Shop_Products_ChartAsync()
         {
-            throw new NotImplementedException();
+            var results = await _parkRepository.GetAllOrdersAsync();
+
+            var products = await _parkRepository.GetShopProductsAsync();
+
+            var count = new decimal[products.Length];
+
+            var itemsPurchased = results.Sum(r => r.Items.Sum(i => i.Quantity));
+
+            foreach (var order in results)
+                foreach (var item in order.Items) 
+                {
+                    count[Array.FindIndex(products, p => p.ProductId == item.ProductId)] += item.Quantity;
+                }
+
+            for (int i = 0; i < products.Length; i++)
+            {
+                count[i] = (count[i] / itemsPurchased) * 100m;
+            }
+
+            var builder = new ChartBuilder(ChartType.pie)
+                .AddDataX(products.Select(p => p.Name).ToArray())
+                .AddDatasetY(count,
+                    dp: 2,
+                    label: "% of all purchased items"
+                )
+                .AddBackgroundColors()
+                .SetTitle("Percentage of items purchased from all shop orders")
+                .SetDuration(2);
+
+            var chart = builder.GetChart();
+
+            return new ChartModel(chart);
         }
     }
 }

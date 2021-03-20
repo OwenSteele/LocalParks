@@ -38,7 +38,9 @@ namespace LocalParks.Core.Chart
             return this;
         }
 
-        public ChartBuilder AddDatasetY(decimal[] data, int? pointRadii = null, int? dp = null, string label = null, string bgcolor = null, string borderColor = null, int borderWidth = 1, string xAxisId = null, string yAxisId = null)
+        public ChartBuilder AddDatasetY(decimal[] data, int? pointRadii = null, int? dp = null,
+            string label = null, string bgcolor = null, string borderColor = null,
+            int borderWidth = 1, string xAxisId = null, string yAxisId = null)
         {
             if (_type.Equals(ChartType.scatter)) return null;
 
@@ -86,7 +88,10 @@ namespace LocalParks.Core.Chart
 
             return this;
         }
-        public ChartBuilder AddScatterData(decimal[] xData, decimal[] yData, int? pointRadii = null, int? xDp = null, int? yDp = null, string label = null, string bgcolor = null, string borderColor = null, int borderWidth = 1, string xAxisId = null, string yAxisId = null)
+        public ChartBuilder AddScatterData(decimal[] xData, decimal[] yData,
+            int? pointRadii = null, int? xDp = null, int? yDp = null,
+            string label = null, string bgcolor = null, string borderColor = null,
+            int borderWidth = 1, string xAxisId = null, string yAxisId = null)
         {
             if (!_type.Equals(ChartType.scatter)) return null;
 

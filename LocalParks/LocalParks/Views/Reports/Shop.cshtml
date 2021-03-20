@@ -1,1 +1,13 @@
-﻿
+﻿@model ChartModel
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<div class="text-center" style="width: 100%">
+
+    <h2 class="jumbotron">Shop Statistics and Data</h2>
+
+</div>
+<div>
+    @await Component.InvokeAsync("PopularShopProductsChart")
+</div>

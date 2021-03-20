@@ -1,0 +1,15 @@
+﻿@model ChartModel
+
+<div class="chart-container" width="600" height="400">
+    <h3>@Model.ChartData.Title.Text</h3>
+    <canvas id="popularShopProductsChart"></canvas>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+
+        let ctx = document.getElementById('popularShopProductsChart');
+        let data = @Html.Raw(Model.Json);
+        let popularShopProductsChart = new Chart(ctx, data);
+    });
+</script>
