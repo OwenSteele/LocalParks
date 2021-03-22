@@ -1,5 +1,6 @@
 ﻿using LocalParks.Models;
 using LocalParks.Services;
+using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,14 +14,19 @@ namespace LocalParks.Controllers
         private readonly ILogger<ParkEventsController> _logger;
         private readonly IParkEventsService _service;
         private readonly IAuthenticationService _authenticationService;
+        private readonly ISelectListService _listService;
         private ParkEventModel _tempEvent;
 
-        public ParkEventsController(ILogger<ParkEventsController> logger, IParkEventsService service,
-            IAuthenticationService authenticationService)
+        public ParkEventsController(ILogger<ParkEventsController> logger,
+            IParkEventsService service,
+            IAuthenticationService authenticationService,
+            ISelectListService listService
+            )
         {
             _logger = logger;
             _service = service;
             _authenticationService = authenticationService;
+            _listService = listService;
         }
 
         [BindProperty]
@@ -41,6 +47,7 @@ namespace LocalParks.Controllers
         }
 
         public async Task<IActionResult> Filter(
+            [FromServices] ISortingService sortingService,
             string searchTerm = null,
             string parkFilter = null,
             DateTime? date = null,
@@ -55,16 +62,8 @@ namespace LocalParks.Controllers
                 ViewData["User"] = "User";
             }
 
-            if (string.IsNullOrWhiteSpace(searchTerm) &&
-                string.IsNullOrWhiteSpace(parkFilter) &&
-                date == null)
-            {
-                var parkEvents = await _service.GetAllParkEventModelsAsync(sortBy: sortBy);
-                return View("Index", parkEvents);
-            }
-
             var matches = await _service.GetSearchedParkEventModelsAsync(
-                searchTerm, parkFilter, date, sortBy);
+                searchTerm, parkFilter, date);
 
             if (matches != null)
             {
@@ -79,9 +78,11 @@ namespace LocalParks.Controllers
             {
                 TempData["Matches"] = "No Matches found";
 
-                var parkEvents = await _service.GetAllParkEventModelsAsync(sortBy: sortBy);
-                return View("Index", parkEvents);
+                matches = await _service.GetAllParkEventModelsAsync();
             }
+
+            if (!string.IsNullOrWhiteSpace(sortBy))
+                matches = sortingService.SortResults<ParkEventModel>(matches, sortBy);
 
             return View("Index", matches);
         }
@@ -264,7 +265,7 @@ namespace LocalParks.Controllers
         private async Task SetViewData()
         {
             ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
-            ViewData["SortOptions"] = _service.GetSortSelectListItems();
+            ViewData["SortOptions"] = _listService.GetSortSelectListItems<ParkEventModel>();
         }
     }
 }

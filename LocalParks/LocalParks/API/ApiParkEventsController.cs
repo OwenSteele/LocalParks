@@ -57,7 +57,7 @@ namespace LocalParks.API
 
             try
             {
-                var results = await _service.GetAllParkEventModelsAsync(parkId);
+                var results = await _service.GetParkEventModelsByParkIdAsync(parkId);
 
                 if (results == null) return NoContent();
 

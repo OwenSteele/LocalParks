@@ -4,19 +4,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace LocalParks.Services.Combined
+namespace LocalParks.Services.View
 {
-    internal static class SortingService
+    public class SortingService : ISortingService
     {
-        internal static string GetDisplayName(PropertyInfo p)
-        {
-            var attribute = p.GetCustomAttribute<DisplayNameAttribute>();
-
-            if (attribute == null) return p.Name;
-
-            return attribute.DisplayName;
-        }
-        internal static T[] SortResults<T>(T[] models, string sortBy)
+        public T[] SortResults<T>(T[] models, string sortBy)
         {
             if (typeof(T).GetProperty(sortBy) is not PropertyInfo property)
                 return models;
@@ -32,8 +24,5 @@ namespace LocalParks.Services.Combined
 
             return sorted.ToArray();
         }
-
-        internal static bool IsSortable(PropertyInfo p) =>
-            p.GetCustomAttribute(typeof(IsSortableAttribute)) != null;
     }
 }

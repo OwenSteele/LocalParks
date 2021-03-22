@@ -1,6 +1,7 @@
 ﻿using LocalParks.Core;
 using LocalParks.Models;
 using LocalParks.Services;
+using LocalParks.Services.Admin;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,13 +19,17 @@ namespace LocalParks.API
         private readonly ILogger<SportsClubsController> _logger;
         private readonly ISportsClubsService _service;
         private readonly IAuthenticationService _authenticationService;
+        private readonly ISportsClubsAdminService _adminService;
 
-        public SportsClubsController(ILogger<SportsClubsController> logger, ISportsClubsService service,
-            IAuthenticationService authenticationService)
+        public SportsClubsController(ILogger<SportsClubsController> logger,
+            ISportsClubsService service,
+            IAuthenticationService authenticationService,
+            ISportsClubsAdminService adminService)
         {
             _logger = logger;
             _service = service;
             _authenticationService = authenticationService;
+            _adminService = adminService;
         }
 
         [Route("api/[controller]")]
@@ -186,7 +191,7 @@ namespace LocalParks.API
                 if (await _service.GetSportsClubModelAsync(model.ClubId) != null)
                     return BadRequest("A sports club with this Id for this park already exists.");
 
-                var result = await _service.AddNewSportsClubAsync(model);
+                var result = await _adminService.AddNewSportsClubAsync(model);
                 if (result == null) return BadRequest("No changes were made.");
 
                 return Created("", result);
@@ -217,7 +222,7 @@ namespace LocalParks.API
 
                 if (model.ClubId.Equals(0)) model.ClubId = clubId;
 
-                var result = await _service.UpdateSportsClubAsync(model);
+                var result = await _adminService.UpdateSportsClubAsync(model);
                 if (result == null) return BadRequest("No changes were made.");
 
                 return result;
@@ -239,7 +244,7 @@ namespace LocalParks.API
                 var existing = await _service.GetSportsClubModelAsync(clubId);
                 if (existing == null) return BadRequest("Sports Club not found.");
 
-                if (await _service.DeleteSportsClubAsync(existing)) return Ok();
+                if (await _adminService.DeleteSportsClubAsync(existing)) return Ok();
 
                 return BadRequest();
             }

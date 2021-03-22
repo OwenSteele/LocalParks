@@ -11,6 +11,5 @@ namespace LocalParks.Services
     {
         Task<PostcodeModel[]> GetAllPostcodesAsync();
         Task<PostcodeModel> GetPostcodeAsync(string zone);
-
     }
 }

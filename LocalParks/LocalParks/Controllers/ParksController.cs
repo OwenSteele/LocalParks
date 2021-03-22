@@ -1,4 +1,6 @@
-﻿using LocalParks.Services;
+﻿using LocalParks.Models;
+using LocalParks.Services;
+using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -10,11 +12,15 @@ namespace LocalParks.Controllers
     {
         private readonly ILogger<ParksController> _logger;
         private readonly IParksService _service;
+        private readonly ISelectListService _listService;
 
-        public ParksController(ILogger<ParksController> logger, IParksService service)
+        public ParksController(ILogger<ParksController> logger,
+            IParksService service,
+            ISelectListService listService)
         {
             _logger = logger;
             _service = service;
+            _listService = listService;
         }
 
         public async Task<IActionResult> Index()
@@ -29,39 +35,33 @@ namespace LocalParks.Controllers
         }
 
         public async Task<IActionResult> Filter(
+            [FromServices] ISortingService sortingService,
             string searchTerm = null, 
-            string postcode = null, 
+            string postcode = null,
             string sortBy = null)
         {
             _logger.LogInformation("Executing Parks.Filter");
 
             await SetViewData();
 
-            if (string.IsNullOrWhiteSpace(searchTerm) && string.IsNullOrWhiteSpace(postcode))
-            {
-                var parks = await _service.GetAllModelsAsync(sortBy);
-
-                if (!string.IsNullOrWhiteSpace(sortBy)) TempData["SortedBy"] = sortBy;
-
-                return View("Index", parks);
-            }
-
-            var matches = await _service.GetSearchedAsync(searchTerm, postcode, sortBy);
+            var matches = await _service.GetSearchedAsync(searchTerm, postcode);
 
             if (matches != null)
             {
                 TempData["FilterValue"] = searchTerm;
 
-                if (!string.IsNullOrWhiteSpace(postcode) || !string.IsNullOrWhiteSpace(postcode))
+                if (!string.IsNullOrWhiteSpace(postcode))
                     TempData["FilterName"] = "true";
             }
             else
             {
                 TempData["Matches"] = "No Matches found";
 
-                var parks = await _service.GetAllModelsAsync(sortBy);
-                return View("Index", parks);
+                matches = await _service.GetAllModelsAsync();
             }
+
+            if (!string.IsNullOrWhiteSpace(sortBy))
+                matches = sortingService.SortResults<ParkModel>(matches, sortBy);
 
             return View("Index", matches);
         }
@@ -79,7 +79,7 @@ namespace LocalParks.Controllers
         private async Task SetViewData()
         {
             ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
-            ViewData["SortOptions"] = _service.GetSortSelectListItems();
+            ViewData["SortOptions"] = _listService.GetSortSelectListItems<ParkModel>();
         }
 
     }

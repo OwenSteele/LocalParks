@@ -2,7 +2,6 @@
 using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
-using LocalParks.Services.Combined;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -20,22 +19,16 @@ namespace LocalParks.Services
             _parkRepository = parkRepository;
             _mapper = mapper;
         }
-        public async Task<ParkEventModel[]> GetAllParkEventModelsAsync(int? parkId = null, string sortBy = null)
+        public async Task<ParkEventModel[]> GetAllParkEventModelsAsync()
         {
-            var results = parkId == null ?
-                    _mapper.Map<ParkEventModel[]>(await _parkRepository.GetAllEventsAsync()) :
-                    _mapper.Map<ParkEventModel[]>(await _parkRepository.GetEventsByParkIdAsync((int)parkId));
+            var results = await _parkRepository.GetAllEventsAsync();
 
-            if (!string.IsNullOrWhiteSpace(sortBy))
-                return SortingService.SortResults(results, sortBy);
-
-            return results;
+            return _mapper.Map<ParkEventModel[]>(results);
         }
         public async Task<ParkEventModel[]> GetSearchedParkEventModelsAsync(
             string searchTerm = null,
             string parkId = null,
-            DateTime? date = null,
-            string sortBy = null)
+            DateTime? date = null)
         {
             var results = await _parkRepository.GetAllEventsAsync();
 
@@ -71,12 +64,7 @@ namespace LocalParks.Services
                 if (!results.Any()) return null;
             }
 
-            var models = _mapper.Map<ParkEventModel[]>(results);
-
-            if (!string.IsNullOrWhiteSpace(sortBy))
-                return SortingService.SortResults(models, sortBy);
-
-            return models;
+            return _mapper.Map<ParkEventModel[]>(results);;
         }
         public async Task<ParkEventModel> GetParkEventModelAsync(int parkId, DateTime date)
         {
@@ -116,18 +104,6 @@ namespace LocalParks.Services
             if (result == null) return null;
 
             return _mapper.Map<ParkModel>(result);
-        }
-
-        public IEnumerable<SelectListItem> GetSortSelectListItems()
-        {
-            return from p in typeof(ParkEventModel).GetProperties()
-                   where SortingService.IsSortable(p)
-                   select new SelectListItem
-                   {
-                       Selected = false,
-                       Text = SortingService.GetDisplayName(p),
-                       Value = p.Name
-                   };
         }
 
         public async Task<ParkEventModel> AddNewParkEventAsync(ParkEventModel model, string username, bool hideUsername = true)
@@ -210,6 +186,13 @@ namespace LocalParks.Services
                 return _mapper.Map<LocalParksUserModel>(result.User);
 
             return null;
+        }
+
+        public async Task<ParkEventModel[]> GetParkEventModelsByParkIdAsync(int parkId)
+        {
+            var results = await _parkRepository.GetEventsByParkIdAsync(parkId);
+
+            return _mapper.Map<ParkEventModel[]>(results);
         }
     }
 }

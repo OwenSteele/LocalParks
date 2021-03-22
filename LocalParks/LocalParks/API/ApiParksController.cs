@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LocalParks.Models;
 using LocalParks.Services;
+using LocalParks.Services.Admin;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,13 +21,20 @@ namespace LocalParks.API
         private readonly ILogger<ParksController> _logger;
         private readonly IParksService _service;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IPostcodesService _postcodeService;
+        private readonly IParksAdminService _adminService;
 
-        public ParksController(ILogger<ParksController> logger, IParksService service,
-            IAuthenticationService authenticationService)
+        public ParksController(ILogger<ParksController> logger,
+            IParksService service,
+            IAuthenticationService authenticationService,
+            IPostcodesService postcodeService,
+            IParksAdminService adminService)
         {
             _logger = logger;
             _service = service;
+            _postcodeService = postcodeService;
             _authenticationService = authenticationService;
+            _adminService = adminService;
         }
 
         [HttpGet]
@@ -105,10 +113,10 @@ namespace LocalParks.API
                 var existing = await _service.GetParkAsync(model.Name);
                 if (existing != null) return BadRequest("A park with this name already exists.");
 
-                var postcode = await _service.GetPostcodeAsync(model.PostcodeZone);
+                var postcode = await _postcodeService.GetPostcodeAsync(model.PostcodeZone);
                 if (postcode == null) return BadRequest("Invalid Postcode.");
 
-                var result = await _service.AddParkAsync(model);
+                var result = await _adminService.AddParkAsync(model);
 
                 if (result == null) return BadRequest();
 
@@ -132,10 +140,10 @@ namespace LocalParks.API
 
                 if (!ModelState.IsValid) return BadRequest();
 
-                if (await _service.GetPostcodeAsync(model.PostcodeZone) == null)
+                if (await _postcodeService.GetPostcodeAsync(model.PostcodeZone) == null)
                     return BadRequest("Invalid Postcode.");
 
-                var result = await _service.UpdateParkAsync(model);
+                var result = await _adminService.UpdateParkAsync(model);
                 if(result == null) return BadRequest("No changes were made.");
 
                 return result;
@@ -156,7 +164,7 @@ namespace LocalParks.API
                 var existing = await _service.GetParkAsync(parkId);
                 if (existing == null) return BadRequest("Park not found.");
 
-                if (await _service.DeleteParkAsync(existing)) return Ok();
+                if (await _adminService.DeleteParkAsync(existing)) return Ok();
 
                 return BadRequest();
             }

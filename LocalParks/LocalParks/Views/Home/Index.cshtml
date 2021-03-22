@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <div class="row text-center col-md-10 offset-md-1 flex-wrap text-wrap">
+    <div class="row text-center flex-wrap text-wrap">
         <div class="font-weight-bold p-1 m-1">
             <p>
                 Our new redesigned site contains lots more features,
@@ -41,7 +41,7 @@
         </div>
 
         <div class="font-weight-bold p-1 m-1 card border-info">
-            <h4 class="font-weight-bolder text-info">
+            <h4 class="font-weight-bolder text-info mw-100">
                 Latest Site Features
             </h4>
             <p class="font-weight-bolder m-1">
@@ -65,7 +65,7 @@
         @if (Model.ParksClosingSoon.Any())
         {
             <div class="row w-100">
-                <div class="border-danger card rounded p-1 m-1 col-md-10 offset-md-1">
+                <div class="border-danger card rounded p-1 m-1 col-10 offset-1">
                     <h3 class="border-bottom font-weight-bold text-danger">Closing Soon</h3>
                     @foreach (var park in Model.ParksClosingSoon)
                     {
@@ -82,8 +82,9 @@
             </div>
         }
 
-        <div class="row w-100 justify-content-center">
-            <div class="col-md-5 border-secondary card rounded w-50 p-1 m-1">
+    <div class="row w-100 justify-content-center">
+        <div class="col-md-5 col-sm-11">
+            <div class="border-secondary card rounded p-1 m-1  mw-100">
                 <h3 class="border-bottom">Selected park</h3>
                 <p>
                     <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
@@ -94,8 +95,10 @@
                     ! Click on the parks name to find out all about it.
                 </p>
             </div>
+        </div>
 
-            <div class="col-md-5 border-secondary card rounded w-50 p-1 m-1">
+        <div class="col-md-5 col-sm-11">
+            <div class="border-secondary card rounded p-1 m-1 mw-100">
                 <h3 class="border-bottom">Open Parks</h3>
                 <p>
                     Right now
@@ -114,9 +117,12 @@
                 </p>
             </div>
         </div>
+    </div>
 
-        <div class="row  w-100">
-            <div class="col-md-5 bg-light w-50 p-1 m-0 rounded">
+    <div class="row  w-100">
+
+        <div class="col-md-5 col-sm-11">
+            <div class="colbg-light p-1 m-0 rounded  mw-100">
                 <h3 class="border-bottom font-weight-bolder">Upcoming Events</h3>
                 @if (!Model.EventsThisMonth.Any())
                 {
@@ -165,8 +171,10 @@
                     }
                 }
             </div>
+        </div>
 
-            <div class="col-md-5 bg-light w-50 p-1 m-0 rounded">
+        <div class="col-md-5 col-sm-11">
+            <div class="bg-light p-1 m-0 rounded mw-100">
                 <h3 class="border-bottom font-weight-bolder">Recently Added Events</h3>
                 <p>
                     <table class="align-content-center">
@@ -191,6 +199,7 @@
                     </table>
                 </p>
             </div>
+        </div>
         </div>
         <div class="row  w-100">
             <div class="col-md-10 offset-md-1 p-1 m-0">

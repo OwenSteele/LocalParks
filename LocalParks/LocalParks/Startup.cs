@@ -1,6 +1,7 @@
 using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Services;
+using LocalParks.Services.View;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -51,16 +52,19 @@ namespace LocalParks
                 options.UseSqlServer(Configuration.GetConnectionString("LocalParks"));
             });
 
-            services.AddTransient<IHomeService, HomeService>();
-            services.AddTransient<IParksService, ParksService>();
-            services.AddTransient<IParkEventsService, ParkEventsService>();
-            services.AddTransient<ISupervisorsService, SupervisorsService>();
-            services.AddTransient<ISportsClubsService, SportsClubsService>();
+            services.AddScoped<IHomeService, HomeService>();
+            services.AddScoped<IParksService, ParksService>();
+            services.AddScoped<IParkEventsService, ParkEventsService>();
+            services.AddScoped<ISupervisorsService, SupervisorsService>();
+            services.AddScoped<ISportsClubsService, SportsClubsService>();
+            services.AddScoped<IPostcodesService, PostcodesService>();
 
-            services.AddTransient<IShopService, ShopService>();
+            services.AddScoped<IShopService, ShopService>();
 
-            //services.AddTransient<IReportsService, ReportsService>();
             services.AddScoped<IViewComponentsService, ViewComponentsService>();
+
+            services.AddScoped<ISelectListService, SelectListService>();
+            services.AddScoped<ISortingService, SortingService>();
 
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();

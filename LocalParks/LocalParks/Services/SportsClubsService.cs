@@ -2,7 +2,7 @@
 using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
-using LocalParks.Services.Combined;
+using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -20,20 +20,16 @@ namespace LocalParks.Services
             _parkRepository = parkRepository;
             _mapper = mapper;
         }
-        public async Task<SportsClubModel[]> GetAllSportsClubModelsAsync(string sortBy = null)
+        public async Task<SportsClubModel[]> GetAllSportsClubModelsAsync()
         {
             var results = _mapper.Map<SportsClubModel[]>(await _parkRepository.GetAllSportsClubsAsync());
-
-            if (!string.IsNullOrWhiteSpace(sortBy))
-                return SortingService.SortResults(results, sortBy);
 
             return results;
         }
         public async Task<SportsClubModel[]> GetSearchedSportsClubModelsAsync(
             string searchTerm = null,
             string parkId = null,
-            string sportType = null,
-            string sortBy = null)
+            string sportType = null)
         {
             var results = await _parkRepository.GetAllSportsClubsAsync();
 
@@ -61,17 +57,12 @@ namespace LocalParks.Services
             if (!string.IsNullOrWhiteSpace(sportType))
             {
                 results = results.Where(p =>
-                p.Sport.ToString().ToLower() == sportType).ToArray();
+                p.Sport.ToString().ToLower() == sportType.ToLower()).ToArray();
 
                 if (!results.Any()) return null;
             }
 
-            var models = _mapper.Map<SportsClubModel[]>(results);
-
-            if (!string.IsNullOrWhiteSpace(sortBy))
-                return SortingService.SortResults(models, sortBy);
-
-            return models;
+            return _mapper.Map<SportsClubModel[]>(results);
         }
         public async Task<SportsClubModel> GetSportsClubModelAsync(int clubId)
         {
@@ -120,43 +111,6 @@ namespace LocalParks.Services
             }
             return result != null;
         }
-        public async Task<SportsClubModel> AddNewSportsClubAsync(SportsClubModel model)
-        {
-            var sportsClub = _mapper.Map<SportsClub>(model);
-
-            sportsClub.Park = await _parkRepository.GetParkByIdAsync(model.ParkId);
-
-            _parkRepository.Add(sportsClub);
-
-            if (await _parkRepository.SaveChangesAsync())
-                return _mapper.Map<SportsClubModel>(sportsClub);
-
-            return null;
-        }
-        public async Task<SportsClubModel> UpdateSportsClubAsync(SportsClubModel model)
-        {
-            var existing = await _parkRepository.GetSportsClubByIdAsync(model.ClubId);
-            if (existing == null) return null;
-
-            _mapper.Map(model, existing);
-
-            if(existing.Park == null || model.ParkId != existing.Park.ParkId)
-            {
-                existing.Park = await _parkRepository.GetParkByIdAsync(model.ParkId);
-            }
-
-            if (await _parkRepository.SaveChangesAsync())
-                return _mapper.Map<SportsClubModel>(existing);
-
-            return null;
-        }
-        public async Task<bool> DeleteSportsClubAsync(SportsClubModel model)
-        {
-            var sportsClub = _mapper.Map<SportsClub>(model);
-            _parkRepository.Delete(sportsClub);
-
-            return await _parkRepository.SaveChangesAsync();
-        }
 
         public IEnumerable<SelectListItem> GetSportListItems()
         {
@@ -166,17 +120,6 @@ namespace LocalParks.Services
                        Selected = false,
                        Text = i.ToString(),
                        Value = i.ToString()
-                   };
-        }
-        public IEnumerable<SelectListItem> GetSortSelectListItems()
-        {
-            return from p in typeof(SportsClubModel).GetProperties()
-                   where SortingService.IsSortable(p)
-                   select new SelectListItem
-                   {
-                       Selected = false,
-                       Text = SortingService.GetDisplayName(p),
-                       Value = p.Name
                    };
         }
         public ICollection<string> GetAllSports()

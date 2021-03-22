@@ -2,7 +2,8 @@
 using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
-using LocalParks.Services.Combined;
+using LocalParks.Services.View;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,19 +21,15 @@ namespace LocalParks.Services
             _parkRepository = parkRepository;
             _mapper = mapper;
         }
-        public async Task<ParkModel[]> GetAllModelsAsync(string sortBy = null)
+        public async Task<ParkModel[]> GetAllModelsAsync()
         {
             var results = _mapper.Map<ParkModel[]>(await _parkRepository.GetAllParksAsync());
-
-            if (!string.IsNullOrWhiteSpace(sortBy))
-                return SortingService.SortResults(results, sortBy);
 
             return results;
         }
         public async Task<ParkModel[]> GetSearchedAsync(
             string searchTerm = null,
-            string postcode = null,
-            string sortBy = null)
+            string postcode = null)
         {
             var results = await _parkRepository.GetAllParksAsync();
 
@@ -60,13 +57,7 @@ namespace LocalParks.Services
                     .ToArray();
 
                 if (!results.Any()) return null;
-
             }
-
-            var models = _mapper.Map<ParkModel[]>(results);
-
-            if (!string.IsNullOrWhiteSpace(sortBy))
-                return SortingService.SortResults(models, sortBy);
 
             return _mapper.Map<ParkModel[]>(results);
         }
@@ -86,24 +77,6 @@ namespace LocalParks.Services
 
             return _mapper.Map<ParkModel>(result);
         }
-        public async Task<PostcodeModel> GetPostcodeAsync(string postcode)
-        {
-            var result = await _parkRepository.GetPostcodeByZoneAsync(postcode);
-
-            return _mapper.Map<PostcodeModel>(result);
-        }
-
-        public async Task<ParkModel> AddParkAsync(ParkModel model)
-        {
-            var park = _mapper.Map<Park>(model);
-
-            _parkRepository.Add(park);
-
-            if (await _parkRepository.SaveChangesAsync()) 
-                return _mapper.Map<ParkModel>(park);
-
-            return null;
-        }
         public async Task<IEnumerable<SelectListItem>> GetPostcodeSelectListItemsAsync()
         {
             var postcodes = _mapper.Map<IEnumerable<PostcodeModel>>(await _parkRepository.GetAllPostcodesAsync());
@@ -116,37 +89,6 @@ namespace LocalParks.Services
                        Text = p.Zone,
                        Value = p.Zone
                    };
-        }
-        public IEnumerable<SelectListItem> GetSortSelectListItems()
-        {
-            return from p in typeof(ParkModel).GetProperties()
-                   where SortingService.IsSortable(p)
-                   select new SelectListItem
-                   {
-                       Selected = false,
-                       Text = SortingService.GetDisplayName(p),
-                       Value = p.Name
-                   };
-        }
-
-        public async Task<ParkModel> UpdateParkAsync(ParkModel model)
-        {
-            var existing = await _parkRepository.GetParkByIdAsync(model.ParkId);
-            if (existing == null) return null;
-
-            _mapper.Map(model, existing);
-
-            if (await _parkRepository.SaveChangesAsync()) return _mapper.Map<ParkModel>(existing);
-
-            return null;
-        }
-
-        public async Task<bool> DeleteParkAsync(ParkModel model)
-        {
-            var park = _mapper.Map<Park>(model);
-            _parkRepository.Delete(park);
-
-            return await _parkRepository.SaveChangesAsync();
         }
     }
 }

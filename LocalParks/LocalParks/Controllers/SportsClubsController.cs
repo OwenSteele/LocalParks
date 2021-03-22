@@ -1,4 +1,6 @@
-﻿using LocalParks.Services;
+﻿using LocalParks.Models;
+using LocalParks.Services;
+using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -10,11 +12,15 @@ namespace LocalParks.Controllers
     {
         private readonly ILogger<ParksController> _logger;
         private readonly ISportsClubsService _service;
+        private readonly ISelectListService _listService;
 
-        public SportsClubsController(ILogger<ParksController> logger, ISportsClubsService service)
+        public SportsClubsController(ILogger<ParksController> logger, 
+            ISportsClubsService service,
+            ISelectListService listService)
         {
             _logger = logger;
             _service = service;
+            _listService = listService;
         }
 
         public async Task<IActionResult> Index()
@@ -28,6 +34,7 @@ namespace LocalParks.Controllers
             return View(results);
         }
         public async Task<IActionResult> Filter(
+            [FromServices] ISortingService sortingService,
             string searchTerm = null,
             string parkFilter = null,
             string sportType = null,
@@ -37,29 +44,25 @@ namespace LocalParks.Controllers
 
             await SetViewData();
 
-            if (string.IsNullOrWhiteSpace(searchTerm) &&
-                string.IsNullOrWhiteSpace(parkFilter) &&
-                string.IsNullOrWhiteSpace(sportType))
-            {
-                var sportsClubs = await _service.GetAllSportsClubModelsAsync(sortBy);
-
-                return View("Index", sportsClubs);
-            }
-
             var matches = await _service.GetSearchedSportsClubModelsAsync(
-                searchTerm, parkFilter, sportType, sortBy);
+                searchTerm, parkFilter, sportType);
 
-            if (matches == null)
+            if (matches != null)
+            {
+                TempData["Filter"] = searchTerm;
+
+                TempData["FilteredSorted"] = "true";                          
+            }
+            else
             {
                 TempData["Matches"] = "No Matches found";
 
-                var sportClubs = await _service.GetAllSportsClubModelsAsync(sortBy);
-                return View("Index", sportClubs);                
+                matches = await _service.GetAllSportsClubModelsAsync();  
+
             }
 
-            TempData["Filter"] = searchTerm;
-
-            TempData["FilteredSorted"] = "true";
+            if (!string.IsNullOrWhiteSpace(sortBy))
+                 matches = sortingService.SortResults<SportsClubModel>(matches, sortBy);
 
             return View("Index", matches);
 
@@ -79,7 +82,7 @@ namespace LocalParks.Controllers
         {
             ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
             ViewData["Sports"] = _service.GetSportListItems();
-            ViewData["SortOptions"] = _service.GetSortSelectListItems();
+            ViewData["SortOptions"] = _listService.GetSortSelectListItems<SportsClubModel>();
         }
     }
 }

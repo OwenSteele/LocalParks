@@ -8,15 +8,10 @@ namespace LocalParks.Services
 {
     public interface IParksService
     {
-        Task<ParkModel> AddParkAsync(ParkModel model);
-        Task<ParkModel[]> GetAllModelsAsync(string sortBy = null);
+        Task<ParkModel[]> GetAllModelsAsync();
         Task<ParkModel> GetParkAsync(int parkId);
         Task<ParkModel> GetParkAsync(string parkName);
-        Task<PostcodeModel> GetPostcodeAsync(string postcode);
+        Task<ParkModel[]> GetSearchedAsync(string searchTerm = null, string postcode = null);
         Task<IEnumerable<SelectListItem>> GetPostcodeSelectListItemsAsync();
-        Task<ParkModel[]> GetSearchedAsync(string searchTerm = null, string postcode = null, string sortBy = null);
-        IEnumerable<SelectListItem> GetSortSelectListItems();
-        Task<ParkModel> UpdateParkAsync(ParkModel model);
-        Task<bool> DeleteParkAsync(ParkModel model);
     }
 }

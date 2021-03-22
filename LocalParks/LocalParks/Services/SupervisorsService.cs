@@ -2,7 +2,7 @@
 using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
-using LocalParks.Services.Combined;
+using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,19 +19,15 @@ namespace LocalParks.Services
             _parkRepository = parkRepository;
             _mapper = mapper;
         }
-        public async Task<SupervisorModel[]> GetAllSupervisorModelsAsync(string sortBy = null)
+        public async Task<SupervisorModel[]> GetAllSupervisorModelsAsync()
         {
             var results = _mapper.Map<SupervisorModel[]>(await _parkRepository.GetAllSupervisorsAsync());
-
-            if (!string.IsNullOrWhiteSpace(sortBy))
-                return SortingService.SortResults(results, sortBy);
 
             return results;
         }
         public async Task<SupervisorModel[]> GetSearchedSupervisorModelsAsync(
-            string searchTerm,
-            string parkId,
-            string sortBy)
+            string searchTerm = null,
+            string parkId = null)
         {
             var results = await _parkRepository.GetAllSupervisorsAsync();
 
@@ -57,12 +53,7 @@ namespace LocalParks.Services
                 if (!results.Any()) return null;
             }
 
-            var models = _mapper.Map<SupervisorModel[]>(results);
-
-            if (!string.IsNullOrWhiteSpace(sortBy))
-                return SortingService.SortResults(models, sortBy);
-
-            return models;
+            return _mapper.Map<SupervisorModel[]>(results);
         }
         public async Task<SupervisorModel> GetSupervisorModelAsync(int Id, bool UseParkId = true)
         {
@@ -86,36 +77,6 @@ namespace LocalParks.Services
 
             return result == null;
         }
-        public async Task<SupervisorModel> AddNewSupervisorAsync(SupervisorModel model)
-        {
-            var supervisor = _mapper.Map<Supervisor>(model);
-
-            _parkRepository.Add(supervisor);
-
-            if (await _parkRepository.SaveChangesAsync()) 
-                return _mapper.Map<SupervisorModel>(supervisor);
-
-            return null;
-        }
-        public async Task<SupervisorModel> UpdateSupervisorAsync(SupervisorModel model)
-        {
-            var existing = await _parkRepository.GetSupervisorByIdAsync(model.EmployeeId);
-            if (existing == null) return null;
-
-            _mapper.Map(model, existing);
-
-            if (await _parkRepository.SaveChangesAsync())
-                return _mapper.Map<SupervisorModel>(existing);
-
-            return null;
-        }
-        public async Task<bool> DeleteSupervisorAsync(SupervisorModel model)
-        {
-            var supervisor = _mapper.Map<Supervisor>(model);
-            _parkRepository.Delete(supervisor);
-
-            return await _parkRepository.SaveChangesAsync();
-        }
 
         public async Task<IEnumerable<SelectListItem>> GetParkSelectListItemsAsync(bool onlyWithSupervisors = false)
         {
@@ -128,17 +89,6 @@ namespace LocalParks.Services
                        Selected = false,
                        Text = p.Name,
                        Value = p.ParkId.ToString()
-                   };
-        }
-        public IEnumerable<SelectListItem> GetSortSelectListItems()
-        {
-            return from p in typeof(SupervisorModel).GetProperties()
-                   where SortingService.IsSortable(p)
-                   select new SelectListItem
-                   {
-                       Selected = false,
-                       Text = SortingService.GetDisplayName(p),
-                       Value = p.Name
                    };
         }
 

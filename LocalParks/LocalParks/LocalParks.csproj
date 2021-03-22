@@ -66,6 +66,7 @@
 
   <ItemGroup>
     <Folder Include="API\.vs\API\v16\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
 
   <ItemGroup>

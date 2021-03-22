@@ -1,4 +1,6 @@
-﻿using LocalParks.Services;
+﻿using LocalParks.Models;
+using LocalParks.Services;
+using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -9,11 +11,15 @@ namespace LocalParks.Controllers
     {
         private readonly ILogger<SupervisorsController> _logger;
         private readonly ISupervisorsService _service;
+        private readonly ISelectListService _listService;
 
-        public SupervisorsController(ILogger<SupervisorsController> logger, ISupervisorsService service)
+        public SupervisorsController(ILogger<SupervisorsController> logger,
+            ISupervisorsService service,
+            ISelectListService listService)
         {
             _logger = logger;
             _service = service;
+            _listService = listService;
         }
 
         public async Task<IActionResult> Index()
@@ -27,6 +33,7 @@ namespace LocalParks.Controllers
         }
 
         public async Task<IActionResult> Filter(
+            [FromServices] ISortingService sortingService,
             string searchTerm = null,
             string parkFilter = null,
             string sortBy = null)
@@ -38,12 +45,12 @@ namespace LocalParks.Controllers
             if (string.IsNullOrWhiteSpace(searchTerm) &&
                 string.IsNullOrWhiteSpace(parkFilter))
             {
-                var supervisors = await _service.GetAllSupervisorModelsAsync(sortBy);
+                var supervisors = await _service.GetAllSupervisorModelsAsync();
                 return View("Index", supervisors);
             }
 
             var matches = await _service.GetSearchedSupervisorModelsAsync(
-                searchTerm, parkFilter, sortBy);
+                searchTerm, parkFilter);
 
             if (matches != null)
             {
@@ -57,9 +64,11 @@ namespace LocalParks.Controllers
             {
                 TempData["Matches"] = "No Matches found";
 
-                var sportClubs = await _service.GetAllSupervisorModelsAsync(sortBy);
-                return View("Index", sportClubs);
+                matches = await _service.GetAllSupervisorModelsAsync();
             }
+
+            if (!string.IsNullOrWhiteSpace(sortBy))
+                matches = sortingService.SortResults<SupervisorModel>(matches, sortBy);
 
             return View("Index", matches);
         }
@@ -78,7 +87,7 @@ namespace LocalParks.Controllers
         private async Task SetViewData()
         {
             ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
-            ViewData["SortOptions"] = _service.GetSortSelectListItems();
+            ViewData["SortOptions"] = _listService.GetSortSelectListItems<SupervisorModel>();
         }
     }
 }

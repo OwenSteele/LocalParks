@@ -1,5 +1,6 @@
 ﻿using LocalParks.Models;
 using LocalParks.Services;
+using LocalParks.Services.Admin;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,13 +18,17 @@ namespace LocalParks.API
         private readonly ILogger<SupervisorsController> _logger;
         private readonly ISupervisorsService _service;
         private readonly IAuthenticationService _authenticationService;
+        private readonly ISupervisorsAdminService _adminService;
 
-        public SupervisorsController(ILogger<SupervisorsController> logger, ISupervisorsService service,
-            IAuthenticationService authenticationService)
+        public SupervisorsController(ILogger<SupervisorsController> logger,
+            ISupervisorsService service,
+            IAuthenticationService authenticationService,
+            ISupervisorsAdminService adminService)
         {
             _logger = logger;
             _service = service;
             _authenticationService = authenticationService;
+            _adminService = adminService;
         }
 
         [Route("api/[controller]")]
@@ -87,7 +92,7 @@ namespace LocalParks.API
                 var existing = await _service.GetSupervisorModelAsync(model.EmployeeId, false);
                 if (existing != null) return BadRequest("A supervisor for this park already exists");
 
-                var result = await _service.AddNewSupervisorAsync(model);
+                var result = await _adminService.AddNewSupervisorAsync(model);
                 if (result == null) return BadRequest("No changes were made.");
 
                 return Created("", result);
@@ -111,7 +116,7 @@ namespace LocalParks.API
 
                 if (model.EmployeeId.Equals(0)) model.EmployeeId = employeeId;
 
-                var result = await _service.UpdateSupervisorAsync(model);
+                var result = await _adminService.UpdateSupervisorAsync(model);
                 if (result == null) return BadRequest("No changes were made.");
 
                 return result;
@@ -133,7 +138,7 @@ namespace LocalParks.API
                 var existing = await _service.GetSupervisorModelAsync(employeeId, false);
                 if (existing == null) return BadRequest("Supervisor not found.");
 
-                if (await _service.DeleteSupervisorAsync(existing)) return Ok();
+                if (await _adminService.DeleteSupervisorAsync(existing)) return Ok();
 
                 return BadRequest();
             }
