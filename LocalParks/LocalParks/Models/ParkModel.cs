@@ -32,5 +32,10 @@ namespace LocalParks.Models
         [DisplayName("Sports Clubs")]
         public ICollection<SportsClubModel> SportClubs { get; set; }
         public ICollection<ParkEventModel> Events { get; set; }
+
+        public bool IsOpen()
+        {
+            return DateTime.Now.TimeOfDay > OpeningTime.TimeOfDay && DateTime.Now.TimeOfDay < ClosingTime.TimeOfDay;
+        }
     }
 }

@@ -1,6 +1,30 @@
 ﻿.shop-product img {
-    max-width: 200px;
+    max-width: 125px;
     float: left;
     margin: 0 2px;
     border: solid 1px black;
+}
+
+.shop-product {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr;
+}
+
+    .shop-product .item {
+        display: flex;
+    }
+
+.right .item {
+    flex-direction: column;
+}
+.middle .item {
+    flex-direction: column;
+}
+
+.left .item {
+    margin-bottom: .5rem;
+}
+
+.item [type="text"] {
+    flex-grow: 1;
 }

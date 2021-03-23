@@ -1,30 +1,36 @@
 ﻿@using LocalParks.Models
 @model SportsClubModel
-    <div class="container m-1">
-        <div class="row mw-100 card border d-flex d-inline-flex">
-            <div class="col-md">
-                <h2 class="bg-light font-weight-bolder text-info">@Model.Name</h2>
-            </div>
-            <div class="col-md">
-                <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
-                       type="button"
-                       value="See Details"
-                       onclick="location.href='@Url.Action("Details", "SportsClubs",
-                                      new { sportsClubId = Model.ClubId })'" />
-                <table class="table table-striped table-bordered dt-responsive nowrap w3-center btn rounded">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.Sport)</th>
-                            <th>@Html.DisplayNameFor(model => model.ParkName)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>@Model.Sport.ToString()</td>
-                            <td>@Model.ParkName</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <div class="row summary-row-container">
+        <div class="col-10 offset-1">
+            <a asp-controller="SportsClubs" asp-action="Details" asp-route-sportsClubId="@Model.ClubId"
+               class="w3-hover-text-amber w3-hover-border-amber">
+                <div class="d-flex flex-row justify-content-between m-1 p-1 card border align-items-center">
+
+                    <div class="flex-column position-relative">
+                        <h2 class="bg-light font-weight-bolder text-info shadow">@Model.Name</h2>
+                        <h4 class="alert-warning font-weight-bolder">
+                            <i class="fas fa-star"></i> @Model.Sport.ToString()
+                        </h4>
+                    </div>
+
+                    <div class="flex-column position-relative justify-content-center">
+                        <p class="rounded border-success text-success font-weight-bolder">
+                            <i class="fa fa-compass"></i> @Model.ParkName
+                        </p>
+                    </div>
+
+                    <div class="flex-column position-sticky pr-3">
+                        <ul class="align-content-center list-unstyled">
+                            <li class="bg-secondary rounded-top text-white font-weight-bolder">
+                            @Html.DisplayNameFor(model => model.Members)
+                            </li>
+                            <li class="bg-light rounded-bottom text-black-50 font-weight-bolder"
+                                style="font-size: 20px;">
+                                @Model.Members
+                            </li>
+                        </ul>                        
+                    </div>
+                </div>
+            </a>
         </div>
     </div>

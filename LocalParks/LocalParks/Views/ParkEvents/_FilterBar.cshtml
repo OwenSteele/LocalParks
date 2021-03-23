@@ -1,0 +1,59 @@
+﻿@model ICollection<ParkEventModel>
+<div class="index-filter-form m-1">
+    <form id="filter-form-sports-clubs" asp-controller="ParkEvents" asp-action="Filter" method="get">
+        <div class="d-flex flex-row justify-content-between font-weight-bolder w-100">
+
+            <div class="w3-margin-right w3-margin-left w-auto d-inline-block">
+                <div class="row">
+                    Event name: 
+                    <input type="text" class="border-dark rounded filter-form-group" name="searchTerm" value="@TempData["Filter"]" />
+                </div>
+            </div>
+            <div class="w3-margin-right w3-margin-left w-auto d-inline-block">
+                <div class="row">
+                    Park: 
+
+                    @Html.DropDownList("parkFilter",
+                   new SelectList((System.Collections.IEnumerable)ViewData["Parks"], "Value", "Text"), "",
+                   htmlAttributes: new
+                   {
+                       @class = "border-dark rounded filter-form-group",
+                       name = "parkFilter",
+                       style = "min-width: 8%;"
+                   })
+                </div>
+            </div>
+            <div class="w3-margin-right w3-margin-left w-auto d-inline-block">
+                <div class="row">
+                    Date: 
+
+                    @Html.DropDownList("SortBy",
+       new SelectList((System.Collections.IEnumerable)ViewData["SortOptions"], "Value", "Text"), "",
+       htmlAttributes: new
+       {
+           @class = "border-dark rounded filter-form-group",
+           name = "sortBy",
+           style = "min-width: 8%;"
+       })
+                </div>
+            </div>
+            <div class="w-auto">
+                <input type="submit" class="btn-outline-light btn-dark btn-light rounded" value="Filter and Sort" />
+            </div>
+        </div>
+    </form>
+</div>
+
+@if (TempData["Matches"] != null)
+{
+    <span class="alert-danger rounded w3-margin-left">@TempData["Matches"]</span>
+}
+
+@if (@TempData["Sorted"] != null || @TempData["Filter"] != null)
+{
+    <form asp-controller="ParkEvents" asp-action="Index" method="get" class="d-inline-flex">
+        <p>
+            <input type="submit" value="Remove Filters and Sort" class="border-danger text-danger m-1" />
+        </p>
+    </form>
+}

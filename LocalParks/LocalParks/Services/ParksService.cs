@@ -5,6 +5,7 @@ using LocalParks.Models;
 using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,7 +30,8 @@ namespace LocalParks.Services
         }
         public async Task<ParkModel[]> GetSearchedAsync(
             string searchTerm = null,
-            string postcode = null)
+            string postcode = null,
+            bool openOnly = false)
         {
             var results = await _parkRepository.GetAllParksAsync();
 
@@ -57,6 +59,16 @@ namespace LocalParks.Services
                     .ToArray();
 
                 if (!results.Any()) return null;
+            }
+
+            if(openOnly)
+            {
+                var now = DateTime.Now.TimeOfDay;
+
+                results = results.Where(p =>
+                now > p.OpeningTime.TimeOfDay 
+                && now < p.ClosingTime.TimeOfDay)
+                    .ToArray();
             }
 
             return _mapper.Map<ParkModel[]>(results);

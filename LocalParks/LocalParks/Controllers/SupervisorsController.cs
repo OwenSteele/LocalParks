@@ -3,6 +3,7 @@ using LocalParks.Services;
 using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace LocalParks.Controllers
@@ -42,23 +43,15 @@ namespace LocalParks.Controllers
 
             await SetViewData();
 
-            if (string.IsNullOrWhiteSpace(searchTerm) &&
-                string.IsNullOrWhiteSpace(parkFilter))
-            {
-                var supervisors = await _service.GetAllSupervisorModelsAsync();
-                return View("Index", supervisors);
-            }
-
             var matches = await _service.GetSearchedSupervisorModelsAsync(
                 searchTerm, parkFilter);
 
             if (matches != null)
             {
-                TempData["Filter"] = searchTerm;
+                if (!string.IsNullOrWhiteSpace(searchTerm)) TempData["Filter"] = searchTerm;
 
-                if (!string.IsNullOrWhiteSpace(parkFilter)
-                    || !string.IsNullOrWhiteSpace(sortBy))
-                    TempData["FilteredSorted"] = "true";
+                else if (!string.IsNullOrWhiteSpace(sortBy) ||
+                    !string.IsNullOrWhiteSpace(parkFilter)) TempData["Sorted"] = "true";
             }
             else
             {

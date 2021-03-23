@@ -1,6 +1,10 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+/*Custom*/
+.summary-table-condensed > tfoot > tr > td {
+    padding: 1px;
+}
 .order-item img {
     max-height: 60px;
     float: left;
@@ -18,6 +22,8 @@ a.navbar-brand {
     text-align: center;
     word-break: break-all;
 }
+
+
 
 /* Provide sufficient contrast against white background */
 a {
@@ -45,6 +51,12 @@ html {
   html {
     font-size: 16px;
   }
+    .summary-row-container{
+        flex-direction: column;
+    }
+    .index-filter-form {
+        flex-direction: column;
+    }
 }
 
 .border-top {

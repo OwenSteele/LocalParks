@@ -42,6 +42,11 @@ namespace LocalParks.Controllers
 
             await SetViewData();
 
+            if (await _authenticationService.IsSignedInAsync(User))
+            {
+                ViewData["User"] = "User";
+            }
+
             var results = await _service.GetAllParkEventModelsAsync();
             return View(results);
         }
@@ -67,12 +72,12 @@ namespace LocalParks.Controllers
 
             if (matches != null)
             {
-                TempData["Filter"] = searchTerm;
 
-                if (!string.IsNullOrWhiteSpace(parkFilter)
-                    || !string.IsNullOrWhiteSpace(sortBy)
-                    || date != null)
-                    TempData["FilteredSorted"] = "true";
+                if (!string.IsNullOrWhiteSpace(searchTerm)) TempData["Filter"] = searchTerm;
+
+                else if (!string.IsNullOrWhiteSpace(sortBy) ||
+                    !string.IsNullOrWhiteSpace(parkFilter) ||
+                    date.HasValue) TempData["Sorted"] = "true";
             }
             else
             {

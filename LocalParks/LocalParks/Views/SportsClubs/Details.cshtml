@@ -20,7 +20,13 @@
         </tr>
         <tr>
             <th>@Html.DisplayNameFor(model => model.ParkName)</th>
-            <td>@Model.ParkName</td>
+            <td>
+                <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
+                       type="button"
+                       value="@Model.ParkName"
+                       onclick="location.href='@Url.Action("Details", "Parks",
+                                      new { parkId = @Model.ParkId })'" />
+            </td>
         </tr>
         <tr>
             <th>@Html.DisplayNameFor(model => model.MembershipFee)</th>

@@ -3,6 +3,7 @@
     ViewData["Title"] = "Sports Clubs";
 }
 
+
 @section scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/filtering.js"></script>
@@ -10,70 +11,7 @@
 
 <h1 class="jumbotron">Our Sports Clubs</h1>
 
-<form id="filter-form-sports-clubs" asp-controller="SportsClubs" asp-action="Filter" method="get">
-    <p class="d-inline-flex font-weight-bolder" style=" width: 100%; ">
-
-        <span class="w3-margin-right w3-margin-left">
-            Club name:
-        </span>
-        <input type="text" class="border-dark rounded filter-form-group" id="searchTerm" name="searchTerm" value="@TempData["Filter"]" />
-
-        <span class="w3-margin-right w3-margin-left">
-            Park:
-        </span>
-        @Html.DropDownList("parkFilter",
-       new SelectList((System.Collections.IEnumerable)ViewData["Parks"], "Value", "Text"), "",
-       htmlAttributes: new
-       {
-           @class = "filter-form-group form-control d-inline-flex",
-           name = "parkFilter",
-           style = "max-width: 20%; font-size: 12px; padding: 0px; min-width: 5%;",
-           id = "parkFilter"
-       })
-        <span class="w3-margin-right w3-margin-left">
-            SportType:
-        </span>
-        @Html.DropDownList("sportType",
-       new SelectList((System.Collections.IEnumerable)ViewData["Sports"], "Value", "Text"), "",
-       htmlAttributes: new
-       {
-           @class = "filter-form-group form-control d-inline-flex",
-           name = "sportType",
-           style = "max-width: 20%; font-size: 12px; padding: 0px; min-width: 5%;",
-           id = "sportType"
-       })
-
-        <span class="w3-margin-right w3-margin-left">
-            Sort by:
-        </span>
-        @Html.DropDownList("sortBy",
-       new SelectList((System.Collections.IEnumerable)ViewData["SortOptions"], "Value", "Text"), "",
-       htmlAttributes: new
-       {
-           @class = "filter-form-group form-control d-inline-flex",
-           name = "sortBy",
-           style = "max-width: 20%; font-size: 12px; padding: 0px; min-width: 5%;",
-           id = "sortBy"
-       })
-
-        <input type="submit" class="btn-outline-light btn-dark btn-light rounded" value="Filter and Sort" />
-
-    </p>
-</form>
-
-@if (TempData["Matches"] != null)
-{
-    <span class="alert-danger rounded w3-margin-left">@TempData["Matches"]</span>
-}
-
-@if (TempData["FilteredSorted"] != null || @TempData["Filter"] != null)
-{
-    <form asp-controller="SportsClubs" asp-action="Index" method="get" class="d-inline-flex">
-        <p>
-            <input type="submit" value="Remove Filters and Sort" class="border-danger text-danger" />
-        </p>
-    </form>
-}
+<partial name="_FilterBar" />
 
 <div class="bg-info border-dark text-dark w-auto rounded">Viewing <strong>@Model.Count()</strong> clubs.</div>
 

@@ -3,6 +3,7 @@ using LocalParks.Services;
 using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace LocalParks.Controllers
@@ -49,9 +50,11 @@ namespace LocalParks.Controllers
 
             if (matches != null)
             {
-                TempData["Filter"] = searchTerm;
+                if (!string.IsNullOrWhiteSpace(searchTerm)) TempData["Filter"] = searchTerm;
 
-                TempData["FilteredSorted"] = "true";                          
+                else if (!string.IsNullOrWhiteSpace(sortBy) ||
+                    !string.IsNullOrWhiteSpace(parkFilter) ||
+                    !string.IsNullOrWhiteSpace(sportType)) TempData["Sorted"] = "true";
             }
             else
             {
