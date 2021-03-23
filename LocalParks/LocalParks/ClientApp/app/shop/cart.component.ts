@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 @Component({
     selector: "user-cart",
     templateUrl: "cart.component.html",
-    styleUrls: []
+    styleUrls: ["cart.component.css"]
 })
 export class Cart {
     constructor(public data: ShopService,
