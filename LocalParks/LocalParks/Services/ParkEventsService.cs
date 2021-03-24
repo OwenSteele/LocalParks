@@ -64,7 +64,7 @@ namespace LocalParks.Services
                 if (!results.Any()) return null;
             }
 
-            return _mapper.Map<ParkEventModel[]>(results);;
+            return _mapper.Map<ParkEventModel[]>(results); ;
         }
         public async Task<ParkEventModel> GetParkEventModelAsync(int parkId, DateTime date)
         {
@@ -143,7 +143,7 @@ namespace LocalParks.Services
             user.OrganisedEvents.Add(parkEvent);
 
             if (!await _parkRepository.SaveChangesAsync()) return null;
-                
+
             var result = _mapper.Map<ParkEventModel>(parkEvent);
             if (hideUsername) result.Username = null;
             return result;

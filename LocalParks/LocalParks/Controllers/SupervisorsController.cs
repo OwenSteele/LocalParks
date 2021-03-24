@@ -3,7 +3,6 @@ using LocalParks.Services;
 using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LocalParks.Controllers
@@ -29,8 +28,8 @@ namespace LocalParks.Controllers
 
             await SetViewData();
 
-                var results = await _service.GetAllSupervisorModelsAsync();
-                return View(results);
+            var results = await _service.GetAllSupervisorModelsAsync();
+            return View(results);
         }
 
         public async Task<IActionResult> Filter(

@@ -1,7 +1,6 @@
 ﻿using LocalParks.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace LocalParks.Services

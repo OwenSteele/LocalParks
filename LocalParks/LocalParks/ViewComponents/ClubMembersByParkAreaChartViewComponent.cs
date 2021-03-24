@@ -1,14 +1,10 @@
 ﻿using LocalParks.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LocalParks.ViewComponents
 {
-    public class ClubMembersByParkAreaChartViewComponent :ViewComponent
+    public class ClubMembersByParkAreaChartViewComponent : ViewComponent
     {
         private readonly IViewComponentsService _service;
 

@@ -2,7 +2,6 @@
 using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
-using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -107,7 +106,7 @@ namespace LocalParks.Services
 
             if (!string.IsNullOrWhiteSpace(clubName) && result != null)
             {
-                 return !result.SportClubs.Where(c => c.Name == clubName).Any();
+                return !result.SportClubs.Where(c => c.Name == clubName).Any();
             }
             return result != null;
         }

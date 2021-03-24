@@ -3,7 +3,6 @@ using LocalParks.Core.Shop;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
 
 namespace LocalParks.Data
 {

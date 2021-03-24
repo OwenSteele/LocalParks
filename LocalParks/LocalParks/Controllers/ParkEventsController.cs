@@ -251,7 +251,7 @@ namespace LocalParks.Controllers
             var result = await _service.GetParkEventModelByIdAsync(eventId);
             if (result == null) RedirectToAction("NotFound", "ParkEvents");
 
-            if(!confirmed) return View(result);
+            if (!confirmed) return View(result);
 
             try
             {

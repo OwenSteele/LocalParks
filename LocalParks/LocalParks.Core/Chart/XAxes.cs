@@ -1,6 +1,6 @@
 ﻿namespace LocalParks.Core.Chart
 {
-    public class XAxes :Axes
+    public class XAxes : Axes
     {
     }
 }

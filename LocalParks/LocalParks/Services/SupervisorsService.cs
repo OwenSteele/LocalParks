@@ -2,7 +2,6 @@
 using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
-using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,7 +58,7 @@ namespace LocalParks.Services
         {
             Supervisor result;
 
-            if(UseParkId) result = await _parkRepository.GetSupervisorByParkIdAsync(Id);
+            if (UseParkId) result = await _parkRepository.GetSupervisorByParkIdAsync(Id);
             else result = await _parkRepository.GetSupervisorByIdAsync(Id);
 
             if (result == null) return null;

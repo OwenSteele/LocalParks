@@ -16,7 +16,7 @@ namespace LocalParks.Models.Chart
             {
                 NullValueHandling = NullValueHandling.Ignore,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
-            }) ;
+            });
 
             _json = _json.Replace("scatterData", "data");
         }

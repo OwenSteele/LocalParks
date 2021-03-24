@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
-using LocalParks.Services.View;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -61,12 +58,12 @@ namespace LocalParks.Services
                 if (!results.Any()) return null;
             }
 
-            if(openOnly)
+            if (openOnly)
             {
                 var now = DateTime.Now.TimeOfDay;
 
                 results = results.Where(p =>
-                now > p.OpeningTime.TimeOfDay 
+                now > p.OpeningTime.TimeOfDay
                 && now < p.ClosingTime.TimeOfDay)
                     .ToArray();
             }

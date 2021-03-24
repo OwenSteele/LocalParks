@@ -1,6 +1,6 @@
 ﻿using LocalParks.Models;
-using LocalParks.Models.Shop;
 using LocalParks.Services;
+using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -12,13 +12,15 @@ namespace LocalParks.Controllers
         private readonly ILogger<AccountController> _logger;
         private readonly IAccountService _service;
         private readonly IAuthenticationService _authenticationService;
+        private readonly ISelectListService _listService;
 
         public AccountController(ILogger<AccountController> logger, IAccountService service,
-            IAuthenticationService authenticationService)
+            IAuthenticationService authenticationService, ISelectListService listService)
         {
             _logger = logger;
             _service = service;
             _authenticationService = authenticationService;
+            _listService = listService;
         }
         public async Task<IActionResult> Index()
         {
@@ -87,14 +89,14 @@ namespace LocalParks.Controllers
             if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Index");
 
-            ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
+            ViewData["Postcodes"] = await _listService.GetPostcodeSelectListItemsAsync();
 
             return View(new SignInModel());
         }
         [HttpPost]
         public async Task<IActionResult> SignUp(SignInModel model)
         {
-            ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
+            ViewData["Postcodes"] = await _listService.GetPostcodeSelectListItemsAsync();
 
             bool error = false;
 
@@ -160,7 +162,8 @@ namespace LocalParks.Controllers
             return View(user);
         }
         [HttpPost]
-        public async Task<IActionResult> TokenGenerator(string requested)
+        public async Task<IActionResult> TokenGenerator(string requested,
+            [FromServices] ITokenService tokenService)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -173,7 +176,7 @@ namespace LocalParks.Controllers
 
             if (requested == "true")
             {
-                var token = await _service.GetUserTokenAsync(user);
+                var token = tokenService.CreateUserToken(user);
 
                 TempData["Token"] = token.Token;
                 TempData["Expiry"] = token.Expiry;
@@ -258,7 +261,7 @@ namespace LocalParks.Controllers
             }
             var user = await _service.GetChangeDetailsModelAsync(User.Identity.Name);
 
-            ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
+            ViewData["Postcodes"] = await _listService.GetPostcodeSelectListItemsAsync();
 
             return View(user);
         }
@@ -274,7 +277,7 @@ namespace LocalParks.Controllers
 
             if (!ModelState.IsValid)
             {
-                ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
+                ViewData["Postcodes"] = await _listService.GetPostcodeSelectListItemsAsync();
 
                 return View(model);
             }
@@ -283,7 +286,7 @@ namespace LocalParks.Controllers
             {
                 ModelState.AddModelError("", "Details could not be changed");
 
-                ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
+                ViewData["Postcodes"] = await _listService.GetPostcodeSelectListItemsAsync();
 
                 return View(model);
             }
@@ -333,7 +336,7 @@ namespace LocalParks.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> MyOrders()
+        public async Task<IActionResult> MyOrders([FromServices] IShopService shopService)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -342,7 +345,7 @@ namespace LocalParks.Controllers
                 return RedirectToAction("Login");
             }
 
-            var result = await _service.GetUserOrdersAsync(User.Identity.Name);
+            var result = await shopService.GetUserOrdersAsync(User.Identity.Name);
 
             return View(result);
         }

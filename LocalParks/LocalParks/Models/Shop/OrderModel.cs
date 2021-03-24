@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LocalParks.Models.Shop
 {
@@ -19,6 +17,6 @@ namespace LocalParks.Models.Shop
         public ICollection<OrderItemModel> Items { get; set; }
         public string Username { get; set; }
 
-        public decimal Total { get { return Math.Round(Items.Sum(i => i.UnitPrice * i.Quantity),2); } }
+        public decimal Total { get { return Math.Round(Items.Sum(i => i.UnitPrice * i.Quantity), 2); } }
     }
 }

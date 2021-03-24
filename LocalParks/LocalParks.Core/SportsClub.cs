@@ -1,4 +1,4 @@
-﻿                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        namespace LocalParks.Core
+﻿namespace LocalParks.Core
 {
     public class SportsClub
     {

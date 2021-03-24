@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using LocalParks.Models;
+﻿using LocalParks.Models;
 using LocalParks.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

@@ -3,7 +3,6 @@ using LocalParks.Services;
 using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LocalParks.Controllers
@@ -37,7 +36,7 @@ namespace LocalParks.Controllers
 
         public async Task<IActionResult> Filter(
             [FromServices] ISortingService sortingService,
-            string searchTerm = null, 
+            string searchTerm = null,
             string postcode = null,
             string sortBy = null,
             string openOnly = null)
@@ -56,7 +55,7 @@ namespace LocalParks.Controllers
 
                 else if (!string.IsNullOrWhiteSpace(sortBy) ||
                     !string.IsNullOrWhiteSpace(postcode) ||
-                    openFilter) TempData["Sorted"] = "true";                
+                    openFilter) TempData["Sorted"] = "true";
             }
             else
             {

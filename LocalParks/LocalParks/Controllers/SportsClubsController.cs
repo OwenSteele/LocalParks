@@ -3,7 +3,6 @@ using LocalParks.Services;
 using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LocalParks.Controllers
@@ -15,7 +14,7 @@ namespace LocalParks.Controllers
         private readonly ISportsClubsService _service;
         private readonly ISelectListService _listService;
 
-        public SportsClubsController(ILogger<ParksController> logger, 
+        public SportsClubsController(ILogger<ParksController> logger,
             ISportsClubsService service,
             ISelectListService listService)
         {
@@ -60,12 +59,12 @@ namespace LocalParks.Controllers
             {
                 TempData["Matches"] = "No Matches found";
 
-                matches = await _service.GetAllSportsClubModelsAsync();  
+                matches = await _service.GetAllSportsClubModelsAsync();
 
             }
 
             if (!string.IsNullOrWhiteSpace(sortBy))
-                 matches = sortingService.SortResults<SportsClubModel>(matches, sortBy);
+                matches = sortingService.SortResults<SportsClubModel>(matches, sortBy);
 
             return View("Index", matches);
 

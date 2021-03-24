@@ -1,9 +1,5 @@
-﻿using LocalParks.Models;
-using LocalParks.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace LocalParks.Controllers
 {

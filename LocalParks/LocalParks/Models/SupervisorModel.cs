@@ -35,11 +35,12 @@ namespace LocalParks.Models
         [DisplayName("Email Address")]
         public string Email
         {
-            get {
-                if(string.IsNullOrWhiteSpace(ParkName)) 
+            get
+            {
+                if (string.IsNullOrWhiteSpace(ParkName))
                     return $"headoffice@ParkAuthority.co.uk";
                 else
-                    return $"supervisor.{ParkName.Replace(' ', '_')}@ParkAuthority.co.uk"; 
+                    return $"supervisor.{ParkName.Replace(' ', '_')}@ParkAuthority.co.uk";
             }
         }
         [Required]

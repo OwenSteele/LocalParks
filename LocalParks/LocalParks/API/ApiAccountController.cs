@@ -1,6 +1,5 @@
 ﻿using LocalParks.Models;
 using LocalParks.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -12,14 +11,15 @@ namespace LocalParks.API
     {
         private readonly ILogger<AccountController> _logger;
         private readonly IAccountService _service;
-        private readonly IAuthenticationService _authenticationService;
+        private readonly ITokenService _tokenService;
 
         public AccountController(ILogger<AccountController> logger,
-            IAccountService service, IAuthenticationService authenticationService)
+            IAccountService service,
+            ITokenService tokenService)
         {
             _logger = logger;
             _service = service;
-            _authenticationService = authenticationService;
+            _tokenService = tokenService;
         }
         [HttpPost]
         [Route("api/[controller]/CreateToken")]
@@ -33,39 +33,41 @@ namespace LocalParks.API
 
             if (user == null) return BadRequest();
 
-            var token = await CreateTokenObjectAsync(user);
+            var result = _tokenService.CreateUserToken(user);
+
+            var token = new
+            {
+                token = result.Token,
+                expiry = result.Expiry
+            };
 
             return Created("", token);
         }
         [HttpGet]
         [Route("api/[controller]/GetShopToken")]
-        public async Task<IActionResult> GetShopToken()
+        public async Task<IActionResult> GetShopToken(
+            [FromServices] IAuthenticationService authenticationService)
         {
             _logger.LogInformation("GetShopToken Request ApiAccountController");
 
             if (User == null ||
                 User.Identity.Name == null ||
-                !await _authenticationService.IsSignedInAsync(User))
+                !await authenticationService.IsSignedInAsync(User))
                 return Unauthorized();
 
             var user = await _service.GetUserAsync(User.Identity.Name);
 
             if (user == null) return BadRequest();
 
-            var token = await CreateTokenObjectAsync(user);
+            var result = _tokenService.CreateUserToken(user);
+
+            var token = new
+            {
+                token = result.Token,
+                expiry = result.Expiry
+            };
 
             return Created("", token);
-        }
-
-        private async Task<object> CreateTokenObjectAsync(LocalParksUserModel user)
-        {
-            var model = await _service.GetUserTokenAsync(user);
-
-            return new
-            {
-                token = model.Token,
-                expiry = model.Expiry
-            };
         }
     }
 }

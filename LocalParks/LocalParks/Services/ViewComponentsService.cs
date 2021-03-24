@@ -158,7 +158,7 @@ namespace LocalParks.Services
             var builder = new ChartBuilder(ChartType.scatter)
                 .AddScatterData(parks.Select(p => (decimal)p.SizeInMetresSquared).ToArray(),
                 count,
-                7,0,0,
+                7, 0, 0,
                 "Members by park area"
                 )
                 .AddBackgroundColors()
@@ -181,16 +181,16 @@ namespace LocalParks.Services
 
             var months = new string[12];
 
-            for (int i = 0; i < 12; i++) months[i] = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i+1);
+            for (int i = 0; i < 12; i++) months[i] = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i + 1);
 
             Console.Write(results);
 
-            foreach (var r in results) count[r.Date.Month-1]++;
+            foreach (var r in results) count[r.Date.Month - 1]++;
 
             var builder = new ChartBuilder(ChartType.line)
                 .AddDataX(months)
                 .AddDatasetY(count,
-                    label:"Number of Events",
+                    label: "Number of Events",
                     borderWidth: 1
                 )
                 .AddBackgroundColors()
@@ -216,7 +216,7 @@ namespace LocalParks.Services
             var itemsPurchased = results.Sum(r => r.Items.Sum(i => i.Quantity));
 
             foreach (var order in results)
-                foreach (var item in order.Items) 
+                foreach (var item in order.Items)
                 {
                     count[Array.FindIndex(products, p => p.ProductId == item.ProductId)] += item.Quantity;
                 }

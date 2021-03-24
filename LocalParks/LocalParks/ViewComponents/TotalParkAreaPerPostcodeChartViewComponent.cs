@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace LocalParks.ViewComponents
 {
-    public class TotalParkAreaPerPostcodeChartViewComponent :ViewComponent
+    public class TotalParkAreaPerPostcodeChartViewComponent : ViewComponent
     {
         private readonly IViewComponentsService _service;
 

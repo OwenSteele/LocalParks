@@ -1,5 +1,4 @@
-﻿using LocalParks.Models.Validation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -40,15 +39,16 @@ namespace LocalParks.Models
 
         public string MembershipLength
         {
-            get {
+            get
+            {
 
                 if (MemberSince == DateTime.MinValue) return "N/A";
 
-                var days = Math.Floor((DateTime.Now - MemberSince).TotalDays);                
+                var days = Math.Floor((DateTime.Now - MemberSince).TotalDays);
                 if (days < 1) return "Less than a day";
 
                 var result = new StringBuilder();
-                
+
                 var years = Math.Floor(days / 365.25);
                 if (years > 1) result.Append($"{years} years");
                 if (years == 1) result.Append($"{years} year");
@@ -58,8 +58,8 @@ namespace LocalParks.Models
                 if (months == 1) result.Append($"{months} month");
 
                 days = Math.Floor((days - (years * 365.25))) - (months * (365.25 / 12));
-                if(days > 1 ) result.Append($"{days} days");
-                if(days == 1) result.Append($"{days} day");
+                if (days > 1) result.Append($"{days} days");
+                if (days == 1) result.Append($"{days} day");
 
                 return result.ToString();
             }

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LocalParks.Models
 {
@@ -12,7 +7,7 @@ namespace LocalParks.Models
     {
         [Required]
         [DisplayName("Your name")]
-        [StringLength(100,MinimumLength = 8)]
+        [StringLength(100, MinimumLength = 8)]
         public string FullName { get; set; }
         [Required]
         [DisplayName("Email Address")]

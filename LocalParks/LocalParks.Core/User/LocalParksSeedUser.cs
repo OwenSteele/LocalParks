@@ -1,6 +1,4 @@
-﻿using LocalParks.Core;
-
-namespace LocalParks.Core.User
+﻿namespace LocalParks.Core.User
 {
     public class LocalParksSeedUser : LocalParksUser
     {

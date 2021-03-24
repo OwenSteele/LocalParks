@@ -1,7 +1,6 @@
 ﻿using LocalParks.Core;
 using LocalParks.Models;
 using LocalParks.Services;
-using LocalParks.Services.Admin;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,18 +17,12 @@ namespace LocalParks.API
     {
         private readonly ILogger<SportsClubsController> _logger;
         private readonly ISportsClubsService _service;
-        private readonly IAuthenticationService _authenticationService;
-        private readonly ISportsClubsAdminService _adminService;
 
         public SportsClubsController(ILogger<SportsClubsController> logger,
-            ISportsClubsService service,
-            IAuthenticationService authenticationService,
-            ISportsClubsAdminService adminService)
+            ISportsClubsService service)
         {
             _logger = logger;
             _service = service;
-            _authenticationService = authenticationService;
-            _adminService = adminService;
         }
 
         [Route("api/[controller]")]
@@ -169,87 +162,6 @@ namespace LocalParks.API
                 _logger.LogError(
                     $"Error occured in getting Sports Clubs with sport '{sport}': {ex.Message}");
 
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
-            }
-        }
-        [Route("api/[controller]")]
-        [HttpPost]
-        public async Task<ActionResult<SportsClubModel>> AddNewSportsClub(SportsClubModel model)
-        {
-            if (!await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
-                return StatusCode(StatusCodes.Status403Forbidden);
-
-            try
-            {
-                if (!model.ClubId.Equals(0)) return BadRequest("The 'ClubId' cannot be set, remove this property from model or set value to 0.");
-
-                if (!_service.GetAllSports().Contains(model.Sport)) return BadRequest("Sport not found.");
-
-                if (!await _service.CheckParkExistsAsync(model.ParkId, model.Name))
-                    return BadRequest("Cannot add sports club to park with this parkId/club name.");
-
-                if (await _service.GetSportsClubModelAsync(model.ClubId) != null)
-                    return BadRequest("A sports club with this Id for this park already exists.");
-
-                var result = await _adminService.AddNewSportsClubAsync(model);
-                if (result == null) return BadRequest("No changes were made.");
-
-                return Created("", result);
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
-            }
-        }
-        [Route("api/[controller]/{clubId:int}")]
-        [HttpPut]
-        public async Task<ActionResult<SportsClubModel>> UpdateSportsClub(int clubId, SportsClubModel model)
-        {
-            if (!await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
-                return StatusCode(StatusCodes.Status403Forbidden);
-
-            try
-            {
-                if (!model.ClubId.Equals(0) && !model.ClubId.Equals(clubId))
-                    return BadRequest("Must include the 'clubId' in query and must if included in body (cannot be edited).");
-
-                if (model.ParkId.Equals(0)) return BadRequest("Must include 'parkId'.");
-
-                if (!_service.GetAllSports().Contains(model.Sport)) return BadRequest("Sport not found.");
-
-                if (!await _service.CheckParkExistsAsync(model.ParkId, model.Name))
-                    return BadRequest("Cannot add sports club to park with this parkId/club name.");
-
-                if (model.ClubId.Equals(0)) model.ClubId = clubId;
-
-                var result = await _adminService.UpdateSportsClubAsync(model);
-                if (result == null) return BadRequest("No changes were made.");
-
-                return result;
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
-            }
-        }
-        [Route("api/[controller]/{clubId:int}")]
-        [HttpDelete]
-        public async Task<ActionResult<SportsClubModel>> DeleteSportsClub(int clubId)
-        {
-            if (!await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
-                return StatusCode(StatusCodes.Status403Forbidden);
-
-            try
-            {
-                var existing = await _service.GetSportsClubModelAsync(clubId);
-                if (existing == null) return BadRequest("Sports Club not found.");
-
-                if (await _adminService.DeleteSportsClubAsync(existing)) return Ok();
-
-                return BadRequest();
-            }
-            catch (Exception)
-            {
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
             }
         }

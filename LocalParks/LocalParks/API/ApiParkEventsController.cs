@@ -17,14 +17,11 @@ namespace LocalParks.API
     {
         private readonly ILogger<ParkEventsController> _logger;
         private readonly IParkEventsService _service;
-        private readonly IAuthenticationService _authenticationService;
 
-        public ParkEventsController(ILogger<ParkEventsController> logger, IParkEventsService service,
-            IAuthenticationService authenticationService)
+        public ParkEventsController(ILogger<ParkEventsController> logger, IParkEventsService service)
         {
             _logger = logger;
             _service = service;
-            _authenticationService = authenticationService;
         }
 
         [Route("api/[controller]")]
@@ -146,85 +143,6 @@ namespace LocalParks.API
                 _logger.LogError(
                     $"Error occured in getting Event with date input '{date}' in park with ID {parkId}: {ex.Message}");
 
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
-            }
-        }
-
-        [Route("api/[controller]")]
-        [HttpPost]
-        public async Task<ActionResult<ParkEventModel>> AddParkEventClub(ParkEventModel model)
-        {
-            try
-            {
-                if (!model.EventId.Equals(0)) return BadRequest("The 'ClubId' cannot be set, remove this property from model or set value to 0.");
-
-                if (await _service.GetParkEventModelAsync(model.ParkId, model.Date) != null)
-                    return BadRequest("Cannot create an event");
-
-                var result = await _service.AddNewParkEventAsync(model, this.User.Identity.Name);
-                if (result == null) return BadRequest("No changes were made.");
-
-                return Created("", result);
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
-            }
-        }
-        [Route("api/[controller]/{eventId:int}")]
-        [HttpPut]
-        public async Task<ActionResult<ParkEventModel>> UpdateParkEvent(int eventId, ParkEventModel model)
-        {
-            try
-            {
-                if (!await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
-                {
-                    if (await _service.GetEventOwner(eventId, this.User.Identity.Name) == null)
-                        return StatusCode(StatusCodes.Status403Forbidden);
-                }
-
-                if (string.IsNullOrWhiteSpace(model.Username)) return BadRequest("Remove user setter.");
-
-                if (!model.EventId.Equals(0) && !model.EventId.Equals(eventId))
-                    return BadRequest("Must include the 'eventId' in query and must if included in body (cannot be edited).");
-
-                if (model.ParkId.Equals(0)) return BadRequest("Must include 'parkId'.");
-
-                if (await _service.GetParkAsync(model.ParkId) == null)
-                    return BadRequest("No park with this Id");
-
-                if (model.EventId.Equals(0)) model.EventId = eventId;                                                             
-
-                var result = await _service.UpdateParkEventAsync(model);
-                if (result == null) return BadRequest("No changes were made.");
-                return result;
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
-            }
-        }
-        [Route("api/[controller]/{eventId:int}")]
-        [HttpDelete]
-        public async Task<ActionResult<ParkEventModel>> DeleteParkEvent(int eventId)
-        {
-            try
-            {
-                if (!await _authenticationService.HasRequiredRoleAsync(this.User.Identity.Name, "Administrator"))
-                {
-                    if (await _service.GetEventOwner(eventId, this.User.Identity.Name) == null)
-                        return StatusCode(StatusCodes.Status403Forbidden);
-                }
-
-                var existing = await _service.GetParkEventModelByIdAsync(eventId);
-                if (existing == null) return BadRequest("Sports Club not found.");
-
-                if (await _service.DeleteParkEventAsync(existing)) return Ok();
-
-                return BadRequest();
-            }
-            catch (Exception)
-            {
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
             }
         }
