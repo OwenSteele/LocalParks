@@ -13,9 +13,9 @@ namespace LocalParks.API
     public class ProductsController : ControllerBase
     {
         private readonly ILogger<ProductsController> _logger;
-        private readonly IShopService _service;
+        private readonly IProductService _service;
 
-        public ProductsController(ILogger<ProductsController> logger, IShopService service)
+        public ProductsController(ILogger<ProductsController> logger, IProductService service) 
         {
             _logger = logger;
             _service = service;

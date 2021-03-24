@@ -1,6 +1,7 @@
 using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Services;
+using LocalParks.Services.Shop;
 using LocalParks.Services.View;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -59,7 +60,10 @@ namespace LocalParks
             services.AddScoped<ISportsClubsService, SportsClubsService>();
             services.AddScoped<IPostcodesService, PostcodesService>();
 
-            services.AddScoped<IShopService, ShopService>();
+            services.AddScoped<IShopManager, ShopManager>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IOrderCreationService, OrderCreationService>();
 
             services.AddScoped<IViewComponentsService, ViewComponentsService>();
 

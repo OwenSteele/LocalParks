@@ -336,7 +336,7 @@ namespace LocalParks.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> MyOrders([FromServices] IShopService shopService)
+        public async Task<IActionResult> MyOrders([FromServices] IOrderService orderService)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -345,7 +345,7 @@ namespace LocalParks.Controllers
                 return RedirectToAction("Login");
             }
 
-            var result = await shopService.GetUserOrdersAsync(User.Identity.Name);
+            var result = await orderService.GetUserOrdersAsync(User.Identity.Name);
 
             return View(result);
         }

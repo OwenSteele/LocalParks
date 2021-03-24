@@ -16,9 +16,9 @@ namespace LocalParks.API.Shop
     public class OrdersController : ControllerBase
     {
         private readonly ILogger<OrdersController> _logger;
-        private readonly IShopService _service;
+        private readonly IOrderService _service;
 
-        public OrdersController(ILogger<OrdersController> logger, IShopService service)
+        public OrdersController(ILogger<OrdersController> logger, IOrderService service)
         {
             _logger = logger;
             _service = service;
@@ -64,7 +64,9 @@ namespace LocalParks.API.Shop
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] OrderModel model)
+        public async Task<IActionResult> Post(
+            [FromBody] OrderModel model,
+            [FromServices] IShopManager manager)
         {
             _logger.LogInformation($"API POST request: New Order");
 
@@ -72,7 +74,7 @@ namespace LocalParks.API.Shop
             {
                 if (!ModelState.IsValid) return BadRequest(ModelState);
 
-                var result = await _service.SubmitNewOrderAsync(model, User.Identity.Name);
+                var result = await manager.SubmitOrderAsync(model, User.Identity.Name);
 
                 if (result == null) return BadRequest();
 
