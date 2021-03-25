@@ -47,15 +47,30 @@ a {
 html {
   font-size: 14px;
 }
-@media (min-width: 768px) {
+@media (min-width: 400px) {
   html {
     font-size: 16px;
   }
     .summary-row-container{
-        flex-direction: column;
+        flex-direction: row;
     }
     .index-filter-form {
-        flex-direction: column;
+        flex-direction: row;
+    }
+    .index-filter-form > form > div {
+        flex-direction: row;
+        width:50%;
+    }
+    body {
+        margin-right: 0;
+        margin-left: 0;
+  overflow-x:hidden;
+    }
+    main {
+        margin-left: 0;
+    }
+    nav {
+        max-width:inherit;
     }
 }
 
@@ -85,6 +100,7 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
+  overflow-x:hidden;  
 }
 .footer {
   position: absolute;

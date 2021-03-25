@@ -1,15 +1,15 @@
 ﻿@model ICollection<ParkEventModel>
 <div class="index-filter-form m-1">
     <form id="filter-form-sports-clubs" asp-controller="ParkEvents" asp-action="Filter" method="get">
-        <div class="d-flex flex-row justify-content-between font-weight-bolder w-100">
+        <div class="d-flex justify-content-between font-weight-bolder w-100">
 
-            <div class="w3-margin-right w3-margin-left w-auto d-inline-block">
+            <div class="index-filter-form-item w3-margin-right w3-margin-left w-auto d-inline-block">
                 <div class="row">
                     Event name: 
                     <input type="text" class="border-dark rounded filter-form-group" name="searchTerm" value="@TempData["Filter"]" />
                 </div>
             </div>
-            <div class="w3-margin-right w3-margin-left w-auto d-inline-block">
+            <div class="index-filter-form-item w3-margin-right w3-margin-left w-auto d-inline-block">
                 <div class="row">
                     Park: 
 
@@ -23,7 +23,7 @@
                    })
                 </div>
             </div>
-            <div class="w3-margin-right w3-margin-left w-auto d-inline-block">
+            <div class="index-filter-form-item w3-margin-right w3-margin-left w-auto d-inline-block">
                 <div class="row">
                     Date: 
 

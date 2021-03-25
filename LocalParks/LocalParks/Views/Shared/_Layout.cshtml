@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Local Parks | @ViewData["Title"]</title>
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -105,11 +105,9 @@
             </div>
         </nav>
     </header>
-    <div class="container mx-auto mb-5">
-        <main role="main" class="pb-3 w-100" style="padding-top: 100px;">
-            <div class="col-sm-10 offset-sm-1 col-md-12 col-lg-12 col-xl-12">
+    <div class="mb-5">
+        <main role="main" class="pb-3 container" style="padding-top: 100px;">
                 @RenderBody()
-            </div>
         </main>
     </div>
     <div style="min-height: 100px;"></div>

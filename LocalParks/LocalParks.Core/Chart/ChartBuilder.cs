@@ -178,7 +178,7 @@ namespace LocalParks.Core.Chart
 
         public ChartBuilder AddBackgroundColors(params string[] colors)
         {
-            var dataLength = 0;
+            int dataLength;
 
             if (_type.Equals(ChartType.scatter)) dataLength = _chart.Data.Datasets[^1].ScatterData.Length;
             else dataLength = _chart.Data.Datasets[^1].Data.Length;
@@ -203,7 +203,7 @@ namespace LocalParks.Core.Chart
         }
         public ChartBuilder AddBorderColors(params string[] colors)
         {
-            var dataLength = 0;
+            int dataLength;
 
             if (_type.Equals(ChartType.scatter)) dataLength = _chart.Data.Datasets[^1].ScatterData.Length;
             else dataLength = _chart.Data.Datasets[^1].Data.Length;

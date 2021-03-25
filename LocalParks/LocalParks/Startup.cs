@@ -1,6 +1,7 @@
 using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Services;
+using LocalParks.Services.Shared;
 using LocalParks.Services.Shop;
 using LocalParks.Services.View;
 using Microsoft.AspNetCore.Builder;
@@ -73,6 +74,9 @@ namespace LocalParks
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<ITokenService, TokenService>();
+
+
+            services.AddSingleton<IRandomService, RandomService>();
 
             services.AddMvc();
 

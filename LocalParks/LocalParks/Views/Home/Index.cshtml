@@ -9,20 +9,20 @@
     <i class="fa fa-phone"></i>
     <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
            type="button"
-           value="@Model.NearestPark.Supervisor.EmergencyNumber"
+           value="@Model.SelectedPark.Supervisor.EmergencyNumber"
            onclick="location.href='@Url.Action("Details", "Supervisors",
-                                      new { parkId = @Model.NearestPark.ParkId })'" />
+                                      new { parkId = @Model.SelectedPark.ParkId })'" />
 </p>
 
-<h1 class="text-lg-center">Welcome to the Parks Authority new Website!</h1>
+<h1 class="text-center">Welcome to the Parks Authority new Website!</h1>
 <div class="justify-content-center">
-    <div class="row w-100">
-        <div class="ml-auto mr-auto">
-            <img src="~/images/LogoFull.PNG" />
+    <div class="row">
+        <div class="ml-auto mr-auto w-auto text-center">
+            <img class="container mx-auto w-75" src="~/images/LogoFull.PNG" />
         </div>
     </div>
 
-    <div class="row text-center flex-wrap text-wrap">
+    <div class="row text-center flex-wrap text-wrap container">
         <div class="font-weight-bold p-1 m-1">
             <p>
                 Our new redesigned site contains lots more features,
@@ -30,8 +30,8 @@
             </p>
             <p>
                 Currently we have
-                @Model.Parks.Count
-                @if (Model.Parks.Count > 1)
+                @Model.ParkCount
+                @if (Model.ParkCount > 1)
                 {<span>parks</span> }
                 else
                 {<span>park</span>}
@@ -64,7 +64,7 @@
 
         @if (Model.ParksClosingSoon.Any())
         {
-            <div class="row w-100">
+            <div class="row p-1 m-1">
                 <div class="border-danger card rounded p-1 m-1 col-10 offset-1">
                     <h3 class="border-bottom font-weight-bold text-danger">Closing Soon</h3>
                     @foreach (var park in Model.ParksClosingSoon)
@@ -82,16 +82,16 @@
             </div>
         }
 
-    <div class="row w-100 justify-content-center">
+    <div class="row p-1 m-1">
         <div class="col-md-5 col-sm-11">
             <div class="border-secondary card rounded p-1 m-1  mw-100">
                 <h3 class="border-bottom">Selected park</h3>
                 <p>
                     <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
                            type="button"
-                           value="@Model.NearestPark.Name"
+                           value="@Model.SelectedPark.Name"
                            onclick="location.href='@Url.Action("Details", "Parks",
-                                      new { parkId = @Model.NearestPark.ParkId })'" />
+                                      new { parkId = @Model.SelectedPark.ParkId })'" />
                     ! Click on the parks name to find out all about it.
                 </p>
             </div>
@@ -180,19 +180,19 @@
                     <table class="align-content-center">
                         <thead>
                             <tr>
-                                <td class="bg-light font-weight-bolder border-secondary" colspan="3">@Model.AllEvents.Last().Name</td>
+                                <td class="bg-light font-weight-bolder border-secondary" colspan="3">@Model.RecentEvent.Name</td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><span class="font-weight-bolder">In park:</span> @Model.AllEvents.Last().ParkName</td>
-                                <td><span class="font-weight-bolder">Date:</span> @Model.AllEvents.Last().Date.ToLongDateString()</td>
+                                <td><span class="font-weight-bolder">In park:</span> @Model.RecentEvent.ParkName</td>
+                                <td><span class="font-weight-bolder">Date:</span> @Model.RecentEvent.Date.ToLongDateString()</td>
                                 <td>
                                     <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
                                            type="button"
                                            value="Find out more"
                                            onclick="location.href='@Url.Action("Details", "ParkEvents",
-                                      new { eventId = @Model.AllEvents.Last().EventId })'" />
+                                      new { eventId = @Model.RecentEvent.EventId })'" />
                                 </td>
                             </tr>
                         </tbody>

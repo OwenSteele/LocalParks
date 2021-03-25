@@ -23,6 +23,7 @@ namespace LocalParks.Data
         Task<SportsClub[]> GetSportsClubsByParkIdAsync(int parkId);
         Task<SportsClub> GetSportsClubByIdAsync(int sportsClubId);
         Task<SportsClub[]> GetSportsClubsBySportAsync(SportType sport, int? parkId = null);
+        Task<SportsClub> GetLatestSportsClubAsync();
 
         Task<Supervisor[]> GetAllSupervisorsAsync(bool includeChildren = true);
         Task<Supervisor> GetSupervisorByIdAsync(int employeeId);
@@ -33,7 +34,9 @@ namespace LocalParks.Data
         Task<ParkEvent[]> GetEventsByParkIdAsync(int parkId);
         Task<ParkEvent> GetEventByParkIdAsync(int parkId, int eventId);
         Task<ParkEvent[]> GetEventsByDateAsync(DateTime dateTime);
+        Task<ParkEvent[]> GetEventsUpToDateAsync(DateTime dateTime);
         Task<ParkEvent> GetEventByParkIdByDateAsync(int parkId, DateTime dateTime);
+        Task<ParkEvent> GetLatestEventAsync();
 
         Task<LocalParksUser> GetLocalParksUserByUsernameAsync(string username);
         Task<LocalParksUser> GetLocalParksUserByEmailAsync(string email);

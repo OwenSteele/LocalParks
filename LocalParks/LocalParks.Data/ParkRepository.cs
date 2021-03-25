@@ -437,5 +437,40 @@ namespace LocalParks.Data
 
             return await query.FirstOrDefaultAsync();
         }
+
+        public async Task<SportsClub> GetLatestSportsClubAsync()
+        {
+            _logger.LogInformation($"Getting Last added Sports Club.");
+
+            IQueryable<SportsClub> query = _context.SportsClubs
+                .OrderByDescending(c => c.ClubId);
+
+            return await query.FirstOrDefaultAsync();
+        }
+
+        public async Task<ParkEvent[]> GetEventsUpToDateAsync(DateTime dateTime)
+        {
+            _logger.LogInformation($"Getting all events up to date {dateTime}.");
+
+            IQueryable<ParkEvent> query = _context.Events
+                .Include(e => e.Park)
+                .Include(e => e.User)
+                .Where(e =>
+            e.Date <= dateTime &&
+            e.Date >= DateTime.Today)
+                .OrderByDescending(e => e.Name);
+
+            return await query.ToArrayAsync();
+        }
+
+        public async Task<ParkEvent> GetLatestEventAsync()
+        {
+            _logger.LogInformation($"Getting Last added event.");
+
+            IQueryable<ParkEvent> query = _context.Events
+                .OrderByDescending(e => e.EventId);
+
+            return await query.FirstOrDefaultAsync();
+        }
     }
 }
