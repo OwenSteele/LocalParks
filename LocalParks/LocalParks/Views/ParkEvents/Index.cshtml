@@ -9,18 +9,17 @@
 }
 
 <div class="jumbotron row">
-    <table class="w-100">
-        <tr>
-            <td>
+    <ul class="w-100 list-unstyled d-inline">
+            <li>
                 <h1>Upcoming events</h1>
-            </td>
-            <td class="w3-right">
+            </li>
+            <li class="w3-right">
                 @if (ViewData["User"] != null)
                 {
                     <h3>
                         <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded btn-group-lg"
                                type="button"
-                               value="Schedule an event"
+                               value="Schedule"
                                onclick="location.href='@Url.Action("Edit", "ParkEvents")'" />
                     </h3>
                 }
@@ -29,19 +28,18 @@
                     <h3>
                         <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded btn-group-lg"
                                type="button"
-                               value="Log in to schedule an event"
+                               value="Log in to schedule"
                                onclick="location.href='@Url.Action("Login", "Account",
                                       new { returnUrl = Url.Action("Edit", "ParkEvents")})'" />
                     </h3>
                 }
-            </td>
-        </tr>
-    </table>
+            </li>
+    </ul>
 </div>
 
 <partial name="_FilterBar" />
 
-<div class="bg-info border-dark text-dark w-auto rounded">Viewing <strong>@Model.Count()</strong> upcoming events.</div>
+<div class="bg-info border-dark text-dark w-auto rounded text-center m-1">Viewing <strong>@Model.Count()</strong> upcoming events.</div>
 
 
 @foreach (var ev in Model)

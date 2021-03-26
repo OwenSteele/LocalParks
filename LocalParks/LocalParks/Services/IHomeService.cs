@@ -8,7 +8,6 @@ namespace LocalParks.Services
     public interface IHomeService
     {
         Task<HomeModel> GetHomeModelAsync(string latitude, string longitude);
-        Task<IEnumerable<SelectListItem>> GetPostcodeSelectListItemsAsync();
         bool PostFeedBackAsync(ContactModel model);
     }
 }

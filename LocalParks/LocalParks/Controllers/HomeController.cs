@@ -1,5 +1,6 @@
 ﻿using LocalParks.Models;
 using LocalParks.Services;
+using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -33,16 +34,18 @@ namespace LocalParks.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Contact()
+        public async Task<IActionResult> Contact(
+            [FromServices] ISelectListService listService)
         {
-            ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
+            ViewData["Postcodes"] = await listService.GetPostcodeSelectListItemsAsync();
 
             return View(new ContactModel());
         }
         [HttpPost]
-        public async Task<IActionResult> Contact(ContactModel model)
+        public async Task<IActionResult> Contact(ContactModel model,
+            [FromServices] ISelectListService listService)
         {
-            ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
+            ViewData["Postcodes"] = await listService.GetPostcodeSelectListItemsAsync();
 
             if (!ModelState.IsValid) return View(model);
 

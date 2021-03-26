@@ -4,7 +4,7 @@
     <div class="col-10 offset-1">
         <a asp-controller="Parks" asp-action="Details" asp-route-parkId="@Model.ParkId"
            class="w3-hover-text-amber w3-hover-border-amber">
-            <div class="d-flex flex-row justify-content-between p-1 card border align-items-center">
+            <div class="d-flex flex-row justify-content-between flex-wrap p-1 card border align-items-center">
 
                 <div class="flex-column position-relative">
                     <h2 class="bg-light font-weight-bolder text-info shadow">@Model.Name</h2>
@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="flex-column position-relative">
-                    <table class="table summary-table-condensed table-striped dt-responsive w3-center rounded">
+                    <table class="table summary-table-condensed table-striped dt-responsive w3-center rounded m-0 p-0">
                         <thead class="thead-light">
                             <tr>
                                 <th>@Html.DisplayNameFor(model => model.PostcodeZone)</th>

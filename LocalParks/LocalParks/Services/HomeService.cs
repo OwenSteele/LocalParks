@@ -53,20 +53,6 @@ namespace LocalParks.Services
                                  lastSportsClub);
         }
 
-
-        public async Task<IEnumerable<SelectListItem>> GetPostcodeSelectListItemsAsync()
-        {
-            var postcodes = _mapper.Map<IEnumerable<PostcodeModel>>(await _parkRepository.GetAllPostcodesAsync());
-
-            return from p in postcodes
-                   select new SelectListItem
-                   {
-                       Selected = false,
-                       Text = p.Zone,
-                       Value = p.Zone
-                   };
-        }
-
         public bool PostFeedBackAsync(ContactModel model)
         {
             //implement DB table with feedback
@@ -86,7 +72,7 @@ namespace LocalParks.Services
                 longNull = lon;
             }
 
-            if (!latNull.Equals(0) && !longNull.Equals(0))
+            if (!latNull.HasValue && !longNull.HasValue)
             {
                 var value = _service.Generate(parks.Length - 1);
                 return parks.ElementAt(value);
