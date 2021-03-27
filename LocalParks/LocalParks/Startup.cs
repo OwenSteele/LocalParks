@@ -74,6 +74,7 @@ namespace LocalParks
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserService, UserService>();
 
 
             services.AddSingleton<IRandomService, RandomService>();

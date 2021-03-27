@@ -21,7 +21,8 @@ namespace LocalParks.Services
             _signInManager = signInManager;
             _userManager = userManager;
         }
-        public async Task<LocalParksUserModel> SignInAttemptAsync(LoginModel model)
+        public async Task<bool> SignInAttemptAsync(
+            LoginModel model)
         {
             var result = await _signInManager.PasswordSignInAsync(
                 model.Username,
@@ -29,22 +30,7 @@ namespace LocalParks.Services
                 model.RememberMe,
                 false);
 
-            if (!result.Succeeded) return null;
-
-            return await GetUserAsync(model.Username);
-        }
-
-        public async Task<LocalParksUserModel> GetUserAsync(string name)
-        {
-            var user = await _userManager.FindByNameAsync(name);
-
-            return _mapper.Map<LocalParksUserModel>(user);
-        }
-        public async Task<LocalParksUserModel> GetUserByEmailAsync(string email)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-
-            return _mapper.Map<LocalParksUserModel>(user);
+            return result.Succeeded;
         }
 
         public async Task SignOutAsync()

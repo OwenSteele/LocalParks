@@ -4,34 +4,39 @@
 }
 
 <partial name="_AccountNavBar" />
-<div class="row">
-    <h1>Generate a Token</h1>
+
+<div class="container m-1">
+
+    <div class="row">
+        <h1>Generate a Token</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2 card bg-light">
+            <p>We use JWT tokens for Authenication for extra security</p>
+            <p>Each token has an expiry time, after which it will no longer be accepted - you can simply return to this page and request another</p>
+
+            <p class="border-info">Before using our API, be sure to have a look at the <a class="border-info text-info rounded" asp-action="ApiDocumentation">API documentation</a> first!</p>
+        </div>
+    </div>
+
+    <form asp-controller="Account" asp-action="TokenGenerator" method="post">
+        <div hidden="hidden">
+            <input type="text" name="requested" value="true" hidden="hidden" />
+        </div>
+        <div class="row form-group p-1 d-block">
+            <input type="submit" value="Get new Token" class="row btn-outline-light btn-danger rounded d-block p-1" />
+        </div>
+    </form>
+    @if (TempData["Token"] != null)
+    {
+        <div class="row card border-dark d-block shadow-lg bg-dark text-light rounded p-1 m-1 " style="font-family: 'Lucida Console';">
+            <p class="text-wrap">@TempData["Token"]</p>
+        </div>
+        <div class="m-1 p-1">
+            <p>Expires:</p>
+            <p class="font-weight-bolder shadow card">@TempData["Expiry"]</p>
+        </div>
+    }
+
 </div>
-
-<div class="row">
-    <div class="col-md-8 offset-md-2 card bg-light">
-        <p>We use JWT tokens for Authenication for extra security</p>
-        <p>Each token has an expiry time, after which it will no longer be accepted - you can simply return to this page and request another</p>
-
-        <p class="border-info">Before using our API, be sure to have a look at the <a class="border-info text-info rounded" asp-action="ApiDocumentation">API documentation</a> first!</p>
-    </div>
-</div>
-
-<form asp-controller="Account" asp-action="TokenGenerator" method="post">
-    <div hidden="hidden">
-        <input type="text" name="requested" value="true" hidden="hidden"/>
-    </div>
-    <div class="row form-group p-1 d-block">
-        <input type="submit" value="Get new Token" class="row btn-outline-light btn-danger rounded d-block p-1" />
-    </div>
-</form>
-@if (TempData["Token"] != null)
-{
-    <div class="row card border-dark d-block shadow-lg bg-dark text-light rounded p-1 m-1 " style="font-family: 'Lucida Console';">
-        <p class="text-wrap">@TempData["Token"]</p>
-    </div>
-    <div class="m-1 p-1">
-        <p>Expires:</p>
-        <p class="font-weight-bolder shadow card">@TempData["Expiry"]</p>
-    </div>
-}

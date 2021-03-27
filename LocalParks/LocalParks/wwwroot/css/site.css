@@ -421,6 +421,7 @@ a {
     display: inline-block;
     width: auto
 }
+/**/
 
 .w3-bar .w3-bar-item {
     padding: 8px 16px;
@@ -453,7 +454,7 @@ a {
 
 .w3-bar-block.w3-center .w3-bar-item {
     text-align: center
-}
+} /**/
 
 .w3-block {
     display: block;
@@ -1075,10 +1076,12 @@ a {
 .w3-opacity, .w3-hover-opacity:hover {
     opacity: 0.60
 }
+/**/
 
 .w3-opacity-off, .w3-hover-opacity-off:hover {
     opacity: 1
 }
+/**/
 
 .w3-opacity-max {
     opacity: 0.25
@@ -1158,7 +1161,7 @@ a {
 
 .w3-center {
     text-align: center !important
-}
+} /**/
 
 .w3-border-0 {
     border: 0 !important
@@ -1287,6 +1290,7 @@ a {
     color: #000 !important;
     background-color: #ffc107 !important
 }
+/**/
 
 .w3-aqua, .w3-hover-aqua:hover {
     color: #000 !important;
@@ -1436,6 +1440,7 @@ a {
 .w3-text-amber, .w3-hover-text-amber:hover {
     color: #ffc107 !important
 }
+/**/
 
 .w3-text-aqua, .w3-hover-text-aqua:hover {
     color: #00ffff !important
@@ -1504,6 +1509,7 @@ a {
 .w3-text-red, .w3-hover-text-red:hover {
     color: #f44336 !important
 }
+/**/
 
 .w3-text-sand, .w3-hover-text-sand:hover {
     color: #fdf5e6 !important
@@ -1540,6 +1546,7 @@ a {
 .w3-border-amber, .w3-hover-border-amber:hover {
     border-color: #ffc107 !important
 }
+/**/
 
 .w3-border-aqua, .w3-hover-border-aqua:hover {
     border-color: #00ffff !important

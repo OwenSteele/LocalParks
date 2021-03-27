@@ -16,6 +16,7 @@ namespace LocalParks.Models
                 .ForMember(p => p.Parks, o => o.Ignore());
 
             CreateMap<Park, ParkModel>()
+                .ForMember(p => p.PostcodeNeighbourhood, o => o.MapFrom(p => p.Postcode.Neighbourhood))
                 .ReverseMap()
                 .ForMember(p => p.Supervisor, o => o.Ignore())
                 .ForMember(p => p.SportClubs, o => o.Ignore())

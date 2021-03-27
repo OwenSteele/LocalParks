@@ -11,9 +11,7 @@ namespace LocalParks.Services
         Task<bool> CheckPasswordAsync(string username, string password);
         Task<bool> DeleteUserAsync(string username, bool signOutUser = true);
         Task<ChangeDetailsModel> GetChangeDetailsModelAsync(string name);
-        Task<LocalParksUserModel> GetUserAsync(string name);
-        Task<LocalParksUserModel> GetUserByEmailAsync(string email);
-        Task<LocalParksUserModel> SignInAttemptAsync(LoginModel model);
+        Task<bool> SignInAttemptAsync(LoginModel model);
         Task SignOutAsync();
     }
 }

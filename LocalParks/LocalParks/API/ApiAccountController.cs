@@ -10,11 +10,11 @@ namespace LocalParks.API
     public class AccountController : ControllerBase
     {
         private readonly ILogger<AccountController> _logger;
-        private readonly IAccountService _service;
+        private readonly IUserService _service;
         private readonly ITokenService _tokenService;
 
         public AccountController(ILogger<AccountController> logger,
-            IAccountService service,
+            IUserService service,
             ITokenService tokenService)
         {
             _logger = logger;
@@ -23,15 +23,17 @@ namespace LocalParks.API
         }
         [HttpPost]
         [Route("api/[controller]/CreateToken")]
-        public async Task<IActionResult> CreateToken([FromBody] LoginModel model)
+        public async Task<IActionResult> CreateToken(
+            [FromBody] LoginModel model,
+            [FromServices] IAccountService accountService)
         {
             _logger.LogInformation("CreateToken Request ApiAccountController");
 
             if (!ModelState.IsValid) return BadRequest();
 
-            var user = await _service.SignInAttemptAsync(model);
+            if (await accountService.SignInAttemptAsync(model)) return BadRequest();
 
-            if (user == null) return BadRequest();
+            var user = await _service.GetUserAsync(model.Username);
 
             var result = _tokenService.CreateUserToken(user);
 

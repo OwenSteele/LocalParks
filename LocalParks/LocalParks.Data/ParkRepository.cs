@@ -95,6 +95,7 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting park with ID: {parkId}.");
 
             IQueryable<Park> query = _context.Parks
+                .Include(p => p.Postcode)
                 .Include(p => p.Supervisor)
                 .Include(p => p.SportClubs)
                 .Include(p => p.Events)
@@ -107,6 +108,7 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting park with name: {parkName}.");
 
             IQueryable<Park> query = _context.Parks
+                .Include(p => p.Postcode)
                 .Include(p => p.Supervisor)
                 .Include(p => p.SportClubs)
                 .Include(p => p.Events)
@@ -119,6 +121,7 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting parks in postcode zone: {postcodeZone}.");
 
             IQueryable<Park> query = _context.Parks
+                .Include(p => p.Postcode)
                 .Include(p => p.Supervisor)
                 .Include(p => p.SportClubs)
                 .Include(p => p.Events)

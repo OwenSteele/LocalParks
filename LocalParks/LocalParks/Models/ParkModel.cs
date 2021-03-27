@@ -13,6 +13,7 @@ namespace LocalParks.Models
         [Required]
         [DisplayName("Postcode")]
         public string PostcodeZone { get; set; }
+        public string PostcodeNeighbourhood { get; set; }
         [IsSortable]
         [Required]
         [StringLength(100, MinimumLength = 5)]

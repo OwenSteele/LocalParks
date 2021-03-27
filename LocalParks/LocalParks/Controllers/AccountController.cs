@@ -13,21 +13,26 @@ namespace LocalParks.Controllers
         private readonly IAccountService _service;
         private readonly IAuthenticationService _authenticationService;
         private readonly ISelectListService _listService;
+        private readonly IUserService _userService;
 
-        public AccountController(ILogger<AccountController> logger, IAccountService service,
-            IAuthenticationService authenticationService, ISelectListService listService)
+        public AccountController(ILogger<AccountController> logger, 
+            IAccountService service,
+            IAuthenticationService authenticationService, 
+            ISelectListService listService,
+            IUserService userService)
         {
             _logger = logger;
             _service = service;
             _authenticationService = authenticationService;
             _listService = listService;
+            _userService = userService;
         }
         public async Task<IActionResult> Index()
         {
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Login");
 
-            var model = await _service.GetUserAsync(User.Identity.Name);
+            var model = await _userService.GetUserAsync(User.Identity.Name);
 
             return View(model);
         }
@@ -56,9 +61,7 @@ namespace LocalParks.Controllers
                 return View(model);
             }
 
-            var user = await _service.SignInAttemptAsync(model);
-
-            if (user == null)
+            if (!await _service.SignInAttemptAsync(model))
             {
                 ModelState.AddModelError("", "Username or Password Invalid.");
 
@@ -107,14 +110,14 @@ namespace LocalParks.Controllers
                 return View("SignUp");
             }
 
-            if (await _service.GetUserAsync(model.Username) != null)
+            if (await _userService.GetUserAsync(model.Username) != null)
             {
                 ModelState.AddModelError("", "This username is not available.");
 
                 error = true;
             }
 
-            if (await _service.GetUserByEmailAsync(model.Email) != null)
+            if (await _userService.GetUserByEmailAsync(model.Email) != null)
             {
                 ModelState.AddModelError("", "An account is already associated with this email.");
 
@@ -143,7 +146,7 @@ namespace LocalParks.Controllers
                 return RedirectToAction("Login");
             }
 
-            var user = await _service.GetUserAsync(User.Identity.Name);
+            var user = await _userService.GetUserAsync(User.Identity.Name);
 
             return View(user);
         }
@@ -157,7 +160,7 @@ namespace LocalParks.Controllers
                 return RedirectToAction("Login");
             }
 
-            var user = await _service.GetUserAsync(User.Identity.Name);
+            var user = await _userService.GetUserAsync(User.Identity.Name);
 
             return View(user);
         }
@@ -172,7 +175,7 @@ namespace LocalParks.Controllers
                 return RedirectToAction("Login");
             }
 
-            var user = await _service.GetUserAsync(User.Identity.Name);
+            var user = await _userService.GetUserAsync(User.Identity.Name);
 
             if (requested == "true")
             {
@@ -193,7 +196,7 @@ namespace LocalParks.Controllers
                 return RedirectToAction("Login");
             }
 
-            var user = await _service.GetUserAsync(User.Identity.Name);
+            var user = await _userService.GetUserAsync(User.Identity.Name);
 
             return View(user);
         }

@@ -106,25 +106,30 @@
         </nav>
     </header>
     <div class="mb-5">
-        <main role="main" class="pb-3 container" style="padding-top: 100px;">
+        <main role="main" class="pb-3 container" style="padding-top: 160px;">
                 @RenderBody()
         </main>
     </div>
     <div style="min-height: 100px;"></div>
-    <footer class="border-top footer m-1 p-2 bg-light">
-        <p class="pl-4 font-weight-bolder">&copy; 2021 - Owen Steele</p>
+    <footer class="border-top footer m-1 p-2 bg-light text-center">
+        <p class="font-weight-bolder">
+            <a asp-controller="Home"
+               asp-action="AboutMe">
+                &copy; 2021 - Owen Steele
+            </a>
+        </p>
         <div class="container">
 
-            <ul class="font-weight-bolder d-inline-flex justify-content-between" style="list-style-type: none;">
-                <li class="pl-4 pr-4">
+            <ul class="font-weight-bolder d-flex flex-row flex-wrap justify-content-between align-items-center" style="list-style-type: none;">
+                <li>
                     <a class="w3-hover-amber w3-hover-text-black rounded w3-text-blue" asp-controller="Home"
                        asp-action="Privacy">Privacy Notice</a>
                 </li>
-                <li class="pl-4 pr-4">
+                <li>
                     <a class="w3-hover-amber w3-hover-text-black rounded w3-text-brown" asp-controller="Home"
                        asp-action="Contact">Contact Us</a>
                 </li>
-                <li class="pl-4 pr-4">
+                <li>
                     <a class="w3-hover-amber w3-hover-text-black rounded w3-text-green" asp-controller="Home"
                        asp-action="AboutMe">About Me</a>
                 </li>

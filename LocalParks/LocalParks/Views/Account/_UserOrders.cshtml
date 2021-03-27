@@ -10,16 +10,27 @@
     @if(Model.Items.Count >0)
     {
     <table class="table table-bordered table-hover">
-        @foreach (var item in Model.Items)
-        {
+        <thead>
             <tr>
-                <td><strong>@item.ProductName</strong></td>
-                <td><img src="/images/shop/products/@item.ImageUri" alt="@item.ProductName" class="img-thumbnail checkout-thumb" /></td>
-                <td> @item.Quantity </td>
-                <td> £@item.UnitPrice</td>
-                <td> £@item.Subtotal </td>
+                <th>Item</th>
+                <th></th>
+                <th>#</th>
+                <th>Each</th>
+                <th>Subtotal</th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td><strong>@item.ProductName</strong></td>
+                    <td><img src="/images/shop/products/@item.ImageUri" alt="@item.ProductName" class="img-thumbnail checkout-thumb" /></td>
+                    <td> @item.Quantity </td>
+                    <td> £@item.UnitPrice</td>
+                    <td> £@item.Subtotal </td>
+                </tr>
+            }
+        </tbody>
     </table>
     }
     else
