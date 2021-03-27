@@ -31,7 +31,7 @@ namespace LocalParks.API
 
             if (!ModelState.IsValid) return BadRequest();
 
-            if (await accountService.SignInAttemptAsync(model)) return BadRequest();
+            if (!await accountService.SignInAttemptAsync(model)) return BadRequest();
 
             var user = await _service.GetUserAsync(model.Username);
 

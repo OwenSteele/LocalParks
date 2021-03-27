@@ -6,19 +6,36 @@
 }
 
 .shop-product {
-    display: grid;
+    display: flex;
     grid-template-columns: 1fr 5fr;
+    flex-wrap:wrap;
+    justify-content: space-between;
 }
+    .shop-product > ul {
+        list-style: none;
+        display: inline-flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .shop-product > ul > li {
+        flex-direction: column;
+    }
 
     .shop-product .item {
         display: flex;
     }
+
+.image .item {
+    text-align: left;
+}
 
 .right .item {
     flex-direction: column;
 }
 .middle .item {
     flex-direction: column;
+    max-width: 30%;
 }
 
 .left .item {

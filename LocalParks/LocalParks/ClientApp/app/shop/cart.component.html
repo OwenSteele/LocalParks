@@ -1,30 +1,26 @@
-﻿<div class="mw-100 flex-column cart-container container">
-    <table class="table table-condensed table-hover flex-wrap">
-        <thead>
-            <tr class="font-weight-bolder">
-                <td>Item</td>
-                <td># Price</td>
-                <td>Subtotal</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let i of data.order.items">
-                <td>{{i.productName}}</td>
-                <td>{{i.quantity}}x {{i.unitPrice | currency:"GBP":"symbol" }}</td>
-                <td>{{ (i.unitPrice * i.quantity) | currency:"GBP":"symbol" }}</td>
-            </tr>
-        </tbody>
-    </table>
+﻿<div>
+    <button *ngIf="data.order.total > 0" (click)="onCheckout()" class="btn btn-info m-1 p-1 ">Checkout</button>
+</div>
+<table class="table table-condensed table-hover flex-wrap p-1">
+    <thead>
+        <tr class="font-weight-bolder">
+            <td class="cart-item">Item</td>
+            <td class="cart-quantity"># Price</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let i of data.order.items">
+            <td>{{i.productName}}</td>
+            <td>{{i.quantity}}x {{i.unitPrice | currency:"GBP":"symbol" }}</td>
+        </tr>
+    </tbody>
+</table>
 
-    <div>
-        <span class="font-weight-bolder">Number of items:</span>
-        {{ data.order.items.length }}
-    </div>
-    <div>
-        <span class="font-weight-bolder">Subtotal:</span>
-        {{ data.order.total | currency:"GBP":"symbol" }}
-    </div>
-    <div>
-        <button *ngIf="data.order.total > 0" (click)="onCheckout()" class="btn btn-info m-1 p-1 ">Checkout</button>
-    </div>
+<div>
+    <span class="font-weight-bolder">Number of items:</span>
+    {{ data.order.items.length }}
+</div>
+<div>
+    <span class="font-weight-bolder">Subtotal:</span>
+    {{ data.order.total | currency:"GBP":"symbol" }}
 </div>

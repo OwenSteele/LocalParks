@@ -87,71 +87,87 @@
     </div>
 
     <div class="d-flex flex-row justify-content-around flex-wrap m-1">
-        <div class="flex-column">
-            <a class="rounded font-weight-bolder card p-1 d-flex flex-row justify-content-between flex-wrap m-1 bg-light" href="#SportsClubsCollapse" role="button" data-toggle="collapse"
-               aria-expanded="false" aria-controls="SportsClubsCollapse">
-                <span class="text-decoration-none">
-                    <i class="fa fa-football-ball"></i> Sports Clubs
-                </span>
+        @if (Model.SportClubs.Any())
+        {
+            <div class="flex-column">
+                <a class="w3-blue rounded font-weight-bolder card p-1 d-flex flex-row justify-content-between flex-wrap m-1 bg-light" href="#SportsClubsCollapse" role="button" data-toggle="collapse"
+                   aria-expanded="false" aria-controls="SportsClubsCollapse">
+                    <span class="text-decoration-none p-1">
+                        <i class="fa fa-football-ball"></i> Sports Clubs <span class="w3-text-deep-orange bg-dark pr-2 pl-2 rounded">@Model.SportClubs.Count</span>
+                    </span>
+                    
+                </a>
+                <div class="collapse" id="SportsClubsCollapse">
+                    @foreach (var club in Model.SportClubs)
+                    {
+                        <div class="flex-column position-relative border-bottom">
+                            <ul class="list-unstyled d-flex flex-row justify-content-around flex-wrap align-items-center">
+                                <li class="flex-column position-relative font-weight-bolder">
+                                    @club.Name
+                                </li>
+                                <li class="flex-column position-relative alert rounded">
+                                    @club.Sport.ToString()
+                                </li>
+                                <li class="flex-column position-relative">
+                                    <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
+                                           type="button"
+                                           value="See Details"
+                                           onclick="location.href='@Url.Action("Details", "SportsClubs",
+                                new { sportsClubId = club.ClubId })'" />
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                    <input class="w3-hover-border-amber w3-hover-text-amber rounded" type="button"
+       value="See all"
+       onclick="location.href='@Url.Action("Filter", "SportsClubs", new { parkFilter = Model.ParkId })'" />
+                </div>
+            </div>
+        }
+        else
+        {
+            <p>This park doesn't have any sport clubs.</p>
+        }
+        @if (Model.Events.Any())
+        {
+            <div class="flex-column">
+                <a class="w3-green rounded font-weight-bolder card p-1 d-flex flex-row justify-content-between flex-wrap m-1 bg-light" href="#EventsCollapse" role="button" data-toggle="collapse"
+                   aria-expanded="false" aria-controls="EventsCollapse">
+                    <span class="text-decoration-none p-1">
+                        <i class="fa fa-calendar-check"></i> Scheduled Events <span class="w3-text-deep-orange bg-dark pr-2 pl-2 rounded">@Model.Events.Count</span>
+                    </span>
+                    
+                </a>
+                <div class="collapse" id="EventsCollapse">
+                    @foreach (var parkEvent in Model.Events)
+                    {
+                        <div class="flex-column position-relative border-bottom">
+                            <ul class="list-unstyled list-unstyled d-flex flex-row justify-content-around flex-wrap align-items-center">
+                                <li class="flex-column position-relative font-weight-bolder ">
+                                    @parkEvent.Name
+                                </li>
+                                <li class="flex-column position-relative alert rounded">
+                                    @parkEvent.Date.ToLongDateString()
+                                </li>
+                                <li class="flex-column position-relative">
+                                    <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded btn-sm"
+                                           type="button"
+                                           value="See Details"
+                                           onclick="location.href='@Url.Action("Details", "ParkEvents",
+                                                                          new { eventId = parkEvent.EventId })'" />
+                                </li>
+                            </ul>
+                        </div>
+                    }
                 <input class="w3-hover-border-amber w3-hover-text-amber rounded" type="button"
                        value="See all"
-                       onclick="location.href='@Url.Action("Filter", "SportsClubs", new { parkFilter = Model.ParkId })'" />
-            </a>
-            <div class="collapse" id="SportsClubsCollapse">
-                @foreach (var club in Model.SportClubs)
-                {
-                    <div class="flex-column position-relative border-bottom">
-                        <ul class="list-unstyled list-unstyled d-flex flex-row justify-content-around flex-wrap align-items-center">
-                            <li  class="flex-column position-relative font-weight-bolder">
-                                @club.Name
-                            </li>
-                            <li class="flex-column position-relative alert rounded">
-                                @club.Sport.ToString()
-                            </li>
-                            <li class="flex-column position-relative">
-                                <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
-                                       type="button"
-                                       value="See Details"
-                                       onclick="location.href='@Url.Action("Details", "SportsClubs",
-                                                                          new { sportsClubId = club.ClubId })'" />
-                            </li>
-                        </ul>
-                    </div>
-                }
+                       onclick="location.href='@Url.Action("Filter", "ParkEvents", new { parkFilter = Model.ParkId })'" />
+                </div>
             </div>
-        </div>
-        <div  class="flex-column">
-            <a class="rounded font-weight-bolder card p-1 d-flex flex-row justify-content-between flex-wrap m-1 bg-light" href="#EventsCollapse" role="button" data-toggle="collapse"
-               aria-expanded="false" aria-controls="EventsCollapse">
-                <span class="text-decoration-none">
-                    <i class="fa fa-calendar-check"></i> Scheduled Events
-                    </span>
-                    <input class="w3-hover-border-amber w3-hover-text-amber rounded" type="button"
-                           value="See all"
-                           onclick="location.href='@Url.Action("Filter", "ParkEvents", new { parkFilter = Model.ParkId })'" />
-            </a>
-            <div class="collapse" id="EventsCollapse">
-                @foreach (var parkEvent in Model.Events)
-                {
-                    <div class="flex-column position-relative border-bottom">
-                        <ul class="list-unstyled list-unstyled d-flex flex-row justify-content-around flex-wrap align-items-center">
-                            <li class="flex-column position-relative font-weight-bolder ">
-                                @parkEvent.Name
-                            </li>
-                            <li class="flex-column position-relative alert rounded">
-                                @parkEvent.Date.ToLongDateString()
-                            </li>
-                            <li class="flex-column position-relative">
-                                <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded btn-sm"
-                                       type="button"
-                                       value="See Details"
-                                       onclick="location.href='@Url.Action("Details", "ParkEvents",
-                                                                          new { eventId = parkEvent.EventId })'" />
-                            </li>
-                        </ul>
-                    </div>
-                }
-            </div>
-        </div>
+        }
+        else
+        {
+            <p>This park doesn't have any events scheduled.</p>
+        }
     </div>
 

@@ -12,6 +12,7 @@ export class Cart {
         private router: Router) { }
 
     onCheckout() {
+        console.log("x");
         if (this.data.SignInRequired) {
             this.data.getToken()
             .subscribe(success => {

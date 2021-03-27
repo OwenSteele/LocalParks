@@ -1,22 +1,33 @@
-﻿   <div class="shop-product
+﻿<div class="container">
+    <div class="
          p-1 card border-top align-items-center
-         bg-dark text-light"
-     *ngFor="let p of products">
-    <img src="/images/shop/products/{{p.imageId}}.jpg" class="img-fluid rounded" [alt]="p.name" />
-    <div class="d-flex flex-row justify-content-between w-100">
-        <div class="flex-column position-relative">
-            <h3><strong>{{p.name}}</strong></h3>
-        </div>
+         bg-light text-dark"
+         *ngFor="let p of products">
+        <div class="shop-product">
+            <ul>
+                <li>
+                    <div class="image item">
+                        <img src="/images/shop/products/{{p.imageId}}.jpg" class="image item img-fluid rounded" [alt]="p.name" />
+                    </div>
+                </li>
+                <li>
+                    <div class="left item">
+                        <h3><strong>{{p.name}}</strong></h3>
+                    </div>
 
-        <div class="flex-column position-relative">
-            <ul class="product-props list-unstyled">
-                <li><strong>Price</strong>: {{ p.price | currency:"GBP":"symbol" }}</li>
-                <li><strong>Description</strong>: {{ p.description }}</li>
+                    <div class="middle item">
+                        <ul class="product-props list-unstyled">
+                            <li><strong>Price</strong>: {{ p.price | currency:"GBP":"symbol" }}</li>
+                            <li><strong>Description</strong>: {{ p.description }}</li>
+                        </ul>
+                    </div>
+
+                    <div class="right item">
+                        <button id="buyButton" class="btn btn-success align-bottom item" (click)="addProduct(p)">Add</button>
+                    </div>
+                </li>
             </ul>
-        </div>
-
-        <div class="flex-column position-relative">
-            <button id="buyButton" class="btn btn-success align-bottom item" (click)="addProduct(p)">Add</button>
+            
         </div>
     </div>
 </div>
