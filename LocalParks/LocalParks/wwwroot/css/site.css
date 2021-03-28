@@ -40,6 +40,47 @@ a {
   border-color: #1861ac;
 }
 
+.staff-jumbotron-img {
+    background-image: url("../images/staff_bg.jpg");
+    background-color: darkseagreen;
+    background-size: cover;
+    padding: 5rem 3rem;
+    margin-bottom: 2rem;
+    border-radius: 0.3rem;
+}
+.events-jumbotron-img {
+    background-image: url("../images/events_bg.jpg");
+    background-color: darkseagreen;
+    background-size: cover;
+    padding: 4rem 3rem;
+    margin-bottom: 2rem;
+    border-radius: 0.3rem;
+}
+.parks-jumbotron-img {
+    background-image: url("../images/parks_bg.jpg");
+    background-color: darkseagreen;
+    background-size: cover;
+    padding: 5rem 3rem;
+    margin-bottom: 2rem;
+    border-radius: 0.3rem;
+}
+.clubs-jumbotron-img {
+    background-image: url("../images/clubs_bg.jpg");
+    background-color: darkseagreen;
+    background-size: cover;
+    padding: 5rem 3rem;
+    margin-bottom: 2rem;
+    border-radius: 0.3rem;
+}
+.reports-jumbotron-img {
+    background-image: url("../images/reports_bg.jpg");
+    background-color: darkseagreen;
+    background-size: cover;
+    padding: 5rem 3rem;
+    margin-bottom: 2rem;
+    border-radius: 0.3rem;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

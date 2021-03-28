@@ -2,231 +2,230 @@
 @{
     ViewData["Title"] = "Home";
 }
-
-<p class="alert-danger w3-center">
-    <i class="fa fa-exclamation-triangle"></i>
-    If you are in trouble, please contact your nearest park supervisor at:
-    <i class="fa fa-phone"></i>
-    <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
-           type="button"
-           value="@Model.SelectedPark.Supervisor.EmergencyNumber"
-           onclick="location.href='@Url.Action("Details", "Supervisors",
+    <p class="alert-danger w3-center">
+        <i class="fa fa-exclamation-triangle"></i>
+        If you are in trouble, please contact your nearest park supervisor at:
+        <i class="fa fa-phone"></i>
+        <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
+               type="button"
+               value="@Model.SelectedPark.Supervisor.EmergencyNumber"
+               onclick="location.href='@Url.Action("Details", "Supervisors",
                                       new { parkId = @Model.SelectedPark.ParkId })'" />
-</p>
+    </p>
 
-<h1 class="text-center">Welcome to the Parks Authority new Website!</h1>
-<div class="justify-content-around">
-    <div class="row">
-        <div class="ml-auto mr-auto w-auto text-center">
-            <img class="container mx-auto w-75" src="~/images/LogoFull.PNG" />
-        </div>
-    </div>
-
-    <div class="row text-center flex-wrap text-wrap container m-0 justify-content-center">
-        <div class="font-weight-bold p-1 m-1">
-            <p>
-                Our new redesigned site contains lots more features,
-                such as being able to look at the wonderful parks in your area
-            </p>
-            <p>
-                Currently we have
-                @Model.ParkCount
-                @if (Model.ParkCount > 1)
-                {<span>parks</span> }
-                else
-                {<span>park</span>}
-                registered!
-            </p>
-
+    <h1 class="text-center">Welcome to the Parks Authority new Website!</h1>
+    <div class="justify-content-around">
+        <div class="row">
+            <div class="ml-auto mr-auto w-auto text-center">
+                <img class="container mx-auto w-75" src="~/images/LogoFull.PNG" />
+            </div>
         </div>
 
-        <div class="font-weight-bold p-1 m-1 card border-info">
-            <h4 class=" text-info mw-100">
-                <ins>Latest Site Features</ins>
-            </h4>
-            <p class="m-1">
-                <a class="text-info font-weight-bolder d-inline-flex" asp-controller="Shop" asp-action="Index">Check out our new shop!</a>
-                You can order directly from the website and view your order statuses in your account page.
-            </p>
-            <p class="m-1">
-                Take a look into the Local Parks
-                <a class="text-info font-weight-bolder d-inline-flex" asp-controller="Reports" asp-action="Index">Reports Page</a>.
-                To see data about the parks, our staff and the new shop!
-            </p>
+        <div class="row text-center flex-wrap text-wrap container m-0 justify-content-center">
+            <div class="font-weight-bold p-1 m-1">
+                <p>
+                    Our new redesigned site contains lots more features,
+                    such as being able to look at the wonderful parks in your area
+                </p>
+                <p>
+                    Currently we have
+                    @Model.ParkCount
+                    @if (Model.ParkCount > 1)
+                    {<span>parks</span> }
+                    else
+                    {<span>park</span>}
+                    registered!
+                </p>
 
-        </div>
+            </div>
 
-        @if (Model.ParksClosingSoon.Any())
-        {
-            <div class="row p-1 m-1">
-                <div class="border-danger card rounded p-1 m-1 col-10 offset-1">
-                    <h3 class="border-bottom font-weight-bold text-danger">Closing Soon</h3>
-                    @foreach (var park in Model.ParksClosingSoon)
+            <div class="font-weight-bold p-1 m-1 card border-info">
+                <h4 class=" text-info mw-100">
+                    <ins>Latest Site Features</ins>
+                </h4>
+                <p class="m-1">
+                    <a class="text-info font-weight-bolder d-inline-flex" asp-controller="Shop" asp-action="Index">Check out our new shop!</a>
+                    You can order directly from the website and view your order statuses in your account page.
+                </p>
+                <p class="m-1">
+                    Take a look into the Local Parks
+                    <a class="text-info font-weight-bolder d-inline-flex" asp-controller="Reports" asp-action="Index">Reports Page</a>.
+                    To see data about the parks, our staff and the new shop!
+                </p>
+
+            </div>
+
+            @if (Model.ParksClosingSoon.Any())
+            {
+                <div class="row p-1 m-1">
+                    <div class="border-danger card rounded p-1 m-1 col-10 offset-1">
+                        <h3 class="border-bottom font-weight-bold text-danger">Closing Soon</h3>
+                        @foreach (var park in Model.ParksClosingSoon)
+                        {
+                            <p>
+                                <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
+                                       type="button"
+                                       value="@park.Name"
+                                       onclick="location.href='@Url.Action("Details", "Parks",
+                                      new { parkId = park.ParkId })'" />
+                                (@park.PostcodeZone) closes at @park.ClosingTime.TimeOfDay
+                            </p>
+                        }
+                    </div>
+                </div>
+            }
+
+            <div class="d-flex flex-row p-1 m-1 flex-wrap justify-content-around">
+                <div class="flex-column position-relative col-md-6 font-weight-bold mt-2">
+                    <div class="border-secondary card rounded mw-100 flex-fill w3-pale-green">
+                        <h3 class="border-bottom text-light w3-green align-items-stretch m-0">Selected park</h3>
+                        <p class="mt-2">
+                            <input class="text-dark w3-hover-amber rounded w3-green border-0 p-1 d-inline-flex"
+                                   type="button"
+                                   value="@Model.SelectedPark.Name"
+                                   onclick="location.href='@Url.Action("Details", "Parks",
+                                      new { parkId = @Model.SelectedPark.ParkId })'" />
+                            ! Click on the parks name to find out all about it.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex-column position-relative col-md-6 font-weight-bold mt-2">
+                    <div class="border-secondary card rounded mw-100 flex-fill w3-light-blue">
+                        <h3 class="border-bottom w3-text-light w3-blue align-items-stretch m-0">Open Parks</h3>
+                        <p class="mt-2">
+                            Right now
+                            @if (Model.OpenParksCount > 1)
+                            {<span>we have @Model.OpenParksCount parks open!</span> }
+                        else if (Model.OpenParksCount == 1)
+                        {<span>only one of our parks is open, but may close soon too!</span>}
+                        else
+                        {<span>
+                                All of our parks are shut, please check the parks page to see when they open:
+                            </span>}
+                            <input class="text-dark w3-hover-amber rounded w3-blue border-0 p-1 d-inline-flex"
+                                   type="button"
+                                   value="See our parks"
+                                   onclick="location.href='@Url.Action("Index", "Parks")'" />
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="align-items-center w-100">
+                <div class="col bg-light p-1 m-0 rounded mw-100 flex-fill">
+                    <h3 class="border-bottom font-weight-bolder">Upcoming Events</h3>
+                    @if (!Model.EventsThisMonth.Any())
                     {
                         <p>
-                            <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex"
-                                   type="button"
-                                   value="@park.Name"
-                                   onclick="location.href='@Url.Action("Details", "Parks",
-                                      new { parkId = park.ParkId })'" />
-                            (@park.PostcodeZone) closes at @park.ClosingTime.TimeOfDay
+                            Sadly no events are planned in the next month.
                         </p>
+                        <p>
+                            You can help the community, by
+                            <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex w3-text-amber font-weight-bolder"
+                                   type="button"
+                                   value="schedule an event today!"
+                                   onclick="location.href='@Url.Action("Edit", "ParkEvents")'" />
+                        </p>
+                    }
+                    else
+                    {
+                        <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex w3-text-amber font-weight-bolder"
+                               type="button"
+                               value="See all events"
+                               onclick="location.href='@Url.Action("Index", "ParkEvents")'" />
+                        <div class="d-flex flex-row justify-content-center flex-wrap align-items-center">
+                            @foreach (var parkEvent in Model.EventsThisMonth)
+                            {
+                                <div class="flex-column position-relative card border m-1 p-1">
+                                    <h5 class="rounded p-1 w3-text-amber bg-dark">@parkEvent.Name</h5>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <span class="font-weight-bolder w3-text-green">In park:</span> @parkEvent.ParkName
+                                        </li>
+                                        <li>
+                                            <span class="font-weight-bolder w3-text-blue">Date: </span>@parkEvent.Date.ToLongDateString()
+                                        </li>
+                                        <li>
+                                            <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex font-weight-bolder p-1 btn btn-info"
+                                                   type="button"
+                                                   value="Find out more"
+                                                   onclick="location.href='@Url.Action("Details", "ParkEvents",
+                                      new { eventId = parkEvent.EventId })'" />
+                                        </li>
+                                    </ul>
+                                </div>
+                            }
+                        </div>
                     }
                 </div>
             </div>
-        }
 
-    <div class="d-flex flex-row p-1 m-1 flex-wrap justify-content-around">
-        <div class="flex-column position-relative col-md-6 font-weight-bold mt-2">
-            <div class="border-secondary card rounded mw-100 flex-fill w3-pale-green">
-                <h3 class="border-bottom text-light w3-green align-items-stretch m-0">Selected park</h3>
-                <p class="mt-2">
-                    <input class="text-dark w3-hover-amber rounded w3-green border-0 p-1 d-inline-flex"
-                           type="button"
-                           value="@Model.SelectedPark.Name"
-                           onclick="location.href='@Url.Action("Details", "Parks",
-                                      new { parkId = @Model.SelectedPark.ParkId })'" />
-                    ! Click on the parks name to find out all about it.
-                </p>
-            </div>
-        </div>
-
-        <div class="flex-column position-relative col-md-6 font-weight-bold mt-2">
-            <div class="border-secondary card rounded mw-100 flex-fill w3-light-blue">
-                <h3 class="border-bottom w3-text-light w3-blue align-items-stretch m-0">Open Parks</h3>
-                <p class="mt-2">
-                    Right now
-                    @if (Model.OpenParksCount > 1)
-                    {<span>we have @Model.OpenParksCount parks open!</span> }
-                else if (Model.OpenParksCount == 1)
-                {<span>only one of our parks is open, but may close soon too!</span>}
-                else
-                {<span>
-                        All of our parks are shut, please check the parks page to see when they open:
-                    </span>}
-                    <input class="text-dark w3-hover-amber rounded w3-blue border-0 p-1 d-inline-flex"
-                           type="button"
-                           value="See our parks"
-                           onclick="location.href='@Url.Action("Index", "Parks")'" />
-                </p>
-            </div>
-        </div>
-    </div>
-
-        <div class="align-items-center w-100">
-            <div class="col bg-light p-1 m-0 rounded mw-100 flex-fill">
-                <h3 class="border-bottom font-weight-bolder">Upcoming Events</h3>
-                @if (!Model.EventsThisMonth.Any())
-                {
+            <div class="col-md-5 col-sm-11">
+                <div class="bg-light p-1 m-0 rounded mw-100">
+                    <h3 class="border-bottom font-weight-bolder">Recently Added Events</h3>
                     <p>
-                        Sadly no events are planned in the next month.
-                    </p>
-                    <p>
-                        You can help the community, by
-                        <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex w3-text-amber font-weight-bolder"
-                               type="button"
-                               value="schedule an event today!"
-                               onclick="location.href='@Url.Action("Edit", "ParkEvents")'" />
-                    </p>
-                }
-                else
-                {
-                    <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex w3-text-amber font-weight-bolder"
-                           type="button"
-                           value="See all events"
-                           onclick="location.href='@Url.Action("Index", "ParkEvents")'" />
-                    <div  class="d-flex flex-row justify-content-center flex-wrap align-items-center">
-                        @foreach (var parkEvent in Model.EventsThisMonth)
-                        {
-                            <div class="flex-column position-relative card border m-1 p-1">
-                                <h5 class="rounded p-1 w3-text-amber bg-dark">@parkEvent.Name</h5>
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <span class="font-weight-bolder w3-text-green">In park:</span> @parkEvent.ParkName
-                                    </li>
-                                    <li>
-                                        <span class="font-weight-bolder w3-text-blue">Date: </span>@parkEvent.Date.ToLongDateString()
-                                    </li>
-                                    <li>
-                                        <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex font-weight-bolder p-1 btn btn-info"
-                                               type="button"
-                                               value="Find out more"
-                                               onclick="location.href='@Url.Action("Details", "ParkEvents",
-                                      new { eventId = parkEvent.EventId })'" />
-                                    </li>
-                                </ul>
-                            </div>
-                        }
-                    </div>
-                }
-            </div>
-        </div>
-
-        <div class="col-md-5 col-sm-11">
-            <div class="bg-light p-1 m-0 rounded mw-100">
-                <h3 class="border-bottom font-weight-bolder">Recently Added Events</h3>
-                <p>
-                    <div class="flex-column position-relative card border m-1 p-1">
-                        <h5 class="rounded p-1 w3-text-orange bg-dark">@Model.RecentEvent.Name</h5>
-                        <ul class="list-unstyled">
-                            <li>
-                                <span class="font-weight-bolder w3-text-deep-orange">In park:</span> @Model.RecentEvent.ParkName
-                            </li>
-                            <li>
-                                <span class="font-weight-bolder w3-text-deep-orange">Date: </span>@Model.RecentEvent.Date.ToLongDateString()
-                            </li>
-                            <li>
-                                <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex font-weight-bolder p-1 btn btn-info"
-                                       type="button"
-                                       value="Find out more"
-                                       onclick="location.href='@Url.Action("Details", "ParkEvents",
+                        <div class="flex-column position-relative card border m-1 p-1">
+                            <h5 class="rounded p-1 w3-text-orange bg-dark">@Model.RecentEvent.Name</h5>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <span class="font-weight-bolder w3-text-deep-orange">In park:</span> @Model.RecentEvent.ParkName
+                                </li>
+                                <li>
+                                    <span class="font-weight-bolder w3-text-deep-orange">Date: </span>@Model.RecentEvent.Date.ToLongDateString()
+                                </li>
+                                <li>
+                                    <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex font-weight-bolder p-1 btn btn-info"
+                                           type="button"
+                                           value="Find out more"
+                                           onclick="location.href='@Url.Action("Details", "ParkEvents",
                                       new { eventId = Model.RecentEvent.EventId })'" />
-                            </li>
-                        </ul>
-                    </div>
-                </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </p>
+                </div>
             </div>
-        </div>
-        <div class="row w-100 justify-content-center">
-            <div class="col-md-10 offset-md-1 p-1 m-0">
-                <h3 class="border-bottom font-weight-bolder">Newest Club</h3>
-                <p>
-                    <table class="w-100">
-                        <thead>
-                            <tr>
-                                <td class="bg-dark rounded font-weight-bolder w3-text-amber" colspan="2">@Model.NewestSportsClub.Name</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <span class=" p-1 m-1">Located in park: </span>
-                                    <span class=" p-1 m-1 font-weight-bolder">
+            <div class="row w-100 justify-content-center">
+                <div class="col-md-10 offset-md-1 p-1 m-0">
+                    <h3 class="border-bottom font-weight-bolder">Newest Club</h3>
+                    <p>
+                        <table class="w-100">
+                            <thead>
+                                <tr>
+                                    <td class="bg-dark rounded font-weight-bolder w3-text-amber" colspan="2">@Model.NewestSportsClub.Name</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span class=" p-1 m-1">Located in park: </span>
+                                        <span class=" p-1 m-1 font-weight-bolder">
+                                            <input class="nav-link text-dark w3-hover-amber rounded border-0 p-1 m-1 d-inline-flex font-weight-bolder"
+                                                   type="button"
+                                                   value="@Model.NewestSportsClub.ParkName"
+                                                   onclick="location.href='@Url.Action("Details", "Parks",
+                                      new { parkId = Model.NewestSportsClub.ParkId})'" />
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class=" p-1 m-1">Their sport is:</span> <span class=" p-1 m-1 font-weight-bolder">@Model.NewestSportsClub.Sport.ToString()</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
                                         <input class="nav-link text-dark w3-hover-amber rounded border-0 p-1 m-1 d-inline-flex font-weight-bolder"
                                                type="button"
-                                               value="@Model.NewestSportsClub.ParkName"
-                                               onclick="location.href='@Url.Action("Details", "Parks",
-                                      new { parkId = Model.NewestSportsClub.ParkId})'" />
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class=" p-1 m-1">Their sport is:</span> <span class=" p-1 m-1 font-weight-bolder">@Model.NewestSportsClub.Sport.ToString()</span></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input class="nav-link text-dark w3-hover-amber rounded border-0 p-1 m-1 d-inline-flex font-weight-bolder"
-                                           type="button"
-                                           value="Interested?"
-                                           onclick="location.href='@Url.Action("Details", "SportsClubs",
+                                               value="Interested?"
+                                               onclick="location.href='@Url.Action("Details", "SportsClubs",
                                       new { sportsClubId = Model.NewestSportsClub.ClubId })'" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </p>
+                </div>
             </div>
-        </div>
 
+        </div>
     </div>
-</div>

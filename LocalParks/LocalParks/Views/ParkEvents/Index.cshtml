@@ -7,17 +7,16 @@
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/filtering.js"></script>
 }
-
-<div class="jumbotron row">
+<div class="events-jumbotron-img row">
     <ul class="w-100 list-unstyled d-flex flex-row justify-content-between flex-wrap">
             <li class="flex-column position-relative">
-                <h1>Upcoming events</h1>
+                <h1 class="p-2 bg-light rounded">Upcoming events</h1>
             </li>
             <li class="flex-column position-relative">
                 @if (ViewData["User"] != null)
                 {
                     <h3>
-                        <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded btn-group-lg"
+                        <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded btn-group-lg p-1"
                                type="button"
                                value="Schedule"
                                onclick="location.href='@Url.Action("Edit", "ParkEvents")'" />
@@ -26,7 +25,7 @@
                 else
                 {
                     <h3>
-                        <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded btn-group-lg"
+                        <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded btn-group-lg p-1"
                                type="button"
                                value="Log in to schedule"
                                onclick="location.href='@Url.Action("Login", "Account",
