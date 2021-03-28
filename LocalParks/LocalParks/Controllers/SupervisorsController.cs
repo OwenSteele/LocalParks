@@ -11,15 +11,12 @@ namespace LocalParks.Controllers
     {
         private readonly ILogger<SupervisorsController> _logger;
         private readonly ISupervisorsService _service;
-        private readonly ISelectListService _listService;
 
         public SupervisorsController(ILogger<SupervisorsController> logger,
-            ISupervisorsService service,
-            ISelectListService listService)
+            ISupervisorsService service)
         {
             _logger = logger;
             _service = service;
-            _listService = listService;
         }
 
         public async Task<IActionResult> Index()
@@ -79,7 +76,6 @@ namespace LocalParks.Controllers
         private async Task SetViewData()
         {
             ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
-            ViewData["SortOptions"] = _listService.GetSortSelectListItems<SupervisorModel>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@model ICollection<ParkModel>
+@inject ISelectListService service
 <div class="index-filter-form m-1">
     <form id="filter-form-supervisors" asp-controller="Parks" asp-action="Filter" method="get">
         <div class="d-flex flex-wrap flex-row justify-content-between font-weight-bolder w-100">
@@ -27,7 +28,7 @@
                 <div class="row">
                     <label>Sort by:</label>
                     @Html.DropDownList("SortBy",
-                   new SelectList((System.Collections.IEnumerable)ViewData["SortOptions"], "Value", "Text"), "",
+                   new SelectList((System.Collections.IEnumerable)service.GetSortSelectListItems<ParkModel>(), "Value", "Text"), "",
                    htmlAttributes: new
                    {
                        @class = "border-dark rounded filter-form-group",

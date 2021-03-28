@@ -12,15 +12,12 @@ namespace LocalParks.Controllers
     {
         private readonly ILogger<ParksController> _logger;
         private readonly IParksService _service;
-        private readonly ISelectListService _listService;
 
         public ParksController(ILogger<ParksController> logger,
-            IParksService service,
-            ISelectListService listService)
+            IParksService service)
         {
             _logger = logger;
             _service = service;
-            _listService = listService;
         }
 
         public async Task<IActionResult> Index()
@@ -83,7 +80,6 @@ namespace LocalParks.Controllers
         private async Task SetViewData()
         {
             ViewData["Postcodes"] = await _service.GetPostcodeSelectListItemsAsync();
-            ViewData["SortOptions"] = _listService.GetSortSelectListItems<ParkModel>();
         }
 
     }

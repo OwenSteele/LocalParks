@@ -1,17 +1,18 @@
 ﻿@model ICollection<ParkEventModel>
+@inject ISelectListService service
 <div class="index-filter-form m-1">
     <form id="filter-form-sports-clubs" asp-controller="ParkEvents" asp-action="Filter" method="get">
         <div class="d-flex flex-wrap justify-content-between font-weight-bolder w-100">
 
             <div class="index-filter-form-item w3-margin-right w3-margin-left w-auto d-inline-block">
                 <div class="row">
-                    Event name: 
+                    Event name:
                     <input type="text" class="border-dark rounded filter-form-group" name="searchTerm" value="@TempData["Filter"]" />
                 </div>
             </div>
             <div class="index-filter-form-item w3-margin-right w3-margin-left w-auto d-inline-block">
                 <div class="row">
-                    Park: 
+                    Park:
 
                     @Html.DropDownList("parkFilter",
                    new SelectList((System.Collections.IEnumerable)ViewData["Parks"], "Value", "Text"), "",
@@ -25,10 +26,10 @@
             </div>
             <div class="index-filter-form-item w3-margin-right w3-margin-left w-auto d-inline-block">
                 <div class="row">
-                    Date: 
+                    Sort By:
 
                     @Html.DropDownList("SortBy",
-       new SelectList((System.Collections.IEnumerable)ViewData["SortOptions"], "Value", "Text"), "",
+       new SelectList((System.Collections.IEnumerable)service.GetSortSelectListItems<ParkEventModel>(), "Value", "Text"), "",
        htmlAttributes: new
        {
            @class = "border-dark rounded filter-form-group",

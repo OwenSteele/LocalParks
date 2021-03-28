@@ -89,7 +89,7 @@ namespace LocalParks.Services
             var parks = _mapper.Map<ICollection<ParkModel>>(await _parkRepository.GetAllParksAsync());
 
             return from p in parks
-                   where !onlyWithEvents || p.Events.Count > 0
+                   where !onlyWithEvents || p.Events.Any()
                    select new SelectListItem
                    {
                        Selected = false,

@@ -12,15 +12,12 @@ namespace LocalParks.Controllers
     {
         private readonly ILogger<ParksController> _logger;
         private readonly ISportsClubsService _service;
-        private readonly ISelectListService _listService;
 
         public SportsClubsController(ILogger<ParksController> logger,
-            ISportsClubsService service,
-            ISelectListService listService)
-        {
+            ISportsClubsService service)
+        { 
             _logger = logger;
             _service = service;
-            _listService = listService;
         }
 
         public async Task<IActionResult> Index()
@@ -84,7 +81,6 @@ namespace LocalParks.Controllers
         {
             ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
             ViewData["Sports"] = _service.GetSportListItems();
-            ViewData["SortOptions"] = _listService.GetSortSelectListItems<SportsClubModel>();
         }
     }
 }

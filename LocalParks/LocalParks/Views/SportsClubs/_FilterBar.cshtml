@@ -1,4 +1,5 @@
 ﻿@model ICollection<SportsClubModel>
+@inject ISelectListService service
 <div class="index-filter-form m-1">
     <form id="filter-form-sports-clubs" asp-controller="SportsClubs" asp-action="Filter" method="get">
         <div class="d-flex flex-row flex-wrap justify-content-between font-weight-bolder w-100">
@@ -45,7 +46,7 @@
                     Sort by:
 
                     @Html.DropDownList("SortBy",
-                   new SelectList((System.Collections.IEnumerable)ViewData["SortOptions"], "Value", "Text"), "",
+                   new SelectList((System.Collections.IEnumerable)service.GetSortSelectListItems<SportsClubModel>(), "Value", "Text"), "",
                    htmlAttributes: new
                    {
                        @class = "border-dark rounded filter-form-group",

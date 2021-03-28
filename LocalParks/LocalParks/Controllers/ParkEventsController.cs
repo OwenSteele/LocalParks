@@ -14,19 +14,16 @@ namespace LocalParks.Controllers
         private readonly ILogger<ParkEventsController> _logger;
         private readonly IParkEventsService _service;
         private readonly IAuthenticationService _authenticationService;
-        private readonly ISelectListService _listService;
         private ParkEventModel _tempEvent;
 
         public ParkEventsController(ILogger<ParkEventsController> logger,
             IParkEventsService service,
-            IAuthenticationService authenticationService,
-            ISelectListService listService
+            IAuthenticationService authenticationService
             )
         {
             _logger = logger;
             _service = service;
             _authenticationService = authenticationService;
-            _listService = listService;
         }
 
         [BindProperty]
@@ -120,9 +117,7 @@ namespace LocalParks.Controllers
             if (!await _authenticationService.IsSignedInAsync(User))
                 return RedirectToAction("Index", "ParkEvents");
 
-            if (eventId != 0 &&
-                await _service.GetEventOwner(eventId, User.Identity.Name) == null &&
-                !await _authenticationService.HasRequiredRoleAsync(User.Identity.Name, "Administrator"))
+            if (eventId != 0 && await HasEditAccessAsync(eventId))
                 return RedirectToAction("Details", "ParkEvents", new { eventId });
 
             ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
@@ -228,8 +223,7 @@ namespace LocalParks.Controllers
             if (!await _authenticationService.IsSignedInAsync(User))
                 return RedirectToAction("Details", "ParkEvents", new { eventId });
 
-            if (await _service.GetEventOwner(eventId, User.Identity.Name) == null &&
-                !await _authenticationService.HasRequiredRoleAsync(User.Identity.Name, "Administrator"))
+            if (!await HasEditAccessAsync(eventId))
                 return RedirectToAction("Details", "ParkEvents", new { eventId });
 
             var result = await _service.GetParkEventModelByIdAsync(eventId);
@@ -244,8 +238,7 @@ namespace LocalParks.Controllers
             if (!await _authenticationService.IsSignedInAsync(User))
                 return RedirectToAction("Details", "ParkEvents", new { eventId });
 
-            if (await _service.GetEventOwner(eventId, User.Identity.Name) == null &&
-                !await _authenticationService.HasRequiredRoleAsync(User.Identity.Name, "Administrator"))
+            if (await HasEditAccessAsync(eventId))
                 return RedirectToAction("Details", "ParkEvents", new { eventId });
 
             var result = await _service.GetParkEventModelByIdAsync(eventId);
@@ -270,7 +263,12 @@ namespace LocalParks.Controllers
         private async Task SetViewData()
         {
             ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
-            ViewData["SortOptions"] = _listService.GetSortSelectListItems<ParkEventModel>();
+        }
+        private async Task<bool> HasEditAccessAsync(int eventId)
+        {
+            return User.Identity != null &&
+            await _service.GetEventOwner(eventId, User.Identity.Name) == null &&
+            !await _authenticationService.HasRequiredRoleAsync(User.Identity.Name, "Administrator");
         }
     }
 }
