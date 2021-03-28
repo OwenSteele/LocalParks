@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalParks.Core", "LocalPar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalParks.Data", "LocalParks.Data\LocalParks.Data.csproj", "{3475C9DC-E910-4026-A5BF-F857A878A7E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalParks.Data.Tests", "LocalParks.Data.Tests\LocalParks.Data.Tests.csproj", "{F6AE8BBC-D1AE-4D9E-B736-01FC28A912C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalParks.Data.Tests", "LocalParks.Data.Tests\LocalParks.Data.Tests.csproj", "{F6AE8BBC-D1AE-4D9E-B736-01FC28A912C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalParks.Tests", "LocalParks.Tests\LocalParks.Tests.csproj", "{A594DE22-8847-4FEB-BEC2-078E05533BAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalParks.Tests", "LocalParks.Tests\LocalParks.Tests.csproj", "{A594DE22-8847-4FEB-BEC2-078E05533BAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalParks.Core.Tests", "LocalParks.Core.Tests\LocalParks.Core.Tests.csproj", "{F7B833C8-7EC5-478C-A1E1-660DED185D2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{A594DE22-8847-4FEB-BEC2-078E05533BAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A594DE22-8847-4FEB-BEC2-078E05533BAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A594DE22-8847-4FEB-BEC2-078E05533BAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7B833C8-7EC5-478C-A1E1-660DED185D2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7B833C8-7EC5-478C-A1E1-660DED185D2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7B833C8-7EC5-478C-A1E1-660DED185D2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7B833C8-7EC5-478C-A1E1-660DED185D2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
