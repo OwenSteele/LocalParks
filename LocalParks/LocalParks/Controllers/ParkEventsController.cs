@@ -95,7 +95,7 @@ namespace LocalParks.Controllers
 
             var parkEvent = await _service.GetParkEventModelByIdAsync(eventId);
 
-            if (await _authenticationService.IsSignedInAsync(User))
+            if (await _authenticationService.IsSignedInAsync(User) && User.Identity != null)
             {
                 if (await _authenticationService.HasRequiredRoleAsync(User.Identity.Name, "Administrator"))
                     ViewData["User"] = "Admin";

@@ -42,7 +42,7 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public async Task ShouldReturnFalseWithNoChangesMadeAsync()
+        public async Task WHEN_repository_is_saved_with_no_changes_THEN_false_is_returned()
         {
             // arrange
 
@@ -55,7 +55,7 @@ namespace LocalParks.Data.Tests
             Assert.False(result);
         }
         [Fact]
-        public async Task ShouldAddNewEntityAsync()
+        public async Task WHEN_new_entity_is_saved_to_repository_THEN_new_entity_is_returned()
         {
             // arrange          
             var p1 = new Park
@@ -84,7 +84,7 @@ namespace LocalParks.Data.Tests
             Assert.Contains(p1, parks);
         }
         [Fact]
-        public async Task ShouldDeleteExistingEntityAsync()
+        public async Task WHEN_entity_is_deleted_from_repository_THEN_entity_is_not_found()
         {
             // arrange
 
@@ -117,7 +117,7 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public async Task ShouldReturnParkByIdAsync()
+        public async Task WHEN_repository_is_queried_by_parkId_THEN_park_with_parkId_is_returned()
         {
             // arrange
 
@@ -150,7 +150,7 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public async Task ShouldReturnParkByNameAsync()
+        public async Task WHEN_repository_is_queried_by_parkName_THEN_park_with_parkName_is_returned()
         {
             // arrange
 
@@ -183,74 +183,7 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public async Task ShouldReturnParksByPostcodeAsync()
-        {
-            // arrange
-
-            var p1 = new Park
-            {
-                ParkId = 1032,
-                Name = "Park32",
-                Postcode = new Postcode { Zone = "PF20" },
-                SizeInMetresSquared = 1010,
-                Longitude = 1.00m,
-                Latitude = -1.00m,
-                OpeningTime = DateTime.MinValue,
-                ClosingTime = DateTime.MaxValue,
-                Supervisor = new Supervisor()
-            };
-            var p2 = new Park
-            {
-                ParkId = 1033,
-                Name = "Park33",
-                Postcode = new Postcode { Zone = "PF18" },
-                SizeInMetresSquared = 1010,
-                Longitude = 1.00m,
-                Latitude = -1.00m,
-                OpeningTime = DateTime.MinValue,
-                ClosingTime = DateTime.MaxValue,
-                Supervisor = new Supervisor()
-            };
-            var p3 = new Park
-            {
-                ParkId = 1034,
-                Name = "Park34",
-                Postcode = new Postcode { Zone = "PF20" },
-                SizeInMetresSquared = 1010,
-                Longitude = 1.00m,
-                Latitude = -1.00m,
-                OpeningTime = DateTime.MinValue,
-                ClosingTime = DateTime.MaxValue,
-                Supervisor = new Supervisor()
-            };
-
-            _repository.Add(p1);
-            _repository.Add(p2);
-            _repository.Add(p3);
-            _repository.SaveChangesAsync().Wait();
-
-            // act
-
-            var result1 = await _repository.GetParksByPostcodeAsync("PF20");
-            var result2 = await _repository.GetParksByPostcodeAsync("PF18");
-            var result3 = await _repository.GetParksByPostcodeAsync("PF17");
-
-            // assert
-
-            Assert.NotEmpty(result1);
-            Assert.NotEmpty(result2);
-            Assert.Empty(result3);
-            Assert.Equal(2, result1.Length);
-            Assert.Single(result2);
-            Assert.NotEqual(result1, result2);
-            Assert.NotEqual(result1, result3);
-            Assert.NotEqual(result2, result3);
-            Assert.DoesNotContain(p3, result1);
-            Assert.DoesNotContain(p1, result2);
-        }
-
-        [Fact]
-        public async Task ShouldReturnAllSportsClubsAsync()
+        public async Task WHEN_all_SportsClubs_are_requested_THEN_all_SportClubs_are_returned()
         {
             // arrange
 
@@ -292,7 +225,7 @@ namespace LocalParks.Data.Tests
             Assert.Contains(s2, result);
         }
         [Fact]
-        public async Task ShouldReturnSportsClubByParkId()
+        public async Task WHEN_repostory_is_queried_for_SportsClubs_with_parkId_THEN_all_SportClubs_with_parkId_are_returned()
         {
             // arrange
 
@@ -339,7 +272,7 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public async Task ShouldReturnSportsClubByIdAsync()
+        public async Task WHEN_repostory_is_queried_for_SportsClub_with_clubId_THEN_SportClub_with_clubId_is_returned()
         {
             // arrange
 
@@ -386,7 +319,7 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public async Task ShouldReturnSportsClubBySportAsync()
+        public async Task WHEN_repostory_is_queried_for_SportsClubs_with_sportType_THEN_all_SportClubs_with_sportType_are_returned()
         {
             // arrange
 
@@ -446,7 +379,7 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public async Task ShouldReturnAllSuperVisorsAsync()
+        public async Task WHEN_all_Supervisors_are_requested_THEN_all_Supervisors_are_returned()
         {
             // arrange
 
@@ -503,7 +436,7 @@ namespace LocalParks.Data.Tests
             Assert.DoesNotContain(s3, result);
         }
         [Fact]
-        public async Task ShouldReturnSuperVisorByIdAsync()
+        public async Task WHEN_repostory_is_queried_for_Supervisor_with_parkId_THEN_Supervisor_with_parkId_is_returned()
         {
             // arrange
 
@@ -537,7 +470,7 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public async Task ShouldReturnAllEventsAsync()
+        public async Task WHEN_all_ParkEvents_are_requested_THEN_all_ParkEvents_are_returned()
         {
             // arrange
 
@@ -594,7 +527,7 @@ namespace LocalParks.Data.Tests
             Assert.DoesNotContain(e3, result);
         }
         [Fact]
-        public async Task ShouldReturnEventByIdAsync()
+        public async Task WHEN_repostory_is_queried_for_parkEvent_with_eventId_THEN_parkEvent_with_eventId_is_returned()
         {
             // arrange
 
@@ -643,7 +576,7 @@ namespace LocalParks.Data.Tests
         }
 
         [Fact]
-        public async Task ShouldReturEventsByDateAsync()
+        public async Task WHEN_repostory_is_queried_for_parkEvents_with_date_THEN_all_parkEvent_with_date_are_returned()
         {
             // arrange
 

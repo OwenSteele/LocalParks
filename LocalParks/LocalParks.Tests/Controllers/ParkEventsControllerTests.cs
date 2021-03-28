@@ -3,14 +3,20 @@ using LocalParks.Controllers;
 using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
+using LocalParks.Models.Validation;
+using LocalParks.Services;
+using LocalParks.Services.View;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -19,112 +25,232 @@ namespace LocalParks.Tests.Controllers
     public class ParkEventsControllerTests
     {
         private readonly Mock<ILogger<ParkEventsController>> _mockLogger;
-        private readonly Mapper _mapper;
+        private readonly Mock<IAuthenticationService> _mockAuthService;
+        private readonly Mock<IParkEventsService> _mockService;
+        private readonly Mock<ISortingService> _mockSortService;
+        private readonly Mock<ClaimsPrincipal> _mockUser;
         private readonly TempDataDictionary _tempData;
-        private readonly ParkEvent[] _events;
+        private readonly ParkEventModel[] _events;
+        private readonly ParkModel[] _parks;
 
         public ParkEventsControllerTests()
         {
-            _mockLogger = new Mock<ILogger<ParkEventsController>>();
-
             var myProfile = new ParkProfile();
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
-            _mapper = new Mapper(configuration);
 
             _events = GetTestParkEvents();
+            _parks = GetTestParks();
 
             var httpContext = new DefaultHttpContext();
             _tempData = new TempDataDictionary(httpContext, Mock.Of<ITempDataProvider>());
+
+            _mockLogger = new Mock<ILogger<ParkEventsController>>();
+            _mockAuthService = new Mock<IAuthenticationService>();
+            _mockService = new Mock<IParkEventsService>();
+            _mockSortService = new Mock<ISortingService>();
+
+            _mockUser = new Mock<ClaimsPrincipal>();
+            _mockUser.Setup(s => s.AddIdentity(new ClaimsIdentity(
+                    new Claim[]
+                    {
+                        new Claim(ClaimTypes.Name, "mock"),
+                        new Claim(ClaimTypes.NameIdentifier, "1")
+                    }, "mock")));
+
+            _mockAuthService.Setup(s => s.IsSignedInAsync(_mockUser.Object))
+                .ReturnsAsync(true);
+
+            _mockService.Setup(s => s.GetParkSelectListItemsAsync(true))
+                .ReturnsAsync(_parks.Where(p => p.Events.Any())
+                .Select(p => new SelectListItem {
+                    Selected = false,
+                    Text = p.Name,
+                    Value = p.ParkId.ToString()
+                }));
+        }
+
+        private ParkEventsController ArrangeController() => new ParkEventsController(
+            _mockLogger.Object,
+                _mockService.Object, 
+                _mockAuthService.Object)
+            {
+                TempData = _tempData,
+                ControllerContext = new()
+                {
+                    HttpContext = new DefaultHttpContext() { User = _mockUser.Object }
+                }
+            };
+
+
+        private void ArrangeServiceModelById(int eventId)
+        {
+            _mockService.Setup(s => s.GetParkEventModelByIdAsync(eventId, null))
+                .ReturnsAsync(_events.Where(p => p.EventId == eventId).First());
+        }
+        private void ArrangeServicePark(int parkId, int pos)
+        {
+            _mockService.Setup(s => s.GetParkAsync(parkId))
+                .ReturnsAsync(GetTestParks()[pos]);
+        }
+        private void ArrangeRole(bool conditionsMet)
+        {
+            _mockAuthService.Setup(s => s.HasRequiredRoleAsync("", ""))
+                .ReturnsAsync(conditionsMet);
+        }
+        
+
+        [Fact]
+        public async Task WHEN_Index_action_is_called_THEN_Index_view_is_returned_with_ParkEventModel()
+        {
+            _mockService.Setup(s => s.GetAllParkEventModelsAsync())
+                .ReturnsAsync(_events);
+
+            var controller = ArrangeController();
+
+            var result = await controller.Index();
+
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsAssignableFrom<IEnumerable<ParkEventModel>>(
+                viewResult.ViewData.Model);
+
+            Assert.True(model.Any());
         }
 
         [InlineData(true, 0, null)]
         [InlineData(true, 1, "a BIg")]
         [InlineData(true, 1, "another")]
-        [InlineData(true, 0, "xxx")]
+        [InlineData(false, 2, "xxx")]
         [Theory]
-        public async Task ShouldReturnIndexViewWithParkEventsModel(bool isAny, int missingEvents, string searchterm)
+        public async Task WHEN_Filter_action_is_called_with_searchTerm_THEN_Index_view_is_returned_only_with_matching_events(
+            bool isAny, int missingEvents, string searchterm)
         {
-            var mockRepo = new Mock<IParkRepository>();
-            mockRepo.Setup(r => r.GetAllEventsAsync()).Returns(Task.FromResult(_events));
+            _mockService.Setup(s => s.GetSearchedParkEventModelsAsync(searchterm,null,null))
+                .ReturnsAsync(_events.Where( e => 
+                string.IsNullOrEmpty(searchterm) || 
+                e.Name.ToLower().Contains(searchterm.ToLower())).ToArray());
 
-            var controller = new ParkEventsController(_mockLogger.Object, mockRepo.Object, _mapper)
-            {
-                TempData = _tempData
-            };
+            var controller = ArrangeController();
 
-            var result = await controller.Index(searchterm);
+            var result = await controller.Filter(_mockSortService.Object, searchterm);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<IEnumerable<ParkEventModel>>(
                 viewResult.ViewData.Model);
 
+            Assert.Equal("Index", viewResult.ViewName);
+            Assert.Equal(isAny, model.Any());
+            Assert.Equal(_events.Length - missingEvents, model.Count());
+        }
+        [InlineData(true, 0, null)]
+        [InlineData(true, 1, "8001")]
+        [InlineData(true, 1, "8002")]
+        [InlineData(false, 2, "9999")]
+        [Theory]
+        public async Task WHEN_Filter_action_is_called_with_parkFilter_THEN_Index_view_is_returned_only_with_matching_events(
+           bool isAny, int missingEvents, string parkFilter)
+        {
+            _mockService.Setup(s => s.GetSearchedParkEventModelsAsync(null, parkFilter, null))
+                .ReturnsAsync(_events.Where(e =>
+                string.IsNullOrEmpty(parkFilter) ||
+                 e.ParkId == int.Parse(parkFilter)).ToArray());
+
+            var controller = ArrangeController();
+
+            var result = await controller.Filter(_mockSortService.Object, parkFilter: parkFilter);
+
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsAssignableFrom<IEnumerable<ParkEventModel>>(
+                viewResult.ViewData.Model);
+
+            Assert.Equal("Index", viewResult.ViewName);
+            Assert.Equal(isAny, model.Any());
+            Assert.Equal(_events.Length - missingEvents, model.Count());
+        }
+        [InlineData(true, 0, null)]
+        [InlineData(true, 1, "2200-1-1")]
+        [InlineData(true, 1, "2200-1-2")]
+        [InlineData(false, 2, "2200-1-3")]
+        [Theory]
+        public async Task WHEN_Filter_action_is_called_with_date_THEN_Index_view_is_returned_only_with_matching_events(
+           bool isAny, int missingEvents, string dateNull)
+        {
+            DateTime? date = null;
+            if(DateTime.TryParse(dateNull, out DateTime attempt))
+            {
+                date = attempt;
+            }
+
+            _mockService.Setup(s => s.GetSearchedParkEventModelsAsync(null, null, date))
+                .ReturnsAsync(_events.Where(e => !date.HasValue || e.Date == (DateTime)date).ToArray());
+
+            var controller = ArrangeController();
+
+            var result = await controller.Filter(_mockSortService.Object, date: date);
+
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsAssignableFrom<IEnumerable<ParkEventModel>>(
+                viewResult.ViewData.Model);
+
+            Assert.Equal("Index", viewResult.ViewName);
             Assert.Equal(isAny, model.Any());
             Assert.Equal(_events.Length - missingEvents, model.Count());
         }
 
         [InlineData(null, null, null)]
-        [InlineData("a big", null, "a BIg")]
-        [InlineData("another", null, "anOTHer")]
-        [InlineData(null, "No Matches found", "xxx")]
+        [InlineData("a BIg", null, "a BIg")]
+        [InlineData("anOTHer", null, "anOTHer")]
+        [InlineData("xxx", null, "xxx")]
         [Theory]
-        public async Task ShouldReturnIndexSetTempDataWithSearchterm(string tdFilter, string tdMatches, string searchterm)
+        public async Task WHEN_Filter_action_is_called_with_searchTerm_THEN_Index_view_TempData_containing_searchTerm(
+            string tdFilter, string tdMatches, string searchterm)
         {
-            var mockRepo = new Mock<IParkRepository>();
-            mockRepo.Setup(r => r.GetAllEventsAsync()).Returns(Task.FromResult(_events));
+            _mockService.Setup(s => s.GetSearchedParkEventModelsAsync(searchterm, null, null))
+                .ReturnsAsync(_events.Where(e =>
+                string.IsNullOrEmpty(searchterm) ||
+                 e.Name.ToLower().Contains(searchterm.ToLower())).ToArray());
 
-            var controller = new ParkEventsController(_mockLogger.Object, mockRepo.Object, _mapper)
-            {
-                TempData = _tempData
-            };
+            var controller = ArrangeController();
 
-            var result = await controller.Index(searchterm);
+            var result = await controller.Filter(_mockSortService.Object, searchterm);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<IEnumerable<ParkEventModel>>(
                 viewResult.ViewData.Model);
 
+            Assert.Equal("Index", viewResult.ViewName);
             Assert.Equal(tdFilter, viewResult.TempData["Filter"]);
             Assert.Equal(tdMatches, viewResult.TempData["Matches"]);
         }
 
-        [InlineData(0, 8001, 2200, 1, 1)]
-        [InlineData(1, 8002, 2200, 1, 2)]
+        [InlineData(0, 7001)]
+        [InlineData(1, 7002)]
         [Theory]
-        public async Task ShouldReturnDetailsView(int parkPos, int parkId, int year, int month, int day)
+        public async Task WHEN_details_action_is_called_with_eventId_THEN_details_view_is_returned_containing_matching_ParkEventModel(
+            int parkPos, int eventId)
         {
-            var date = new DateTime(year, month, day);
+            ArrangeRole(true);
+            ArrangeServiceModelById(eventId);
 
-            var mockRepo = new Mock<IParkRepository>();
-            mockRepo.Setup(r => r.GetEventByParkIdByDateAsync(parkId, date))
-                .Returns(Task.FromResult(_events.Where(p => p.Park.ParkId == parkId).First()));
+            var controller = ArrangeController();
 
-            var controller = new ParkEventsController(_mockLogger.Object, mockRepo.Object, _mapper)
-            {
-                TempData = _tempData
-            };
-
-            var result = await controller.Details(parkId, date);
+            var result = await controller.Details(eventId);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<ParkEventModel>(
                 viewResult.ViewData.Model);
 
             Assert.Null(viewResult.ViewName);
-            Assert.Equal(_events[parkPos].Park.ParkId, model.ParkId);
+            Assert.Equal(_events[parkPos].ParkId, model.ParkId);
         }
 
         [Fact]
-        public async Task ShouldReturnEmptyModelFromEditAction()
+        public async Task WHEN_Edit_action_is_called_without_eventId_THEN_edit_view_without_a_model_is_returned()
         {
-            var mockRepo = new Mock<IParkRepository>();
-            mockRepo.Setup(r => r.GetAllParksAsync()).Returns(Task.FromResult(GetTestParks()));
+            ArrangeRole(true);
 
-            var controller = new ParkEventsController(_mockLogger.Object, mockRepo.Object, _mapper)
-            {
-                TempData = _tempData
-            };
+            var controller = ArrangeController();
 
-            var result = await controller.Edit(0, DateTime.MinValue);
+            var result = await controller.Edit(0);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<ParkEventModel>(
@@ -134,48 +260,37 @@ namespace LocalParks.Tests.Controllers
             Assert.Null(model.Name);
         }
 
-        [InlineData(8001, 2200, 1, 1)]
-        [InlineData(8002, 2200, 1, 2)]
+        [InlineData(7001)]
+        [InlineData(7002)]
         [Theory]
-        public async Task ShouldReturnCompleteModelFromEditAction(int parkId, int year, int month, int day)
+        public async Task WHEN_Edit_action_is_called_with_eventId_THEN_edit_view_containing_matching_ParkEventModel_is_returned(
+            int eventId)
         {
-            var date = new DateTime(year, month, day);
+            ArrangeRole(true);
+            ArrangeServiceModelById(eventId);
 
-            var mockRepo = new Mock<IParkRepository>();
-            mockRepo.Setup(r => r.GetEventByParkIdByDateAsync(parkId, date))
-                .Returns(Task.FromResult(_events.Where(p => p.Park.ParkId == parkId).First()));
+            var controller = ArrangeController();
 
-            var controller = new ParkEventsController(_mockLogger.Object, mockRepo.Object, _mapper)
-            {
-                TempData = _tempData
-            };
-
-            var result = await controller.Edit(parkId, date);
+            var result = await controller.Edit(eventId);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<ParkEventModel>(
                 viewResult.ViewData.Model);
 
-            Assert.Null(viewResult.ViewData["Parks"]);
+            Assert.NotNull(viewResult.ViewData["Parks"]);
             Assert.NotNull(model.Name);
-            Assert.Equal(parkId, model.ParkId);
-            Assert.Equal(date, model.Date);
+            Assert.Equal(eventId, model.EventId);
         }
 
         [Fact]
-        public async Task ShouldReturnEditViewwithNoMatch()
+        public async Task WHEN_Edit_action_is_called_with_nonexistant_parkID_THEN_edit_view_without_a_model_is_returned()
         {
-            var mockRepo = new Mock<IParkRepository>();
-            mockRepo.Setup(r => r.GetParkByIdAsync(5001)).Returns(Task.FromResult(GetTestParks()[0]));
+            ArrangeRole(true);
+            ArrangeServicePark(5001, 0);
 
-            var controller = new ParkEventsController(_mockLogger.Object, mockRepo.Object, _mapper)
-            {
-                TempData = _tempData,
-                Event = new ParkEventModel
-                {
-                    ParkId = 11111
-                }
-            };
+            var controller = ArrangeController();
+
+            controller.Event = new ParkEventModel { ParkId = 11111 };
 
             var result = await controller.Edit();
 
@@ -188,22 +303,20 @@ namespace LocalParks.Tests.Controllers
         }
 
         [Fact]
-        public async Task ShouldReturnEditViewwithDateTaken()
+        public async Task WHEN_Edit_action_is_called_with_date_that_is_taken_THEN_edit_view_is_returned_with_ViewData_Error()
         {
-            var mockRepo = new Mock<IParkRepository>();
-            mockRepo.Setup(r => r.GetParkByIdAsync(5001)).Returns(Task.FromResult(GetTestParks()[0]));
+            ArrangeRole(true);
+            ArrangeServicePark(4001, 0);
 
-            var controller = new ParkEventsController(_mockLogger.Object, mockRepo.Object, _mapper)
+            var controller = ArrangeController();
+
+            controller.Event = new ParkEventModel
             {
-                TempData = _tempData,
-                Event = new ParkEventModel
-                {
-                    ParkId = 5001,
-                    ParkName = "TestingParkOne",
-                    EventId = 9001,
-                    Name = "NewParkEventTest",
-                    Date = new DateTime(2200, 12, 12)
-                }
+                ParkId = 4001,
+                ParkName = "TestingParkOne",
+                EventId = 9001,
+                Name = "NewParkEventTest",
+                Date = new DateTime(2200, 12, 12)
             };
 
             var result = await controller.Edit();
@@ -213,20 +326,17 @@ namespace LocalParks.Tests.Controllers
                 viewResult.ViewData.Model);
 
             Assert.NotNull(viewResult.ViewData["Parks"]);
-            Assert.Equal("An Event is already booked for this date at TestingParkOne", viewResult.ViewData["DateTaken"]);
+            Assert.Equal(1,viewResult.ViewData.ModelState.ErrorCount);
             Assert.NotNull(model.Name);
         }
         [Fact]
-        public async Task ShouldReturnEditViewwithInvalidModel()
+        public async Task WHEN_Edit_action_is_called_with_model_error_THEN_edit_view_is_returned_with_an_invalid_model()
         {
-            var mockRepo = new Mock<IParkRepository>();
-            mockRepo.Setup(r => r.GetParkByIdAsync(5001)).Returns(Task.FromResult(GetTestParks()[0]));
+            ArrangeServicePark(5001, 0);
 
-            var controller = new ParkEventsController(_mockLogger.Object, mockRepo.Object, _mapper)
-            {
-                TempData = _tempData,
-                Event = new ParkEventModel()
-            };
+            var controller = ArrangeController();
+
+            controller.Event = new();
 
             controller.ModelState.AddModelError("Name", "Required");
 
@@ -240,23 +350,17 @@ namespace LocalParks.Tests.Controllers
             Assert.Null(model.Name);
         }
 
-        [InlineData(8001, 2200, 1, 1)]
-        [InlineData(8002, 2200, 1, 2)]
+        [InlineData(7001)]
+        [InlineData(7002)]
         [Theory]
-        public async Task ShouldRedirecttoDetailsFromDeleteAction(int parkId, int year, int month, int day)
+        public async Task WHEN_Delete_action_is_called_with_eventId_THEN_Details_view_is_returned_containing_match_ParkEventModel(int eventId)
         {
-            var date = new DateTime(year, month, day);
 
-            var mockRepo = new Mock<IParkRepository>();
-            mockRepo.Setup(r => r.GetEventByParkIdByDateAsync(parkId, date))
-                .Returns(Task.FromResult(_events.Where(p => p.Park.ParkId == parkId).First()));
+            ArrangeServiceModelById(eventId);
 
-            var controller = new ParkEventsController(_mockLogger.Object, mockRepo.Object, _mapper)
-            {
-                TempData = _tempData
-            };
+            var controller = ArrangeController();
 
-            var result = await controller.Delete(parkId, date, true);
+            var result = await controller.Delete(eventId);
 
             var actionResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("ParkEvents", actionResult.ControllerName);
@@ -264,40 +368,34 @@ namespace LocalParks.Tests.Controllers
         }
 
         [Fact]
-        public async Task ShouldReturnDeleteViewNotConfirmed()
+        public async Task WHEN_Delete_action_is_called_without_confirmation_THEN_Delete_view_is_returned()
         {
-            var date = new DateTime(2200, 1, 1);
-            var parkId = 8001;
+            var eventId = 7001;
 
-            var mockRepo = new Mock<IParkRepository>();
-            mockRepo.Setup(r => r.GetEventByParkIdByDateAsync(parkId, date))
-                .Returns(Task.FromResult(_events.Where(p => p.Park.ParkId == parkId).First()));
+            ArrangeServiceModelById(eventId);
 
-            var controller = new ParkEventsController(_mockLogger.Object, mockRepo.Object, _mapper)
-            {
-                TempData = _tempData
-            };
+            var controller = ArrangeController();
 
-            var result = await controller.Delete(parkId, date);
+            var result = await controller.Delete(eventId, false);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<ParkEventModel>(
                 viewResult.ViewData.Model);
 
             Assert.NotNull(model.Name);
-            Assert.Equal(parkId, model.ParkId);
-            Assert.Equal(date, model.Date);
+            Assert.Equal(eventId, model.EventId);
         }
 
-        private static ParkEvent[] GetTestParkEvents()
+        private static ParkEventModel[] GetTestParkEvents()
         {
-            return new ParkEvent[]
+            return new ParkEventModel[]
             {
-                new ParkEvent
+                new ParkEventModel
                 {
                     EventId = 7001,
                     Name = "A big event",
-                    Park = new Park { ParkId = 8001, Name = "TestingParkOne for Event"},
+                    ParkId = 8001, 
+                    ParkName = "TestingParkOne for Event",
                     Date = new DateTime(2200,1,1),
                     Description = "djfglshdflgkjsdfhglkjsdhfg",
                     OrganiserEmail = "fdg@sdf.coum",
@@ -305,11 +403,12 @@ namespace LocalParks.Tests.Controllers
                     OrganiserFirstName = "Joe",
                     OrganiserLastName = "Bloggs"
                 },
-                new ParkEvent
+                new ParkEventModel
                 {
                     EventId = 7002,
                     Name = "Another big event",
-                    Park = new Park { ParkId = 8002, Name = "TestingParkTwo for Event"},
+                    ParkId = 8002, 
+                    ParkName = "TestingParkTwo for Event",
                     Date = new DateTime(2200,1,2),
                     Description = "mjkllkjhkjh",
                     OrganiserEmail = "uy@uy.com",
@@ -319,23 +418,23 @@ namespace LocalParks.Tests.Controllers
                 }
             };
         }
-        private static Park[] GetTestParks()
+        private static ParkModel[] GetTestParks()
         {
-            return new Park[]
+            return new ParkModel[]
             {
-                new Park {
+                new ParkModel {
                     ParkId = 4001,
-                Postcode = new Postcode {Zone = "LP1" },
+                PostcodeZone = "LP1" ,
                     Name = "TestingParkOne",
                     SizeInMetresSquared = 20000,
                     Longitude = 12.345m,
                     Latitude = 5.4321m,
                     OpeningTime = new DateTime (2000,1,1,7,0,0 ),
                     ClosingTime =new DateTime (2000,1,1,19,0,0 ),
-                    Supervisor = new Supervisor{ SupervisorId = 5101, ParkRef = 5001},
-                    Events = new ParkEvent[]
+                    Supervisor = new SupervisorModel{ EmployeeId = 5101, ParkId = 5001},
+                    Events = new ParkEventModel[]
                     {
-                        new ParkEvent
+                        new ParkEventModel
                 {
                     EventId = 14001,
                     Name = "Another big event",
@@ -348,16 +447,16 @@ namespace LocalParks.Tests.Controllers
                 }
                     }
                 },
-                new Park {
+                new ParkModel {
                     ParkId = 4002,
-                Postcode = new Postcode {Zone = "LP2" },
+                PostcodeZone = "LP2" ,
                     Name = "TestingParkTwo",
                     SizeInMetresSquared = 1000,
                     Longitude = 1.2345m,
                     Latitude = 54.321m,
                     OpeningTime = new DateTime (2000,1,1,6,0,0 ),
                     ClosingTime =new DateTime (2000,1,1,20,0,0 ),
-                    Supervisor = new Supervisor{ SupervisorId = 5102, ParkRef = 5002}
+                    Supervisor = new SupervisorModel{ EmployeeId = 5102, ParkId = 5002}
                 }
             };
         }
