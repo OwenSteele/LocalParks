@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     </environment>
 </head>
-<body>
+<body class="background-image-all">
     <header>
         <nav class="navbar fixed-top navbar-expand-sm navbar-toggleable-sm navbar-dark
              bg-dark border-bottom box-shadow mb-3 navbar-">
@@ -105,13 +105,14 @@
             </div>
         </nav>
     </header>
-    <div class="mb-5">
-        <main role="main" class="pb-3 container" style="padding-top: 160px; padding-bottom: 100px;">
+    <div class="mb-5 pb-3 container" style="padding-top: 40px; padding-bottom: 100px;">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" id="main-body">
                 @RenderBody()
         </main>
     </div>
-    <div style="min-height: 100px;"></div>
-    <footer class="border-top footer m-1 p-2 bg-light text-center">
+    <div style="min-height: 100px;" class="w-100"></div>
+    <footer class="no-margin-footer border-top footer m-1 p-2 bg-light text-center">
         <p class="font-weight-bolder">
             <a asp-controller="Home"
                asp-action="AboutMe">

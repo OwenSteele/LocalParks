@@ -1,4 +1,5 @@
 ﻿using LocalParks.Services;
+using LocalParks.Services.ViewComponents;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -6,16 +7,16 @@ namespace LocalParks.ViewComponents
 {
     public class SalaryTenureChartViewComponent : ViewComponent
     {
-        private readonly IViewComponentsService _service;
+        private readonly IChartService _service;
 
-        public SalaryTenureChartViewComponent(IViewComponentsService service)
+        public SalaryTenureChartViewComponent(ChartServiceResolver resolver)
         {
-            _service = service;
+            _service = resolver(ChartServiceType.SalaryTenure);
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var model = await _service.CreateSupervisor_Salary_Tenure_ChartAsync();
+            var model = await _service.CreateAsync();
 
             return View(model);
         }

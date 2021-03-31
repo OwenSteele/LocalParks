@@ -25,7 +25,7 @@ namespace LocalParks
         {
             var scopeFactory = host.Services.GetService<IServiceScopeFactory>();
             using var scope = scopeFactory.CreateScope();
-            var seeder = scope.ServiceProvider.GetService<ParksSeeder>();
+            var seeder = scope.ServiceProvider.GetService<IParksSeeder>();
             var x = seeder.SeedAsync();
             x.Wait();
         }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace LocalParks.Data
 {
-    public class ParksSeeder
+    public class ParksSeeder : IParksSeeder
     {
         private readonly ParkContext _context;
         private readonly UserManager<LocalParksUser> _userManager;

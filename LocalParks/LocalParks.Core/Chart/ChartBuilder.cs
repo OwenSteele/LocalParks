@@ -409,12 +409,12 @@ namespace LocalParks.Core.Chart
             return this;
         }
 
-        public ChartBuilder SetMaintainAspectRatio(bool value = false)
+        public ChartBuilder SetMaintainAspectRatio(bool value = false, bool responsive = true)
         {
             if (_chart.Options == null) _chart.Options = new();
 
             _chart.Options.MaintainAspectRatio = value;
-            _chart.Options.Responsive = !value;
+            _chart.Options.Responsive = responsive;
 
             return this;
         }

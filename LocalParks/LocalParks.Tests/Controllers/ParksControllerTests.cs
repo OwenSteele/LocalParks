@@ -27,7 +27,6 @@ namespace LocalParks.Tests.Controllers
         private readonly Mock<ISortingService> _mockSortService;
         private readonly Mock<ClaimsPrincipal> _mockUser;
         private readonly TempDataDictionary _tempData;
-        private readonly ParkEventModel[] _events;
         private readonly ParkModel[] _parks;
 
         public ParksControllerTests()

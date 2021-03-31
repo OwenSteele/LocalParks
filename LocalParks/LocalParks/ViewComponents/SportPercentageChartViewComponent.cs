@@ -1,4 +1,5 @@
 ﻿using LocalParks.Services;
+using LocalParks.Services.ViewComponents;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -6,16 +7,16 @@ namespace LocalParks.ViewComponents
 {
     public class SportPercentageChartViewComponent : ViewComponent
     {
-        private readonly IViewComponentsService _service;
+        private readonly IChartService _service;
 
-        public SportPercentageChartViewComponent(IViewComponentsService service)
+        public SportPercentageChartViewComponent(ChartServiceResolver resolver)
         {
-            _service = service;
+            _service = resolver(ChartServiceType.SportsPercentage);
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var model = await _service.CreateSports_Percentage_ChartAsync();
+            var model = await _service.CreateAsync();
 
             return View(model);
         }

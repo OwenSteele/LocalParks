@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNetCore.Http.Features
+
+@{
+    var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
+    var showBanner = !consentFeature?.CanTrack ?? false;
+    var cookieString = consentFeature?.CreateConsentCookie();
+}
+
+@if (showBanner)
+{
+    <nav id="cookieConsent" class="navbar navbar-default navbar-fixed-top" role="alert">
+        <div class="container card bg-light rounded border-danger">
+            <p class="navbar-text border-bottom font-weight-bolder">
+                Welcome to my Site, Local Parks! This is a portfolio project by Owen Steele.
+            </p>
+            <p>
+                To find out more about this project, see the
+                <a asp-controller="Home" asp-action="AboutMe" class="text-info">About me</a>
+                (in the footer)
+            </p>
+            <div class="flex-row d-flex justify-content-between flex-wrap">
+                <p class="text-left font-weight-bold text-warning">
+                    This site requires cookies to function, see the privacy page to see why.
+                </p>
+                <div class="navbar-right">
+                    <a asp-controller="Home" asp-action="Privacy" class="btn btn-info navbar-btn">Learn More</a>
+                    <button type="button" class="btn btn-success navbar-btn" data-cookie-string="@cookieString">Accept</button>
+                </div>
+            </div>
+            <span class="align-self-end" style="font-size:11px;">If this doesn't disappear on accepting, just refresh!</span>
+        </div>
+    </nav>
+    <script>
+        (function () {
+            document.querySelector("#cookieConsent button[data-cookie-string]").addEventListener("click", function (el) {
+                document.cookie = el.target.dataset.cookieString;
+                document.querySelector("#cookieConsent").classList.add("hidden");
+            }, false);
+        })();
+    </script>
+}

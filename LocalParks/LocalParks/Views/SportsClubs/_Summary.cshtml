@@ -1,6 +1,6 @@
 ﻿@using LocalParks.Models
 @model SportsClubModel
-    <div class="row summary-row-container">
+    <div class="row summary-row-container" id="club-list-item">
         <div class="col-10 offset-1">
             <a asp-controller="SportsClubs" asp-action="Details" asp-route-sportsClubId="@Model.ClubId"
                class="w3-hover-text-amber w3-hover-border-amber">

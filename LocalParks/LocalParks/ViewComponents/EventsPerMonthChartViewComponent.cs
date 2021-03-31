@@ -1,4 +1,5 @@
 ﻿using LocalParks.Services;
+using LocalParks.Services.ViewComponents;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -6,16 +7,16 @@ namespace LocalParks.ViewComponents
 {
     public class EventsPerMonthChartViewComponent : ViewComponent
     {
-        private readonly IViewComponentsService _service;
+        private readonly IChartService _service;
 
-        public EventsPerMonthChartViewComponent(IViewComponentsService service)
+        public EventsPerMonthChartViewComponent(ChartServiceResolver resolver)
         {
-            _service = service;
+            _service = resolver(ChartServiceType.EventsPerMonth);
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var model = await _service.CreateEvents_Per_Month_ChartAsync();
+            var model = await _service.CreateAsync();
 
             return View(model);
         }

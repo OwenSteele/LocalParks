@@ -1,6 +1,6 @@
 ﻿@using LocalParks.Models
 @model ParkEventModel
-<div class="row summary-row-container">
+<div class="row summary-row-container" id="event-list-item">
     <div class="col-10 offset-1">
         <a asp-controller="ParkEvents" asp-action="Details" asp-route-eventId="@Model.EventId"
            class="w3-hover-text-amber w3-hover-border-amber">

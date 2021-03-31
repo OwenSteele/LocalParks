@@ -7,10 +7,12 @@
     <span class="p-2 bg-light rounded">Reports about our parks</span>
 </h1>
 
-<div>
-    @await Component.InvokeAsync("ParksPerPostcodeChart")
-</div>
+<div class="bg-white p-2 rounded">
+    <div>
+        @await Component.InvokeAsync("ParksPerPostcodeChart")
+    </div>
 
-<div>
-    @await Component.InvokeAsync("TotalParkAreaPerPostcodeChart")
+    <div>
+        @await Component.InvokeAsync("TotalParkAreaPerPostcodeChart")
+    </div>
 </div>

@@ -1,3 +1,4 @@
+using LocalParks.Configuration.Injection;
 using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Services;
@@ -6,6 +7,7 @@ using LocalParks.Services.Shop;
 using LocalParks.Services.View;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -54,36 +56,21 @@ namespace LocalParks
                 options.UseSqlServer(Configuration.GetConnectionString("LocalParks"));
             });
 
-            services.AddScoped<IHomeService, HomeService>();
-            services.AddScoped<IParksService, ParksService>();
-            services.AddScoped<IParkEventsService, ParkEventsService>();
-            services.AddScoped<ISupervisorsService, SupervisorsService>();
-            services.AddScoped<ISportsClubsService, SportsClubsService>();
-            services.AddScoped<IPostcodesService, PostcodesService>();
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
 
-            services.AddScoped<IShopManager, ShopManager>();
-            services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<IOrderService, OrderService>();
-            services.AddScoped<IOrderCreationService, OrderCreationService>();
-
-            services.AddScoped<IViewComponentsService, ViewComponentsService>();
-
-            services.AddScoped<ISelectListService, SelectListService>();
-            services.AddScoped<ISortingService, SortingService>();
-
-            services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
-            services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<IUserService, UserService>();
-
-
-            services.AddSingleton<IRandomService, RandomService>();
+            services.AddLocalParksEntityServices()
+                .AddLocalParksContextServices()
+                .AddInternalSharedServices()
+                .AddViewComponentServices()
+                .AddShopServices()
+                .AddViewServices()
+                .AddAuthServices();
 
             services.AddMvc();
-
-            services.AddTransient<ParksSeeder>();
-
-            services.AddScoped<IParkRepository, ParkRepository>();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -111,6 +98,7 @@ namespace LocalParks
             app.UseAuthentication();
 
             app.UseAuthorization();
+            app.UseCookiePolicy();
 
             app.UseEndpoints(endpoints =>
             {

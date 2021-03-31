@@ -7,9 +7,11 @@
     <span class="p-2 bg-light rounded">Information about our sports clubs</span>
 </h1>
 
-<div>
-    @await Component.InvokeAsync("SportPercentageChart")
-</div>
-<div>
-    @await Component.InvokeAsync("ClubMembersByParkAreaChart")
+<div class="bg-white p-2 rounded">
+    <div>
+        @await Component.InvokeAsync("SportPercentageChart")
+    </div>
+    <div>
+        @await Component.InvokeAsync("ClubMembersByParkAreaChart")
+    </div>
 </div>

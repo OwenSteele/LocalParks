@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Home";
 }
-    <p class="alert-danger w3-center">
+    <p class="alert-danger w3-center m-1 p-2 rounded">
         <i class="fa fa-exclamation-triangle"></i>
         If you are in trouble, please contact your nearest park supervisor at:
         <i class="fa fa-phone"></i>
@@ -13,12 +13,15 @@
                                       new { parkId = @Model.SelectedPark.ParkId })'" />
     </p>
 
-    <h1 class="text-center">Welcome to the Parks Authority new Website!</h1>
-    <div class="justify-content-around">
-        <div class="row">
-            <div class="ml-auto mr-auto w-auto text-center">
-                <img class="container mx-auto w-75" src="~/images/LogoFull.PNG" />
-            </div>
+    <div class="row">
+        <div class="ml-auto mr-auto w-auto text-center rounded m-3 bg-white">
+            <img class="container mx-auto w-75" src="~/images/LogoFull.PNG" />
+        </div>
+    </div>
+    <div class="justify-content-around bg-white p-2 rounded-top">
+
+        <div class="bg-warning rounded text-dark p-2 m-4">
+            <h1 class="text-center font-weight-bolder shadow">Welcome to the Parks Authority new Website!</h1>
         </div>
 
         <div class="row text-center flex-wrap text-wrap container m-0 justify-content-center">

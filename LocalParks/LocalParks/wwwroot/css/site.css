@@ -1,6 +1,45 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+@keyframes fadein {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+#main-body {
+    animation: fadein 1.5s;
+}
+
+#club-list-item {
+    animation: 1s ease-out 0s 1 slideInFromLeft;
+}
+#event-list-item {
+    animation: 1s ease-out 0s 1 slideInFromRight;
+}
+
 /*Custom*/
 .summary-table-condensed > tfoot > tr > td {
     padding: 1px;
@@ -44,7 +83,7 @@ a {
     background-image: url("../images/staff_bg.jpg");
     background-color: darkseagreen;
     background-size: cover;
-    padding: 5rem 3rem;
+    padding: 4rem 3rem;
     margin-bottom: 2rem;
     border-radius: 0.3rem;
 }
@@ -54,13 +93,13 @@ a {
     background-size: cover;
     padding: 4rem 3rem;
     margin-bottom: 2rem;
-    border-radius: 0.3rem;
+    border-radius: 1rem;
 }
 .parks-jumbotron-img {
     background-image: url("../images/parks_bg.jpg");
     background-color: darkseagreen;
     background-size: cover;
-    padding: 5rem 3rem;
+    padding: 4rem 3rem;
     margin-bottom: 2rem;
     border-radius: 0.3rem;
 }
@@ -68,18 +107,37 @@ a {
     background-image: url("../images/clubs_bg.jpg");
     background-color: darkseagreen;
     background-size: cover;
-    padding: 5rem 3rem;
+    padding: 4rem 3rem;
     margin-bottom: 2rem;
-    border-radius: 0.3rem;
+    border-color: black;
 }
 .reports-jumbotron-img {
     background-image: url("../images/reports_bg.jpg");
+    background-color: darkseagreen;
+    background-size: cover;
+    padding: 4rem 3rem;
+    margin-bottom: 2rem;
+    border-radius: 0.3rem;
+}
+
+.background-image-all {
+    background-image: url("../images/main_bg.jpg");
     background-color: darkseagreen;
     background-size: cover;
     padding: 5rem 3rem;
     margin-bottom: 2rem;
     border-radius: 0.3rem;
 }
+}
+
+.chart-container {
+    width: 600px;
+    height: 400px;
+}
+    .chart-container > canvas {
+        width: 600px;
+        height: 400px;
+    }
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -101,8 +159,6 @@ html {
         width:50%;
     }
     body {
-        margin-right: 1px;
-        margin-right: 1px;
         overflow-x: hidden;
     }
     main {
@@ -144,6 +200,12 @@ body {
   margin-bottom: 60px;
   overflow-x:hidden;  
 }
+
+.no-margin-footer {
+    margin: 0px !important;
+        left: 0;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
