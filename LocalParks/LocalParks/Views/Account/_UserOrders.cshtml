@@ -1,6 +1,6 @@
 ﻿@model OrderModel
 
-<div class="row order-item">
+<div class="row order-item bg-white p-2 rounded">
     <h4 class="w-100 border-info text-info font-weight-bolder"><strong>Order #:</strong> @Model.OrderNumber</h4>
     <ul>
         <li><strong>Ordered:</strong> @Model.DateCreated </li>
@@ -9,7 +9,7 @@
     </ul>
     @if(Model.Items.Count >0)
     {
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover" style="font-size: 13px;">
         <thead>
             <tr>
                 <th>Item</th>
