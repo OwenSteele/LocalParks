@@ -1,11 +1,13 @@
 # LocalParks
 Find what's going on in parks around you! 
 
-## **Hosted on Azure: https://localparks.azurewebsites.net/**
+```
+Hosted on Azure: https://localparks.azurewebsites.net/
+```
 
 Written by Owen Steele
 
-## Features
+# Features
 
 * ASP.NET Core, using MVC design and Razor page views
 
@@ -27,7 +29,7 @@ Written by Owen Steele
 
 * jQuery used for client-side validation, alongside server-side validation
 
-### UserStore and Identity 
+## UserStore and Identity 
 
 * Can Create, Edit and Delete Users on the site
 
