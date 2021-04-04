@@ -18,10 +18,10 @@
 </head>
 <body class="background-image-all">
     <header>
-        <nav class="navbar fixed-top navbar-expand-sm navbar-toggleable-sm navbar-dark
-             bg-dark border-bottom box-shadow mb-3 navbar-">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+        <nav id="site-nav" class="navbar fixed-top navbar-expand-sm navbar-toggleable-sm navbar-dark
+             bg-dark border-bottom box-shadow mb-1">
+            <div class="container-fluid">
+                <a class="navbar-brand w3-hover-border-amber" asp-area="" asp-controller="Home" asp-action="Index">
                     <img src="~/images/LogoT.PNG" alt="Home"
                          style="width:70px; height: 75px;" />
                 </a>
@@ -35,80 +35,78 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav font-weight-bolder">
-                        <li class="nav-item w3-padding-16">
-                            <a class="nav-link text-light w3-hover-amber w3-hover-text-black rounded" asp-controller="Parks"
-                               asp-action="Index"><i class="fa fa-campground"></i> Parks</a>
-                        </li>
-                        <li class="nav-item w3-padding-16">
-                            <a class="nav-link text-light w3-hover-amber w3-hover-text-black rounded" asp-controller="SportsClubs"
-                               asp-action=""><i class="fa fa-football-ball"></i> Sports Clubs</a>
-                        </li>
-                        <li class="nav-item w3-padding-16">
-                            <a class="nav-link text-light w3-hover-amber w3-hover-text-black rounded" asp-controller="ParkEvents"
-                               asp-action=""><i class="fa fa-calendar-check"></i> Events</a>
-                        </li>
-                        <li class="nav-item w3-padding-16 w3-hover-text-black">
-                            <a class="nav-link text-light w3-hover-amber rounded" asp-controller="Supervisors"
-                               asp-action=""><i class="fa fa-id-badge"></i> Staff</a>
-                        </li>
-                        <li class="nav-item w3-padding-16 w3-hover-text-black">
-                            <a class="nav-link text-light w3-hover-amber rounded" asp-controller="Shop"
-                               asp-action="Index"><i class="fa fa-shopping-cart"></i> Shop</a>
-                        </li>
+                    <div>
+                        <ul class="navbar-nav nav-item-options justify-content-start">
+                            <li class="nav-item">
+                                <a class="nav-link text-light w3-hover-amber w3-hover-text-black rounded" asp-controller="Parks"
+                                   asp-action="Index"><i class="fa fa-campground"></i> Parks</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light w3-hover-amber w3-hover-text-black rounded" asp-controller="SportsClubs"
+                                   asp-action=""><i class="fa fa-football-ball"></i> Clubs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light w3-hover-amber w3-hover-text-black rounded" asp-controller="ParkEvents"
+                                   asp-action=""><i class="fa fa-calendar-check"></i> Events</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light w3-hover-amber rounded" asp-controller="Supervisors"
+                                   asp-action=""><i class="fa fa-id-badge"></i> Staff</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light w3-hover-amber rounded" asp-controller="Shop"
+                                   asp-action="Index"><i class="fa fa-shopping-cart"></i> Shop</a>
+                            </li>
 
-                        <li class="nav-item dropdown w3-padding-16 w3-hover-text-black">
-                            <a class="nav-link dropdown-toggle text-light w3-hover-amber rounded" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-file-alt"></i> Reports
-                            </a>
-                            <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown" onmouseover="">
-                                <a class="nav-link rounded" asp-controller="Reports" asp-action="Index">Overall</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="nav-link rounded" asp-controller="Reports" asp-action="Parks">Parks</a>
-                                <a class="nav-link rounded" asp-controller="Reports" asp-action="SportsClubs">Sports Clubs</a>
-                                <a class="nav-link rounded" asp-controller="Reports" asp-action="ParkEvents">Events</a>
-                                <a class="nav-link rounded" asp-controller="Reports" asp-action="Supervisors">Supervisors</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="nav-link rounded" asp-controller="Reports" asp-action="Shop">Shop</a>
-                            </div>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav font-weight-bolder" style="float: right">
+                            <li class="nav-item dropdown nav-item-options">
+                                <a class="nav-link dropdown-toggle text-light w3-hover-amber rounded" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-file-alt"></i> Reports
+                                </a>
+                                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown" onmouseover="">
+                                    <a class="nav-link rounded" asp-controller="Reports" asp-action="Index">Overall</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="nav-link rounded" asp-controller="Reports" asp-action="Parks">Parks</a>
+                                    <a class="nav-link rounded" asp-controller="Reports" asp-action="SportsClubs">Sports Clubs</a>
+                                    <a class="nav-link rounded" asp-controller="Reports" asp-action="ParkEvents">Events</a>
+                                    <a class="nav-link rounded" asp-controller="Reports" asp-action="Supervisors">Supervisors</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="nav-link rounded" asp-controller="Reports" asp-action="Shop">Shop</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="ml-auto mr-3">
+                    <ul class="navbar-nav nav-item-options justify-content-start">
 
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item w3-padding-16 w3-hover-text-black w3-border-amber">
-                                <a class="nav-link text-light w3-text-amber w3-border-amber rounded border-dark" asp-controller="Account"
-                                   asp-action="Index">@User.Identity.Name</a>
+                            <li class="nav-item dropdown nav-item-options">
+                                <a class="nav-link dropdown-toggle text-light rounded" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="w3-hover-text-amber w3-text-amber">@User.Identity.Name</span>
+                                </a>
+                                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown" onmouseover="">
+                                    <a class="nav-link rounded" asp-controller="Account" asp-action="Index">Account</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="nav-link rounded w3-text-red" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.PageLink()">Logout</a>
+                                </div>
                             </li>
-
-                            <li class="nav-item w3-padding-16 w3-hover-text-black">
-                                <a class="nav-link text-light rounded " asp-controller="Account"
-                                   asp-action="Logout" asp-route-returnUrl="@Url.PageLink()" style="color: red;"><i class="fa fa-sign-out"></i> Logout</a>
-                            </li>
-
                         }
                         else
                         {
                             <li class="nav-item w3-padding-16 w3-hover-text-black">
                                 <a class="nav-link text-light w3-text-amber w3-border-amber rounded border-dark" asp-controller="Account"
-                                   asp-action="SignUp">Sign Up</a>
-                            </li>
-
-                            <li class="nav-item w3-padding-16 w3-hover-text-black float-md-right w3-text-green">
-                                <a class="nav-link text-light rounded" asp-controller="Account"
-                                   asp-action="Login" style="color: green;"><i class="fa fa-sign-in"></i> Login</a>
+                                   asp-action="Login">Login</a>
                             </li>
                         }
-                    </ul>
+                    </ul></div>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="mb-5 pb-3 container" style="padding-top: 40px; padding-bottom: 100px;">
+    <div id="bodydiv" class="mb-5 pb-3 container">
         <partial name="_CookieConsentPartial" />
-        <main role="main" id="main-body">
-                @RenderBody()
+        <main role="main" id="main-body" class="m-0 p-0">
+            @RenderBody()
         </main>
     </div>
     <div style="min-height: 100px;" class="w-100"></div>

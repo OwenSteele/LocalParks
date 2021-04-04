@@ -5,6 +5,7 @@ for details on configuring this project to bundle and minify static web assets. 
     from {
         opacity: 0
     }
+
     to {
         opacity: 1
     }
@@ -19,6 +20,7 @@ for details on configuring this project to bundle and minify static web assets. 
         transform: translateX(0);
     }
 }
+
 @keyframes slideInFromRight {
     0% {
         transform: translateX(100%);
@@ -36,14 +38,24 @@ for details on configuring this project to bundle and minify static web assets. 
 #club-list-item {
     animation: 1s ease-out 0s 1 slideInFromLeft;
 }
+
 #event-list-item {
     animation: 1s ease-out 0s 1 slideInFromRight;
+}
+
+.chart-vertical-message {
+    flex: auto;
+    flex-wrap: wrap;
+    color: red;
+    border: 1px;
+    display: block;
 }
 
 /*Custom*/
 .summary-table-condensed > tfoot > tr > td {
     padding: 1px;
 }
+
 .order-item img {
     max-height: 60px;
     float: left;
@@ -62,21 +74,160 @@ a.navbar-brand {
     word-break: break-all;
 }
 
+/* Home page items */
+.home-page-row {
+    padding: 0px;
+    margin: 0px;
+}
+.home-page-row > div {
+    padding: 0px 80px;
+}
+
+.home-page-items {
+    margin: auto;
+}
+    .home-page-items > div{
+        text-align:center;
+    }
+    .home-page-items > div > h4 {
+        font-size: 20px;
+        font-weight: bolder;
+        text-align: center;
+    }
+.home-page-items > a {
+    padding: 30px;
+}
+
+.home-page-items > a:hover {
+    text-decoration: none;
+    color: orange;
+}
+.home-page-items > a:visited {
+    text-decoration: none;
+}
+.home-page-items > a:focus {
+    text-decoration: none;
+}
+.home-page-items > a:hover, a:active {
+    text-decoration: none;
+}
+
+
+.hpi-header {
+    font-weight: bolder;
+    border-bottom: 1px solid black;
+}
+
+    .hpi-header:hover {
+        text-decoration: none;
+        color: orange;
+    }
+
+.hpi-features-img {
+}
+.hpi-parksbanner-img {
+}
+.hpi-clubsevents-img {
+}
+
+.hpi-shop-img {
+    background-image: url("../images/hpi_shop.jpg");
+    background-color: darkslategray;
+    background-size: cover;
+    padding: 9rem 4rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.25rem;
+    background-position: center;
+}
+.hpi-reports-img {
+    background-image: url("../images/hpi_reports.jpg");
+    background-color: darkslategray;
+    background-size: cover;
+    padding: 9rem 4rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.25rem;
+    background-position: top;
+}
+.hpi-signup-img {
+    background-image: url("../images/LogoFull.PNG");
+    background-color: darkslategray;
+    background-size: cover;
+    padding: 9rem 4rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.25rem;
+    background-position: bottom;
+}
+.hpi-parks1-img {
+    background-image: url("../images/hpi.park_1.jpg");
+    background-color: darkslategray;
+    background-size: cover;
+    padding: 9rem 4rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.25rem;
+    background-position: center;
+}
+.hpi-parks2-img {
+    background-image: url("../images/hpi_parks2.jpg");
+    background-color: darkslategray;
+    background-size: cover;
+    padding: 9rem 4rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.25rem;
+    background-position: center;
+}
+.hpi-parks3-img {
+    background-image: url("../images/parks_bg.jpg");
+    background-color: darkslategray;
+    background-size: cover;
+    padding: 9rem 4rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.25rem;
+    background-position: center;
+}
+.hpi-club-img {
+    background-image: url("../images/hpi_club.jpg");
+    background-color: darkslategray;
+    background-size: cover;
+    padding: 9rem 4rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.25rem;
+    background-position: center;
+}
+.hpi-event1-img {
+    background-image: url("../images/hpi_event_1.jpg");
+    background-color: darkslategray;
+    background-size: cover;
+    padding: 9rem 4rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.25rem;
+    background-position: center;
+}
+.hpi-events-img {
+    background-image: url("../images/events_bg.jpg");
+    background-color: darkslategray;
+    background-size: cover;
+    padding: 9rem 4rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.25rem;
+    background-position: center;
+}
+
+
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .staff-jumbotron-img {
@@ -87,6 +238,7 @@ a {
     margin-bottom: 2rem;
     border-radius: 0.3rem;
 }
+
 .events-jumbotron-img {
     background-image: url("../images/events_bg.jpg");
     background-color: darkseagreen;
@@ -95,6 +247,7 @@ a {
     margin-bottom: 2rem;
     border-radius: 1rem;
 }
+
 .parks-jumbotron-img {
     background-image: url("../images/parks_bg.jpg");
     background-color: darkseagreen;
@@ -103,6 +256,7 @@ a {
     margin-bottom: 2rem;
     border-radius: 0.3rem;
 }
+
 .clubs-jumbotron-img {
     background-image: url("../images/clubs_bg.jpg");
     background-color: darkseagreen;
@@ -111,6 +265,7 @@ a {
     margin-bottom: 2rem;
     border-color: black;
 }
+
 .reports-jumbotron-img {
     background-image: url("../images/reports_bg.jpg");
     background-color: darkseagreen;
@@ -127,91 +282,116 @@ a {
     padding: 5rem 3rem;
     margin-bottom: 2rem;
     border-radius: 0.3rem;
+    background-position: bottom;
 }
+
+.home-banner-img {
+    background-image: url("../images/home_banner.jpg");
+    background-color: darkseagreen;
+    background-size: cover;
+    height: 500px;
+    background-position: center;
 }
 
 .chart-container {
     width: 600px;
     height: 400px;
 }
+
     .chart-container > canvas {
         width: 600px;
         height: 400px;
     }
 
+.nav-item-options > li {
+    font-weight: bolder;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
-@media (min-width: 400px) {
-  html {
-    font-size: 16px;
-  }
-    .summary-row-container{
+
+@media (min-width: 500px) {
+    html {
+        font-size: 16px;
+    }
+
+    .summary-row-container {
         flex-direction: row;
     }
+
     .index-filter-form {
         flex-direction: row;
     }
-    .index-filter-form > form > div {
-        flex-direction: row;
-        width:50%;
-    }
+
+        .index-filter-form > form > div {
+            flex-direction: row;
+            width: 50%;
+        }
+
     body {
         overflow-x: hidden;
     }
+
     main {
         margin-left: 0px;
         margin-right: 0px;
         padding-left: 2px;
         padding-right: 2px;
     }
+
     nav {
-        max-width:inherit;
+        max-width: inherit;
+    }
+
+    .chart-vertical-message {
+        display: none;
     }
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-  overflow-x:hidden;  
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    overflow-x: hidden;
 }
 
 .no-margin-footer {
     margin: 0px !important;
-        left: 0;
+    left: 0;
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
 }
 
     .footer > div > ul > li {
@@ -557,7 +737,8 @@ a {
 
 .w3-bar-block.w3-center .w3-bar-item {
     text-align: center
-} /**/
+}
+/**/
 
 .w3-block {
     display: block;
@@ -1264,7 +1445,8 @@ a {
 
 .w3-center {
     text-align: center !important
-} /**/
+}
+/**/
 
 .w3-border-0 {
     border: 0 !important

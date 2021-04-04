@@ -9,9 +9,9 @@
 
         <h1>Login</h1>
 
-        <p class="row d-md-inline">
+        <p class="row d-md-inline border-info">
             Dont have an account?
-            <input class="btn text-info p-1"
+            <input class="btn text-info p-1 font-weight-bold"
                    type="button"
                    value="Sign Up"
                    onclick="location.href='@Url.Action("SignUp")'" />
@@ -50,14 +50,14 @@
                 </div>
             </form>
         </div>
-    </div>
-</div>
-<div>
+    </div><div>
     <input class="btn text-info p-1"
            type="button"
            value="why create an account?"
            onclick="location.href='@Url.Action("WhySignUp")'" />
 </div>
+</div>
+
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial.cshtml" />

@@ -3,10 +3,15 @@
     ViewData["Title"] = "Reports";
 }
 
-<h1 class="reports-jumbotron-img">
-    <span class="p-1 pr-3 pl-3 bg-light rounded">Statistics for events in our parks</span>
-</h1>
+<div class="reports-jumbotron-img">
+    <div class="p-1 pr-3 pl-3 bg-light rounded w-auto d-inline-block">
+        <h1>Statistics for events in our parks</h1>
+    </div>
+</div>
 
 <div class="bg-white p-2 rounded">
+    <div class="chart-vertical-message">
+        Tip: Rotating your screen may help to see the charts.
+    </div>
     @await Component.InvokeAsync("EventsPerMonthChart")
 </div>
