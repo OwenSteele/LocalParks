@@ -1,33 +1,30 @@
-﻿<div class="container">
-    <div class="
-         p-1 card border-top align-items-center
-         bg-light text-dark"
+﻿
+    <div class="shop-products"
          *ngFor="let p of products">
-        <div class="shop-product">
-            <ul>
-                <li>
-                    <div class="image item">
-                        <img src="/images/shop/products/{{p.imageId}}.jpg" class="image item img-fluid rounded" [alt]="p.name" />
-                    </div>
-                </li>
-                <li>
-                    <div class="left item">
-                        <h3><strong>{{p.name}}</strong></h3>
-                    </div>
+        <ul class="row container-fluid">
+            <li class="image-item col-12 col-sm-4 col-md-2">
+                <div>
+                    <img src="/images/shop/products/{{p.imageId}}.jpg" class="image item img-fluid rounded" [alt]="p.name" />
+                </div>
+            </li>
+            <li class="left-item col-12 col-sm-8 col-md-4">
+                <div>
+                    <h3><strong>{{p.name}}</strong></h3>
+                </div>
+            </li>
+            <li class="middle-item col-12 col-sm-10 col-md-5">
 
-                    <div class="middle item">
-                        <ul class="product-props list-unstyled">
-                            <li><strong>Price</strong>: {{ p.price | currency:"GBP":"symbol" }}</li>
-                            <li><strong>Description</strong>: {{ p.description }}</li>
-                        </ul>
-                    </div>
-
-                    <div class="right item">
-                        <button id="buyButton" class="btn btn-success align-bottom item" (click)="addProduct(p)">Add</button>
-                    </div>
-                </li>
-            </ul>
-            
-        </div>
+                <div>
+                    <ul class="product-props list-unstyled">
+                        <li><strong>Price</strong>: {{ p.price | currency:"GBP":"symbol" }}</li>
+                        <li><strong>Description</strong>: {{ p.description }}</li>
+                    </ul>
+                </div>
+            </li>
+            <li class="right-item col-12 col-sm-2 col-md-1">
+                <div>
+                    <button id="buyButton" class="btn btn-success align-bottom item" (click)="addProduct(p)">Add</button>
+                </div>
+            </li>
+        </ul>
     </div>
-</div>

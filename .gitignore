@@ -128,3 +128,8 @@ out-tsc/
 *Migrations
 *appsettings.json
 *ApiAdminController.cs
+greadr.json
+
+greadr/
+
+greadrsetup.exe

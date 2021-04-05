@@ -67,6 +67,7 @@ namespace LocalParks
                 .AddInternalSharedServices()
                 .AddViewComponentServices()
                 .AddShopServices()
+                .AddReportsServices()
                 .AddViewServices()
                 .AddAuthServices();
 

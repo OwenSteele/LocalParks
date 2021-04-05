@@ -1,14 +1,17 @@
-﻿<div class="row">
-    <div class="col-3">
+﻿
+    <div>
         <div class="card bg-light w-auto position-fixed">
-            <h4>Your Cart</h4>
-            <div class="mw-100">
-                <user-cart></user-cart>
+            <div *ngIf="cartVisible" #sidebar [style]="sidebarStyle" >                
+                <div class="sidebar">
+                    <user-cart  (close)="closeNav($event)"></user-cart>
+                </div>
             </div>
         </div>
     </div>
-        <div class="col-8 mt-5 offset-4">
-            <h3> {{title}} </h3>
+    <div [style]="marginStyle" class="main">
+        <h1 class="jumbotron"> {{title}} </h1>
+        <button class="openbtn rounded-right" [style]="cartButtonStyle" (click)="toggleNav()">&#9776; <i class="fa fa-shopping-cart"></i> <span *ngIf="data.order.total > 0" class="w3-text-amber"> {{ data.order.items.length }}</span></button>
+        <div class="mt-5">
             <shop-products>Fetching our products!</shop-products>
         </div>
     </div>

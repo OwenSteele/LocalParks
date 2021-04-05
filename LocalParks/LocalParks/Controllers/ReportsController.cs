@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LocalParks.Services.Reports;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace LocalParks.Controllers
 {
@@ -12,11 +14,13 @@ namespace LocalParks.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index([FromServices] IReportsService service)
         {
+            var model = await service.GetReportsModelAsync();
+
             _logger.LogInformation("Index page: getting report model.");
 
-            return View();
+            return View(model);
         }
         public IActionResult Parks()
         {

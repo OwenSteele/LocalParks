@@ -13,30 +13,6 @@
                                       new { parkId = @Model.SelectedPark.ParkId })'" />
 </p>
 
-@if (Model.ParksClosingSoon.Any())
-{
-    <div class="row justify-content-around mr-3 ml-3">
-        <div class="border-danger p-1 card rounded text-center">
-            <h5 class="border-bottom font-weight-bold text-danger">Closing Soon</h5>
-            <ul class="m-0 p-0 d-flex flex-row justify-content-center flex-wrap align-items-center">
-                @foreach (var park in Model.ParksClosingSoon)
-                {
-                    <li class="flex-column list-unstyled">
-                        <div>
-                            <input class="nav-link text-dark w3-hover-amber rounded border-0 p-0 d-inline-flex text-wrap"
-                                   type="button"
-                                   value="@park.Name"
-                                   onclick="location.href='@Url.Action("Details", "Parks",
-                                      new { parkId = park.ParkId })'" />
-                            (@park.PostcodeZone) closes at @park.ClosingTime.TimeOfDay
-                        </div>
-                    </li>
-                }
-            </ul>
-        </div>
-    </div>
-}
-
 <div class="row">
     <div class="container-fluid home-banner-img">
 
@@ -60,6 +36,30 @@
         </p>
 
     </div>
+
+    @if (Model.ParksClosingSoon.Any())
+    {
+        <div class="row col-12 home-closing-parks">
+            <div>
+                <h5>Closing Soon</h5>
+                <ul>
+                    @foreach (var park in Model.ParksClosingSoon)
+                    {
+                        <li>
+                            <div>
+                                <input class="w3-hover-amber rounded"
+                                       type="button"
+                                       value="@park.Name"
+                                       onclick="location.href='@Url.Action("Details", "Parks",
+                                      new { parkId = park.ParkId })'" />
+                                (@park.PostcodeZone) closes at @park.ClosingTime.TimeOfDay  
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
 
     <div class="home-page-row">
         <div class="row home-page-items">
@@ -145,16 +145,19 @@
                 <a asp-controller="ParkEvents" asp-action="Details" asp-route-EventId="@Model.EventsThisMonth.FirstOrDefault().EventId"
                    class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                     <div class="hpi-event1-img"></div>
-                    <div class="hpi-header">@Model.RecentEvent.Name is happening soon!</div>
+                    <div class="hpi-header">@Model.EventsThisMonth.FirstOrDefault().Name is happening soon!</div>
                     <div>
                         This event is taking place
-                        @if(Model.EventsThisMonth.FirstOrDefault().InDays() == 0) { <strong>
-                            today
-                        </strong>}
-                        else if(Model.EventsThisMonth.FirstOrDefault().InDays() == 1) {<strong>
-                            tomorrow
-                        </strong>}
-                        else {
+                        @if (Model.EventsThisMonth.FirstOrDefault().InDays() == 0)
+                        {<strong>
+                                today
+                            </strong>}
+                        else if (Model.EventsThisMonth.FirstOrDefault().InDays() == 1)
+                        {<strong>
+                                tomorrow
+                            </strong>}
+                        else
+                        {
                             <span>in <strong>@Model.EventsThisMonth.FirstOrDefault().InDays() days</strong>, in <strong>@Model.EventsThisMonth.FirstOrDefault().ParkName</strong>.</span>
                         }
                     </div>
@@ -163,14 +166,14 @@
             }
             else
             {
-        <a asp-controller="ParkEvents" asp-action="Edit"
-           class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-            <div class="hpi-event1-img"></div>
-            <div class="hpi-header">Upcoming Events</div>
-            <div>Sadly no events are scheduled in our parks this month.</div>
-            <div>If you would like to organise and event in one of our parks.</div>
-            <div>Either for close friends and family or the community. Click here!</div>
-        </a>
+                <a asp-controller="ParkEvents" asp-action="Edit"
+                   class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                    <div class="hpi-event1-img"></div>
+                    <div class="hpi-header">Upcoming Events</div>
+                    <div>Sadly no events are scheduled in our parks this month.</div>
+                    <div>If you would like to organise and event in one of our parks.</div>
+                    <div>Either for close friends and family or the community. Click here!</div>
+                </a>
             }
         </div>
     </div>

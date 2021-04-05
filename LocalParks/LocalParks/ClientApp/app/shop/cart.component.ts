@@ -1,4 +1,4 @@
-﻿import { Component } from "@angular/core";
+﻿import { Component, EventEmitter, Output } from "@angular/core";
 import { ShopService } from "../data/shopService";
 import { Router } from "@angular/router";
 
@@ -11,8 +11,9 @@ export class Cart {
     constructor(public data: ShopService,
         private router: Router) { }
 
+    @Output() close: EventEmitter<string> = new EventEmitter();
+
     onCheckout() {
-        console.log("x");
         if (this.data.SignInRequired) {
             this.data.getToken()
             .subscribe(success => {
@@ -27,5 +28,9 @@ export class Cart {
         else {
             this.router.navigate([""]);            
         }
+    }
+    closeNav() {
+        console.log("close");
+        this.close.emit("close");
     }
 }
