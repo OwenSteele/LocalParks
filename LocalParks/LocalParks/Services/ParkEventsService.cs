@@ -194,5 +194,10 @@ namespace LocalParks.Services
 
             return _mapper.Map<ParkEventModel[]>(results);
         }
+
+        public ParkEventModel GetNewEvent()
+        {
+            return new ParkEventModel { Date = DateTime.Today };
+        }
     }
 }

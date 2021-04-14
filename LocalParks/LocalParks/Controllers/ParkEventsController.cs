@@ -123,7 +123,7 @@ namespace LocalParks.Controllers
             ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
 
             if (eventId == 0)
-                return View(new ParkEventModel());
+                return View(_service.GetNewEvent());
 
             var result = await _service.GetParkEventModelByIdAsync(eventId);
 
@@ -154,7 +154,7 @@ namespace LocalParks.Controllers
                 return View("Edit", _tempEvent);
             }
 
-            if (match.Events.FirstOrDefault(e => e.Date == _tempEvent.Date) != null)
+            if (match.Events.FirstOrDefault(e => e.Date == _tempEvent.Date && e.EventId != _tempEvent.EventId) != null)
             {
                 ModelState.AddModelError("", $"{match.Name} already has an event scheduled on {_tempEvent.Date.ToShortDateString()} - please choose another date.");
                 return View("Edit", _tempEvent);
@@ -198,7 +198,7 @@ namespace LocalParks.Controllers
                 return View("Edit", _tempEvent);
             }
 
-            if (park.Events.FirstOrDefault(e => e.Date == _tempEvent.Date) != null)
+            if (park.Events.FirstOrDefault(e => e.Date == _tempEvent.Date && e.EventId != _tempEvent.EventId) != null)
             {
                 ModelState.AddModelError("", $"{park.Name} already has an event scheduled on {_tempEvent.Date.ToShortDateString()} - please choose another date.");
                 return View("Edit", _tempEvent);

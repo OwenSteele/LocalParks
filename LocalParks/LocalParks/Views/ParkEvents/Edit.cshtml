@@ -35,7 +35,6 @@
                required />
         <span class="text-danger" asp-validation-for="@Model.Description"></span>
     </div>
-
     <label class="font-weight-bolder">Organiser contact details</label>
     <div class="form-group">
         <label>First Name <span class="w3-text-red font-weight-bolder">*</span></label>
@@ -85,6 +84,7 @@
     <div class="row form-group p-1 d-block">
         <input type="submit" class="btn-outline-light btn-dark btn-light rounded"
                value="Save" />
+        <label class=" pl-3 form-error-label text-danger font-weight-bolder border-danger"></label>
     </div>
 </form>
 
@@ -92,17 +92,24 @@
     <partial name="_ValidationScriptsPartial.cshtml" />
 
 <script>
-    console.log("outer");
-    $('#parkEventsForm').submit(function (event) {
-        console.log("inner");
-        if ($("#eId").val() != "0") {
-        event.preventDefault();
-        console.log("prevented");
-            console.log($("#eId").val());
-            $(this).attr("action", "EditExisting");
-            console.log("altered");
+    let formvalue;
+    let form;
 
-            this.submit();
+    $(function () {
+        form = $('form');
+        formvalue = form.serialize();
+    });
+
+    $('#parkEventsForm').submit(function (event) {
+        if ($("#eId").val() != "0") {
+            event.preventDefault();
+            if (form.serialize() === formvalue) {
+                $(".form-error-label").text("No changes to submit");
+            }
+            else {
+                $(this).attr("action", "EditExisting");
+                this.submit();
+            }
         }
     });
 </script>

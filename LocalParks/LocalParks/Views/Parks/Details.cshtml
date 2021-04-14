@@ -97,7 +97,7 @@
                     </span>
                     
                 </a>
-                <div class="collapse" id="SportsClubsCollapse">
+                <div class="collapse bg-light" id="SportsClubsCollapse">
                     @foreach (var club in Model.SportClubs)
                     {
                         <div class="flex-column position-relative border-bottom">
@@ -138,7 +138,7 @@
                     </span>
                     
                 </a>
-                <div class="collapse" id="EventsCollapse">
+                <div class="collapse bg-light" id="EventsCollapse">
                     @foreach (var parkEvent in Model.Events)
                     {
                         <div class="flex-column position-relative border-bottom">
@@ -167,7 +167,7 @@
         }
         else
         {
-            <p>This park doesn't have any events scheduled.</p>
+            <p class="font-weight-bolder">This park doesn't have any events scheduled.</p>
         }
     </div>
 
