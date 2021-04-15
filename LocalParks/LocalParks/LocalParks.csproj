@@ -67,10 +67,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="API\.vs\API\v16\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="API\.vs\slnx.sqlite" />
     <None Include="SeededData\parkEvents.Json" />
     <None Include="SeededData\parks.Json" />
@@ -107,6 +103,10 @@
     <None Include="wwwroot\lib\jquery\dist\jquery.js" />
     <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
     <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="API\.vs\API\v16\" />
   </ItemGroup>
 
 </Project>
