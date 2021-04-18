@@ -1,8 +1,9 @@
 ﻿@using LocalParks.Models
+@inject IEncryptionService service
 @model SupervisorModel
 <div class="row summary-row-container">
     <div class="col-10 offset-1">
-        <a asp-controller="Supervisors" asp-action="Details" asp-route-parkId="@Model.ParkId"
+        <a asp-controller="Supervisors" asp-action="Details" asp-route-_lp="@service.Encrypt("parkId",Model.ParkId)"
            class="w3-hover-text-amber w3-hover-border-amber">
             <div class="d-flex flex-row justify-content-between flex-wrap m-1 p-1 card border align-items-center">
 

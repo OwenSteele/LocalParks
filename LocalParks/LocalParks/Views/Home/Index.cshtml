@@ -1,4 +1,5 @@
 ﻿@model HomeModel
+@inject IEncryptionService service
 @{
     ViewData["Title"] = "Home";
 }
@@ -10,7 +11,7 @@
            type="button"
            value="@Model.SelectedPark.Supervisor.EmergencyNumber"
            onclick="location.href='@Url.Action("Details", "Supervisors",
-                                      new { parkId = @Model.SelectedPark.ParkId })'" />
+                                      new { _lp = service.Encrypt("parkId",Model.SelectedPark.ParkId) })'" />
 </p>
 
 <div class="row">
@@ -51,8 +52,8 @@
                                        type="button"
                                        value="@park.Name"
                                        onclick="location.href='@Url.Action("Details", "Parks",
-                                      new { parkId = park.ParkId })'" />
-                                (@park.PostcodeZone) closes at @park.ClosingTime.TimeOfDay  
+                                      new { _lp = service.Encrypt("parkId",park.ParkId)})'" />
+                                (@park.PostcodeZone) closes at @park.ClosingTime.TimeOfDay
                             </div>
                         </li>
                     }
@@ -113,7 +114,7 @@
                     </span>}
                 </div>
             </a>
-            <a asp-controller="Parks" asp-action="Details" asp-route-ParkId="@Model.SelectedPark.ParkId"
+            <a asp-controller="Parks" asp-action="Details" asp-route-_lp="@service.Encrypt("parkId",Model.SelectedPark.ParkId)"
                class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                 <div class="hpi-parks2-img"></div>
                 <div class="hpi-header">Selected Park: @Model.SelectedPark.Name</div>
@@ -126,14 +127,14 @@
             <div class="col-12 hpi-clubsevents-img">
                 <h4>Clubs and Events</h4>
             </div>
-            <a asp-controller="SportsClubs" asp-action="Details" asp-route-SportsClubId="@Model.NewestSportsClub.ClubId"
+            <a asp-controller="SportsClubs" asp-action="Details" asp-route-_lp="@service.Encrypt("sportsClubId",Model.NewestSportsClub.ClubId)"
                class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                 <div class="hpi-club-img"></div>
                 <div class="hpi-header">Our Newest Club: @Model.NewestSportsClub.Name</div>
                 <div>This club is in <strong>@Model.NewestSportsClub.ParkName</strong> and their sport is <strong>@Model.NewestSportsClub.Sport</strong>.</div>
                 <div>If you'd be interested in joining, take a closer a look and contact them!</div>
             </a>
-            <a asp-controller="ParkEvents" asp-action="Details" asp-route-EventId="@Model.RecentEvent.EventId"
+            <a asp-controller="ParkEvents" asp-action="Details" asp-route-_lp="@service.Encrypt("eventId",Model.RecentEvent.EventId)"
                class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                 <div class="hpi-events-img"></div>
                 <div class="hpi-header">@Model.RecentEvent.Name was just scheduled</div>
@@ -142,7 +143,7 @@
             </a>
             @if (Model.EventsThisMonth.Any())
             {
-                <a asp-controller="ParkEvents" asp-action="Details" asp-route-EventId="@Model.EventsThisMonth.FirstOrDefault().EventId"
+                <a asp-controller="ParkEvents" asp-action="Details" asp-route-_lp="@service.Encrypt("eventId",Model.EventsThisMonth.FirstOrDefault().EventId)"
                    class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                     <div class="hpi-event1-img"></div>
                     <div class="hpi-header">@Model.EventsThisMonth.FirstOrDefault().Name is happening soon!</div>

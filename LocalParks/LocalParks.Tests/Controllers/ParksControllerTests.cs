@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using LocalParks.Controllers;
-using LocalParks.Core;
-using LocalParks.Data;
 using LocalParks.Models;
 using LocalParks.Services;
 using LocalParks.Services.View;
@@ -98,14 +96,14 @@ namespace LocalParks.Tests.Controllers
 
             var controller = ArrangeController();
 
-            var result = await controller.Filter(_mockSortService.Object, searchterm,null,null,null);
+            var result = await controller.Filter(_mockSortService.Object, searchterm, null, null, null);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<IEnumerable<ParkModel>>(
                 viewResult.ViewData.Model);
 
             Assert.Equal("Index", viewResult.ViewName);
-            Assert.Equal(isAny, model.Any());            
+            Assert.Equal(isAny, model.Any());
             Assert.Equal(_parks.Length - missingParks, model.Count());
         }
         [InlineData(true, 0, null)]
@@ -123,7 +121,7 @@ namespace LocalParks.Tests.Controllers
 
             var controller = ArrangeController();
 
-            var result = await controller.Filter(_mockSortService.Object, null,postcode, null, null);
+            var result = await controller.Filter(_mockSortService.Object, null, postcode, null, null);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<IEnumerable<ParkModel>>(

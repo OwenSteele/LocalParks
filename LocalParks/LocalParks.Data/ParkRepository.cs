@@ -57,7 +57,7 @@ namespace LocalParks.Data
             {
                 return await _context.Postcodes.Include(c => c.Parks).OrderByDescending(z => z.Zone).ToArrayAsync();
             }
-                return await _context.Postcodes.OrderByDescending(z => z.Zone).ToArrayAsync();
+            return await _context.Postcodes.OrderByDescending(z => z.Zone).ToArrayAsync();
         }
         public async Task<Park[]> GetAllParksAsync(bool includeChildren = true)
         {
@@ -127,9 +127,9 @@ namespace LocalParks.Data
                 .ToArrayAsync();
             }
 
-                return await _context.SportsClubs.Include(c => c.Park.ParkId)
-                    .OrderByDescending(s => s.Sport)
-                .ToArrayAsync();
+            return await _context.SportsClubs.Include(c => c.Park.ParkId)
+                .OrderByDescending(s => s.Sport)
+            .ToArrayAsync();
         }
         public async Task<SportsClub[]> GetSportsClubsByParkIdAsync(int parkId)
         {
@@ -415,6 +415,7 @@ namespace LocalParks.Data
             _logger.LogInformation($"Getting Last added event.");
 
             return await _context.Events
+                .Where(e => e.Date >= DateTime.Today)
                 .OrderByDescending(e => e.EventId)
                 .FirstOrDefaultAsync();
         }

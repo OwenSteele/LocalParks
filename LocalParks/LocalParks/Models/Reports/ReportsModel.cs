@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LocalParks.Models.Reports
+﻿namespace LocalParks.Models.Reports
 {
     public class ReportsModel
     {

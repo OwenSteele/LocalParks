@@ -2,9 +2,7 @@
 using LocalParks.Data;
 using LocalParks.Models;
 using LocalParks.Services.Shared;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,7 +30,7 @@ namespace LocalParks.Services
 
             var parkCount = parks.Length;
             var openParkCount = parks.Where(p =>
-             p.ClosingTime.TimeOfDay > DateTime.Now.TimeOfDay && 
+             p.ClosingTime.TimeOfDay > DateTime.Now.TimeOfDay &&
              p.OpeningTime.TimeOfDay < DateTime.Now.TimeOfDay).Count();
 
             var timenow = DateTime.Now.TimeOfDay;
@@ -41,7 +39,7 @@ namespace LocalParks.Services
             var parksClosingSoon = parks.Where(p =>
              p.ClosingTime.TimeOfDay > DateTime.Now.TimeOfDay &&
              (p.ClosingTime.TimeOfDay < DateTime.Now.AddHours(2).TimeOfDay |
-              (DateTime.Now.DayOfYear +1) == DateTime.Now.AddHours(2).DayOfYear)).ToArray();
+              (DateTime.Now.DayOfYear + 1) == DateTime.Now.AddHours(2).DayOfYear)).ToArray();
 
 
             var lastevent = _mapper.Map<ParkEventModel>(await _parkRepository.GetLatestEventAsync());

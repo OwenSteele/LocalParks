@@ -4,9 +4,7 @@ using LocalParks.Core.Shop;
 using LocalParks.Data;
 using LocalParks.Models.Shop;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LocalParks.Services.Shop

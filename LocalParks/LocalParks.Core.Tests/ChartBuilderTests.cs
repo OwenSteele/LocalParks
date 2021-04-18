@@ -1,5 +1,4 @@
 using LocalParks.Core.Chart;
-using System;
 using Xunit;
 
 namespace LocalParks.Core.Tests
@@ -46,7 +45,7 @@ namespace LocalParks.Core.Tests
 
             Assert.NotNull(chart);
             Assert.Equal(dataset.BackgroundColor.Length, dataset.Data.Length);
-            foreach(var color in dataset.BackgroundColor)
+            foreach (var color in dataset.BackgroundColor)
             {
                 Assert.NotNull(color);
             }

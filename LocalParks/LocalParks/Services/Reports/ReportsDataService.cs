@@ -46,5 +46,5 @@ namespace LocalParks.Services.Reports
 
         public int SportCount() => Enum.GetNames(typeof(SportType)).Length;
         public string SportName(int pos) => ((SportType)pos).ToString();
-    }        
+    }
 }

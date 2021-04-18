@@ -1,12 +1,7 @@
-﻿using AutoMapper;
-using LocalParks.Core;
-using LocalParks.Core.Shop;
-using LocalParks.Data;
+﻿using LocalParks.Core;
 using LocalParks.Models.Shop;
 using LocalParks.Services.Shop;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace LocalParks.Services

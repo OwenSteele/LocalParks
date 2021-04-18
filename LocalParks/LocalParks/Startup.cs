@@ -1,9 +1,7 @@
 using LocalParks.Configuration.Injection;
+using LocalParks.Configuration.Middleware;
 using LocalParks.Core;
 using LocalParks.Data;
-using LocalParks.Services;
-using LocalParks.Services.Shared;
-using LocalParks.Services.Shop;
 using LocalParks.Services.View;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -62,6 +60,8 @@ namespace LocalParks
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.Configure<QueryStringMiddlewareOptions>(Configuration.GetSection("QueryStrings"));
+
             services.AddLocalParksEntityServices()
                 .AddLocalParksContextServices()
                 .AddInternalSharedServices()
@@ -70,6 +70,8 @@ namespace LocalParks
                 .AddReportsServices()
                 .AddViewServices()
                 .AddAuthServices();
+
+            services.AddSingleton<IEncryptionService, EncryptionService>();
 
             services.AddMvc();
 
@@ -90,9 +92,16 @@ namespace LocalParks
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseQueryStringMiddleware(
+                new()
+                {
+                    EncryptionKey = Configuration["QueryStrings:Key"],
+                    ParameterValue = Configuration["QueryStrings:Param"]
+                });
 
             app.UseRouting();
 

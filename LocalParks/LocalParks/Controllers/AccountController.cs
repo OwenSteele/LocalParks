@@ -15,9 +15,9 @@ namespace LocalParks.Controllers
         private readonly ISelectListService _listService;
         private readonly IUserService _userService;
 
-        public AccountController(ILogger<AccountController> logger, 
+        public AccountController(ILogger<AccountController> logger,
             IAccountService service,
-            IAuthenticationService authenticationService, 
+            IAuthenticationService authenticationService,
             ISelectListService listService,
             IUserService userService)
         {

@@ -2,6 +2,8 @@
 using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
+using LocalParks.Services.View;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -14,8 +16,10 @@ namespace LocalParks.Services
     {
         private readonly IParkRepository _parkRepository;
         private readonly IMapper _mapper;
-        public ParkEventsService(IParkRepository parkRepository, IMapper mapper)
+        private readonly IEncryptionService _encryptionService;
+        public ParkEventsService(IParkRepository parkRepository, IMapper mapper, IEncryptionService encryptionService)
         {
+            _encryptionService = encryptionService;
             _parkRepository = parkRepository;
             _mapper = mapper;
         }
@@ -46,7 +50,8 @@ namespace LocalParks.Services
             }
             if (!string.IsNullOrWhiteSpace(parkId))
             {
-                var park = int.Parse(parkId);
+                var parkIdValue = _encryptionService.Decrypt(parkId);
+                var park = int.Parse(parkIdValue);
 
                 results = results.Where(p =>
                 p.Park.ParkId == park).ToArray();
@@ -89,12 +94,12 @@ namespace LocalParks.Services
             var parks = _mapper.Map<ICollection<ParkModel>>(await _parkRepository.GetAllParksAsync());
 
             return from p in parks
-                   where !onlyWithEvents || p.Events.Any()
+                   where !onlyWithEvents || p.Events.Any(e => e.Date >= DateTime.Today)
                    select new SelectListItem
                    {
                        Selected = false,
                        Text = p.Name,
-                       Value = p.ParkId.ToString()
+                       Value = _encryptionService.Encrypt(p.ParkId)
                    };
         }
         public async Task<ParkModel> GetParkAsync(int parkId)

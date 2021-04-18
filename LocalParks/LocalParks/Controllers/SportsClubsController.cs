@@ -15,7 +15,7 @@ namespace LocalParks.Controllers
 
         public SportsClubsController(ILogger<ParksController> logger,
             ISportsClubsService service)
-        { 
+        {
             _logger = logger;
             _service = service;
         }

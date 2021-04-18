@@ -1,36 +1,37 @@
 ﻿@using LocalParks.Models
+@inject IEncryptionService service
 @model SportsClubModel
-    <div class="row summary-row-container" id="club-list-item">
-        <div class="col-10 offset-1">
-            <a asp-controller="SportsClubs" asp-action="Details" asp-route-sportsClubId="@Model.ClubId"
-               class="w3-hover-text-amber w3-hover-border-amber">
-                <div class="d-flex flex-row justify-content-between flex-wrap m-1 p-1 card border align-items-center">
+<div class="row summary-row-container" id="club-list-item">
+    <div class="col-10 offset-1">
+        <a asp-controller="SportsClubs" asp-action="Details" asp-route-_lp="@service.Encrypt("sportsClubId",Model.ClubId)"
+           class="w3-hover-text-amber w3-hover-border-amber">
+            <div class="d-flex flex-row justify-content-between flex-wrap m-1 p-1 card border align-items-center">
 
-                    <div class="flex-column position-relative">
-                        <h2 class="bg-light font-weight-bolder text-info shadow">@Model.Name</h2>
-                        <h4 class="alert-warning font-weight-bolder">
-                            <i class="fas fa-star"></i> @Model.Sport.ToString()
-                        </h4>
-                    </div>
-
-                    <div class="flex-column position-relative justify-content-center">
-                        <p class="rounded border-success text-success font-weight-bolder">
-                            <i class="fa fa-compass"></i> @Model.ParkName
-                        </p>
-                    </div>
-
-                    <div class="flex-column position-sticky pr-3">
-                        <ul class="align-content-center list-unstyled">
-                            <li class="bg-secondary rounded-top text-white font-weight-bolder">
-                            @Html.DisplayNameFor(model => model.Members)
-                            </li>
-                            <li class="bg-light rounded-bottom text-black-50 font-weight-bolder"
-                                style="font-size: 20px;">
-                                @Model.Members
-                            </li>
-                        </ul>                        
-                    </div>
+                <div class="flex-column position-relative">
+                    <h2 class="bg-light font-weight-bolder text-info shadow">@Model.Name</h2>
+                    <h4 class="alert-warning font-weight-bolder">
+                        <i class="fas fa-star"></i> @Model.Sport.ToString()
+                    </h4>
                 </div>
-            </a>
-        </div>
+
+                <div class="flex-column position-relative justify-content-center">
+                    <p class="rounded border-success text-success font-weight-bolder">
+                        <i class="fa fa-compass"></i> @Model.ParkName
+                    </p>
+                </div>
+
+                <div class="flex-column position-sticky pr-3">
+                    <ul class="align-content-center list-unstyled">
+                        <li class="bg-secondary rounded-top text-white font-weight-bolder">
+                            @Html.DisplayNameFor(model => model.Members)
+                        </li>
+                        <li class="bg-light rounded-bottom text-black-50 font-weight-bolder"
+                            style="font-size: 20px;">
+                            @Model.Members
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </a>
     </div>
+</div>

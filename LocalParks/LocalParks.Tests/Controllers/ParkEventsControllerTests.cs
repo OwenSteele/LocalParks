@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using LocalParks.Controllers;
-using LocalParks.Core;
-using LocalParks.Data;
 using LocalParks.Models;
-using LocalParks.Models.Validation;
 using LocalParks.Services;
 using LocalParks.Services.View;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +12,6 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
@@ -62,7 +58,8 @@ namespace LocalParks.Tests.Controllers
 
             _mockService.Setup(s => s.GetParkSelectListItemsAsync(true))
                 .ReturnsAsync(_parks.Where(p => p.Events.Any())
-                .Select(p => new SelectListItem {
+                .Select(p => new SelectListItem
+                {
                     Selected = false,
                     Text = p.Name,
                     Value = p.ParkId.ToString()
@@ -71,15 +68,15 @@ namespace LocalParks.Tests.Controllers
 
         private ParkEventsController ArrangeController() => new ParkEventsController(
             _mockLogger.Object,
-                _mockService.Object, 
+                _mockService.Object,
                 _mockAuthService.Object)
+        {
+            TempData = _tempData,
+            ControllerContext = new()
             {
-                TempData = _tempData,
-                ControllerContext = new()
-                {
-                    HttpContext = new DefaultHttpContext() { User = _mockUser.Object }
-                }
-            };
+                HttpContext = new DefaultHttpContext() { User = _mockUser.Object }
+            }
+        };
 
 
         private void ArrangeServiceModelById(int eventId)
@@ -97,7 +94,7 @@ namespace LocalParks.Tests.Controllers
             _mockAuthService.Setup(s => s.HasRequiredRoleAsync("", ""))
                 .ReturnsAsync(conditionsMet);
         }
-        
+
 
         [Fact]
         public async Task WHEN_Index_action_is_called_THEN_Index_view_is_returned_with_ParkEventModel()
@@ -124,10 +121,10 @@ namespace LocalParks.Tests.Controllers
         public async Task WHEN_Filter_action_is_called_with_searchTerm_THEN_Index_view_is_returned_only_with_matching_events(
             bool isAny, int missingEvents, string searchterm)
         {
-            _mockService.Setup(s => s.GetSearchedParkEventModelsAsync(searchterm,null,null))
-                .ReturnsAsync(_events.Where( e => 
-                string.IsNullOrEmpty(searchterm) || 
-                e.Name.ToLower().Contains(searchterm.ToLower())).ToArray());
+            _mockService.Setup(s => s.GetSearchedParkEventModelsAsync(searchterm, null, null))
+                .ReturnsAsync(_events.Where(e =>
+               string.IsNullOrEmpty(searchterm) ||
+               e.Name.ToLower().Contains(searchterm.ToLower())).ToArray());
 
             var controller = ArrangeController();
 
@@ -175,7 +172,7 @@ namespace LocalParks.Tests.Controllers
            bool isAny, int missingEvents, string dateNull)
         {
             DateTime? date = null;
-            if(DateTime.TryParse(dateNull, out DateTime attempt))
+            if (DateTime.TryParse(dateNull, out DateTime attempt))
             {
                 date = attempt;
             }
@@ -326,7 +323,7 @@ namespace LocalParks.Tests.Controllers
                 viewResult.ViewData.Model);
 
             Assert.NotNull(viewResult.ViewData["Parks"]);
-            Assert.Equal(1,viewResult.ViewData.ModelState.ErrorCount);
+            Assert.Equal(1, viewResult.ViewData.ModelState.ErrorCount);
             Assert.NotNull(model.Name);
         }
         [Fact]
@@ -394,7 +391,7 @@ namespace LocalParks.Tests.Controllers
                 {
                     EventId = 7001,
                     Name = "A big event",
-                    ParkId = 8001, 
+                    ParkId = 8001,
                     ParkName = "TestingParkOne for Event",
                     Date = new DateTime(2200,1,1),
                     Description = "djfglshdflgkjsdfhglkjsdhfg",
@@ -407,7 +404,7 @@ namespace LocalParks.Tests.Controllers
                 {
                     EventId = 7002,
                     Name = "Another big event",
-                    ParkId = 8002, 
+                    ParkId = 8002,
                     ParkName = "TestingParkTwo for Event",
                     Date = new DateTime(2200,1,2),
                     Description = "mjkllkjhkjh",

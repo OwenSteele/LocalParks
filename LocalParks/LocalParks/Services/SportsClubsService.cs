@@ -2,6 +2,8 @@
 using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
+using LocalParks.Services.View;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -12,10 +14,13 @@ namespace LocalParks.Services
 {
     public class SportsClubsService : ISportsClubsService
     {
+        private readonly IEncryptionService _encryptionService;
         private readonly IParkRepository _parkRepository;
         private readonly IMapper _mapper;
-        public SportsClubsService(IParkRepository parkRepository, IMapper mapper)
+        public SportsClubsService(IParkRepository parkRepository, IMapper mapper,
+            IEncryptionService encryptionService)
         {
+            _encryptionService = encryptionService;
             _parkRepository = parkRepository;
             _mapper = mapper;
         }
@@ -46,7 +51,8 @@ namespace LocalParks.Services
             }
             if (!string.IsNullOrWhiteSpace(parkId))
             {
-                var park = int.Parse(parkId);
+                var parkIdValue = _encryptionService.Decrypt(parkId);
+                var park = int.Parse(parkIdValue);
 
                 results = results.Where(p =>
                 p.Park.ParkId == park).ToArray();
@@ -97,7 +103,7 @@ namespace LocalParks.Services
                    {
                        Selected = false,
                        Text = p.Name,
-                       Value = p.ParkId.ToString()
+                       Value = _encryptionService.Encrypt(p.ParkId)
                    };
         }
         public async Task<bool> CheckParkExistsAsync(int parkId, string clubName = null)

@@ -1,5 +1,4 @@
-﻿using LocalParks.Core.Shop;
-using LocalParks.Models.Shop;
+﻿using LocalParks.Models.Shop;
 using System.Threading.Tasks;
 
 namespace LocalParks.Services

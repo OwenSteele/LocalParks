@@ -2,6 +2,8 @@
 using LocalParks.Core;
 using LocalParks.Data;
 using LocalParks.Models;
+using LocalParks.Services.View;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +15,14 @@ namespace LocalParks.Services
     {
         private readonly IParkRepository _parkRepository;
         private readonly IMapper _mapper;
-        public SupervisorsService(IParkRepository parkRepository, IMapper mapper)
+        private readonly IEncryptionService _encryptionService;
+
+        public SupervisorsService(IParkRepository parkRepository, IMapper mapper,
+            IEncryptionService encryptionService)
         {
             _parkRepository = parkRepository;
             _mapper = mapper;
+            _encryptionService = encryptionService;
         }
         public async Task<SupervisorModel[]> GetAllSupervisorModelsAsync()
         {
@@ -44,7 +50,8 @@ namespace LocalParks.Services
             }
             if (!string.IsNullOrWhiteSpace(parkId))
             {
-                var park = int.Parse(parkId);
+                var parkIdValue = _encryptionService.Decrypt(parkId);
+                var park = int.Parse(parkIdValue);
 
                 results = results.Where(p =>
                 p.Park.ParkId == park).ToArray();
@@ -87,7 +94,7 @@ namespace LocalParks.Services
                    {
                        Selected = false,
                        Text = p.Name,
-                       Value = p.ParkId.ToString()
+                       Value = _encryptionService.Encrypt(p.ParkId)
                    };
         }
 

@@ -1,11 +1,8 @@
-﻿using LocalParks.Core;
-using LocalParks.Core.Shop;
+﻿using LocalParks.Core.Shop;
 using LocalParks.Models.Reports;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LocalParks.Services.Reports
@@ -37,10 +34,10 @@ namespace LocalParks.Services.Reports
 
             _model.ParkCount = results.Length;
             _model.TotalParkArea = results.Sum(p => p.SizeInMetresSquared);
-            _model.AverageClubsPerPark = Math.Round(results.Average(p => p.SportClubs.Count),2);
+            _model.AverageClubsPerPark = Math.Round(results.Average(p => p.SportClubs.Count), 2);
             _model.MinClubsPerPark = results.Min(p => p.SportClubs.Count);
             _model.MaxClubsPerPark = results.Max(parks => parks.SportClubs.Count);
-            _model.AverageEventsPerPark = Math.Round(results.Average(p => p.Events.Count),2);
+            _model.AverageEventsPerPark = Math.Round(results.Average(p => p.Events.Count), 2);
             _model.MinEventsPerPark = results.Min(p => p.Events.Count);
             _model.MaxEventsPerPark = results.Max(parks => parks.Events.Count);
         }
@@ -49,10 +46,10 @@ namespace LocalParks.Services.Reports
             var results = await _service.GetAllSportsClubs();
 
             _model.ClubCount = results.Length;
-            _model.AverageClubMembers = (int)Math.Round(results.Average(c => c.Members),0);
+            _model.AverageClubMembers = (int)Math.Round(results.Average(c => c.Members), 0);
             var max = results.Max(c => c.Members);
             _model.LargestClub = (max, results.Where(c => c.Members == max).FirstOrDefault().Name);
-            _model.AverageClubMembership = Math.Round(results.Average(c => c.MembershipFee),2);
+            _model.AverageClubMembership = Math.Round(results.Average(c => c.MembershipFee), 2);
 
             var sports = new int[_service.SportCount()];
 
@@ -73,11 +70,11 @@ namespace LocalParks.Services.Reports
 
             foreach (var result in results)
             {
-                months[result.Date.Month-1]++;
+                months[result.Date.Month - 1]++;
                 days[((int)result.Date.DayOfWeek)]++;
             }
 
-            _model.MostPopularMonth = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(months.Max()+1);
+            _model.MostPopularMonth = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(months.Max() + 1);
             _model.LeastPopularMonth = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(months.Min() + 1);
             _model.MostPopularDayOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.GetDayName((DayOfWeek)days.Max());
             _model.LeastPopularDayOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.GetDayName((DayOfWeek)days.Min());
@@ -92,12 +89,12 @@ namespace LocalParks.Services.Reports
 
             _model.AverageTenure = Math.Round(average.TotalDays / 365.25, 0).ToString();
 
-            _model.AverageSalary = Math.Round(results.Average(s => s.Salary),2);
+            _model.AverageSalary = Math.Round(results.Average(s => s.Salary), 2);
             _model.RValueSalaryParkArea = Math.Round(RCalc(results.Select(s =>
             (double)s.Salary).ToArray(),
-            results.Select(s => (double)s.Park.SizeInMetresSquared).ToArray()),6);
+            results.Select(s => (double)s.Park.SizeInMetresSquared).ToArray()), 6);
             _model.RValueSalaryTenure = Math.Round(RCalc(results.Select(s =>
-            (double)s.Salary).ToArray(), tenures),6);
+            (double)s.Salary).ToArray(), tenures), 6);
             _model.LongestTenure = Math.Round(tenures.Max() / 365.25, 0).ToString();
         }
 
@@ -107,8 +104,8 @@ namespace LocalParks.Services.Reports
 
             _model.TotalOrders = results.Length;
             _model.TotalItemsOrdered = results.Sum(o => o.Items.Count);
-            _model.AverageOrderValue = Math.Round(results.Average(o => OrderTotal(o)),2);
-            _model.AverageOrderItems = Math.Round(results.Average(o => o.Items.Count),0);
+            _model.AverageOrderValue = Math.Round(results.Average(o => OrderTotal(o)), 2);
+            _model.AverageOrderItems = Math.Round(results.Average(o => o.Items.Count), 0);
         }
         private static double RCalc(double[] x, double[] y)
         {

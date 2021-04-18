@@ -1,4 +1,5 @@
 ﻿@model LocalParks.Models.SportsClubModel
+@inject IEncryptionService service
 @{
     ViewData["Title"] = $"{Model.Name} Details";
 }
@@ -35,7 +36,7 @@
                 <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded" type="button"
                        value="@Model.ParkName"
                        onclick="location.href='@Url.Action("Details", "Parks",
-                                      new { parkId = @Model.ParkId })'" />
+                                      new { _lp = @service.Encrypt("parkId",Model.ParkId) })'" />
             </li>
             <li class="flex-column position-relative">
                 <span class="font-weight-bolder">Number of members:</span>

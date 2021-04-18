@@ -1,5 +1,4 @@
-﻿using LocalParks.Services;
-using LocalParks.Services.ViewComponents;
+﻿using LocalParks.Services.ViewComponents;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

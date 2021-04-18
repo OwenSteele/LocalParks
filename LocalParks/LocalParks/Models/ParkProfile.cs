@@ -50,7 +50,7 @@ namespace LocalParks.Models
 
             CreateMap<Order, OrderModel>()
                 .ForMember(m => m.Username, o => o.MapFrom(o => o.User.UserName))
-                .ReverseMap(); 
+                .ReverseMap();
             CreateMap<Product, ProductModel>()
                  .ForMember(m => m.Category, o => o.MapFrom(o => o.Category.ToString()))
                  .ReverseMap()

@@ -1,10 +1,7 @@
 ﻿using LocalParks.Core.Chart;
 using LocalParks.Data;
 using LocalParks.Models.Chart;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LocalParks.Services.ViewComponents
@@ -48,7 +45,7 @@ namespace LocalParks.Services.ViewComponents
                 .AddYAxesSet("Total area (metres squared)")
                 .SetTitle("Overall park area per postcode")
                 .SetDuration(2)
-                .SetMaintainAspectRatio(true,true);
+                .SetMaintainAspectRatio(true, true);
 
             var chart = builder.GetChart();
 
