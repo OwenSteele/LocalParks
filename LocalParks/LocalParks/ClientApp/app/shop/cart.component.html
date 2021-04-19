@@ -24,6 +24,7 @@
             <tr *ngFor="let i of data.order.items">
                 <td>{{i.productName}}</td>
                 <td>{{i.quantity}}x {{i.unitPrice | currency:"GBP":"symbol" }}</td>
+                <td><button *ngIf="i.quantity > 0" (click)="removeItem(i)" class="btn btn-danger m-1 p-1 "> - </button></td>
             </tr>
         </tbody>
     </table>

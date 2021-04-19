@@ -1,6 +1,7 @@
 ﻿import { Component, EventEmitter, Output } from "@angular/core";
 import { ShopService } from "../data/shopService";
 import { Router } from "@angular/router";
+import { OrderItem } from "../data/orderItem";
 
 @Component({
     selector: "user-cart",
@@ -13,6 +14,9 @@ export class Cart {
 
     @Output() close: EventEmitter<string> = new EventEmitter();
 
+    removeItem(item: OrderItem) {
+        this.data.RemoveItemFromOrder(item);
+    }
     onCheckout() {
         if (this.data.SignInRequired) {
             this.data.getToken()

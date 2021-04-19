@@ -39,12 +39,15 @@
     color:lawngreen;
 }
 
+table > tbody > tr:hover {
+    color: greenyellow;
+}
+
 .important-text {
     color: orange;
     font-weight:bold;
 }
 
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media (min-width: 500px) {
     .sidebar {
         padding-top: 140px;

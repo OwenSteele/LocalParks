@@ -10,7 +10,6 @@ import { DatePipe } from '@angular/common';
 @Injectable()
 export class ShopService {
 
-
     public order: Order = new Order();
     public products: Product[] = [];
     public memberships: Product[] = [];
@@ -87,6 +86,20 @@ export class ShopService {
                 this.memberships = data;
                 return true;
             }));
+    }
+
+    public RemoveItemFromOrder(item: OrderItem) {
+        let itemToRemove: OrderItem = this.order.items.find(i => i.productId == item.productId)!;
+
+        if (itemToRemove) {
+            if (itemToRemove.quantity === 1) {
+                let index: number = this.order.items.indexOf(itemToRemove, 0);
+                this.order.items.splice(index, 1);
+            }
+            else {
+                itemToRemove.quantity--;
+            }
+        }
     }
 
     public AddItemToOrder(product: Product) {
