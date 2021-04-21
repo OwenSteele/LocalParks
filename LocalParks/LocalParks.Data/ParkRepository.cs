@@ -118,8 +118,6 @@ namespace LocalParks.Data
         {
             _logger.LogInformation($"Getting all sports clubs.");
 
-            IQueryable<SportsClub> query;
-
             if (includeChildren)
             {
                 return await _context.SportsClubs.Include(c => c.Park)

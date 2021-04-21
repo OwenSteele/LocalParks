@@ -6,6 +6,6 @@ namespace LocalParks.Services.Shared
 {
     public interface IFilterService
     {
-        Task<IEnumerable<SelectListItem>> GetParkSelectListItemsAsync(bool onlyWithChildren = false);
+        //Task<IEnumerable<SelectListItem>> GetParkSelectListItemsAsync(bool onlyWithChildren = false);
     }
 }

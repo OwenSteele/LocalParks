@@ -15,7 +15,7 @@
                     Park:
 
                     @Html.DropDownList("parkFilter",
-                   new SelectList((System.Collections.IEnumerable)ViewData["Parks"], "Value", "Text"), "",
+                   new SelectList((System.Collections.IEnumerable)await service.GetParkSelectListItemsAsync<SportsClubModel>(), "Value", "Text"), "",
                    htmlAttributes: new
                    {
                        @class = "border-dark rounded filter-form-group",

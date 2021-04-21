@@ -50,8 +50,7 @@ namespace LocalParks.Services
             }
             if (!string.IsNullOrWhiteSpace(parkId))
             {
-                var parkIdValue = _encryptionService.Decrypt(parkId);
-                var park = int.Parse(parkIdValue);
+                var park = int.Parse(parkId);
 
                 results = results.Where(p =>
                 p.Park.ParkId == park).ToArray();
@@ -83,20 +82,5 @@ namespace LocalParks.Services
 
             return result == null;
         }
-
-        public async Task<IEnumerable<SelectListItem>> GetParkSelectListItemsAsync(bool onlyWithSupervisors = false)
-        {
-            var parks = _mapper.Map<ICollection<ParkModel>>(await _parkRepository.GetAllParksAsync());
-
-            return from p in parks
-                   where !onlyWithSupervisors || p.Supervisor != null
-                   select new SelectListItem
-                   {
-                       Selected = false,
-                       Text = p.Name,
-                       Value = _encryptionService.Encrypt(p.ParkId)
-                   };
-        }
-
     }
 }

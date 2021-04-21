@@ -50,8 +50,7 @@ namespace LocalParks.Services
             }
             if (!string.IsNullOrWhiteSpace(parkId))
             {
-                var parkIdValue = _encryptionService.Decrypt(parkId);
-                var park = int.Parse(parkIdValue);
+                var park = int.Parse(parkId);
 
                 results = results.Where(p =>
                 p.Park.ParkId == park).ToArray();

@@ -37,8 +37,6 @@ namespace LocalParks.Controllers
         {
             _logger.LogInformation("Executing ParkEvents.Index Model");
 
-            await SetViewData();
-
             if (await _authenticationService.IsSignedInAsync(User))
             {
                 ViewData["User"] = "User";
@@ -56,8 +54,6 @@ namespace LocalParks.Controllers
             string sortBy = null)
         {
             _logger.LogInformation("Executing ParkEvents.Index Model");
-
-            await SetViewData();
 
             if (await _authenticationService.IsSignedInAsync(User))
             {
@@ -120,8 +116,6 @@ namespace LocalParks.Controllers
             if (eventId != 0 && await HasEditAccessAsync(eventId))
                 return RedirectToAction("Details", "ParkEvents", new { eventId });
 
-            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
-
             if (eventId == 0)
                 return View(_service.GetNewEvent());
 
@@ -138,8 +132,6 @@ namespace LocalParks.Controllers
             if (!await _authenticationService.IsSignedInAsync(User))
                 return RedirectToAction("Details", "ParkEvents",
                     new { _tempEvent.ParkId, _tempEvent.Date });
-
-            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
 
             if (!ModelState.IsValid)
             {
@@ -177,8 +169,6 @@ namespace LocalParks.Controllers
             if (!await _authenticationService.IsSignedInAsync(User))
                 return RedirectToAction("Details", "ParkEvents",
                     new { _tempEvent.ParkId, _tempEvent.Date });
-
-            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync();
 
             if (!ModelState.IsValid)
             {
@@ -260,10 +250,6 @@ namespace LocalParks.Controllers
             return RedirectToAction("Details", "ParkEvents", new { eventId });
         }
 
-        private async Task SetViewData()
-        {
-            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
-        }
         private async Task<bool> HasEditAccessAsync(int eventId)
         {
             return User.Identity != null &&

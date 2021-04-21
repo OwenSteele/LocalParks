@@ -24,7 +24,7 @@ namespace LocalParks.Controllers
         {
             _logger.LogInformation("Executing SportsClubs.Index Model");
 
-            await SetViewData();
+            ViewData["Sports"] = _service.GetSportListItems();
 
             var results = await _service.GetSearchedSportsClubModelsAsync();
 
@@ -39,7 +39,7 @@ namespace LocalParks.Controllers
         {
             _logger.LogInformation("Executing SportsClubs.Filter");
 
-            await SetViewData();
+            ViewData["Sports"] = _service.GetSportListItems();
 
             var matches = await _service.GetSearchedSportsClubModelsAsync(
                 searchTerm, parkFilter, sportType);
@@ -75,12 +75,6 @@ namespace LocalParks.Controllers
             if (sportsClub == null) return View("NotFound");
 
             return View(sportsClub);
-        }
-
-        private async Task SetViewData()
-        {
-            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
-            ViewData["Sports"] = _service.GetSportListItems();
         }
     }
 }

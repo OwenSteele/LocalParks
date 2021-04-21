@@ -14,13 +14,10 @@ namespace LocalParks.Services
 {
     public class SportsClubsService : ISportsClubsService
     {
-        private readonly IEncryptionService _encryptionService;
         private readonly IParkRepository _parkRepository;
         private readonly IMapper _mapper;
-        public SportsClubsService(IParkRepository parkRepository, IMapper mapper,
-            IEncryptionService encryptionService)
+        public SportsClubsService(IParkRepository parkRepository, IMapper mapper)
         {
-            _encryptionService = encryptionService;
             _parkRepository = parkRepository;
             _mapper = mapper;
         }
@@ -51,8 +48,7 @@ namespace LocalParks.Services
             }
             if (!string.IsNullOrWhiteSpace(parkId))
             {
-                var parkIdValue = _encryptionService.Decrypt(parkId);
-                var park = int.Parse(parkIdValue);
+                var park = int.Parse(parkId);
 
                 results = results.Where(p =>
                 p.Park.ParkId == park).ToArray();
@@ -103,7 +99,7 @@ namespace LocalParks.Services
                    {
                        Selected = false,
                        Text = p.Name,
-                       Value = _encryptionService.Encrypt(p.ParkId)
+                       Value = p.ParkId.ToString()
                    };
         }
         public async Task<bool> CheckParkExistsAsync(int parkId, string clubName = null)

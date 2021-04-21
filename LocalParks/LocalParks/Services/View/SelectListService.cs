@@ -1,5 +1,10 @@
-﻿using LocalParks.Models.Validation;
+﻿using AutoMapper;
+using LocalParks.Core;
+using LocalParks.Data;
+using LocalParks.Models;
+using LocalParks.Models.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,11 +15,14 @@ namespace LocalParks.Services.View
 {
     public class SelectListService : ISelectListService
     {
-        private readonly IPostcodesService _postcodesService;
+        private readonly IParkRepository _parkRepository;
+        private readonly IEncryptionService _service;
+        private ICollection<Postcode> _postcodes;
 
-        public SelectListService(IPostcodesService postcodesService)
+        public SelectListService(IParkRepository parkRepository, IEncryptionService service)
         {
-            _postcodesService = postcodesService;
+            _parkRepository = parkRepository;
+            _service = service;
         }
         public IEnumerable<SelectListItem> GetSortSelectListItems<T>()
         {
@@ -42,15 +50,59 @@ namespace LocalParks.Services.View
 
         public async Task<IEnumerable<SelectListItem>> GetPostcodeSelectListItemsAsync()
         {
-            var postcodes = await _postcodesService.GetAllPostcodesAsync();
+            if (_postcodes == null) _postcodes = await _parkRepository.GetAllPostcodesAsync();
 
-            return from p in postcodes
+            return from p in _postcodes
                    select new SelectListItem
                    {
                        Selected = false,
                        Text = p.Zone,
                        Value = p.Zone
                    };
+        }
+
+        //public async Task<IEnumerable<SelectListItem>> GetParkSelectListItemsAsync(ParkEventModel model,bool withChildrenOnly = false)
+        //{
+        //    var parks = _mapper.Map<ICollection<ParkModel>>(await _parkRepository.GetAllParksAsync());
+
+        //    return from p in parks
+        //           where !withChildrenOnly || p.Events.Any(e => e.Date >= DateTime.Today)
+        //           select new SelectListItem
+        //           {
+        //               Selected = false,
+        //               Text = p.Name,
+        //               Value = _service.Encrypt(p.ParkId)
+        //           };
+        //}
+
+        //public async Task<IEnumerable<SelectListItem>> GetParkSelectListItemsAsync(SportsClubModel model, bool withChildrenOnly = false)
+        //{
+        //    var parks = _mapper.Map<ICollection<ParkModel>>(await _parkRepository.GetAllParksAsync());
+
+        //    return from p in parks
+        //           where !withChildrenOnly || p.SportClubs.Count > 0
+        //           select new SelectListItem
+        //           {
+        //               Selected = false,
+        //               Text = p.Name,
+        //               Value = _service.Encrypt(p.ParkId)
+        //           };
+        //}
+
+        public async Task<IEnumerable<SelectListItem>> GetParkSelectListItemsAsync<T>(bool withChildrenOnly = false) where T : class
+        {
+            var parks = await _parkRepository.GetAllParksAsync();
+
+            return parks.Where(p => !withChildrenOnly ||
+            (typeof(T).IsEquivalentTo(typeof(ParkEventModel)) && p.Events.Any(e => e.Date >= DateTime.Today)) |
+            (typeof(T).IsEquivalentTo(typeof(SupervisorModel)) && p.Supervisor != null) |
+            (typeof(T).IsEquivalentTo(typeof(SportsClubModel)) && p.SportClubs.Count > 0))
+                .Select(p => new SelectListItem
+                {
+                    Selected = false,
+                    Text = p.Name,
+                    Value = p.ParkId.ToString()
+                });
         }
     }
 }

@@ -6,7 +6,8 @@ namespace LocalParks.Services.View
 {
     public interface ISelectListService
     {
-        IEnumerable<SelectListItem> GetSortSelectListItems<T>();
+        Task<IEnumerable<SelectListItem>> GetParkSelectListItemsAsync<T>(bool withChildrenOnly = false) where T : class;
         Task<IEnumerable<SelectListItem>> GetPostcodeSelectListItemsAsync();
+        IEnumerable<SelectListItem> GetSortSelectListItems<T>();
     }
 }

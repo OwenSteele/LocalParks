@@ -23,8 +23,6 @@ namespace LocalParks.Controllers
         {
             _logger.LogInformation("Executing Supervisors.Index Model");
 
-            await SetViewData();
-
             var results = await _service.GetAllSupervisorModelsAsync();
             return View(results);
         }
@@ -36,8 +34,6 @@ namespace LocalParks.Controllers
             string sortBy = null)
         {
             _logger.LogInformation("Executing Supervisors.Filter Model");
-
-            await SetViewData();
 
             var matches = await _service.GetSearchedSupervisorModelsAsync(
                 searchTerm, parkFilter);
@@ -71,11 +67,6 @@ namespace LocalParks.Controllers
             if (supervisor == null) return View("NotFound");
 
             return View(supervisor);
-        }
-
-        private async Task SetViewData()
-        {
-            ViewData["Parks"] = await _service.GetParkSelectListItemsAsync(true);
         }
     }
 }
