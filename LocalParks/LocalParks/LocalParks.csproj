@@ -13,19 +13,6 @@
     <None Remove="Authentication\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="SeededData\parkEvents.Json" />
-    <Content Remove="SeededData\Parks.Json" />
-    <Content Remove="SeededData\Postcodes.Json" />
-    <Content Remove="SeededData\SportsClubs.Json" />
-    <Content Remove="SeededData\supervisors.Json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="API\.vs\ProjectSettings.json" />
-    <Content Include="API\.vs\VSWorkspaceState.json" />
-  </ItemGroup>
-
   <!--<ItemGroup>
     <Content Include="appsettings.Development.json" />
     <Content Include="appsettings.json" />
@@ -58,6 +45,7 @@
   <ItemGroup>
     <ProjectReference Include="..\LocalParks.Core\LocalParks.Core.csproj" />
     <ProjectReference Include="..\LocalParks.Data\LocalParks.Data.csproj" />
+    <ProjectReference Include="..\LocalParks.Infrastructure\LocalParks.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -67,13 +55,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="API\.vs\slnx.sqlite" />
-    <None Include="SeededData\parkEvents.Json" />
-    <None Include="SeededData\parks.Json" />
-    <None Include="SeededData\postcodes.Json" />
-    <None Include="SeededData\sportsClubs.Json" />
-    <None Include="SeededData\supervisors.Json" />
-    <None Include="SeededData\adminLocalParksUser.json" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
@@ -103,10 +84,6 @@
     <None Include="wwwroot\lib\jquery\dist\jquery.js" />
     <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
     <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="API\.vs\API\v16\" />
   </ItemGroup>
 
 </Project>

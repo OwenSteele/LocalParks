@@ -1,8 +1,9 @@
+using LocalParks.Configuration.DependencyInjection;
 using LocalParks.Configuration.Injection;
 using LocalParks.Configuration.Middleware;
-using LocalParks.Core;
 using LocalParks.Data;
-using LocalParks.Services.View;
+using LocalParks.Infrastructure;
+using LocalParks.Infrastructure.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -28,32 +29,6 @@ namespace LocalParks
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentity<LocalParksUser, IdentityRole>(options =>
-            {
-                options.User.RequireUniqueEmail = true;
-            }
-            ).AddRoles<IdentityRole>()
-             .AddRoleManager<RoleManager<IdentityRole>>()
-             .AddEntityFrameworkStores<ParkContext>();
-
-            services.AddAuthentication()
-                .AddCookie()
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidIssuer = Configuration["Tokens:Issuer"],
-                        ValidAudience = Configuration["Tokens:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
-                    };
-                });
-
-            services.AddDbContext<ParkContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("LocalParks"));
-            });
-
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
@@ -62,20 +37,17 @@ namespace LocalParks
 
             services.Configure<QueryStringMiddlewareOptions>(Configuration.GetSection("QueryStrings"));
 
-            services.AddLocalParksEntityServices()
-                .AddLocalParksContextServices()
-                .AddInternalSharedServices()
-                .AddViewComponentServices()
-                .AddShopServices()
-                .AddReportsServices()
-                .AddViewServices()
-                .AddAuthServices();
+            services.AddLocalParksData(Configuration.GetConnectionString("LocalParks"))
+                .AddLocalParksInfrastructure(Configuration.GetSection("Tokens"));
 
-            services.AddSingleton<IEncryptionService, EncryptionService>();
+            services.AddDomainServices()
+                .AddViewServices()
+                .AddViewComponentServices()
+                .AddReportsServices();
 
             services.AddMvc();
 
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddAutoMapper(typeof(ParkProfile));
 
             services.AddControllersWithViews();
         }

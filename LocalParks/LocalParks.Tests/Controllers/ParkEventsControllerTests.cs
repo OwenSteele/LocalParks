@@ -24,6 +24,7 @@ namespace LocalParks.Tests.Controllers
         private readonly Mock<IAuthenticationService> _mockAuthService;
         private readonly Mock<IParkEventsService> _mockService;
         private readonly Mock<ISortingService> _mockSortService;
+        private readonly Mock<ISelectListService> _mockSelectListService;
         private readonly Mock<ClaimsPrincipal> _mockUser;
         private readonly TempDataDictionary _tempData;
         private readonly ParkEventModel[] _events;
@@ -56,7 +57,7 @@ namespace LocalParks.Tests.Controllers
             _mockAuthService.Setup(s => s.IsSignedInAsync(_mockUser.Object))
                 .ReturnsAsync(true);
 
-            _mockService.Setup(s => s.GetParkSelectListItemsAsync(true))
+            _mockSelectListService.Setup(s => s.GetParkSelectListItemsAsync<ParkEventModel>(true))
                 .ReturnsAsync(_parks.Where(p => p.Events.Any())
                 .Select(p => new SelectListItem
                 {
@@ -94,7 +95,6 @@ namespace LocalParks.Tests.Controllers
             _mockAuthService.Setup(s => s.HasRequiredRoleAsync("", ""))
                 .ReturnsAsync(conditionsMet);
         }
-
 
         [Fact]
         public async Task WHEN_Index_action_is_called_THEN_Index_view_is_returned_with_ParkEventModel()

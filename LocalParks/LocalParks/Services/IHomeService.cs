@@ -5,7 +5,7 @@ namespace LocalParks.Services
 {
     public interface IHomeService
     {
-        Task<HomeModel> GetHomeModelAsync(string latitude, string longitude);
-        bool PostFeedBackAsync(ContactModel model);
+        Task<HomeViewModel> GetHomeModelAsync(string latitude, string longitude);
+        bool PostFeedBackAsync(ContactViewModel model);
     }
 }

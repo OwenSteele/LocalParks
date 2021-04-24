@@ -39,10 +39,10 @@ namespace LocalParks.Controllers
         {
             ViewData["Postcodes"] = await listService.GetPostcodeSelectListItemsAsync();
 
-            return View(new ContactModel());
+            return View(new ContactViewModel());
         }
         [HttpPost]
-        public async Task<IActionResult> Contact(ContactModel model,
+        public async Task<IActionResult> Contact(ContactViewModel model,
             [FromServices] ISelectListService listService)
         {
             ViewData["Postcodes"] = await listService.GetPostcodeSelectListItemsAsync();

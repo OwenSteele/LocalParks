@@ -1,5 +1,6 @@
-﻿using LocalParks.Core;
-using LocalParks.Core.Shop;
+﻿using LocalParks.Core.Domain;
+using LocalParks.Core.Domain.Shop;
+using LocalParks.Core.Domain.User;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

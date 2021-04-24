@@ -1,5 +1,8 @@
-﻿using LocalParks.Models;
+﻿using LocalParks.Core.Contracts;
+using LocalParks.Models;
+using LocalParks.Models.Accounts;
 using LocalParks.Services;
+using LocalParks.Services.Account;
 using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,6 +14,7 @@ namespace LocalParks.Controllers
     {
         private readonly ILogger<AccountController> _logger;
         private readonly IAccountService _service;
+        private readonly IAccountDataService _dataservice;
         private readonly IAuthenticationService _authenticationService;
         private readonly ISelectListService _listService;
         private readonly IUserService _userService;
@@ -19,11 +23,13 @@ namespace LocalParks.Controllers
             IAccountService service,
             IAuthenticationService authenticationService,
             ISelectListService listService,
-            IUserService userService)
+            IUserService userService,
+            IAccountDataService dataservice)
         {
             _logger = logger;
             _service = service;
-            _authenticationService = authenticationService;
+            _dataservice = dataservice;
+             _authenticationService = authenticationService;
             _listService = listService;
             _userService = userService;
         }
@@ -47,10 +53,10 @@ namespace LocalParks.Controllers
             if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Index");
 
-            return View(new LoginModel());
+            return View(new LoginViewModel());
         }
         [HttpPost]
-        public async Task<IActionResult> Login(LoginModel model, string returnUrl = null)
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             _logger.LogInformation("Executing Acount.Login Post");
 
@@ -61,7 +67,7 @@ namespace LocalParks.Controllers
                 return View(model);
             }
 
-            if (!await _service.SignInAttemptAsync(model))
+            if (!await _dataservice.SignInAttemptAsync(model))
             {
                 ModelState.AddModelError("", "Username or Password Invalid.");
 
@@ -94,10 +100,10 @@ namespace LocalParks.Controllers
 
             ViewData["Postcodes"] = await _listService.GetPostcodeSelectListItemsAsync();
 
-            return View(new SignInModel());
+            return View(new SignInViewModel());
         }
         [HttpPost]
-        public async Task<IActionResult> SignUp(SignInModel model)
+        public async Task<IActionResult> SignUp(SignInViewModel model)
         {
             ViewData["Postcodes"] = await _listService.GetPostcodeSelectListItemsAsync();
 
@@ -126,7 +132,7 @@ namespace LocalParks.Controllers
 
             if (error) return View("SignUp", model);
 
-            var user = await _service.AddUserAsync(model);
+            var user = await _dataservice.AddUserAsync(model);
 
             if (user == null)
             {
@@ -210,10 +216,10 @@ namespace LocalParks.Controllers
                 return RedirectToAction("Login");
             }
 
-            return View(new ChangePasswordModel());
+            return View(new ChangePasswordViewModel());
         }
         [HttpPost]
-        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -250,7 +256,7 @@ namespace LocalParks.Controllers
 
             TempData["Success"] = "Password changed successfully.";
 
-            return View(new ChangePasswordModel());
+            return View(new ChangePasswordViewModel());
 
         }
         [HttpGet]
@@ -262,14 +268,14 @@ namespace LocalParks.Controllers
 
                 return RedirectToAction("Login");
             }
-            var user = await _service.GetChangeDetailsModelAsync(User.Identity.Name);
+            var user = await _dataservice.GetChangeDetailsModelAsync(User.Identity.Name);
 
             ViewData["Postcodes"] = await _listService.GetPostcodeSelectListItemsAsync();
 
             return View(user);
         }
         [HttpPost]
-        public async Task<IActionResult> EditDetails(ChangeDetailsModel model)
+        public async Task<IActionResult> EditDetails(ChangeDetailsViewModel model)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -285,7 +291,7 @@ namespace LocalParks.Controllers
                 return View(model);
             }
 
-            if (!await _service.ChangeDetailsAsync(model, User.Identity.Name))
+            if (!await _dataservice.ChangeDetailsAsync(model, User.Identity.Name))
             {
                 ModelState.AddModelError("", "Details could not be changed");
 
@@ -296,7 +302,7 @@ namespace LocalParks.Controllers
 
             TempData["Success"] = "Password changed successfully.";
 
-            return View(new ChangeDetailsModel());
+            return View(new ChangeDetailsViewModel());
         }
         [HttpGet]
         public IActionResult DeleteUserAccount()

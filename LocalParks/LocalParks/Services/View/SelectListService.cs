@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using LocalParks.Core;
+﻿using LocalParks.Core.Contracts;
+using LocalParks.Core.Domain;
+using LocalParks.Core.Models;
+using LocalParks.Core.Models.Validation;
 using LocalParks.Data;
-using LocalParks.Models;
-using LocalParks.Models.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -16,13 +16,11 @@ namespace LocalParks.Services.View
     public class SelectListService : ISelectListService
     {
         private readonly IParkRepository _parkRepository;
-        private readonly IEncryptionService _service;
         private ICollection<Postcode> _postcodes;
 
-        public SelectListService(IParkRepository parkRepository, IEncryptionService service)
+        public SelectListService(IParkRepository parkRepository)
         {
             _parkRepository = parkRepository;
-            _service = service;
         }
         public IEnumerable<SelectListItem> GetSortSelectListItems<T>()
         {
@@ -60,34 +58,6 @@ namespace LocalParks.Services.View
                        Value = p.Zone
                    };
         }
-
-        //public async Task<IEnumerable<SelectListItem>> GetParkSelectListItemsAsync(ParkEventModel model,bool withChildrenOnly = false)
-        //{
-        //    var parks = _mapper.Map<ICollection<ParkModel>>(await _parkRepository.GetAllParksAsync());
-
-        //    return from p in parks
-        //           where !withChildrenOnly || p.Events.Any(e => e.Date >= DateTime.Today)
-        //           select new SelectListItem
-        //           {
-        //               Selected = false,
-        //               Text = p.Name,
-        //               Value = _service.Encrypt(p.ParkId)
-        //           };
-        //}
-
-        //public async Task<IEnumerable<SelectListItem>> GetParkSelectListItemsAsync(SportsClubModel model, bool withChildrenOnly = false)
-        //{
-        //    var parks = _mapper.Map<ICollection<ParkModel>>(await _parkRepository.GetAllParksAsync());
-
-        //    return from p in parks
-        //           where !withChildrenOnly || p.SportClubs.Count > 0
-        //           select new SelectListItem
-        //           {
-        //               Selected = false,
-        //               Text = p.Name,
-        //               Value = _service.Encrypt(p.ParkId)
-        //           };
-        //}
 
         public async Task<IEnumerable<SelectListItem>> GetParkSelectListItemsAsync<T>(bool withChildrenOnly = false) where T : class
         {

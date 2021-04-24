@@ -1,4 +1,4 @@
-﻿using LocalParks.Models.Validation;
+﻿using LocalParks.Core.Models.Validation;
 using System;
 using System.Linq;
 using System.Reflection;

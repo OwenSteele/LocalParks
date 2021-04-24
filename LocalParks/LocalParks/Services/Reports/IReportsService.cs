@@ -5,6 +5,6 @@ namespace LocalParks.Services.Reports
 {
     public interface IReportsService
     {
-        Task<ReportsModel> GetReportsModelAsync();
+        Task<ReportsViewModel> GetReportsModelAsync();
     }
 }

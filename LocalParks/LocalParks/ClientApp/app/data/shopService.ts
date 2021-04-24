@@ -20,6 +20,7 @@ export class ShopService {
 
     private token: string = 'value';
     private tokenExpiration: Date = new Date('0001-01-01T00:00:00Z');
+    private path: string = "https://localhost:44380"
 
     public get SignInRequired(): boolean {
         return this.token === undefined ||
@@ -30,7 +31,7 @@ export class ShopService {
 
     login(creds: any): Observable<boolean> {
         return this.http
-            .post("/api/account/createtoken", creds)
+            .post(`${this.path}/api/account/createtoken`, creds)
             .pipe(map((data: any) => {
                 this.token = data.token;
                 this.tokenExpiration = data.expiry;
@@ -40,7 +41,7 @@ export class ShopService {
 
     getToken(): Observable<boolean> {
         return this.http
-            .get("/api/account/getshoptoken")
+            .get(`${this.path}/api/account/getshoptoken`)
             .pipe(map((data: any) => {
                 this.token = data.token;
                 this.tokenExpiration = data.expiry;
@@ -57,7 +58,7 @@ export class ShopService {
         this.order.orderNumber = this.datePipe.transform(new Date(), "yyyyMMddHHmmssSSS")?.toString()!;
         console.log(this.order.orderNumber);
 
-        return this.http.post("/api/shop/orders", this.order, {
+        return this.http.post(`${this.path}/api/shop/orders`, this.order, {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${this.token}`
@@ -73,7 +74,7 @@ export class ShopService {
     }
 
     getProducts(): Observable<boolean> {
-        return this.http.get("/api/shop/products")
+        return this.http.get(`${this.path}/api/shop/products`)
             .pipe(map((data: any) => {
                 this.products = data;
                 return true;
@@ -81,7 +82,7 @@ export class ShopService {
     }
 
     getMemberships(): Observable<boolean> {
-        return this.http.get("/api/shop/products/memberships")
+        return this.http.get(`${this.path}/api/shop/products/memberships`)
             .pipe(map((data: any) => {
                 this.memberships = data;
                 return true;

@@ -5,6 +5,6 @@ namespace LocalParks.Services.ViewComponents
 {
     public interface IChartService
     {
-        Task<ChartModel> CreateAsync();
+        Task<ChartViewModel> CreateAsync();
     }
 }

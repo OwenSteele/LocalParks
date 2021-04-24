@@ -1,4 +1,4 @@
-﻿using LocalParks.Core.Shop;
+﻿using LocalParks.Core.Domain.Shop;
 using LocalParks.Models.Reports;
 using System;
 using System.Globalization;
@@ -10,7 +10,7 @@ namespace LocalParks.Services.Reports
     public class ReportsService : IReportsService
     {
         private readonly IReportsDataService _service;
-        private readonly ReportsModel _model;
+        private readonly ReportsViewModel _model;
 
         public ReportsService(IReportsDataService service)
         {
@@ -18,7 +18,7 @@ namespace LocalParks.Services.Reports
             _model = new();
         }
 
-        public async Task<ReportsModel> GetReportsModelAsync()
+        public async Task<ReportsViewModel> GetReportsModelAsync()
         {
             await SetParksData();
             await SetSportsClubsData();

@@ -1,4 +1,6 @@
-﻿using LocalParks.Models;
+﻿using LocalParks.Core.Contracts;
+using LocalParks.Core.Models;
+using LocalParks.Models;
 using LocalParks.Services;
 using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc;

@@ -1,5 +1,6 @@
 ﻿using LocalParks.Core.Chart;
 using LocalParks.Data;
+using LocalParks.Infrastructure.Builders;
 using LocalParks.Models.Chart;
 using System;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace LocalParks.Services.ViewComponents
         {
             _parkRepository = parkRepository;
         }
-        public async Task<ChartModel> CreateAsync()
+        public async Task<ChartViewModel> CreateAsync()
         {
             var results = await _parkRepository.GetAllOrdersAsync();
 
@@ -49,7 +50,7 @@ namespace LocalParks.Services.ViewComponents
 
             var chart = builder.GetChart();
 
-            return new ChartModel(chart);
+            return new ChartViewModel(chart);
         }
     }
 }

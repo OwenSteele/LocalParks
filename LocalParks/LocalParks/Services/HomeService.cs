@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
+using LocalParks.Core.Contracts.Shared;
+using LocalParks.Core.Models;
 using LocalParks.Data;
 using LocalParks.Models;
-using LocalParks.Services.Shared;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace LocalParks.Services
             _service = service;
         }
 
-        public async Task<HomeModel> GetHomeModelAsync(string latitude, string longitude)
+        public async Task<HomeViewModel> GetHomeModelAsync(string latitude, string longitude)
         {
             var parks = _mapper.Map<ParkModel[]>(await _parkRepository.GetAllParksAsync());
             var park = GetSelectedPark(latitude, longitude, parks);
@@ -43,7 +44,7 @@ namespace LocalParks.Services
 
             var lastSportsClub = _mapper.Map<SportsClubModel>(await _parkRepository.GetLatestSportsClubAsync());
 
-            return new HomeModel(park,
+            return new HomeViewModel(park,
                                  parkCount,
                                  openParkCount,
                                  parksClosingSoon,
@@ -52,7 +53,7 @@ namespace LocalParks.Services
                                  lastSportsClub);
         }
 
-        public bool PostFeedBackAsync(ContactModel model)
+        public bool PostFeedBackAsync(ContactViewModel model)
         {
             //implement DB table with feedback
 
