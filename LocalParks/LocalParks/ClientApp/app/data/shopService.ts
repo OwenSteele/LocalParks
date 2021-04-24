@@ -6,6 +6,7 @@ import { Product } from "./product";
 import { Order} from "./order";
 import { OrderItem } from "./orderItem";
 import { DatePipe } from '@angular/common';
+import { environment } from "../../environments/environment"
 
 @Injectable()
 export class ShopService {
@@ -15,12 +16,13 @@ export class ShopService {
     public memberships: Product[] = [];
 
     constructor(private http: HttpClient,
-    private datePipe: DatePipe) {
+        private datePipe: DatePipe) {
+        this.path = environment.apiUrl;
     }
 
     private token: string = 'value';
     private tokenExpiration: Date = new Date('0001-01-01T00:00:00Z');
-    private path: string = "https://localhost:44380"
+    private path: string = "https://localparksapi.azurewebsites.net";
 
     public get SignInRequired(): boolean {
         return this.token === undefined ||
