@@ -11,6 +11,7 @@ export class Products implements OnInit {
 
     public products: Product[];
     public memberships: Product[];
+    public loading: boolean = true;
 
     constructor(private data: ShopService) {
     }
@@ -20,6 +21,7 @@ export class Products implements OnInit {
             .subscribe(success => {
                 if (success) {
                     this.products = this.data.products;
+                    this.loading = false;
                 }
             });
     }

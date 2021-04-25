@@ -24,8 +24,7 @@ namespace LocalParks.API.Controllers
             _service = service;
         }
 
-        [Route("api/[controller]")]
-        [HttpGet]
+        [HttpGet("api/[controller]")]
         public async Task<ActionResult<SupervisorModel[]>> GetAllSupervisors()
         {
             _logger.LogInformation("API GET request: All Supervisors");
@@ -46,9 +45,8 @@ namespace LocalParks.API.Controllers
             }
         }
 
-        [Route("api/parks/{parkId:int}/[controller]")]
-        [Route("api/[controller]/{parkId:int}")]
-        [HttpGet("{parkId:int}")]
+        [HttpGet("api/[controller]/{parkId:int}")]
+        [HttpGet("api/parks/{parkId:int}/[controller]")]
         public async Task<ActionResult<SupervisorModel>> GetSupervisor(int parkId)
         {
             _logger.LogInformation($"API GET request: Supervisor with park ID: {parkId}");

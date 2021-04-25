@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace LocalParks.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ParksController : ControllerBase
@@ -26,7 +25,7 @@ namespace LocalParks.API.Controllers
             _service = service;
         }
 
-        [HttpGet]
+        [HttpGet("api/[controller]")]
         public async Task<ActionResult<ParkModel[]>> GetAllParks()
         {
             _logger.LogInformation("API GET request: All Parks");
@@ -47,7 +46,7 @@ namespace LocalParks.API.Controllers
             }
         }
 
-        [HttpGet("{parkId:int}")]
+        [HttpGet("api/[controller]/{parkId:int}")]
         public async Task<ActionResult<ParkModel>> GetParkById(int parkId)
         {
             _logger.LogInformation($"API GET request: park with ID: {parkId}");
@@ -67,7 +66,7 @@ namespace LocalParks.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
             }
         }
-        [HttpGet("{parkName}")]
+        [HttpGet("api/[controller]/{parkName}")]
         public async Task<ActionResult<ParkModel>> GetParkByName(string parkName)
         {
             _logger.LogInformation($"API GET request: park with name: {parkName}");

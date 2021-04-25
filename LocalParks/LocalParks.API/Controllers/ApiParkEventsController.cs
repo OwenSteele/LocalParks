@@ -24,8 +24,7 @@ namespace LocalParks.API.Controllers
             _service = service;
         }
 
-        [Route("api/[controller]")]
-        [HttpGet]
+        [HttpGet("api/[controller]")]
         public async Task<ActionResult<ParkEventModel[]>> GetAllParkEvents()
         {
             _logger.LogInformation("API GET request: All Events");
@@ -46,8 +45,7 @@ namespace LocalParks.API.Controllers
             }
         }
 
-        [Route("api/parks/{parkId:int}/[controller]")]
-        [HttpGet("{parkId:int}")]
+        [HttpGet("api/parks/{parkId:int}/[controller]")]
         public async Task<ActionResult<ParkEventModel[]>> GetParkEvents(int parkId)
         {
             _logger.LogInformation($"API GET request: All Events in park with ID: {parkId}");
@@ -69,8 +67,7 @@ namespace LocalParks.API.Controllers
             }
         }
 
-        [Route("api/[controller]/{eventId:int}")]
-        [HttpGet("{eventId:int}")]
+        [HttpGet("api/[controller]/{eventId:int}")]
         public async Task<ActionResult<ParkEventModel>> GetEvent(int eventId)
         {
             _logger.LogInformation($"API GET request: Event with ID: {eventId}");
@@ -92,8 +89,7 @@ namespace LocalParks.API.Controllers
             }
         }
 
-        [Route("api/parks/{parkId:int}/[controller]/{eventId:int}")]
-        [HttpGet("{parkId:int},{eventId:int}")]
+        [HttpGet("api/parks/{parkId:int}/[controller]/{eventId:int}")]
         public async Task<ActionResult<ParkEventModel>> GetEvent(int parkId, int eventId)
         {
             _logger.LogInformation($"API GET request: Event with ID: {eventId}, in park with ID: {parkId}");
@@ -115,8 +111,7 @@ namespace LocalParks.API.Controllers
             }
         }
 
-        [Route("api/parks/{parkId:int}/[controller]/{date}")]
-        [HttpGet("{parkId:int},{date}")]
+        [HttpGet("api/parks/{parkId:int}/[controller]/{date}")]
         public async Task<ActionResult<ParkEventModel>> GetEventByParkIdByDate(int parkId, string date)
         {
             _logger.LogInformation($"API GET request: Event By ParkId By Date: {date}");

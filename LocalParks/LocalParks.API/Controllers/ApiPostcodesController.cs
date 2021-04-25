@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace LocalParks.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PostCodesController : ControllerBase
@@ -25,7 +24,7 @@ namespace LocalParks.API.Controllers
             _service = service;
         }
 
-        [HttpGet]
+        [HttpGet("api/[controller]")]
         public async Task<ActionResult<PostcodeModel[]>> GetAllPostcodes()
         {
             _logger.LogInformation("API GET request: All Postcodes");
@@ -46,7 +45,7 @@ namespace LocalParks.API.Controllers
             }
         }
 
-        [HttpGet("{postcodeZone}")]
+        [HttpGet("api/[controller]/{postcodeZone}")]
         public async Task<ActionResult<ParkModel>> GetPostcodeByZone(string postcodeZone)
         {
             _logger.LogInformation($"API GET request: postcode with ID: {postcodeZone}");

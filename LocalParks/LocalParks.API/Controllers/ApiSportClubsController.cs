@@ -25,8 +25,7 @@ namespace LocalParks.API.Controllers
             _service = service;
         }
 
-        [Route("api/[controller]")]
-        [HttpGet]
+        [HttpGet("api/[controller]")]
         public async Task<ActionResult<SportsClubModel[]>> GetAllSportsClubs()
         {
             _logger.LogInformation("API GET request: All Sports Clubs");
@@ -47,8 +46,7 @@ namespace LocalParks.API.Controllers
             }
         }
 
-        [Route("api/parks/{parkId:int}/[controller]")]
-        [HttpGet("{parkId:int}")]
+        [HttpGet("api/parks/{parkId:int}/[controller]")]
         public async Task<ActionResult<SportsClubModel[]>> GetParkSportsClubs(int parkId)
         {
             _logger.LogInformation($"API GET request: All Sports Clubs in park with ID: {parkId}");
@@ -69,8 +67,7 @@ namespace LocalParks.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
             }
         }
-        [Route("api/[controller]/sports")]
-        [HttpGet("{parkId:int}")]
+        [HttpGet("api/[controller]/sports")]
         public ActionResult<SportsClubModel[]> GetAllSports()
         {
             _logger.LogInformation($"API GET request: All Sports");
@@ -89,8 +86,7 @@ namespace LocalParks.API.Controllers
             }
         }
 
-        [Route("api/[controller]/{clubId:int}")]
-        [HttpGet("{clubId:int}")]
+        [HttpGet("api/[controller]/{clubId:int}")]
         public async Task<ActionResult<SportsClubModel>> GetSportsClub(int clubId)
         {
             _logger.LogInformation($"API GET request: Sports Club with ID: {clubId}");
@@ -112,8 +108,7 @@ namespace LocalParks.API.Controllers
             }
         }
 
-        [Route("api/parks/{parkId:int}/[controller]/{clubId:int}")]
-        [HttpGet("{parkId:int},{clubId:int}")]
+        [HttpGet("api/parks/{parkId:int}/[controller]/{clubId:int}")]
         public async Task<ActionResult<SportsClubModel>> GetSportsClub(int parkId, int clubId)
         {
             _logger.LogInformation($"API GET request: Sports Club with ID: {clubId}, in park with ID: {parkId}");
@@ -135,8 +130,7 @@ namespace LocalParks.API.Controllers
             }
         }
 
-        [Route("api/parks/{parkId:int}/[controller]/{sport}")]
-        [HttpGet("{parkId:int},{sport}")]
+        [HttpGet("api/parks/{parkId:int}/[controller]/{sport}")]
         public async Task<ActionResult<SportsClubModel[]>> GetSportsClub(int parkId, string sport)
         {
             _logger.LogInformation($"API GET request: Sports Clubs with sport: {sport}");

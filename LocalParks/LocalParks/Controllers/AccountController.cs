@@ -197,9 +197,7 @@ namespace LocalParks.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
-                ModelState.AddModelError("", "Please log on to access this");
-
-                return RedirectToAction("Login");
+                return View(null);
             }
 
             var user = await _userService.GetUserAsync(User.Identity.Name);

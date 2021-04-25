@@ -12,7 +12,6 @@ namespace LocalParks.API.Controllers.Shop
 {
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route("api/shop/[controller]")]
     public class OrdersController : ControllerBase
     {
         private readonly ILogger<OrdersController> _logger;
@@ -23,7 +22,8 @@ namespace LocalParks.API.Controllers.Shop
             _logger = logger;
             _service = service;
         }
-        [HttpGet]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpGet("api/shop/[controller]")]
         public async Task<IActionResult> GetUserOrders()
         {
             _logger.LogInformation("API GET request: All Orders of user");
@@ -43,7 +43,8 @@ namespace LocalParks.API.Controllers.Shop
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
             }
         }
-        [HttpGet("orderId:int")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpGet("api/shop/[controller]/{orderId:int}")]
         public async Task<IActionResult> GetOrder(int orderId)
         {
             _logger.LogInformation($"API GET request: get order with Id: {orderId} ");
@@ -63,7 +64,7 @@ namespace LocalParks.API.Controllers.Shop
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
             }
         }
-        [HttpPost]
+        [HttpPost("api/shop/[controller]")]
         public async Task<IActionResult> Post(
             [FromBody] OrderModel model,
             [FromServices] IShopManager manager)

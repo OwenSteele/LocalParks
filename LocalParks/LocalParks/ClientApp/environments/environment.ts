@@ -4,8 +4,8 @@
 
 export const environment = {
     production: false,
-    //apiUrl: "https://localhost:44380"
-    apiUrl: "https://localparksapi.azurewebsites.net"
+    apiUrl: "https://localhost:44380"
+    //apiUrl: "https://localparksapi.azurewebsites.net"
 };
 
 /*

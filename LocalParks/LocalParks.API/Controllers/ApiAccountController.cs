@@ -21,8 +21,7 @@ namespace LocalParks.API.Controllers
             _service = service;
             _tokenService = tokenService;
         }
-        [HttpPost]
-        [Route("api/[controller]/CreateToken")]
+        [HttpPost("[controller]/CreateToken")]
         public async Task<IActionResult> CreateToken(
             [FromBody] LoginModel model,
             [FromServices] IAccountService accountService)
@@ -45,8 +44,8 @@ namespace LocalParks.API.Controllers
 
             return Created("", token);
         }
-        [HttpGet]
-        [Route("api/[controller]/GetShopToken")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpGet("api/[controller]/GetShopToken")]
         public async Task<IActionResult> GetShopToken(
             [FromServices] IAuthenticationService authenticationService)
         {

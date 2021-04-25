@@ -3,11 +3,18 @@
     ViewData["Title"] = "Your Account";
 }
 
-<partial name="_AccountNavBar" />
+@if (Model != null)
+{
+    <partial name="_AccountNavBar" />
+}
 
 <div class="container">
 
     <h1>Local Parks Public API documentation</h1>
+
+    <a href="https://localparksapi.azurewebsites.net/swagger" class="card bg-info m-1 p-2">
+        <h2 class="font-weight-bolder text-white">See Swagger Docs!</h2>
+    </a>
 
     <div class=" m-2 p-2 container flex-wrap text-wrap text-break">
 

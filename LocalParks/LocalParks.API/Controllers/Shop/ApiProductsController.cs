@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 namespace LocalParks.API.Controllers.Shop
 {
     [ApiController]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route("api/shop/[controller]")]
     public class ProductsController : ControllerBase
     {
         private readonly ILogger<ProductsController> _logger;
@@ -20,7 +18,7 @@ namespace LocalParks.API.Controllers.Shop
             _logger = logger;
             _service = service;
         }
-        [HttpGet]
+        [HttpGet("api/shop/[controller]")]
         public async Task<IActionResult> GetProducts()
         {
             _logger.LogInformation("API GET request: All Products");
@@ -40,7 +38,7 @@ namespace LocalParks.API.Controllers.Shop
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
             }
         }
-        [HttpGet("memberships")]
+        [HttpGet("api/shop/[controller]/memberships")]
         public async Task<IActionResult> GetMembership()
         {
             _logger.LogInformation("API GET request: All memberships");
