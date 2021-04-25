@@ -5,6 +5,15 @@ Find what's going on in parks around you!
 
 Written by Owen Steele
 
+### LocalParks API
+
+* Separate public API app
+* CORS enabled
+
+**Hosted on Azure: https://localparksapi.azurewebsites.net/**
+
+#### See Swagger Documentation : *https://localparksapi.azurewebsites.net/swagger*
+
 # Features
 
 * ASP.NET Core, using MVC design and Razor page views
