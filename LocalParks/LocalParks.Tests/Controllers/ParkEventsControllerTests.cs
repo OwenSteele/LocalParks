@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using LocalParks.Controllers;
-using LocalParks.Models;
-using LocalParks.Services;
+using LocalParks.Core.Contracts;
+using LocalParks.Core.Models;
+using LocalParks.Infrastructure.Models;
 using LocalParks.Services.View;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

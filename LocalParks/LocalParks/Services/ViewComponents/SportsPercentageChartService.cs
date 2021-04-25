@@ -1,5 +1,4 @@
-﻿using LocalParks.Core;
-using LocalParks.Core.Chart;
+﻿using LocalParks.Core.Chart;
 using LocalParks.Core.Domain;
 using LocalParks.Data;
 using LocalParks.Infrastructure.Builders;

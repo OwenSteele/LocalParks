@@ -10,7 +10,6 @@ namespace LocalParks.Configuration.DependencyInjection
         {
             services.AddScoped<IHomeService, HomeService>();
             services.AddScoped<IAccountDataService, AccountDataService>();
-            services.AddScoped<IGuestAccountService, GuestAccountService>();
 
             return services;
         }

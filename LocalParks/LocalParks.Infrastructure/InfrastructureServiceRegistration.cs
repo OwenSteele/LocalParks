@@ -7,7 +7,8 @@ using System.Text;
 namespace LocalParks.Infrastructure
 {
     public static class InfrastructureServiceRegistration
-    {        public static IServiceCollection AddLocalParksInfrastructure(this IServiceCollection services, IConfigurationSection configuration)
+    {
+        public static IServiceCollection AddLocalParksInfrastructure(this IServiceCollection services, IConfigurationSection configuration)
         {
             services
                 .AddAuthServices()

@@ -1,4 +1,3 @@
-using LocalParks.Core;
 using LocalParks.Core.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

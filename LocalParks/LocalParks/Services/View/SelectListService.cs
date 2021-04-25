@@ -1,5 +1,4 @@
-﻿using LocalParks.Core.Contracts;
-using LocalParks.Core.Domain;
+﻿using LocalParks.Core.Domain;
 using LocalParks.Core.Models;
 using LocalParks.Core.Models.Validation;
 using LocalParks.Data;

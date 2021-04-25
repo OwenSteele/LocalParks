@@ -1,7 +1,5 @@
 ﻿using LocalParks.Core.Contracts;
-using LocalParks.Models;
 using LocalParks.Models.Accounts;
-using LocalParks.Services;
 using LocalParks.Services.Account;
 using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc;
@@ -81,18 +79,12 @@ namespace LocalParks.Controllers
 
             return RedirectToAction("Index");
         }
-        public async Task<IActionResult> Logout(
-            [FromServices] IGuestAccountService guestAccountService, 
-            string returnUrl = null)
+        public async Task<IActionResult> Logout(string returnUrl = null)
         {
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
 
-            var username = User.Identity.Name;
-
             await _service.SignOutAsync();
-
-            if (User.IsInRole("guest")) await guestAccountService.RemoveGuestAsync(username);
 
             if (!string.IsNullOrWhiteSpace(returnUrl)) return Redirect(returnUrl);
 
@@ -148,35 +140,6 @@ namespace LocalParks.Controllers
             }
 
             return RedirectToAction("Login");
-        }
-
-        [HttpGet]
-        public IActionResult GuestAccount(string returnUrl = null)
-        {
-            _logger.LogInformation("Executing Account.GuestAccount Model");
-
-            if (User.Identity.IsAuthenticated) return RedirectToAction("Index");
-
-            ViewData["ReturnUrl"] = returnUrl;
-
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> GuestAccount(
-            [FromServices] IGuestAccountService guestAccountService)
-        {
-            _logger.LogInformation("Executing Account.GuestAccount Post");
-            
-            if (User.Identity.IsAuthenticated) return RedirectToAction("Index");
-
-            if (!await guestAccountService.SignInAsync())
-            {
-                ModelState.AddModelError("", "Could not create a guest at this time");
-
-                RedirectToAction("Login");
-            }
-
-            return RedirectToAction("Index");
         }
         public async Task<IActionResult> Developers()
         {

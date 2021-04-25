@@ -1,5 +1,4 @@
-﻿using LocalParks.Core;
-using LocalParks.Core.Domain;
+﻿using LocalParks.Core.Domain;
 using LocalParks.Core.Domain.Shop;
 using System.Threading.Tasks;
 

@@ -26,7 +26,7 @@ namespace LocalParks.Data
 
             services.AddScoped<IParkRepository, ParkRepository>();
 
-            
+
             return services;
         }
     }
