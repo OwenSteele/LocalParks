@@ -1,4 +1,7 @@
 # LocalParks
+
+[![LocalParks-CI](https://github.com/OwenSteele/LocalParks/actions/workflows/dotnet.yml/badge.svg)](https://github.com/OwenSteele/LocalParks/actions/workflows/dotnet.yml)
+
 Find what's going on in parks around you! 
 
 **Hosted on Azure: https://localparks.azurewebsites.net/**
