@@ -12,6 +12,6 @@
         <h1 class="jumbotron"> {{title}} </h1>
         <button class="openbtn rounded-right" [style]="cartButtonStyle" (click)="toggleNav()">&#9776; <i class="fa fa-shopping-cart"></i> <span *ngIf="data.order.total > 0" class="w3-text-amber"> {{ data.order.items.length }}</span></button>
         <div class="mt-5 px-md-5 px-1">
-            <shop-products>Fetching our products!</shop-products>
+            <shop-products></shop-products>
         </div>
     </div>

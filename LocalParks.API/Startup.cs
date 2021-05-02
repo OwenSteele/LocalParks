@@ -29,7 +29,10 @@ namespace LocalParks.API
 
             services.AddAutoMapper(typeof(ParkProfile));
 
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -68,13 +71,14 @@ namespace LocalParks.API
                 {
                     Version = "v1",
                     Title = "Local Parks Public API",
-                    Description = "Public Web API for Local Parks Authority Website",
+                    Description = "Public Web API for Local Parks Authority Websitehttps://localparksi.azurewebsites.net",
                     Contact = new OpenApiContact
                     {
                         Name = "Owen Steele",
                         Email = "contact@owensteele.co.uk",
-                        Url = new Uri("https://owensteele.co.uk"),
-                    }
+                        Url = new Uri("https://localparks.azurewebsites.net/Home/AboutMe"),
+                    },
+
                 });
             });
         }

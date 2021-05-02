@@ -6,7 +6,6 @@ import { Product } from "./product";
 import { Order} from "./order";
 import { OrderItem } from "./orderItem";
 import { DatePipe } from '@angular/common';
-import { environment } from "../../environments/environment"
 
 @Injectable()
 export class ShopService {
@@ -17,7 +16,6 @@ export class ShopService {
 
     constructor(private http: HttpClient,
         private datePipe: DatePipe) {
-        this.path = environment.apiUrl;
     }
 
     private token: string = 'value';
@@ -33,7 +31,7 @@ export class ShopService {
 
     login(creds: any): Observable<boolean> {
         return this.http
-            .post(`${this.path}/api/account/createtoken`, creds)
+            .post(`${this.path}/account/createtoken`, creds)
             .pipe(map((data: any) => {
                 this.token = data.token;
                 this.tokenExpiration = data.expiry;
