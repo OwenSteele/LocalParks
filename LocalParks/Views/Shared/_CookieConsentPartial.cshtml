@@ -7,7 +7,7 @@
 }
 
 @if (showBanner)
-{
+{ 
     <nav id="cookieConsent" class="navbar navbar-default navbar-fixed-top" role="alert">
         <div class="container card bg-light rounded border-danger">
             <p class="navbar-text border-bottom font-weight-bolder">
@@ -33,8 +33,9 @@
     <script>
         (function () {
             document.querySelector("#cookieConsent button[data-cookie-string]").addEventListener("click", function (el) {
-                document.cookie = el.target.dataset.cookieString;
-                document.querySelector("#cookieConsent").classList.add("hidden");
+                document.cookie = el.target.dataset.cookieString; setTimeout(function () {
+                    document.querySelector("#cookieConsent").classList.add("d-none");
+                }, 500);
             }, false);
         })();
     </script>
