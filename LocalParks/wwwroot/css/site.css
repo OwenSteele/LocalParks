@@ -31,6 +31,12 @@ for details on configuring this project to bundle and minify static web assets. 
     }
 }
 
+.api-docs-container > div {
+    margin: 20px 0px;
+    padding: 5px;
+    border-radius: 4px;
+}
+
 #main-body {
     animation: fadein 1.5s;
 }
@@ -125,6 +131,8 @@ a.navbar-brand {
 
 .home-page-items {
     margin: auto;
+    margin-top: 30px;
+    
 }
     .home-page-items > div{
         text-align:center;
@@ -163,12 +171,6 @@ a.navbar-brand {
         color: orange;
     }
 
-.hpi-features-img {
-}
-.hpi-parksbanner-img {
-}
-.hpi-clubsevents-img {
-}
 
 .hpi-shop-img {
     background-image: url("../images/hpi_shop.jpg");

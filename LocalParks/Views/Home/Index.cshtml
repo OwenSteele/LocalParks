@@ -64,7 +64,7 @@
 
     <div class="home-page-row">
         <div class="row home-page-items">
-            <div class="col-12 hpi-features-img">
+            <div class="col-12">
                 <h4>Latest Features</h4>
             </div>
             <a asp-controller="Shop" asp-action="Index"
@@ -88,7 +88,7 @@
         </div>
 
         <div class="row home-page-items">
-            <div class="col-12 hpi-parksbanner-img">
+            <div class="col-12">
                 <h4>Your Local Parks</h4>
             </div>
             <a asp-controller="Parks" asp-action="Index"
@@ -124,7 +124,7 @@
         </div>
 
         <div class="row home-page-items">
-            <div class="col-12 hpi-clubsevents-img">
+            <div class="col-12">
                 <h4>Clubs and Events</h4>
             </div>
             <a asp-controller="SportsClubs" asp-action="Details" asp-route-_lp="@service.Encrypt("sportsClubId",Model.NewestSportsClub.ClubId)"

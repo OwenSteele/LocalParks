@@ -1,7 +1,8 @@
 ﻿
     <div class="shop-products">
         <div *ngIf="loading">
-            <h2 class="pl-4"><br /><br />Fetching our products..</h2>
+            <h2 class="pl-4"><br /><br />Fetching our products.. </h2>
+            <p class="font-weight-bolder text-danger">(this might take a few seconds to complete as the API is only on a D1 shared Azure service!)</p>
         </div>
          <div *ngFor="let p of products">
         <ul class="row container-fluid">

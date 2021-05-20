@@ -29,15 +29,17 @@ namespace LocalParks.Services
             var parks = _mapper.Map<ParkModel[]>(await _parkRepository.GetAllParksAsync());
             var park = GetSelectedPark(latitude, longitude, parks);
 
+            var timeNow = DateTime.Now.AddHours(1).TimeOfDay;
+
             var parkCount = parks.Length;
             var openParkCount = parks.Where(p =>
-             p.ClosingTime.TimeOfDay > DateTime.Now.TimeOfDay &&
-             p.OpeningTime.TimeOfDay < DateTime.Now.TimeOfDay).Count();
+             p.ClosingTime.TimeOfDay > timeNow &&
+             p.OpeningTime.TimeOfDay < timeNow).Count();
 
             var parksClosingSoon = parks.Where(p =>
-             p.ClosingTime.TimeOfDay > DateTime.Now.TimeOfDay &&
-             (p.ClosingTime.TimeOfDay < DateTime.Now.AddHours(2).TimeOfDay |
-              (DateTime.Now.DayOfYear + 1) == DateTime.Now.AddHours(2).DayOfYear)).ToArray();
+             p.ClosingTime.TimeOfDay > timeNow &&
+             (p.ClosingTime.TimeOfDay < DateTime.Now.AddHours(3).TimeOfDay |
+              (DateTime.Now.AddHours(1).DayOfYear + 1) == DateTime.Now.AddHours(3).DayOfYear)).ToArray();
 
             var lastevent = _mapper.Map<ParkEventModel>(await _parkRepository.GetLatestEventAsync());
             var upcomingEvents = _mapper.Map<ParkEventModel[]>(await _parkRepository.GetEventsUpToDateAsync(DateTime.Today.AddDays(30)));
