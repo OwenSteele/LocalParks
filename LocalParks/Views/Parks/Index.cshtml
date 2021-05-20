@@ -1,0 +1,24 @@
+﻿@model ICollection<ParkModel>
+@{
+    ViewData["Title"] = "Parks";
+}
+
+@section scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/filtering.js"></script>
+}
+
+<div class="parks-jumbotron-img">
+    <div class="p-1 pr-3 pl-3 bg-light rounded w-auto d-inline-block">
+        <h1>Your Local Parks</h1>
+    </div>
+</div>
+
+<partial name="_FilterBar" />
+
+<div class="bg-info border-dark text-dark w-auto rounded text-center m-1">Viewing <strong>@Model.Count()</strong> of our parks.</div>
+
+@foreach (var park in Model)
+{
+    <partial name="_Summary" model="park" />
+}

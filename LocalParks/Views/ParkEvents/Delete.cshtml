@@ -1,0 +1,28 @@
+﻿@model ParkEventModel
+@{
+    ViewData["Title"] = "Confirm Deletion";
+}
+<h1>
+    <label class="jumbotron alert-danger font-weight-bolder">
+        Are you sure you want to Delete event: <span class="alert-light">@Model.Name</span>
+    </label>
+</h1>
+
+
+
+<form asp-controller="ParkEvents" asp-action="Delete" method="post" class="m-2 p-2">
+
+    <div class="w3-text-red font-weight-bolder" asp-validation-summary="ModelOnly"></div>
+
+    <input hidden="hidden" name="eventId" value="@Model.EventId" />
+    <input hidden="hidden" name="confirmed" value="true" />
+
+    <input class="btn-danger w3-hover-border-white w3-hover-text-white rounded"
+           type="submit"
+           value="Delete" />
+</form>
+
+<input type="button" class="btn-outline-light btn-dark btn-light rounded m-2 p-2"
+       value="Cancel"
+       onclick="location.href='@Url.Action("Details", "ParkEvents",
+                                      new { eventId = Model.EventId})'" />

@@ -1,0 +1,21 @@
+﻿@model ChartViewModel
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<div class="reports-jumbotron-img">
+    <div class="p-1 pr-3 pl-3 bg-light rounded w-auto d-inline-block">
+        <h1>Information about our sports clubs</h1>
+    </div>
+</div>
+<div class="bg-white p-2 rounded">
+    <div class="chart-vertical-message">
+        Tip: Rotating your screen may help to see the charts.
+    </div>
+    <div>
+        @await Component.InvokeAsync("SportPercentageChart")
+    </div>
+    <div>
+        @await Component.InvokeAsync("ClubMembersByParkAreaChart")
+    </div>
+</div>

@@ -1,0 +1,33 @@
+﻿img {
+    width: 125px;
+    max-width: 150px;
+    float: left;
+    margin: 0 2px;
+    border: solid 1px black;
+}
+
+.shop-products > div {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 20px;
+}
+    .shop-products > div > ul {
+        list-style: none;
+        border-top: 1px solid gray;
+        padding-top: 10px;
+    }
+
+    .shop-product > ul > li {
+    }
+
+.image-item {
+}
+
+.right-item {
+}
+.middle-item {
+}
+
+.left-item {
+    left: 10px;
+}

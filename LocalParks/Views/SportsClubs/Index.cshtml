@@ -1,0 +1,26 @@
+﻿@model ICollection<SportsClubModel>
+@{
+    ViewData["Title"] = "Sports Clubs";
+}
+
+
+@section scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/filtering.js"></script>
+}
+
+<div class="clubs-jumbotron-img">
+    <div class="p-1 pr-3 pl-3 bg-light rounded w-auto d-inline-block">
+        <h1>Our Sports Clubs</h1>
+    </div>
+</div>
+
+<partial name="_FilterBar" />
+
+<div class="bg-info border-dark text-dark w-auto rounded text-center m-1">Viewing <strong>@Model.Count()</strong> clubs.</div>
+
+
+@foreach (var club in Model)
+{
+    <partial name="_Summary" model="club" />
+}

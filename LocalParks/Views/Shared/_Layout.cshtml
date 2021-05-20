@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Local Parks | @ViewData["Title"]</title>
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
+    </environment>
+    <environment names="Staging, Production">
+        @*<link rel="stylesheet" asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    </environment>
+</head>
+<body class="background-image-all">
+    <header>
+        <nav id="site-nav" class="navbar fixed-top navbar-expand-sm navbar-toggleable-sm navbar-dark
+             bg-dark border-bottom box-shadow mb-1">
+            <div class="container-fluid">
+                <a class="navbar-brand w3-hover-border-amber" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/LogoT.PNG" alt="Home"
+                         style="width:70px; height: 75px;" />
+                </a>
+                <button class="navbar-toggler"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <div>
+                        <ul class="navbar-nav nav-item-options justify-content-start">
+                            <li class="nav-item">
+                                <a class="nav-link text-light w3-hover-amber w3-hover-text-black rounded" asp-controller="Parks"
+                                   asp-action="Index"><i class="fa fa-campground"></i> Parks</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light w3-hover-amber w3-hover-text-black rounded" asp-controller="SportsClubs"
+                                   asp-action=""><i class="fa fa-football-ball"></i> Clubs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light w3-hover-amber w3-hover-text-black rounded" asp-controller="ParkEvents"
+                                   asp-action=""><i class="fa fa-calendar-check"></i> Events</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light w3-hover-amber rounded" asp-controller="Supervisors"
+                                   asp-action=""><i class="fa fa-id-badge"></i> Staff</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light w3-hover-amber rounded" asp-controller="Shop"
+                                   asp-action="Index"><i class="fa fa-shopping-cart"></i> Shop</a>
+                            </li>
+
+                            <li class="nav-item dropdown nav-item-options">
+                                <a class="nav-link dropdown-toggle text-light w3-hover-amber rounded" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-file-alt"></i> Reports
+                                </a>
+                                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown" onmouseover="">
+                                    <a class="nav-link rounded" asp-controller="Reports" asp-action="Index">Overall</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="nav-link rounded" asp-controller="Reports" asp-action="Parks">Parks</a>
+                                    <a class="nav-link rounded" asp-controller="Reports" asp-action="SportsClubs">Sports Clubs</a>
+                                    <a class="nav-link rounded" asp-controller="Reports" asp-action="ParkEvents">Events</a>
+                                    <a class="nav-link rounded" asp-controller="Reports" asp-action="Supervisors">Supervisors</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="nav-link rounded" asp-controller="Reports" asp-action="Shop">Shop</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="ml-auto mr-3">
+                    <ul class="navbar-nav nav-item-options justify-content-start">
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item dropdown nav-item-options">
+                                <a class="nav-link dropdown-toggle text-light rounded" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="w3-hover-text-amber w3-text-amber">@User.Identity.Name</span>
+                                </a>
+                                <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown" onmouseover="">
+                                    <a class="nav-link rounded" asp-controller="Account" asp-action="Index">Account</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="nav-link rounded w3-text-red" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.PageLink()">Logout</a>
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item w3-padding-16 w3-hover-text-black">
+                                <a class="nav-link text-light w3-text-amber w3-border-amber rounded border-dark" asp-controller="Account"
+                                   asp-action="Login">Login</a>
+                            </li>
+                        }
+                    </ul></div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div id="bodydiv" class="mb-5 pb-3 container">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" id="main-body" class="m-0 p-0">
+            @RenderBody()
+        </main>
+    </div>
+    <div style="min-height: 100px;" class="w-100"></div>
+    <footer class="no-margin-footer border-top footer m-1 p-2 bg-light text-center">
+        <p class="font-weight-bolder">
+            <a asp-controller="Home"
+               asp-action="AboutMe">
+                &copy; 2021 - Owen Steele
+            </a>
+        </p>
+        <div class="container">
+
+            <ul class="pl-0 font-weight-bolder d-flex flex-row flex-wrap justify-content-between align-items-center" style="list-style-type: none;">
+                <li class="p-1">
+                    <a class="w3-hover-amber w3-hover-text-black rounded w3-text-blue" asp-controller="Home"
+                       asp-action="Privacy">Privacy Notice</a>
+                </li>
+                <li class="p-1">
+                    <a class="w3-hover-amber w3-hover-text-black rounded w3-text-brown" asp-controller="Home"
+                       asp-action="Contact">Contact Us</a>
+                </li>
+                <li class="p-1">
+                    <a class="w3-hover-amber w3-hover-text-black rounded w3-text-green" asp-controller="Home"
+                       asp-action="AboutMe">About Me</a>
+                </li>
+                <li class="p-1">
+                    <a class="w3-hover-amber w3-hover-text-black rounded w3-text-orange" href="https://github.com/OwenSteele/LocalParks" target="_blank" rel="noopener noreferrer">Github Repo</a>
+                </li>
+                <li class="p-1">
+                    <a class="w3-hover-amber w3-hover-text-black rounded w3-text-dark-gray" asp-controller="Account"
+                       asp-action="ApiDocumentation">Our API</a>
+                </li>
+            </ul>
+        </div>
+    </footer>
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
+        <script type="text/javascript" src="~/lib/chartjs/Chart.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging, Production">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"></script>
+        <script asp-fallback-src="~/lib/chartjs/Chart.min.js" asp-append-version="true"></script>
+        <script type="text/javascript" src="~/dist/localparks.min.js" asp-append-version="true"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    </environment>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

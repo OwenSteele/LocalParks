@@ -1,0 +1,31 @@
+﻿    <div class="sidebar pl-2 container-fluid">
+    <button class="closebtn" (click)="closeNav()">&times; Close</button>
+    <div>
+        <button *ngIf="data.order.total > 0" (click)="onCheckout()" class="btn btn-info m-1 p-1 ">Checkout</button>
+    </div>
+
+    <div>
+        <span class="font-weight-bolder">Number of items: </span>
+
+        <span class="important-text">{{ data.order.items.length }}</span>
+    </div>
+    <div>
+        <span class="font-weight-bolder">Subtotal: </span>
+        <span class="important-text">{{ data.order.total | currency:"GBP":"symbol" }}</span>
+    </div>
+    <table class="table table-condensed table-hover flex-wrap">
+        <thead>
+            <tr class="font-weight-bolder">
+                <td class="cart-item">Item</td>
+                <td class="cart-quantity"># Price</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let i of data.order.items">
+                <td>{{i.productName}}</td>
+                <td>{{i.quantity}}x {{i.unitPrice | currency:"GBP":"symbol" }}</td>
+                <td><button *ngIf="i.quantity > 0" (click)="removeItem(i)" class="btn btn-danger m-1 p-1 "> - </button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

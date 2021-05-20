@@ -1,0 +1,64 @@
+﻿@model LocalParks.Models.ContactViewModel
+@{
+    ViewData["Title"] = "Contact";
+}
+<h1>Reach out to us at the Parks Authority:</h1>
+
+<div class="col-md-6 offset-3">
+    <div class="card card-body m-2">
+        <form asp-controller="Home" asp-action="Contact" method="post" class="p-md-4">
+            <div class="form-group">
+                <label asp-for="@Model.FullName"></label>
+                <input asp-for="@Model.FullName"
+                       type="text"
+                       class="border-dark rounded form-control"
+                       required />
+                <span class="text-danger" asp-validation-for="@Model.FullName"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.PhoneNumber"></label>
+                <input asp-for="@Model.PhoneNumber"
+                       type="text"
+                       class="border-dark rounded form-control"
+                       required />
+                <span class="text-danger" asp-validation-for="@Model.PhoneNumber"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.EmailAddress"></label>
+                <input asp-for="@Model.EmailAddress"
+                       type="text"
+                       class="border-dark rounded form-control"
+                       required />
+                <span class="text-danger" asp-validation-for="@Model.EmailAddress"></span>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => Model.Postcode, htmlAttributes: new { @class = "" })
+
+                @Html.DropDownListFor(x => Model.Postcode,
+               new SelectList((System.Collections.IEnumerable)ViewData["Postcodes"], "Value", "Text"), "Select a postcode",
+               htmlAttributes: new { @class = "form-control", id = "feedbackPostcode" })
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Message"></label>
+                <input asp-for="@Model.Message"
+                       type="text"
+                       class="border-dark rounded form-control"
+                       required />
+                <span class="text-danger" asp-validation-for="@Model.Message"></span>
+            </div>
+
+            <input type="submit" class="btn-outline-light btn-dark btn-light rounded"
+                   value="Send feedback" />
+        </form>
+    </div>
+
+    @if (ViewData.Keys.Contains("FeedBackSuccess"))
+    {
+        <div class="badge-success p-2">@ViewData["FeedBackSuccess"]</div>
+        <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded p-2"
+               type="button"
+               value="Return to Home"
+               onclick="location.href='@Url.Action("Index", "Home")'" />
+    }
+</div>
+

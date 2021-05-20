@@ -1,0 +1,76 @@
+﻿@model ChangeDetailsViewModel
+@{
+    ViewData["Title"] = "Your Account";
+}
+
+<partial name="_AccountNavBar" />
+
+<div class="container m-1">
+
+    <div class="row card card-body">
+        <div class="col-md-4 offset-md-4 p-1">
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="row alert-success rounded m-2 p-2 d-block">
+                    <h2>Details changed successfully!</h2>
+                </div>
+            }
+            else
+            {
+                <h1>Change Your Details</h1>
+
+                <p>We're afraid you can't change your username or email, as these are linked to your account.</p>
+                <p>If you do not want to edit all details, either leave the field blank or unchanged.</p>
+
+                <div class="container">
+                    <form asp-controller="Account" asp-action="EditDetails" method="post">
+
+                        <div asp-validation-summary="ModelOnly"></div>
+
+                        <div class="row form-group p-1 d-block">
+                            <label asp-for="@Model.FirstName"></label>
+                            <input asp-for="@Model.FirstName"
+                                   type="text"
+                                   class="border-dark rounded form-control" />
+                        </div>
+
+                        <div class="row form-group p-1 d-block">
+                            <label asp-for="@Model.LastName"></label>
+                            <input asp-for="@Model.LastName"
+                                   type="text"
+                                   class="border-dark rounded form-control" />
+                        </div>
+
+                        <div class="row form-group p-1 d-block">
+                            <label asp-for="@Model.PhoneNumber"></label>
+                            <input asp-for="@Model.PhoneNumber"
+                                   type="text"
+                                   class="border-dark rounded form-control" />
+                        </div>
+
+                        <div class="row form-group p-1 d-block">
+                            <label asp-for="@Model.PostcodeZone"></label>
+                            @Html.DropDownListFor(x => Model.PostcodeZone,
+                   new SelectList((System.Collections.IEnumerable)ViewData["Postcodes"], "Value", "Text"), "",
+                   htmlAttributes: new
+                   {
+                       @class = "form-control d-inline-flex",
+                       name = "postcode",
+                       style = "max-width: 20%; font-size: 12px; padding: 0px;"
+                   })
+                        </div>
+
+                        <div class="row form-group p-1 d-block">
+                            <input type="submit" value="Change Details" class="row btn-outline-light btn-info rounded d-block p-1" />
+                        </div>
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}

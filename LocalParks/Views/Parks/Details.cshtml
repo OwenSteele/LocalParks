@@ -1,0 +1,174 @@
+﻿@model ParkModel
+@inject IEncryptionService service
+@{
+    ViewData["Title"] = $"{Model.Name} Details";
+}
+
+<div class="m-2">
+    <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
+           type="button" value="All parks"
+           onclick="location.href='@Url.Action("Index", "Parks")'" />
+</div>
+
+<div class="jumbotron row m-2">
+    <ul class="w-100 list-unstyled d-flex flex-row justify-content-between flex-wrap">
+        <li class="flex-column position-relative">
+            <h2>@Model.Name</h2>
+        </li>
+        <li class="flex-column position-relative">
+            @if (Model.IsOpen())
+            {
+                <h4 class="font-weight-bold border-success bg-success p-2 rounded text-dark">
+                    Currently Open
+                </h4>
+            }
+            else
+            {
+                <h4 class="font-weight-bold border-danger bg-danger p-2 rounded text-light">
+                    Currently Closed
+                </h4>
+            }
+        </li>
+    </ul>
+</div>
+<div class="d-flex flex-row justify-content-around flex-wrap alert-warning ">
+    <h4 class="font-weight-bold">
+        <i class="fa fa-clock"></i>
+        Opening and closing times:
+    </h4>
+    <h5>
+        @Model.OpeningTime.ToString("hh:mm tt") - @Model.ClosingTime.ToString("hh:mm tt")
+    </h5>
+</div>
+<div class="d-flex flex-row justify-content-around flex-wrap font-weight-bold">
+    <h5>
+        <span>Located in: </span>
+        <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded" type="button"
+               value="@Model.PostcodeNeighbourhood"
+               onclick="location.href='@Url.Action("Filter", "Parks", new { postcode = Model.PostcodeZone })'" />
+        <span> (@Model.PostcodeZone)</span>
+    </h5>
+    <h5>
+        @if (Model.Supervisor != null)
+        {
+            <span>Park Supervisor: </span>
+            <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded" type="button"
+                   value="@Model.Supervisor.FirstName @Model.Supervisor.LastName"
+                   onclick="location.href='@Url.Action("Details", "Supervisors", new { _lp = @service.Encrypt("parkId",Model.ParkId) })'" />
+        }
+        else
+        {
+            <span>Currently Hiring for supervisor postion!</span>
+            <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded" type="button"
+                   value=" See all other staff"
+                   onclick="location.href='@Url.Action("Index", "Supervisors")'" />
+
+        }
+    </h5>
+</div>
+
+<div class="p-1 m-1 card border-info">
+    <h5 class="font-weight-bolder text-info text-center"><ins>Information</ins></h5>
+    <div>
+        <ul class="list-unstyled d-flex flex-row justify-content-around flex-wrap ">
+            <li class="flex-column position-relative">
+                <span class="font-weight-bold">Latitude:</span>
+                @Model.Latitude &deg
+            </li>
+            <li class="flex-column position-relative">
+                <span class="font-weight-bold">Longitude:</span>
+                @Model.Longitude &deg
+            </li>
+            <li class="flex-column position-relative">
+                <span class="font-weight-bold">Park Overall Area:</span>
+                @Model.SizeInMetresSquared m&sup2
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="d-flex flex-row justify-content-around flex-wrap m-1">
+    @if (Model.SportClubs.Any())
+    {
+        <div class="flex-column">
+            <a class="w3-blue rounded font-weight-bolder card p-1 d-flex flex-row justify-content-between flex-wrap m-1 bg-light" href="#SportsClubsCollapse" role="button" data-toggle="collapse"
+               aria-expanded="false" aria-controls="SportsClubsCollapse">
+                <span class="text-decoration-none p-1">
+                    <i class="fa fa-football-ball"></i> Sports Clubs <span class="w3-text-deep-orange bg-dark pr-2 pl-2 rounded">@Model.SportClubs.Count</span>
+                </span>
+
+            </a>
+            <div class="collapse bg-light" id="SportsClubsCollapse">
+                @foreach (var club in Model.SportClubs)
+                {
+                    <div class="flex-column position-relative border-bottom">
+                        <ul class="list-unstyled d-flex flex-row justify-content-around flex-wrap align-items-center">
+                            <li class="flex-column position-relative font-weight-bolder">
+                                @club.Name
+                            </li>
+                            <li class="flex-column position-relative alert rounded">
+                                @club.Sport.ToString()
+                            </li>
+                            <li class="flex-column position-relative">
+                                <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
+                                       type="button"
+                                       value="See Details"
+                                       onclick="location.href='@Url.Action("Details", "SportsClubs",
+                                new { _lp = @service.Encrypt("sportsClubId",club.ClubId) })'" />
+                            </li>
+                        </ul>
+                    </div>
+                }
+                <input class="w3-hover-border-amber w3-hover-text-amber rounded" type="button"
+                       value="See all"
+                       onclick="location.href='@Url.Action("Filter", "SportsClubs", new { _lp = service.Encrypt("parkFilter",Model.ParkId) })'" />
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>This park doesn't have any sport clubs.</p>
+    }
+    @if (Model.Events.Any())
+    {
+        <div class="flex-column">
+            <a class="w3-green rounded font-weight-bolder card p-1 d-flex flex-row justify-content-between flex-wrap m-1 bg-light" href="#EventsCollapse" role="button" data-toggle="collapse"
+               aria-expanded="false" aria-controls="EventsCollapse">
+                <span class="text-decoration-none p-1">
+                    <i class="fa fa-calendar-check"></i> Scheduled Events <span class="w3-text-deep-orange bg-dark pr-2 pl-2 rounded">@Model.Events.Count</span>
+                </span>
+
+            </a>
+            <div class="collapse bg-light" id="EventsCollapse">
+                @foreach (var parkEvent in Model.Events)
+                {
+                    <div class="flex-column position-relative border-bottom">
+                        <ul class="list-unstyled list-unstyled d-flex flex-row justify-content-around flex-wrap align-items-center">
+                            <li class="flex-column position-relative font-weight-bolder ">
+                                @parkEvent.Name
+                            </li>
+                            <li class="flex-column position-relative alert rounded">
+                                @parkEvent.Date.ToLongDateString()
+                            </li>
+                            <li class="flex-column position-relative">
+                                <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded btn-sm"
+                                       type="button"
+                                       value="See Details"
+                                       onclick="location.href='@Url.Action("Details", "ParkEvents",
+                                                                          new { _lp = @service.Encrypt("eventId",parkEvent.EventId)})'" />
+                            </li>
+                        </ul>
+                    </div>
+                }
+                <input class="w3-hover-border-amber w3-hover-text-amber rounded" type="button"
+                       value="See all"
+                       onclick="location.href='@Url.Action("Filter", "ParkEvents", new { _lp = service.Encrypt("parkFilter",Model.ParkId) })'" />
+            </div>
+        </div>
+    }
+    else
+    {
+        <p class="font-weight-bolder">This park doesn't have any events scheduled.</p>
+    }
+</div>
+
