@@ -1,4 +1,5 @@
-﻿using LocalParks.Services.View;
+﻿using LocalParks.Contracts;
+using LocalParks.Services.View;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LocalParks.Configuration.Injection
@@ -9,6 +10,9 @@ namespace LocalParks.Configuration.Injection
         {
             services.AddScoped<ISelectListService, SelectListService>();
             services.AddScoped<ISortingService, SortingService>();
+            services.AddTransient<IUserInfoService, UserInfoService>();
+            services.AddTransient<IParkEventInfoService, ParkEventInfoService>();
+            services.AddTransient<ISupervisorInfoService, SupervisorInfoService>();
 
             return services;
         }

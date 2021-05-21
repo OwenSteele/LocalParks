@@ -35,13 +35,7 @@ namespace LocalParks.Core.Models
         [DisplayName("Email Address")]
         public string Email
         {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(ParkName))
-                    return $"headoffice@ParkAuthority.co.uk";
-                else
-                    return $"supervisor.{ParkName.Replace(' ', '_')}@ParkAuthority.co.uk";
-            }
+            get =>$"supervisor.{ParkName.Replace(' ', '_')}@ParkAuthority.co.uk";
         }
         [Required]
         [StringLength(100, MinimumLength = 2)]
@@ -53,25 +47,6 @@ namespace LocalParks.Core.Models
         public string EmergencyNumber { get; set; }
         [Required]
         public decimal Salary { get; set; }
-
-        public string Tenure()
-        {
-            if (StartingDate == DateTime.MinValue) return "N/A";
-
-            var days = Math.Floor((DateTime.Now - StartingDate).TotalDays);
-            if (days < 1) return "Less than a day";
-            if (days == 1) return "A day";
-
-            var months = Math.Floor(days / (365.25 / 12));
-            if (months < 1) return $"{days} days";
-            if (months == 1) return "A month";
-
-            var years = Math.Floor(days / 365.25);
-            if (years < 1) return $"{months} months";
-            if (years == 1) return "A year";
-
-            return $"{years} years";
-        }
 
     }
 }

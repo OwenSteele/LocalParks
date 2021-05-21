@@ -18,8 +18,5 @@ namespace LocalParks.Core.Models.Shop
         public string ProductName { get; set; }
 
         public string ImageId { get; set; }
-
-        public decimal Subtotal { get { return Math.Round(Quantity * UnitPrice, 2); } }
-        public string ImageUri { get => $"{ImageId}.jpg"; }
     }
 }
