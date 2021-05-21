@@ -1,28 +1,9 @@
 ﻿namespace LocalParks.Core.Domain
 
 {
-    public enum SportType
+    public class SportType
     {
-        Other,
-        Football,
-        Rugby,
-        Tennis,
-        Bowls,
-        Athletics,
-        Yoga,
-        Basketball,
-        Cricket,
-        Archery,
-        Badminton,
-        Skateboarding,
-        Softball,
-        Frisbee,
-        Golf,
-        Hockey,
-        Netball,
-        MartialArts,
-        Sailing,
-        Volleyball,
-        Swimming
+        public int SportTypeId { get; set; }
+        public string Name { get; set; }
     }
 }

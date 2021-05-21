@@ -30,65 +30,66 @@ namespace LocalParks.Data
 
         public async Task SeedAsync()
         {
+            _context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
 
             var folderPath = $"{_hosting.ContentRootPath}/seededData";
 
-            var user = await _userManager.FindByEmailAsync("contact@owensteele.co.uk");
-            if (user == null)
-            {
-                var filePath = Path.Combine(folderPath, "adminLocalParksUser.json");
-                var file = File.ReadAllText(filePath);
-                var seededUser = JsonConvert.DeserializeObject<LocalParksSeedUser>(file);
+            //var user = await _userManager.FindByEmailAsync("contact@owensteele.co.uk");
+            //if (user == null)
+            //{
+            //    var filePath = Path.Combine(folderPath, "adminLocalParksUser.json");
+            //    var file = File.ReadAllText(filePath);
+            //    var seededUser = JsonConvert.DeserializeObject<LocalParksSeedUser>(file);
 
-                user = new LocalParksUser
-                {
-                    UserName = seededUser.UserName,
-                    FirstName = seededUser.FirstName,
-                    LastName = seededUser.LastName,
-                    Email = seededUser.Email,
-                    PhoneNumber = seededUser.PhoneNumber,
-                    PostcodeZone = seededUser.PostcodeZone,
-                    MemberSince = new DateTime(2021, 2, 1)
-                };
+            //    user = new LocalParksUser
+            //    {
+            //        UserName = seededUser.UserName,
+            //        FirstName = seededUser.FirstName,
+            //        LastName = seededUser.LastName,
+            //        Email = seededUser.Email,
+            //        PhoneNumber = seededUser.PhoneNumber,
+            //        PostcodeZone = seededUser.PostcodeZone,
+            //        MemberSince = new DateTime(2021, 2, 1)
+            //    };
 
-                var result = await _userManager.CreateAsync(user, seededUser.Password);
-                if (!result.Succeeded) throw new Exception("Could not seed user.");
+            //    var result = await _userManager.CreateAsync(user, seededUser.Password);
+            //    if (!result.Succeeded) throw new Exception("Could not seed user.");
 
-                await _context.SaveChangesAsync();
-            }
+            //    await _context.SaveChangesAsync();
+            //}
 
-            if (user.MemberSince == DateTime.MinValue)
-            {
-                user.MemberSince = new DateTime(2021, 2, 1);
-                var result = await _userManager.UpdateAsync(user);
-                if (!result.Succeeded) throw new Exception("Could not seed member since");
+            //if (user.MemberSince == DateTime.MinValue)
+            //{
+            //    user.MemberSince = new DateTime(2021, 2, 1);
+            //    var result = await _userManager.UpdateAsync(user);
+            //    if (!result.Succeeded) throw new Exception("Could not seed member since");
 
-                await _context.SaveChangesAsync();
-            }
+            //    await _context.SaveChangesAsync();
+            //}
 
-            var roleAdmin = await _roleManager.FindByNameAsync("Administrator");
-            if (roleAdmin == null)
-            {
-                roleAdmin = new IdentityRole
-                {
-                    Id = "Administrator",
-                    Name = "Administrator",
-                };
+            //var roleAdmin = await _roleManager.FindByNameAsync("Administrator");
+            //if (roleAdmin == null)
+            //{
+            //    roleAdmin = new IdentityRole
+            //    {
+            //        Id = "Administrator",
+            //        Name = "Administrator",
+            //    };
 
-                var result = await _roleManager.CreateAsync(roleAdmin);
-                if (!result.Succeeded) throw new Exception("Could not seed Admin role.");
+            //    var result = await _roleManager.CreateAsync(roleAdmin);
+            //    if (!result.Succeeded) throw new Exception("Could not seed Admin role.");
 
-                await _context.SaveChangesAsync();
-            }
+            //    await _context.SaveChangesAsync();
+            //}
 
-            if (!await _userManager.IsInRoleAsync(user, "Administrator"))
-            {
-                var result = await _userManager.AddToRoleAsync(user, "Administrator");
-                if (!result.Succeeded) throw new Exception("Could not seed User with Role.");
-            }
+            //if (!await _userManager.IsInRoleAsync(user, "Administrator"))
+            //{
+            //    var result = await _userManager.AddToRoleAsync(user, "Administrator");
+            //    if (!result.Succeeded) throw new Exception("Could not seed User with Role.");
+            //}
 
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
 
             //
             // seed postcodes
@@ -157,7 +158,18 @@ namespace LocalParks.Data
                 await _context.SaveChangesAsync();
             }
 
-            // seed sports clubs                
+            // seed sports clubs
+
+            if (!_context.SportTypes.Any())
+            {
+                var filePath = Path.Combine(folderPath, "sportTypes.json");
+                var file = File.ReadAllText(filePath);
+                var seeded = JsonConvert.DeserializeObject<IEnumerable<SportType>>(file);
+
+                await _context.SportTypes.AddRangeAsync(seeded);
+
+                await _context.SaveChangesAsync();
+            }               
 
             if (!_context.SportsClubs.Any())
             {
@@ -183,6 +195,8 @@ namespace LocalParks.Data
 
                 await _context.SaveChangesAsync();
             }
+
+            
         }
     }
 }
