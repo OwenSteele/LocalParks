@@ -1,4 +1,5 @@
-﻿using LocalParks.Core.Contracts;
+﻿using LocalParks.API.Controllers.Base;
+using LocalParks.Core.Contracts;
 using LocalParks.Core.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -10,61 +11,29 @@ using System.Threading.Tasks;
 
 namespace LocalParks.API.Controllers
 {
-    [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class SupervisorsController : ControllerBase
+    public class SupervisorsController : AuthorizedControllerBase
     {
-        private readonly ILogger<SupervisorsController> _logger;
         private readonly ISupervisorsService _service;
 
-        public SupervisorsController(ILogger<SupervisorsController> logger,
-            ISupervisorsService service)
+        public SupervisorsController(ISupervisorsService service)
         {
-            _logger = logger;
             _service = service;
         }
 
         [HttpGet("api/[controller]")]
         public async Task<ActionResult<SupervisorModel[]>> GetAllSupervisors()
         {
-            _logger.LogInformation("API GET request: All Supervisors");
+            var results = await _service.GetAllSupervisorModelsAsync();
 
-            try
-            {
-                var results = await _service.GetAllSupervisorModelsAsync();
-
-                if (results == null) return NoContent();
-
-                return Ok(results);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error occured in getting all Supervisors: {ex.Message}");
-
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
-            }
+            return Ok(results);
         }
 
         [HttpGet("api/[controller]/{parkId:int}")]
-        [HttpGet("api/parks/{parkId:int}/[controller]")]
         public async Task<ActionResult<SupervisorModel>> GetSupervisor(int parkId)
         {
-            _logger.LogInformation($"API GET request: Supervisor with park ID: {parkId}");
+            var result = await _service.GetSupervisorModelAsync(parkId);
 
-            try
-            {
-                var result = await _service.GetSupervisorModelAsync(parkId);
-
-                if (result == null) return NoContent();
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error occured in getting Supervisor with park ID '{parkId}': {ex.Message}");
-
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure");
-            }
+            return Ok(result);
         }
     }
 }

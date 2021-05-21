@@ -10,20 +10,15 @@ namespace LocalParks.Controllers
     [BindProperties]
     public class SportsClubsController : Controller
     {
-        private readonly ILogger<ParksController> _logger;
         private readonly ISportsClubsService _service;
 
-        public SportsClubsController(ILogger<ParksController> logger,
-            ISportsClubsService service)
+        public SportsClubsController(ISportsClubsService service)
         {
-            _logger = logger;
             _service = service;
         }
 
         public async Task<IActionResult> Index()
         {
-            _logger.LogInformation("Executing SportsClubs.Index Model");
-
             ViewData["Sports"] = _service.GetSportListItems();
 
             var results = await _service.GetSearchedSportsClubModelsAsync();
@@ -37,8 +32,6 @@ namespace LocalParks.Controllers
             string sportType = null,
             string sortBy = null)
         {
-            _logger.LogInformation("Executing SportsClubs.Filter");
-
             ViewData["Sports"] = _service.GetSportListItems();
 
             var matches = await _service.GetSearchedSportsClubModelsAsync(
@@ -46,9 +39,9 @@ namespace LocalParks.Controllers
 
             if (matches != null)
             {
-                if (!string.IsNullOrWhiteSpace(searchTerm)) TempData["Filter"] = searchTerm;
+                TempData["Filter"] = searchTerm;
 
-                else if (!string.IsNullOrWhiteSpace(sortBy) ||
+                if (!string.IsNullOrWhiteSpace(sortBy) ||
                     !string.IsNullOrWhiteSpace(parkFilter) ||
                     !string.IsNullOrWhiteSpace(sportType)) TempData["Sorted"] = "true";
             }
@@ -61,15 +54,13 @@ namespace LocalParks.Controllers
             }
 
             if (!string.IsNullOrWhiteSpace(sortBy))
-                matches = sortingService.SortResults<SportsClubModel>(matches, sortBy);
+                matches = sortingService.SortResults(matches, sortBy);
 
             return View("Index", matches);
 
         }
         public async Task<IActionResult> Details(int sportsClubId)
         {
-            _logger.LogInformation("Executing SportsClubs.Details Model");
-
             var sportsClub = await _service.GetSportsClubModelAsync(sportsClubId);
 
             if (sportsClub == null) return View("NotFound");
