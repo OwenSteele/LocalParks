@@ -12,7 +12,7 @@ namespace LocalParks.Services.Reports
         Task<SportsClub[]> GetAllSportsClubs();
         Task<Supervisor[]> GetAllSupervisors();
         Task<Product[]> GetAllProducts();
-        int SportCount();
-        string SportName(int pos);
+        Task<int> SportCount();
+        Task<string> SportName(int pos);
     }
 }

@@ -20,7 +20,6 @@ namespace LocalParks.Tests.Controllers
 {
     public class ParksControllerTests
     {
-        private readonly Mock<ILogger<ParksController>> _mockLogger;
 
         private readonly Mock<IParksService> _mockService;
         private readonly Mock<ISortingService> _mockSortService;
@@ -38,7 +37,6 @@ namespace LocalParks.Tests.Controllers
             var httpContext = new DefaultHttpContext();
             _tempData = new TempDataDictionary(httpContext, Mock.Of<ITempDataProvider>());
 
-            _mockLogger = new Mock<ILogger<ParksController>>();
             _mockService = new Mock<IParksService>();
             _mockSortService = new Mock<ISortingService>();
 
@@ -51,8 +49,7 @@ namespace LocalParks.Tests.Controllers
                     }, "mock")));
 
         }
-        private ParksController ArrangeController() => new ParksController(
-            _mockLogger.Object,
+        private ParksController ArrangeController() => new(
                 _mockService.Object)
         {
             TempData = _tempData,

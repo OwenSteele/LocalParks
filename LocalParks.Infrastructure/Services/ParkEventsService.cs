@@ -183,9 +183,9 @@ namespace LocalParks.Infrastructure.Services
         {
             var result = await _parkRepository.GetEventByIdAsync(eventId);
 
-            if (result == null || result.User == null) return null;
+            if (userName == null || result == null || result.User == null) return null;
 
-            if (string.IsNullOrWhiteSpace(userName) || result.User.UserName == userName)
+            if (result?.User?.UserName == userName)
                 return _mapper.Map<LocalParksUserModel>(result.User);
 
             return null;

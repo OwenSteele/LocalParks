@@ -1,4 +1,5 @@
 ﻿@model LocalParksUserModel
+@inject IUserInfoService service
 @{
     ViewData["Title"] = "Your Account";
 }
@@ -29,8 +30,8 @@
                 <td class="thead-light">@Model.Email</td>
             </tr>
             <tr>
-                <th class="thead-light">@Html.DisplayNameFor(model => model.MembershipLength)</th>
-                <td class="thead-light">@Model.MembershipLength</td>
+                <th class="thead-light">Member for: </th>
+                <td class="thead-light">@service.GetMemberShipLength(Model.MemberSince))</td>
             </tr>
             <tr>
                 <th class="thead-light">@Html.DisplayNameFor(model => model.PostcodeZone)</th>

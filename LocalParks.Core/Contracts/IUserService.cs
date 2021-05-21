@@ -7,5 +7,6 @@ namespace LocalParks.Core.Contracts
     {
         Task<LocalParksUserModel> GetUserAsync(string name);
         Task<LocalParksUserModel> GetUserByEmailAsync(string email);
+
     }
 }

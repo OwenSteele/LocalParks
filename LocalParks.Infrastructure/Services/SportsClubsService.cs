@@ -80,9 +80,10 @@ namespace LocalParks.Infrastructure.Services
 
             return _mapper.Map<SportsClubModel[]>(results);
         }
-        public async Task<SportsClubModel[]> GetSportsClubModelsBySportAsync(int parkId, SportType sportType)
+        public async Task<SportsClubModel[]> GetSportsClubModelsBySportAsync(int parkId, string sport)
         {
-            var results = await _parkRepository.GetSportsClubsBySportAsync(sportType, parkId);
+
+            var results = await _parkRepository.GetSportsClubsBySportAsync(sport, parkId);
 
             if (!results.Any()) return null;
 
@@ -112,15 +113,15 @@ namespace LocalParks.Infrastructure.Services
             return result != null;
         }
 
-        public IEnumerable<SelectListItem> GetSportListItems()
+        public async Task<IEnumerable<SelectListItem>> GetSportListItems()
         {
-            return from i in Enum.GetValues<SportType>().ToArray()
-                   select new SelectListItem
+            return from i in (await _parkRepository.GetAllSportTypesAsync()).ToArray()
+            select new SelectListItem
                    {
                        Selected = false,
-                       Text = i.ToString(),
-                       Value = i.ToString()
-                   };
+                       Text = i.Name,
+                       Value = i.Name
+            };
         }
         public ICollection<string> GetAllSports()
         {

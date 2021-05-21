@@ -1,5 +1,6 @@
 ﻿@model HomeViewModel
 @inject IEncryptionService service
+@inject IParkEventInfoService parkEventInfoService
 @{
     ViewData["Title"] = "Home";
 }
@@ -149,17 +150,17 @@
                     <div class="hpi-header">@Model.EventsThisMonth.FirstOrDefault().Name is happening soon!</div>
                     <div>
                         This event is taking place
-                        @if (Model.EventsThisMonth.FirstOrDefault().InDays() == 0)
+                        @if (parkEventInfoService.InDays(Model.EventsThisMonth.FirstOrDefault().Date) == 0)
                         {<strong>
                                 today
                             </strong>}
-                        else if (Model.EventsThisMonth.FirstOrDefault().InDays() == 1)
+                        else if (parkEventInfoService.InDays(Model.EventsThisMonth.FirstOrDefault().Date) == 1)
                         {<strong>
                                 tomorrow
                             </strong>}
                         else
                         {
-                            <span>in <strong>@Model.EventsThisMonth.FirstOrDefault().InDays() days</strong>, in <strong>@Model.EventsThisMonth.FirstOrDefault().ParkName</strong>.</span>
+                            <span>in <strong>@parkEventInfoService.InDays(Model.EventsThisMonth.FirstOrDefault().Date) days</strong>, in <strong>@Model.EventsThisMonth.FirstOrDefault().ParkName</strong>.</span>
                         }
                     </div>
                     <div>If you would be interested in attending, click here to find out more and contact the organiser.</div>

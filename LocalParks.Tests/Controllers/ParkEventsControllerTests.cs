@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LocalParks.Controllers;
 using LocalParks.Core.Contracts;
+using LocalParks.Core.Contracts.Managers;
 using LocalParks.Core.Models;
 using LocalParks.Infrastructure.Models;
 using LocalParks.Services.View;
@@ -21,7 +22,6 @@ namespace LocalParks.Tests.Controllers
 {
     public class ParkEventsControllerTests
     {
-        private readonly Mock<ILogger<ParkEventsController>> _mockLogger;
         private readonly Mock<IAuthenticationService> _mockAuthService;
         private readonly Mock<IParkEventsService> _mockService;
         private readonly Mock<ISortingService> _mockSortService;
@@ -42,10 +42,10 @@ namespace LocalParks.Tests.Controllers
             var httpContext = new DefaultHttpContext();
             _tempData = new TempDataDictionary(httpContext, Mock.Of<ITempDataProvider>());
 
-            _mockLogger = new Mock<ILogger<ParkEventsController>>();
             _mockAuthService = new Mock<IAuthenticationService>();
             _mockService = new Mock<IParkEventsService>();
             _mockSortService = new Mock<ISortingService>();
+            _mockSelectListService = new Mock<ISelectListService>();
 
             _mockUser = new Mock<ClaimsPrincipal>();
             _mockUser.Setup(s => s.AddIdentity(new ClaimsIdentity(
@@ -68,8 +68,7 @@ namespace LocalParks.Tests.Controllers
                 }));
         }
 
-        private ParkEventsController ArrangeController() => new ParkEventsController(
-            _mockLogger.Object,
+        private ParkEventsController ArrangeController() => new(
                 _mockService.Object,
                 _mockAuthService.Object)
         {
@@ -231,7 +230,12 @@ namespace LocalParks.Tests.Controllers
 
             var controller = ArrangeController();
 
-            var result = await controller.Details(eventId);
+            var mockParkeventsManager = new Mock<IParkEventsManager>();
+
+            mockParkeventsManager.Setup(x => x.IsUserAuthorizedAsync(It.IsAny<string>(), It.IsAny<ParkEventModel>()))
+                .ReturnsAsync(true);
+
+            var result = await controller.Details(mockParkeventsManager.Object, eventId);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<ParkEventModel>(

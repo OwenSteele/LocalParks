@@ -1,5 +1,6 @@
 ﻿@model ParkEventModel
 @inject IEncryptionService service
+@inject IParkEventInfoService parkEventInfoService
 @{
     ViewData["Title"] = $"{Model.Name} Details";
 }
@@ -43,11 +44,11 @@
     </ul>
 </div>
 
-@if (Model.InDays() <= 30)
+@if (@parkEventInfoService.InDays(Model.Date) <= 30)
 {
     <div class="alert-warning m-3">
         <h5>
-            This is happening soon! In only @Model.InDays() days.
+            This is happening soon! In only @parkEventInfoService.InDays(Model.Date) days.
         </h5>
     </div>
 }
@@ -110,7 +111,7 @@
                             <li class="p-2 border-bottom">
                                 <span class="font-weight-bolder w3-text-amber">Contact Number</span>
                                 <span class="w3-text-amber">(for ref only, please contact via email): </span>
-                                @Model.ObsfucatedNumber()
+                                @parkEventInfoService.ObsfucatedNumber(Model.OrganiserPhoneNumber)
                             </li>
                         </ul>
                     </div>

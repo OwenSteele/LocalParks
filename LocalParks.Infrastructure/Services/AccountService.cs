@@ -29,6 +29,8 @@ namespace LocalParks.Infrastructure.Services
         {
             var user = await _userManager.FindByNameAsync(username);
 
+            if (await _userManager.IsInRoleAsync(user, "Administrator")) return false;
+
             if (user == null) return false;
 
             if (signOutUser) await _signInManager.SignOutAsync();

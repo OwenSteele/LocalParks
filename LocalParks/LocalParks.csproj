@@ -13,6 +13,15 @@
     <None Remove="Authentication\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="SeededData\parkEvents.Json" />
+    <Content Remove="SeededData\parks.Json" />
+    <Content Remove="SeededData\postcodes.Json" />
+    <Content Remove="SeededData\sportsClubs.Json" />
+    <Content Remove="SeededData\sportTypes.Json" />
+    <Content Remove="SeededData\supervisors.Json" />
+  </ItemGroup>
+
   <!--<ItemGroup>
     <Content Include="appsettings.Development.json" />
     <Content Include="appsettings.json" />
@@ -49,17 +58,23 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
+    <None Include="SeededData\parkEvents.Json" />
+    <None Include="SeededData\parks.Json" />
+    <None Include="SeededData\postcodes.Json" />
+    <None Include="SeededData\sportsClubs.Json" />
+    <None Include="SeededData\sportTypes.Json" />
+    <None Include="SeededData\supervisors.Json" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
     <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
@@ -70,12 +85,9 @@
     <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
     <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
     <None Include="wwwroot\lib\bootstrap\LICENSE" />
-    <None Include="wwwroot\lib\chartjs\Chart.bundle.js" />
-    <None Include="wwwroot\lib\chartjs\Chart.bundle.min.js" />
-    <None Include="wwwroot\lib\chartjs\Chart.js" />
-    <None Include="wwwroot\lib\chartjs\Chart.min.js" />
     <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
     <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt" />
     <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
     <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
     <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
@@ -84,6 +96,7 @@
     <None Include="wwwroot\lib\jquery\dist\jquery.js" />
     <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
     <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+    <None Include="wwwroot\lib\jquery\LICENSE.txt" />
   </ItemGroup>
 
 </Project>

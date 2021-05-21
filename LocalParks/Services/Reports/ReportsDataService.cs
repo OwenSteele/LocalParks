@@ -44,7 +44,7 @@ namespace LocalParks.Services.Reports
             return await _parkRepository.GetAllProductsAsync();
         }
 
-        public int SportCount() => Enum.GetNames(typeof(SportType)).Length;
-        public string SportName(int pos) => ((SportType)pos).ToString();
+        public async Task<int> SportCount() => (await _parkRepository.GetAllSportTypesAsync()).Length;
+        public async Task<string> SportName(int id) => (await _parkRepository.GetSportTypeByIdAsync(id)).Name.ToString();
     }
 }
