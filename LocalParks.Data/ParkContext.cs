@@ -24,6 +24,8 @@ namespace LocalParks.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<SportType> SportTypes { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
@@ -48,6 +50,7 @@ namespace LocalParks.Data
             bd.Entity<LocalParksUser>().HasMany(u => u.OrganisedEvents).WithOne(e => e.User);
             bd.Entity<Order>().HasMany(o => o.Items).WithOne(i => i.Order);
             bd.Entity<OrderItem>().HasOne(i => i.Product);
+            bd.Entity<SportsClub>().HasOne(i => i.Sport);
 
             // defined keys
             bd.Entity<Postcode>().HasKey(k => k.Zone);
@@ -58,7 +61,7 @@ namespace LocalParks.Data
             bd.Entity<Product>().HasKey(k => k.ProductId);
             bd.Entity<Order>().HasKey(k => k.OrderId);
             bd.Entity<OrderItem>().HasKey(k => k.ItemId);
-            bd.Entity<OrderItem>().HasKey(k => k.ItemId);
+            bd.Entity<SportType>().HasKey(k => k.SportTypeId);
 
             // decimal properties
             bd.Entity<SportsClub>().Property(c => c.MembershipFee)

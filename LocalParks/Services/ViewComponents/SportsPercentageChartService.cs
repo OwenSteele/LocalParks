@@ -4,6 +4,7 @@ using LocalParks.Data;
 using LocalParks.Infrastructure.Builders;
 using LocalParks.Models.Chart;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LocalParks.Services.ViewComponents
@@ -20,7 +21,7 @@ namespace LocalParks.Services.ViewComponents
         {
             var results = await _parkRepository.GetAllSportsClubsAsync();
 
-            var sports = Enum.GetNames<SportType>();
+            var sports = (await _parkRepository.GetAllSportTypesAsync()).Select(x => x.Name).ToArray();
 
             var count = new decimal[sports.Length];
 

@@ -51,14 +51,14 @@ namespace LocalParks.Services.Reports
             _model.LargestClub = (max, results.Where(c => c.Members == max).FirstOrDefault().Name);
             _model.AverageClubMembership = Math.Round(results.Average(c => c.MembershipFee), 2);
 
-            var sports = new int[_service.SportCount()];
+            var sports = new int[await _service.SportCount()];
 
             foreach (var result in results)
             {
-                sports[(int)result.Sport]++;
+                sports[(int)result.Sport.SportTypeId]++;
             }
 
-            _model.MostPopularSport = _service.SportName(sports.Max());
+            _model.MostPopularSport = await _service.SportName(sports.Max());
         }
         private async Task SetEventsData()
         {

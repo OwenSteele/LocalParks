@@ -1,5 +1,6 @@
 ﻿@model SupervisorModel
 @inject IEncryptionService service
+@inject ISupervisorInfoService supervisorInfoService
 @{
     ViewData["Title"] = $"{Model.ParkName} Supervisor Details";
 }
@@ -37,7 +38,7 @@
         <ul class="list-unstyled d-flex flex-row justify-content-around flex-wrap ">
             <li class="flex-column position-relative">
                 <span class="font-weight-bold">@Model.FirstName has be serving and protecting our parks for: </span>
-                @Model.Tenure()
+                @supervisorInfoService.Tenure(Model.StartingDate)
             </li>
             <li class="flex-column position-relative font-weight-bold">
                 They work as a Supervisor for

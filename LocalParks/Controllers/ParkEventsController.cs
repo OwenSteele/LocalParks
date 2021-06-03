@@ -1,4 +1,5 @@
 ﻿using LocalParks.Core.Contracts;
+using LocalParks.Core.Contracts.Managers;
 using LocalParks.Core.Models;
 using LocalParks.Services.View;
 using Microsoft.AspNetCore.Mvc;
@@ -11,17 +12,13 @@ namespace LocalParks.Controllers
 {
     public class ParkEventsController : Controller
     {
-        private readonly ILogger<ParkEventsController> _logger;
         private readonly IParkEventsService _service;
         private readonly IAuthenticationService _authenticationService;
         private ParkEventModel _tempEvent;
 
-        public ParkEventsController(ILogger<ParkEventsController> logger,
-            IParkEventsService service,
-            IAuthenticationService authenticationService
-            )
+        public ParkEventsController(IParkEventsService service,
+            IAuthenticationService authenticationService)
         {
-            _logger = logger;
             _service = service;
             _authenticationService = authenticationService;
         }
@@ -35,14 +32,8 @@ namespace LocalParks.Controllers
 
         public async Task<IActionResult> Index()
         {
-            _logger.LogInformation("Executing ParkEvents.Index Model");
-
-            if (await _authenticationService.IsSignedInAsync(User))
-            {
-                ViewData["User"] = "User";
-            }
-
             var results = await _service.GetAllParkEventModelsAsync();
+
             return View(results);
         }
 
@@ -53,19 +44,11 @@ namespace LocalParks.Controllers
             DateTime? date = null,
             string sortBy = null)
         {
-            _logger.LogInformation("Executing ParkEvents.Index Model");
-
-            if (await _authenticationService.IsSignedInAsync(User))
-            {
-                ViewData["User"] = "User";
-            }
-
             var matches = await _service.GetSearchedParkEventModelsAsync(
                 searchTerm, parkFilter, date);
 
             if (matches != null)
             {
-
                 if (!string.IsNullOrWhiteSpace(searchTerm)) TempData["Filter"] = searchTerm;
 
                 else if (!string.IsNullOrWhiteSpace(sortBy) ||
@@ -80,27 +63,17 @@ namespace LocalParks.Controllers
             }
 
             if (!string.IsNullOrWhiteSpace(sortBy))
-                matches = sortingService.SortResults<ParkEventModel>(matches, sortBy);
+                matches = sortingService.SortResults(matches, sortBy);
 
             return View("Index", matches);
         }
 
-        public async Task<IActionResult> Details(int eventId)
+        public async Task<IActionResult> Details([FromServices] IParkEventsManager parkEventsManager, int eventId
+            )
         {
-            _logger.LogInformation("Executing ParkEvents.Details Model");
-
             var parkEvent = await _service.GetParkEventModelByIdAsync(eventId);
 
-            if (await _authenticationService.IsSignedInAsync(User) && User.Identity != null)
-            {
-                if (await _authenticationService.HasRequiredRoleAsync(User.Identity.Name, "Administrator"))
-                    ViewData["User"] = "Admin";
-
-                else
-                    ViewData["User"] = _service.GetEventOwner(eventId, User.Identity.Name);
-            }
-
-            if (parkEvent == null) return View("NotFound");
+            ViewData["User"] = await parkEventsManager.IsUserAuthorizedAsync(User?.Identity.Name, parkEvent);
 
             return View(parkEvent);
         }
@@ -108,15 +81,12 @@ namespace LocalParks.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int eventId)
         {
-            _logger.LogInformation("Executing ParkEvents.Details Model");
-
             if (!await _authenticationService.IsSignedInAsync(User))
                 return RedirectToAction("Index", "ParkEvents");
 
             if (eventId != 0 && await HasEditAccessAsync(eventId))
                 return RedirectToAction("Details", "ParkEvents", new { eventId });
-
-            if (eventId == 0)
+            else if (eventId == 0)
                 return View(_service.GetNewEvent());
 
             var result = await _service.GetParkEventModelByIdAsync(eventId);

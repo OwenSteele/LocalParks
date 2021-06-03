@@ -34,21 +34,13 @@ namespace LocalParks.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Contact(
-            [FromServices] ISelectListService listService)
+        public IActionResult Contact()
         {
-            ViewData["Postcodes"] = await listService.GetPostcodeSelectListItemsAsync();
-
             return View(new ContactViewModel());
         }
         [HttpPost]
-        public async Task<IActionResult> Contact(ContactViewModel model,
-            [FromServices] ISelectListService listService)
+        public IActionResult Contact(ContactViewModel model)
         {
-            ViewData["Postcodes"] = await listService.GetPostcodeSelectListItemsAsync();
-
-            if (!ModelState.IsValid) return View(model);
-
             if (!_service.PostFeedBackAsync(model)) return View(model);
 
             ModelState.Clear();

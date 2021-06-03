@@ -2,7 +2,7 @@
 	{
 		"name": "Hilltop Judio Studio",
 		"parkId": 7,
-		"sport": 17,
+		"sportTypeId": 17,
 		"membershipFee": 220.00,
 		"members": 71,
 		"website": "http://Judio-OS.co.uk",
@@ -12,7 +12,7 @@
 	{
 		"name": "Skating Club",
 		"parkId": 6,
-		"sport": 11,
+		"sportTypeId": 11,
 		"membershipFee": 40.00,
 		"members": 103,
 		"website": "http://FletcherSkaters-OS.co.uk",
@@ -22,7 +22,7 @@
 	{
 		"name": "Community Badminton Club",
 		"parkId": 6,
-		"sport": 10,
+		"sportTypeId": 10,
 		"membershipFee": 80.00,
 		"members": 47,
 		"website": "http://FletcherCommunity-OS.co.uk",
@@ -32,7 +32,7 @@
 	{
 		"name": "Chesterly Cricket Club",
 		"parkId": 2,
-		"sport": 8,
+		"sportTypeId": 8,
 		"membershipFee": 330.00,
 		"members": 67,
 		"website": "ChesterlyCricketClub-OS.co.uk",
@@ -42,7 +42,7 @@
 	{
 		"name": "Super OAP Bowls Club",
 		"parkId": 7,
-		"sport": 4,
+		"sportTypeId": 4,
 		"membershipFee": 200.00,
 		"members": 88,
 		"website": "http://SOAPBowls-OS.co.uk",
@@ -52,7 +52,7 @@
 	{
 		"name": "Meadow RFC",
 		"parkId": 1,
-		"sport": 2,
+		"sportTypeId": 2,
 		"membershipFee": 150.00,
 		"members": 20,
 		"website": "Meadow-Rugby-OS.co.uk",
@@ -62,7 +62,7 @@
 	{
 		"name": "Curling Polo Club",
 		"parkId": 1,
-		"sport": 0,
+		"sportTypeId": 0,
 		"membershipFee": 20000.00,
 		"members": 103,
 		"website": "CPCPolo-OS.co.uk",
@@ -72,7 +72,7 @@
 	{
 		"name": "Glacier Volleyball",
 		"parkId": 12,
-		"sport": 19,
+		"sportTypeId": 19,
 		"membershipFee": 190.00,
 		"members": 14,
 		"website": "GlacierVolleyball-OS.co.uk",
@@ -82,7 +82,7 @@
 	{
 		"name": "Flying Frisbees",
 		"parkId": 12,
-		"sport": 13,
+		"sportTypeId": 13,
 		"membershipFee": 80.00,
 		"members": 26,
 		"website": "FlyingFrisbees-OS.co.uk",
@@ -92,7 +92,7 @@
 	{
 		"name": "AppleOnTheHead",
 		"parkId": 11,
-		"sport": 9,
+		"sportTypeId": 9,
 		"membershipFee": 310.00,
 		"members": 41,
 		"website": "AppleArchery-OS.co.uk",
@@ -102,7 +102,7 @@
 	{
 		"name": "Quisset Yacht Club",
 		"parkId": 11,
-		"sport": 20,
+		"sportTypeId": 20,
 		"membershipFee": 1000.00,
 		"members": 207,
 		"website": "QYC-OS.co.uk",
@@ -112,7 +112,7 @@
 	{
 		"name": "Softies Ball Club",
 		"parkId": 10,
-		"sport": 12,
+		"sportTypeId": 12,
 		"membershipFee": 125.00,
 		"members": 66,
 		"website": "SoftballSofties-OS.co.uk",
@@ -122,7 +122,7 @@
 	{
 		"name": "Dolphins Kids Swimming",
 		"parkId": 10,
-		"sport": 20,
+		"sportTypeId": 20,
 		"membershipFee": 150.00,
 		"members": 49,
 		"website": "DolphinSwimming-OS.co.uk",
@@ -132,7 +132,7 @@
 	{
 		"name": "Old Boys' FC",
 		"parkId": 9,
-		"sport": 1,
+		"sportTypeId": 1,
 		"membershipFee": 50.00,
 		"members": 37,
 		"website": "OBFC-OS.co.uk",
@@ -142,7 +142,7 @@
 	{
 		"name": "Billingsy Golf Club",
 		"parkId": 7,
-		"sport": 14,
+		"sportTypeId": 14,
 		"membershipFee": 4500.00,
 		"members": 243,
 		"website": "BillingsyGolf-OS.co.uk",
@@ -152,7 +152,7 @@
 	{
 		"name": "TaeWonder",
 		"parkId": 7,
-		"sport": 17,
+		"sportTypeId": 17,
 		"membershipFee": 135.00,
 		"members": 50,
 		"website": "TaeWonderMA-OS.co.uk",
@@ -162,7 +162,7 @@
 	{
 		"name": "Treetops Tennis Clubs",
 		"parkId": 6,
-		"sport": 3,
+		"sportTypeId": 3,
 		"membershipFee": 510.00,
 		"members": 20,
 		"website": "TreetopsTennis-OS.co.uk",
@@ -172,7 +172,7 @@
 	{
 		"name": "Wiz Athletics Club",
 		"parkId": 4,
-		"sport": 5,
+		"sportTypeId": 5,
 		"membershipFee": 90.00,
 		"members": 88,
 		"website": "WizAC-OS.co.uk",
@@ -182,7 +182,7 @@
 	{
 		"name": "Community Rugby Club",
 		"parkId": 4,
-		"sport": 2,
+		"sportTypeId": 2,
 		"membershipFee": 125.00,
 		"members": 52,
 		"website": "CommunityRFC-OS.co.uk",
@@ -192,7 +192,7 @@
 	{
 		"name": "Comptly Rugby Club",
 		"parkId": 10,
-		"sport": 2,
+		"sportTypeId": 2,
 		"membershipFee": 90.00,
 		"members": 107,
 		"website": "ComptlyRFC-OS.co.uk",
@@ -202,7 +202,7 @@
 	{
 		"name": "Junior Netball",
 		"parkId": 10,
-		"sport": 16,
+		"sportTypeId": 16,
 		"membershipFee": 40.00,
 		"members": 28,
 		"website": "NetballKids-OS.co.uk",
@@ -212,7 +212,7 @@
 	{
 		"name": "Shuttles Badminton",
 		"parkId": 9,
-		"sport": 10,
+		"sportTypeId": 10,
 		"membershipFee": 66.60,
 		"members": 42,
 		"website": "ShuttlesBadminton-OS.co.uk",
@@ -222,7 +222,7 @@
 	{
 		"name": "Shuttles Badminton",
 		"parkId": 8,
-		"sport": 10,
+		"sportTypeId": 10,
 		"membershipFee": 50.00,
 		"members": 11,
 		"website": "ShuttlesBadminton-OS.co.uk",
@@ -232,7 +232,7 @@
 	{
 		"name": "Chess Club",
 		"parkId": 9,
-		"sport": 0,
+		"sportTypeId": 0,
 		"membershipFee": 15.00,
 		"members": 9,
 		"website": "MiddleChess-OS.co.uk",
@@ -242,7 +242,7 @@
 	{
 		"name": "Local Footy club",
 		"parkId": 5,
-		"sport": 1,
+		"sportTypeId": 1,
 		"membershipFee": 30.00,
 		"members": 74,
 		"website": "Football4All-OS.co.uk",
@@ -252,7 +252,7 @@
 	{
 		"name": "Fallmoth Basketball Club",
 		"parkId": 3,
-		"sport": 7,
+		"sportTypeId": 7,
 		"membershipFee": 95.00,
 		"members": 39,
 		"website": "FallmothYSC-OS.co.uk",
@@ -262,7 +262,7 @@
 	{
 		"name": "Fallmoth Saling Club",
 		"parkId": 3,
-		"sport": 18,
+		"sportTypeId": 18,
 		"membershipFee": 565.00,
 		"members": 57,
 		"website": "FallmothYSC-OS.co.uk",

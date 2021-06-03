@@ -1,11 +1,12 @@
 ﻿@model OrderModel
+@inject IOrderInfoService service
 
 <div class="row order-item bg-white p-2 rounded">
     <h4 class="w-100 border-info text-info font-weight-bolder"><strong>Order #:</strong> @Model.OrderNumber</h4>
     <ul>
         <li><strong>Ordered:</strong> @Model.DateCreated </li>
         <li><strong>Expected delivery:</strong> @Model.DeliveryDate </li>
-        <li><strong>Total:</strong> £@Model.Total</li>
+        <li><strong>Total:</strong> £@service.CalculateTotal(Model.Items)</li>
     </ul>
     @if(Model.Items.Count >0)
     {
@@ -22,7 +23,7 @@
             {
                 <tr>
                     <td><strong>@item.ProductName</strong></td>
-                    <td><img src="/images/shop/products/@item.ImageUri" alt="@item.ProductName" class="img-thumbnail checkout-thumb" /></td>
+                    <td><img src="/images/shop/products/@service.FormatImageUri(item.ImageId)" alt="@item.ProductName" class="img-thumbnail checkout-thumb" /></td>
                     <td>@item.Quantity x £@item.UnitPrice</td>
                 </tr>
             }

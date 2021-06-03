@@ -148,13 +148,13 @@ namespace LocalParks.Data
                 .Where(c => c.ClubId == sportsClubId)
                 .FirstOrDefaultAsync();
         }
-        public async Task<SportsClub[]> GetSportsClubsBySportAsync(SportType sport, int? parkId = null)
+        public async Task<SportsClub[]> GetSportsClubsBySportAsync(string sportTypeName, int? parkId = null)
         {
-            _logger.LogInformation($"Getting sports clubs with sport: {sport}.");
+            _logger.LogInformation($"Getting sports clubs with sport: {sportTypeName}.");
 
             IQueryable<SportsClub> query = _context.SportsClubs
                 .Include(c => c.Park)
-                .Where(s => s.Sport == sport)
+                .Where(s => s.Sport.Name == sportTypeName)
                 .OrderByDescending(s => s.Sport)
                 .Where(c => parkId.HasValue && c.Park.ParkId == parkId);
 
@@ -417,6 +417,16 @@ namespace LocalParks.Data
                 .Where(e => e.Date >= DateTime.Today)
                 .OrderByDescending(e => e.EventId)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<SportType> GetSportTypeByIdAsync(int sportTypeId)
+        {
+            return await _context.SportTypes.FindAsync(sportTypeId);
+        }
+
+        public async Task<SportType[]> GetAllSportTypesAsync()
+        {
+            return await _context.SportTypes.ToArrayAsync();
         }
     }
 }

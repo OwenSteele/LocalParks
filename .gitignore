@@ -125,8 +125,6 @@ out-tsc/
 
 # LocalParks Data
 *LocalParksUser.json
-*Migrations
-*appsettings.json
 *ApiAdminController.cs
 greadr.json
 

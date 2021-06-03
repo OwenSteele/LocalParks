@@ -43,16 +43,5 @@ namespace LocalParks.Core.Models
         [DisplayName("Contact number")]
         public string OrganiserPhoneNumber { get; set; }
         public string Username { get; set; }
-
-        public int InDays()
-        {
-            return (Date - DateTime.Today).Days;
-        }
-        public string ObsfucatedNumber()
-        {
-            int len = OrganiserPhoneNumber.Length;
-            return new StringBuilder(new string('*', len - 3), len).
-                Append(OrganiserPhoneNumber[(len - 3)..]).ToString();
-        }
     }
 }

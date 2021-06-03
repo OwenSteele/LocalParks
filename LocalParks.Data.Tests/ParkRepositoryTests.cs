@@ -192,7 +192,7 @@ namespace LocalParks.Data.Tests
                 ClubId = 1000,
                 Name = "Sport club testing one",
                 Park = new Park(),
-                Sport = SportType.Athletics,
+                Sport = new SportType { Name = "Athletics" },
                 MembershipFee = 20000,
                 Members = 200,
                 Email = "an@email.add.ress",
@@ -203,7 +203,7 @@ namespace LocalParks.Data.Tests
                 ClubId = 1001,
                 Name = "Sport club testing two",
                 Park = new Park(),
-                Sport = SportType.Basketball,
+                Sport = new SportType { Name = "Baseball" },
                 MembershipFee = 30000,
                 Members = 300,
                 Email = "another@email.add.ress",
@@ -234,7 +234,7 @@ namespace LocalParks.Data.Tests
                 ClubId = 1010,
                 Name = "Sport club testing one one",
                 Park = new Park { ParkId = 3001 },
-                Sport = SportType.Cricket,
+                Sport = new SportType { Name = "Cricket" },
                 MembershipFee = 1000,
                 Members = 20,
                 Email = "anpark@email.add.ress",
@@ -245,7 +245,7 @@ namespace LocalParks.Data.Tests
                 ClubId = 1011,
                 Name = "Sport club testing two one",
                 Park = new Park { ParkId = 3002 },
-                Sport = SportType.Football,
+                Sport = new SportType { Name = "Football" },
                 MembershipFee = 300,
                 Members = 3,
                 Email = "another@email.add.ress",
@@ -281,7 +281,7 @@ namespace LocalParks.Data.Tests
                 ClubId = 1020,
                 Name = "Sport club testing one one",
                 Park = new Park(),
-                Sport = SportType.Yoga,
+                Sport = new SportType { Name = "Yoga" },
                 MembershipFee = 1000,
                 Members = 20,
                 Email = "anpark@email.add.ress",
@@ -292,7 +292,7 @@ namespace LocalParks.Data.Tests
                 ClubId = 1021,
                 Name = "Sport club testing two one",
                 Park = new Park(),
-                Sport = SportType.Other,
+                Sport = new SportType { Name = "Other" },
                 MembershipFee = 300,
                 Members = 3,
                 Email = "another@email.add.ress",
@@ -328,7 +328,7 @@ namespace LocalParks.Data.Tests
                 ClubId = 1030,
                 Name = "Sport club testing one one",
                 Park = new Park(),
-                Sport = SportType.Other,
+                Sport = new SportType { Name = "Other" },
                 MembershipFee = 1000,
                 Members = 20,
                 Email = "anpark@email.add.ress",
@@ -339,7 +339,7 @@ namespace LocalParks.Data.Tests
                 ClubId = 1031,
                 Name = "Sport club testing two one",
                 Park = new Park(),
-                Sport = SportType.Tennis,
+                Sport = new SportType { Name = "Tennis" },
                 MembershipFee = 300,
                 Members = 3,
                 Email = "another@email.add.ress",
@@ -350,7 +350,7 @@ namespace LocalParks.Data.Tests
                 ClubId = 1032,
                 Name = "Sport club testing two one",
                 Park = new Park(),
-                Sport = SportType.Tennis,
+                Sport = new SportType { Name = "Tennis" },
                 MembershipFee = 300,
                 Members = 3,
                 Email = "another@email.add.ress",
@@ -364,9 +364,9 @@ namespace LocalParks.Data.Tests
 
             // act
 
-            var result1 = await _repository.GetSportsClubsBySportAsync(SportType.Other);
-            var result2 = await _repository.GetSportsClubsBySportAsync(SportType.Tennis);
-            var result3 = await _repository.GetSportsClubsBySportAsync(SportType.Bowls);
+            var result1 = await _repository.GetSportsClubsBySportAsync("Other");
+            var result2 = await _repository.GetSportsClubsBySportAsync("Tennis");
+            var result3 = await _repository.GetSportsClubsBySportAsync("Bowls");
 
             // assert
 

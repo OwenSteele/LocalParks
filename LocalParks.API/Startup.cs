@@ -31,7 +31,8 @@ namespace LocalParks.API
 
             services.AddCors(options =>
             {
-                options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+                options.AddPolicy("Localparks", builder => builder.WithOrigins("https://localparks.azurewebsites.net"));
+                options.AddPolicy("LocalparksDev", builder => builder.WithOrigins("https://localhost:44319"));
             });
 
             services.AddControllers();
@@ -99,6 +100,15 @@ namespace LocalParks.API
             app.UseHttpsRedirection();
             app.UseRouting();
 
+            if (env.IsDevelopment())
+            {
+                app.UseCors("LocalparksDev");
+            }
+            else
+            {
+                app.UseCors("Localparks");
+            }
+
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -108,7 +118,6 @@ namespace LocalParks.API
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Local Parks Public API");
             });
 
-            app.UseCors("Open");
 
             app.UseEndpoints(endpoints =>
             {

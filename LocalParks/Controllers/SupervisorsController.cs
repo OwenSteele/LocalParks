@@ -9,20 +9,15 @@ namespace LocalParks.Controllers
 {
     public class SupervisorsController : Controller
     {
-        private readonly ILogger<SupervisorsController> _logger;
         private readonly ISupervisorsService _service;
 
-        public SupervisorsController(ILogger<SupervisorsController> logger,
-            ISupervisorsService service)
+        public SupervisorsController(ISupervisorsService service)
         {
-            _logger = logger;
             _service = service;
         }
 
         public async Task<IActionResult> Index()
         {
-            _logger.LogInformation("Executing Supervisors.Index Model");
-
             var results = await _service.GetAllSupervisorModelsAsync();
             return View(results);
         }
@@ -33,16 +28,14 @@ namespace LocalParks.Controllers
             string parkFilter = null,
             string sortBy = null)
         {
-            _logger.LogInformation("Executing Supervisors.Filter Model");
-
             var matches = await _service.GetSearchedSupervisorModelsAsync(
                 searchTerm, parkFilter);
 
             if (matches != null)
             {
-                if (!string.IsNullOrWhiteSpace(searchTerm)) TempData["Filter"] = searchTerm;
+                TempData["Filter"] = searchTerm;
 
-                else if (!string.IsNullOrWhiteSpace(sortBy) ||
+                if (!string.IsNullOrWhiteSpace(sortBy) ||
                     !string.IsNullOrWhiteSpace(parkFilter)) TempData["Sorted"] = "true";
             }
             else
@@ -60,8 +53,6 @@ namespace LocalParks.Controllers
 
         public async Task<IActionResult> Details(int parkId)
         {
-            _logger.LogInformation("Executing Supervisors.Details Model");
-
             var supervisor = await _service.GetSupervisorModelAsync(parkId);
 
             if (supervisor == null) return View("NotFound");

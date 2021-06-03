@@ -10,6 +10,8 @@ namespace LocalParks.Infrastructure
     {
         public static IServiceCollection AddLocalParksInfrastructure(this IServiceCollection services, IConfigurationSection configuration)
         {
+            services.AddHttpContextAccessor();
+
             services
                 .AddAuthServices()
                 .AddLocalParksEntityServices()
@@ -18,7 +20,10 @@ namespace LocalParks.Infrastructure
                 .AddSecurityServices();
 
             services.AddAuthentication()
-                .AddCookie()
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/account/login";
+                })
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters()
