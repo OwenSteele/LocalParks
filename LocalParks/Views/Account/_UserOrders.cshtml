@@ -1,0 +1,37 @@
+﻿@model OrderModel
+@inject IOrderInfoService service
+
+<div class="row order-item bg-white p-2 rounded">
+    <h4 class="w-100 border-info text-info font-weight-bolder"><strong>Order #:</strong> @Model.OrderNumber</h4>
+    <ul>
+        <li><strong>Ordered:</strong> @Model.DateCreated </li>
+        <li><strong>Expected delivery:</strong> @Model.DeliveryDate </li>
+        <li><strong>Total:</strong> £@service.CalculateTotal(Model.Items)</li>
+    </ul>
+    @if(Model.Items.Count >0)
+    {
+    <table class="table table-bordered table-hover" style="font-size: 13px;">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th></th>
+                <th>#</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td><strong>@item.ProductName</strong></td>
+                    <td><img src="/images/shop/products/@service.FormatImageUri(item.ImageId)" alt="@item.ProductName" class="img-thumbnail checkout-thumb" /></td>
+                    <td>@item.Quantity x £@item.UnitPrice</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+    else
+    {
+    <div class="font-weight-bolder card text-info">You don't have any orders yet <i class="fa fa-sad-tear"></i></div>
+    }
+</div>

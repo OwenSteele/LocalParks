@@ -1,0 +1,64 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+
+<div class="row card card-body">
+    <div class="col-md-4 offset-md-4 p-1">
+
+        <h1>Login</h1>
+
+        <p class="row d-md-inline border-info">
+            Dont have an account?
+            <input class="btn text-info p-1 font-weight-bold"
+                   type="button"
+                   value="Sign Up"
+                   onclick="location.href='@Url.Action("SignUp")'" />
+        </p>
+
+        <div>
+            <form asp-controller="Account" asp-action="Login" method="post">
+
+                <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                <input contenteditable="false" hidden="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+
+                <div class="row form-group p-1 d-block">
+                    <label asp-for="@Model.Username"></label>
+                    <input asp-for="@Model.Username"
+                           type="text"
+                           class="border-dark rounded form-control"
+                           required />
+                </div>
+
+                <div class="row form-group p-1 d-block">
+                    <label asp-for="@Model.Password"></label>
+                    <input asp-for="@Model.Password"
+                           type="password"
+                           class="border-dark rounded form-control"
+                           required />
+                </div>
+
+                <div class="row form-check p-3 mb-4 d-lg-inline">
+                    <input asp-for="@Model.RememberMe"
+                           type="checkbox"
+                           class="row border-dark rounded form-check-input ml-1 mr-2" />
+                    <label asp-for="@Model.RememberMe" class="row form-check-input ml-4"></label>
+                </div>
+                <div class="row form-group p-1 d-block">
+                    <input type="submit" value="login" class="row btn-outline-light btn-success rounded d-block p-1" />
+                </div>
+            </form>
+        </div>
+    </div><div>
+        <input class="btn text-info p-1"
+               type="button"
+               value="why create an account?"
+               onclick="location.href='@Url.Action("WhySignUp")'" />
+    </div>
+</div>
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}

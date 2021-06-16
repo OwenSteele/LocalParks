@@ -1,0 +1,91 @@
+﻿@model SignInViewModel
+@inject ISelectListService service
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="row card card-body">
+    <div class="col-md-4 offset-md-4 p-1">
+
+        <h1>Sign Up</h1>
+
+        <div>
+            <form asp-controller="Account" asp-action="SignUp" method="post">
+
+                <div class="w3-text-red font-weight-bolder" asp-validation-summary="ModelOnly"></div>
+
+                <div class="row form-group p-1 d-block">
+                    <label>Username <span class="w3-text-red font-weight-bolder">*</span></label>
+                    <input asp-for="@Model.Username"
+                           type="text"
+                           class="border-dark rounded form-control"
+                           required />
+                </div>
+
+                <div class="row form-group p-1 d-block">
+                    <label>Password <span class="w3-text-red font-weight-bolder">*</span></label>
+                    <input asp-for="@Model.Password"
+                           type="text"
+                           class="border-dark rounded form-control"
+                           required />
+                    <label class="font-italic w3-text-dark-gray">Passwords must include at least: 1 Capital, 1 number, 1 symbol ('!?#')</label>
+                </div>
+
+                <div class="row form-group p-1 d-block">
+                    <label>First Name <span class="w3-text-red font-weight-bolder">*</span></label>
+                    <input asp-for="@Model.FirstName"
+                           type="text"
+                           class="border-dark rounded form-control"
+                           required />
+                </div>
+
+                <div class="row form-group p-1 d-block">
+                    <label>Last Name <span class="w3-text-red font-weight-bolder">*</span></label>
+                    <input asp-for="@Model.LastName"
+                           type="text"
+                           class="border-dark rounded form-control"
+                           required />
+                </div>
+
+                <div class="row form-group p-1 d-block">
+                    <label>Email Address <span class="w3-text-red font-weight-bolder">*</span></label>
+                    <input asp-for="@Model.Email"
+                           type="text"
+                           class="border-dark rounded form-control"
+                           required />
+                    <label class="font-italic alert-warning">As this is a portfolio project, a real email is not required or encouraged.</label>
+                </div>
+
+                <div class="row form-group p-1 d-block">
+                    <label>Phone Number <span class="w3-text-red font-weight-bolder">*</span></label>
+                    <input asp-for="@Model.PhoneNumber"
+                           type="text"
+                           class="border-dark rounded form-control"
+                           required />
+                </div>
+
+                <div class="row form-group p-1 d-block">
+                    <label>Postcode Zone <span class="w3-text-red font-weight-bolder">*</span></label>
+                    @Html.DropDownListFor(x => Model.PostcodeZone,
+           new SelectList((System.Collections.IEnumerable)await service.GetPostcodeSelectListItemsAsync(), "Value", "Text"), "",
+           htmlAttributes: new
+           {
+               @class = "form-control d-inline-flex",
+               name = "postcode",
+               style = "max-width: 20%; font-size: 12px; padding: 0px;"
+           })
+                </div>
+
+                <label class="w3-text-red font-weight-bolder">* - Required fields</label>
+
+                <div class="row form-group p-1 d-block">
+                    <input type="submit" value="Create Account" class="row btn-outline-light btn-success rounded d-block p-1" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}

@@ -1,0 +1,35 @@
+﻿
+    <div class="shop-products">
+        <div *ngIf="loading">
+            <h2 class="pl-4"><br /><br />Fetching our products.. </h2>
+            <p class="font-weight-bolder text-danger">(this might take a few seconds to complete as the API is only on a D1 shared Azure service!)</p>
+        </div>
+         <div *ngFor="let p of products">
+        <ul class="row container-fluid">
+            <li class="image-item col-12 col-sm-4 col-md-2">
+                <div>
+                    <img src="/images/shop/products/{{p.imageId}}.jpg" class="image item img-fluid rounded" [alt]="p.name" />
+                </div>
+            </li>
+            <li class="left-item col-12 col-sm-8 col-md-4">
+                <div>
+                    <h3><strong>{{p.name}}</strong></h3>
+                </div>
+            </li>
+            <li class="middle-item col-12 col-sm-10 col-md-5">
+
+                <div>
+                    <ul class="product-props list-unstyled">
+                        <li><strong>Price</strong>: {{ p.price | currency:"GBP":"symbol" }}</li>
+                        <li><strong>Description</strong>: {{ p.description }}</li>
+                    </ul>
+                </div>
+            </li>
+            <li class="right-item col-12 col-sm-2 col-md-1">
+                <div>
+                    <button id="buyButton" class="btn btn-success align-bottom item" (click)="addProduct(p)">Add</button>
+                </div>
+            </li>
+        </ul>
+        </div>
+</div>

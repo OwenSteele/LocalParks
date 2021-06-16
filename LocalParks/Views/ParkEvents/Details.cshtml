@@ -1,0 +1,122 @@
+﻿@model ParkEventModel
+@inject IEncryptionService service
+@inject IParkEventInfoService parkEventInfoService
+@{
+    ViewData["Title"] = $"{Model.Name} Details";
+}
+
+<div>
+    <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
+           type="button"
+           value="All events"
+           onclick="location.href='@Url.Action("Index", "ParkEvents")'" />
+</div>
+
+<div class="jumbotron row m-2">
+    <ul class="w-100 list-unstyled d-flex flex-row justify-content-between flex-wrap">
+        <li class="flex-column position-relative">
+            <h2>@Model.Name</h2>
+        </li>
+        <li class="flex-column position-relative">
+            @if (ViewData["User"] != null)
+            {
+                <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded"
+                       type="button"
+                       value="Edit"
+                       onclick="location.href='@Url.Action("Edit", "ParkEvents",
+                new { eventId = Model.EventId })'" />
+
+                <input class="btn-danger w3-hover-border-white w3-hover-text-white rounded"
+                       type="button"
+                       value="Delete"
+                       onclick="location.href='@Url.Action("Delete", "ParkEvents",
+                    new { eventId = Model.EventId })'" />
+            }
+            else
+            {
+                <input class="btn-danger w3-hover-border-white w3-hover-text-white rounded"
+                       type="button"
+                       value="Log in to edit your events"
+                       onclick="location.href='@Url.Action("Login", "Account",
+                                      new { returnUrl = $"{Url.PageLink()}?eventId={Model.EventId}"})'" />
+            }
+        </li>
+    </ul>
+</div>
+
+@if (@parkEventInfoService.InDays(Model.Date) <= 30)
+{
+    <div class="alert-warning m-3">
+        <h5>
+            This is happening soon! In only @parkEventInfoService.InDays(Model.Date) days.
+        </h5>
+    </div>
+}
+
+<div class="p-1 m-4 card border-info">
+    <h5 class="font-weight-bolder text-info text-center"><ins>Event Information</ins></h5>
+    <div>
+        <ul class="list-unstyled d-flex flex-row justify-content-around flex-wrap ">
+            <li class="flex-column position-relative">
+                <span class="font-weight-bolder w3-text-amber">Located in: </span>
+                <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded" type="button"
+                       value="@Model.ParkName"
+                       onclick="location.href='@Url.Action("Details", "Parks",
+                                      new { _lp = @service.Encrypt("parkId",Model.ParkId) })'" />
+            </li>
+            <li class="flex-column position-relative">
+                <span class="font-weight-bolder w3-text-amber">Date Scheduled: </span>
+                <span class="font-weight-bold">@Model.Date.ToLongDateString()</span>
+            </li>
+            <li class="flex-column position-relative p-2">
+                <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded" type="button"
+                       value="All Events on this date"
+                       onclick="location.href='@Url.Action("Filter", "ParkEvents",
+                                      new { date = @Model.Date })'" />
+            </li>
+            <li class="flex-column position-relative p-2">
+                <span class="font-weight-bolder w3-text-amber">Check for this event in other parks: </span>
+                <input class="btn-dark w3-hover-border-amber w3-hover-text-amber rounded" type="button"
+                       value="All Events with this name"
+                       onclick="location.href='@Url.Action("Filter", "ParkEvents",
+                                      new { searchTerm = @Model.Name })'" />
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="m-2 p-1 bg-dark text-light m-3 rounded">
+    <div class="w-100 container p-3">
+        <h4 class="font-weight-bolder text-center w3-text-amber">Need to Contact the organiser?</h4>
+        <div class="d-flex flex-row justify-content-around flex-wrap m-1 w-100">
+            <div class="flex-column">
+                <a class="rounded font-weight-bolder card p-1 d-flex flex-row justify-content-between flex-wrap m-1 bg-transparent"
+                   href="#EventsCollapse" role="button" data-toggle="collapse"
+                   aria-expanded="false" aria-controls="EventsCollapse">
+                    <span class="align-items-center">
+                        <i class="fa fa-search"></i> Details
+                    </span>
+                </a>
+                <div class="collapse" id="EventsCollapse">
+                    <div class="flex-column position-relative container p-3 text-wrap text-break">
+                        <ul class="list-unstyled flex-wrap align-items-center font-weight-bold border-bottom">
+                            <li class="p-2 border-bottom">
+                                <span class="font-weight-bolder w3-text-amber">Name: </span>
+                                @Model.OrganiserFirstName @Model.OrganiserLastName
+                            </li>
+                            <li class="p-2 border-bottom">
+                                <span class="font-weight-bolder w3-text-amber">Public Email Address: </span>
+                                @Model.OrganiserEmail
+                            </li>
+                            <li class="p-2 border-bottom">
+                                <span class="font-weight-bolder w3-text-amber">Contact Number</span>
+                                <span class="w3-text-amber">(for ref only, please contact via email): </span>
+                                @parkEventInfoService.ObsfucatedNumber(Model.OrganiserPhoneNumber)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

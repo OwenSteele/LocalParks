@@ -1,0 +1,23 @@
+﻿@section scripts
+{
+    <script src="~/ClientApp/runtime-es2015.js"></script>
+    <script src="~/ClientApp/polyfills-es2015.js"></script>
+    <link href="~/ClientApp/styles.css" rel="stylesheet" />
+    <script src="~/ClientApp/vendor-es2015.js"></script>
+    <script src="~/ClientApp/main-es2015.js"></script>
+}
+
+@{
+    ViewData["Title"] = "Our Shop";
+}
+<div class="bg-white p-3 rounded">
+    <shop-index></shop-index>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        $('#bodydiv').removeClass('container');
+        $('#bodydiv').addClass('container-fluid mr-0 ml-0 pl-0 pr-0');
+        $('body').removeClass('background-image-all');
+        $('body').addClass('mr-0 ml-0 pl-0 pr-0');
+    });
+</script>

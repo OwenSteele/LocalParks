@@ -1,0 +1,15 @@
+﻿@model ChartViewModel
+
+<div class="chart-container">
+    <h3>@Model.ChartData.Title.Text</h3>
+    <canvas id="sportPercentageChart"></canvas>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+
+        let ctx = document.getElementById('sportPercentageChart');
+        let data = @Html.Raw(Model.Json);
+        let sportPercentageChart = new Chart(ctx, data);
+    });
+</script>
